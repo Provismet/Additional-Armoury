@@ -30,6 +30,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class DaggerItem extends ToolItem implements DualWeapon {
+    private static final float POTION_DURATION_MOD = 0.125f;
+
     private final float attackDamage;
     private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
 
@@ -55,7 +57,15 @@ public class DaggerItem extends ToolItem implements DualWeapon {
     public void postChargedHit (ItemStack stack, LivingEntity user, LivingEntity target) {
         Potion potion = PotionUtil.getPotion(stack);
         for (StatusEffectInstance instance : potion.getEffects()) {
-            target.addStatusEffect(instance, user);
+            target.addStatusEffect(
+                new StatusEffectInstance(
+                    instance.getEffectType(), Math.max(instance.mapDuration(i -> (int)(i * POTION_DURATION_MOD)), 1),
+                    instance.getAmplifier(),
+                    instance.isAmbient(),
+                    instance.shouldShowParticles()
+                ),
+                user
+            );
         }
     }
 
@@ -98,7 +108,7 @@ public class DaggerItem extends ToolItem implements DualWeapon {
 
     @Override
     public void appendTooltip (ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        PotionUtil.buildTooltip(stack, tooltip, 0.125f);
+        PotionUtil.buildTooltip(stack, tooltip, POTION_DURATION_MOD);
     }
 
     @Override
