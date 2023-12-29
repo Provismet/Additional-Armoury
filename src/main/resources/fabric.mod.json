@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"com.provismet.AdditionalArmoury.AdditionalArmouryMain"
+		],
+		"fabric-datagen": [
+			"com.provismet.datagen.AdditionalArmoury.AdditionalArmouryDatagen"
 		]
 	},
 	"mixins": [

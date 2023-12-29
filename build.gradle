@@ -3,7 +3,7 @@ plugins {
 	id 'maven-publish'
 }
 
-version = project.mod_version
+version = project.mod_version + "+" + project.minecraft_version
 group = project.maven_group
 
 base {
@@ -12,6 +12,31 @@ base {
 
 repositories {
 	maven { url "https://jitpack.io" }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs += [
+                    'src/main/generated'
+            ]
+        }
+    }
+}
+
+loom {
+    runs {
+        // This adds a new gradle task that runs the datagen API: "gradlew runDatagen"
+        datagen {
+            inherit server
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+            vmArg "-Dfabric-api.datagen.modid=${modid}"
+ 
+            runDir "build/datagen"
+        }
+    }
 }
 
 dependencies {
