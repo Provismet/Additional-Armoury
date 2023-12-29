@@ -21,6 +21,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.Vanishable;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
@@ -29,23 +30,25 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class DaggerItem extends ToolItem implements DualWeapon {
+public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
     private static final float POTION_DURATION_MOD = 0.125f;
 
     private final float attackDamage;
     private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+    public final int defaultTipColour;
 
-    public DaggerItem (ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
+    public DaggerItem (ToolMaterial material, int attackDamage, float attackSpeed, Settings settings, int defaultTipColour) {
         super(material, settings);
         this.attackDamage = attackDamage + material.getAttackDamage();
+        this.defaultTipColour = defaultTipColour;
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", (double)this.attackDamage, EntityAttributeModifier.Operation.ADDITION));
         builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", (double)attackSpeed, EntityAttributeModifier.Operation.ADDITION));
         this.attributeModifiers = builder.build();
     }
 
-    public DaggerItem (ToolMaterial material, Settings settings) {
-        this(material, 1, -1.8f, settings);
+    public DaggerItem (ToolMaterial material, Settings settings, int defaultTipColour) {
+        this(material, 1, -2f, settings, defaultTipColour);
     }
 
     @Override
@@ -103,7 +106,7 @@ public class DaggerItem extends ToolItem implements DualWeapon {
 
     @Override
     public ItemStack getDefaultStack () {
-        return PotionUtil.setPotion(super.getDefaultStack(), Potions.POISON);
+        return PotionUtil.setPotion(super.getDefaultStack(), Potions.EMPTY);
     }
 
     @Override

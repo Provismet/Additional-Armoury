@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "i": {
+      "tag": "c:gold_ingots"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "i",
+    "s"
+  ],
+  "result": {
+    "item": "additional-armoury:golden_dagger"
+  },
+  "show_notification": true
+}

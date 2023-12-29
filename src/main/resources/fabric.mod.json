@@ -18,6 +18,9 @@
 		"main": [
 			"com.provismet.AdditionalArmoury.AdditionalArmouryMain"
 		],
+		"client": [
+			"com.provismet.AdditionalArmoury.AdditionalArmouryClient"
+		],
 		"fabric-datagen": [
 			"com.provismet.datagen.AdditionalArmoury.AdditionalArmouryDatagen"
 		]

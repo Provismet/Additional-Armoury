@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "additional-armoury:item/stone_dagger",
+    "layer1": "additional-armoury:item/dagger_tip"
+  }
+}

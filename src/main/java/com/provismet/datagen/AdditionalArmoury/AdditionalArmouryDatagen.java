@@ -8,5 +8,8 @@ public class AdditionalArmouryDatagen implements DataGeneratorEntrypoint {
     public void onInitializeDataGenerator (FabricDataGenerator generator) {
         FabricDataGenerator.Pack pack = generator.createPack();
         pack.addProvider(TagGenerator::new);
+        pack.addProvider(ModelGenerator::new);
+        pack.addProvider(LanguageGenerator::new);
+        pack.addProvider(RecipeGenerator::new);
     }
 }

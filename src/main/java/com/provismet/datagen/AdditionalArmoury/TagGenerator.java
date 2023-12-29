@@ -2,6 +2,7 @@ package com.provismet.datagen.AdditionalArmoury;
 
 import java.util.concurrent.CompletableFuture;
 
+import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AATags.ItemTags;
 import com.provismet.CombatPlusCore.utility.CombatTags;
@@ -19,12 +20,7 @@ public class TagGenerator extends ItemTagProvider {
     @Override
     protected void configure (WrapperLookup arg) {
         getOrCreateTagBuilder(ItemTags.DAGGERS)
-            .add(AAItems.WOODEN_DAGGER)
-            .add(AAItems.STONE_DAGGER)
-            .add(AAItems.GOLD_DAGGER)
-            .add(AAItems.IRON_DAGGER)
-            .add(AAItems.DIAMOND_DAGGER)
-            .add(AAItems.NETHERITE_DAGGER);
+            .add(AAItems.DAGGERS.toArray(new DaggerItem[0]));
 
         getOrCreateTagBuilder(CombatTags.DUAL_WEAPON)
             .addOptionalTag(ItemTags.DAGGERS);
