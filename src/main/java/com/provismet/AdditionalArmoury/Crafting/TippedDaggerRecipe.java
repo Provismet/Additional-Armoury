@@ -1,4 +1,4 @@
-package com.provismet.AdditionalArmoury.Crafting;
+package com.provismet.AdditionalArmoury.crafting;
 
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.registries.AARecipeSerializers;

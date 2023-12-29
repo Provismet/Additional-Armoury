@@ -1,7 +1,7 @@
 package com.provismet.AdditionalArmoury.registries;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
-import com.provismet.AdditionalArmoury.Crafting.TippedDaggerRecipe;
+import com.provismet.AdditionalArmoury.crafting.TippedDaggerRecipe;
 
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialRecipeSerializer;

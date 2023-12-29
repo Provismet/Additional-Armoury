@@ -70,6 +70,7 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
                 user
             );
         }
+        // TODO: Make this limited and use its own "durability" system.
     }
 
     @Override
