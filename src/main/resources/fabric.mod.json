@@ -1,41 +1,32 @@
 {
 	"schemaVersion": 1,
-	"id": "modid",
+	"id": "additional-armoury",
 	"version": "${version}",
-	"name": "Example mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Additional Armoury",
+	"description": "Extends your armour and weapons.",
 	"authors": [
-		"Me!"
+		"Provismet"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/Provismet/Additional-Armoury"
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/modid/icon.png",
+	"license": "Lily License",
+	"icon": "assets/additional-armoury/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.example.ExampleMod"
-		],
-		"client": [
-			"com.example.ExampleModClient"
+			"com.provismet.AdditionalArmoury.AdditionalArmouryMain"
 		]
 	},
 	"mixins": [
-		"modid.mixins.json",
-		{
-			"config": "modid.client.mixins.json",
-			"environment": "client"
-		}
+		"additional-armoury.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.15.0",
-		"minecraft": "~1.20.4",
+		"fabricloader": ">=0.14.0",
+		"minecraft": "~1.20",
 		"java": ">=17",
-		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
+		"fabric-api": "*",
+		"combat-plus": "*"
 	}
 }
