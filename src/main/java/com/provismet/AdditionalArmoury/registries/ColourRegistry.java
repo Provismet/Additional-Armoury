@@ -1,5 +1,7 @@
 package com.provismet.AdditionalArmoury.registries;
 
+import com.provismet.AdditionalArmoury.items.StaffItem;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -15,5 +17,12 @@ public class ColourRegistry {
             }
             else return -1;
         }, dagger));
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            if (tintIndex == 0) {
+                return StaffItem.getColour(stack);
+            }
+            else return -1;
+        }, AAItems.STAFF);
     }
 }

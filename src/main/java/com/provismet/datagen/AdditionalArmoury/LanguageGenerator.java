@@ -3,6 +3,7 @@ package com.provismet.datagen.AdditionalArmoury;
 import java.util.Map;
 
 import com.provismet.AdditionalArmoury.items.DaggerItem;
+import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -25,6 +26,11 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addDagger(translationBuilder, AAItems.IRON_DAGGER, "Iron Dagger");
         LanguageGenerator.addDagger(translationBuilder, AAItems.DIAMOND_DAGGER, "Diamond Dagger");
         LanguageGenerator.addDagger(translationBuilder, AAItems.NETHERITE_DAGGER, "Netherite Dagger");
+
+        translationBuilder.add(AAItems.STAFF, "Unenchanted Staff");
+        translationBuilder.add(AAItems.STAFF.getTranslationKey() + ".enchanted", "Enchanted Staff");
+
+        translationBuilder.add(AAEnchantments.BOOST, "Boosting");
     }
     
     public static void addDagger (TranslationBuilder translationBuilder, DaggerItem dagger, String basename) {
@@ -62,7 +68,7 @@ public class LanguageGenerator extends FabricLanguageProvider {
                 char character = word.charAt(j);
 
                 if (j == 0) builder.append(Character.toUpperCase(character));
-                else builder.append(character);
+                else builder.append(Character.toLowerCase(character));
             }
 
             if (i < words.length - 1) builder.append(" ");

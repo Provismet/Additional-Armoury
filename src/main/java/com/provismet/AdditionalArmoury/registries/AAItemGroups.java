@@ -18,6 +18,7 @@ public class AAItemGroups {
 
     public static void register () {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> content.addAfter(Items.NETHERITE_SWORD, AAItems.DAGGERS.toArray(new DaggerItem[0])));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> content.addAfter(Items.TRIDENT, AAItems.STAFF));
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> {
             content.getContext().lookup().getOptionalWrapper(RegistryKeys.POTION).ifPresent(wrapper -> {

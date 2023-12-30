@@ -1,4 +1,5 @@
 {
+  "enchantment.additional-armoury.boost": "Boosting",
   "item.additional-armoury.diamond_dagger": "Diamond Dagger",
   "item.additional-armoury.diamond_dagger.effect.awkward": "Diamond Dagger",
   "item.additional-armoury.diamond_dagger.effect.fire_resistance": "Fire Resistance-Tipped Diamond Dagger",
@@ -83,6 +84,8 @@
   "item.additional-armoury.netherite_dagger.effect.water": "Wet Netherite Dagger",
   "item.additional-armoury.netherite_dagger.effect.water_breathing": "Water Breathing-Tipped Netherite Dagger",
   "item.additional-armoury.netherite_dagger.effect.weakness": "Weakness-Tipped Netherite Dagger",
+  "item.additional-armoury.staff": "Unenchanted Staff",
+  "item.additional-armoury.staff.enchanted": "Enchanted Staff",
   "item.additional-armoury.stone_dagger": "Stone Dagger",
   "item.additional-armoury.stone_dagger.effect.awkward": "Stone Dagger",
   "item.additional-armoury.stone_dagger.effect.fire_resistance": "Fire Resistance-Tipped Stone Dagger",

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
+import com.provismet.AdditionalArmoury.items.StaffItem;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
@@ -20,6 +21,8 @@ public class AAItems {
     public static final DaggerItem DIAMOND_DAGGER = new DaggerItem(ToolMaterials.DIAMOND, new FabricItemSettings(), 0x0E3F36);
     public static final DaggerItem NETHERITE_DAGGER = new DaggerItem(ToolMaterials.NETHERITE, new FabricItemSettings().fireproof(), 0x4A2940);
 
+    public static final StaffItem STAFF = new StaffItem(new FabricItemSettings());
+
     // List representations so I don't have to update the generators and other registries.
     public static final List<DaggerItem> DAGGERS = Arrays.asList(WOODEN_DAGGER, STONE_DAGGER, GOLDEN_DAGGER, IRON_DAGGER, DIAMOND_DAGGER, NETHERITE_DAGGER);
 
@@ -34,5 +37,6 @@ public class AAItems {
         register(IRON_DAGGER, "iron_dagger");
         register(DIAMOND_DAGGER, "diamond_dagger");
         register(NETHERITE_DAGGER, "netherite_dagger");
+        register(STAFF, "staff");
     }
 }

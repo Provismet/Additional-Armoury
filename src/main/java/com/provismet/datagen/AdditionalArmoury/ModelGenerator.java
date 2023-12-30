@@ -31,6 +31,7 @@ public class ModelGenerator extends FabricModelProvider {
     @Override
     public void generateItemModels (ItemModelGenerator itemModelGenerator) {
         AAItems.DAGGERS.forEach(dagger -> ModelGenerator.registerDagger(itemModelGenerator, dagger));
+        HANDHELD_LAYERED.upload(ModelIds.getItemModelId(AAItems.STAFF), TextureMap.layered(AdditionalArmouryMain.identifier("item/staff_head"), AdditionalArmouryMain.identifier("item/staff_shaft")), itemModelGenerator.writer);
     }
 
     public static void registerDagger (ItemModelGenerator itemModelGenerator, DaggerItem dagger) {
