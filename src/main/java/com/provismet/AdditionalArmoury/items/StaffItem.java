@@ -7,6 +7,7 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import com.provismet.AdditionalArmoury.enchantments.staff.StaffEnchantment;
+import com.provismet.AdditionalArmoury.particles.effects.SpellChargeParticleEffect;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -20,6 +21,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class StaffItem extends Item implements Vanishable {
@@ -80,6 +82,16 @@ public class StaffItem extends Item implements Vanishable {
     }
 
     @Override
+    public void usageTick (World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
+        if (world.isClient()) {
+            StaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
+
+            if (enchantment != null)
+                world.addParticle(new SpellChargeParticleEffect(Vec3d.unpackRgb(enchantment.colour).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 0, 0, 0);
+        }
+    }
+
+    @Override
     public UseAction getUseAction (ItemStack stack) {
         if (StaffItem.getFirstStaffEnchantment(stack) == null) return super.getUseAction(stack);
         else return UseAction.BOW;
@@ -100,6 +112,11 @@ public class StaffItem extends Item implements Vanishable {
     @Override
     public int getEnchantability () {
         return 1;
+    }
+
+    @Override
+    public boolean isEnchantable (ItemStack stack) {
+        return true;
     }
 
     @Override
@@ -127,23 +144,25 @@ public class StaffItem extends Item implements Vanishable {
         else progress = uses / maxUses;
 
         return ColorHelper.Argb.lerp(progress, 0xFF3251FF, 0xFFB2BDFF);
-        //return MathHelper.hsvToRgb(0.9059f, MathHelper.lerp(progress, 0.8f, 0.3f), 1f);
     }
 
     @Override
     public ItemStack finishUsing (ItemStack stack, World world, LivingEntity user) {
         List<StaffEnchantment> enchantments = StaffItem.getStaffEnchantments(stack);
+        boolean wasUsed = false;
 
         if (enchantments.size() > 0) {
-            enchantments.forEach(enchant -> {
-                enchant.castSpell(stack, user);
-            });
+            for (StaffEnchantment enchant : enchantments) {
+                if (enchant.castSpell(stack, user)) wasUsed = true;
+            }
 
-            this.setMaxUseCount(stack, enchantments.get(0).maxUses);
-            this.incrementUseCount(stack);
+            if (wasUsed && user instanceof PlayerEntity player && !player.isCreative()) {
+                this.setMaxUseCount(stack, enchantments.get(0).maxUses);
+                this.incrementUseCount(stack);
+            }
         }
 
-        if (user instanceof PlayerEntity player) {
+        if (wasUsed && user instanceof PlayerEntity player) {
             player.getItemCooldownManager().set(this, 10);
         }
         return stack;

@@ -10,11 +10,11 @@ public class BoostEnchantment extends StaffEnchantment {
     }
 
     @Override
-    public void castSpell (ItemStack stack, LivingEntity user) {
+    public boolean castSpell (ItemStack stack, LivingEntity user) {
         double dx = -MathHelper.sin(user.getHeadYaw() / MathHelper.DEGREES_PER_RADIAN);
         double dz = MathHelper.cos(user.getHeadYaw() / MathHelper.DEGREES_PER_RADIAN);
 
-        user.addVelocity(dx, 0.25, dz);
+        user.addVelocity(dx, 0.35, dz);
+        return true;
     }
-    
 }

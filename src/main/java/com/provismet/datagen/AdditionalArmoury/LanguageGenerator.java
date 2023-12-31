@@ -31,6 +31,9 @@ public class LanguageGenerator extends FabricLanguageProvider {
         translationBuilder.add(AAItems.STAFF.getTranslationKey() + ".enchanted", "Enchanted Staff");
 
         translationBuilder.add(AAEnchantments.BOOST, "Boosting");
+        translationBuilder.add(AAEnchantments.ERUPTION, "Eruption");
+        translationBuilder.add(AAEnchantments.JUMP, "Soaring");
+        translationBuilder.add(AAEnchantments.FIREBALL, "Fireball");
     }
     
     public static void addDagger (TranslationBuilder translationBuilder, DaggerItem dagger, String basename) {
