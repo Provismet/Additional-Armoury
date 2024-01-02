@@ -14,7 +14,10 @@ public class Util {
         if (entity1 instanceof Tameable tame && tame.getOwner() == entity2) return true;
         if (entity1.getAttacker() == entity2) return false;
         if (entity1.getAttacking() == entity2) return false;
-        if (entity1.getScoreboardTeam() == entity2.getScoreboardTeam()) return true;
+        if (entity1.getScoreboardTeam() != null) {
+            if (entity1.getScoreboardTeam() == entity2.getScoreboardTeam()) return true;
+            if (entity2.getScoreboardTeam() != null) return false;
+        }
         if (entity1 instanceof HostileEntity != entity2 instanceof HostileEntity) return false;
         return true;
     }
