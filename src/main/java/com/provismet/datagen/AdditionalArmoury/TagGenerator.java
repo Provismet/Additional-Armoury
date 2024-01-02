@@ -9,9 +9,14 @@ import com.provismet.CombatPlusCore.utility.CombatTags;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
+import net.minecraft.item.Item;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 
 public class TagGenerator extends ItemTagProvider {
+    private static final TagKey<Item> HIDDEN_FROM_RECIPE_VIEWERS = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "hidden_from_recipe_viewers"));
 
     public TagGenerator (FabricDataOutput output, CompletableFuture<WrapperLookup> completableFuture) {
         super(output, completableFuture);
@@ -24,6 +29,9 @@ public class TagGenerator extends ItemTagProvider {
 
         getOrCreateTagBuilder(CombatTags.DUAL_WEAPON)
             .addOptionalTag(ItemTags.DAGGERS);
+        
+        getOrCreateTagBuilder(HIDDEN_FROM_RECIPE_VIEWERS)
+            .add(AAItems.ITEM_PROJECTILES.toArray(new Item[0]));
     }
     
 }

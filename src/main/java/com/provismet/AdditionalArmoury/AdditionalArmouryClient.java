@@ -1,5 +1,6 @@
 package com.provismet.AdditionalArmoury;
 
+import com.provismet.AdditionalArmoury.registries.AAEntityRenderers;
 import com.provismet.AdditionalArmoury.registries.AAParticleFactories;
 import com.provismet.AdditionalArmoury.registries.ColourRegistry;
 
@@ -10,5 +11,6 @@ public class AdditionalArmouryClient implements ClientModInitializer {
     public void onInitializeClient () {
         ColourRegistry.register();
         AAParticleFactories.register();
+        AAEntityRenderers.register();
     }
 }

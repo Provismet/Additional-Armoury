@@ -6,6 +6,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public abstract class StaffEnchantment extends Enchantment {
     public final int colour;
@@ -32,6 +33,10 @@ public abstract class StaffEnchantment extends Enchantment {
     @Override
     protected boolean canAccept (Enchantment other) {
         return super.canAccept(other) && !(other instanceof StaffEnchantment);
+    }
+
+    public void onChargeTick (World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
+
     }
 
     public abstract boolean castSpell (ItemStack stack, LivingEntity user);

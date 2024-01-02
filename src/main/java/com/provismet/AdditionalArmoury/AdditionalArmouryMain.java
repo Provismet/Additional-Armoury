@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
+import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItemGroups;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
@@ -27,5 +28,6 @@ public class AdditionalArmouryMain implements ModInitializer {
         AAItemGroups.register();
         AARecipeSerializers.register();
         AAParticleTypes.register();
+        AAEntityTypes.register();
     }
 }

@@ -83,11 +83,12 @@ public class StaffItem extends Item implements Vanishable {
 
     @Override
     public void usageTick (World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-        if (world.isClient()) {
-            StaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
+        StaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
 
-            if (enchantment != null)
-                world.addParticle(new SpellChargeParticleEffect(Vec3d.unpackRgb(enchantment.colour).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 0, 0, 0);
+        if (enchantment != null) {
+            enchantment.onChargeTick(world, user, stack, remainingUseTicks);
+
+            if (world.isClient()) world.addParticle(new SpellChargeParticleEffect(Vec3d.unpackRgb(enchantment.colour).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 0, 0, 0);
         }
     }
 
@@ -163,7 +164,7 @@ public class StaffItem extends Item implements Vanishable {
         }
 
         if (wasUsed && user instanceof PlayerEntity player) {
-            player.getItemCooldownManager().set(this, 10);
+            player.getItemCooldownManager().set(this, 20);
         }
         return stack;
     }

@@ -30,7 +30,7 @@ public class SpellChargeParticle extends SpriteBillboardParticle {
         this.velocityZ = this.random.nextDouble() * 0.05 - 0.025;
 
         float randDeg = this.random.nextFloat() * 2f * MathHelper.PI;
-        this.setPos(x - MathHelper.sin(randDeg) * 1.5, y + this.random.nextDouble() * 1.75, z + MathHelper.cos(randDeg) * 1.5);
+        this.setPos(x - MathHelper.sin(randDeg) * 1.5, y + this.random.nextDouble() * 1.5, z + MathHelper.cos(randDeg) * 1.5);
         this.prevPosX = this.x;
         this.prevPosY = this.y;
         this.prevPosZ = this.z;

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
+import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -30,10 +31,21 @@ public class LanguageGenerator extends FabricLanguageProvider {
         translationBuilder.add(AAItems.STAFF, "Unenchanted Staff");
         translationBuilder.add(AAItems.STAFF.getTranslationKey() + ".enchanted", "Enchanted Staff");
 
+        translationBuilder.add(AAItems.FIREBALL, "Fireball");
+        translationBuilder.add(AAItems.FROSTBALL, "Frostball");
+
+        translationBuilder.add(AAEntityTypes.FIREBALL, "Fireball Spell");
+        translationBuilder.add(AAEntityTypes.FROSTBALL, "Frostball Spell");
+
         translationBuilder.add(AAEnchantments.BOOST, "Boosting");
         translationBuilder.add(AAEnchantments.ERUPTION, "Eruption");
         translationBuilder.add(AAEnchantments.JUMP, "Soaring");
         translationBuilder.add(AAEnchantments.FIREBALL, "Fireball");
+        translationBuilder.add(AAEnchantments.FROSTBALL, "Frostball");
+
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, "fireball_spell", "was blasted by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, "frostball_spell", "was frozen by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, "eruption_spell", "was launched by");
     }
     
     public static void addDagger (TranslationBuilder translationBuilder, DaggerItem dagger, String basename) {
@@ -78,5 +90,10 @@ public class LanguageGenerator extends FabricLanguageProvider {
         }
 
         return builder.toString();
+    }
+
+    private static void addAttackDeathMessage (TranslationBuilder translationBuilder, String suffix, String message) {
+        translationBuilder.add("death.attack." + suffix, "%1$s " + message + " %2$s");
+        translationBuilder.add("death.attack." + suffix + ".item", "%1$s " + message + " %2$s using %3$s");
     }
 }
