@@ -46,6 +46,8 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "fireball_spell", "was blasted by");
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "frostball_spell", "was frozen by");
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "eruption_spell", "was launched by");
+
+        translationBuilder.add("tooltip.additional-armoury.dagger_uses", "Remaining Splashes: %1$s");
     }
     
     public static void addDagger (TranslationBuilder translationBuilder, DaggerItem dagger, String basename) {

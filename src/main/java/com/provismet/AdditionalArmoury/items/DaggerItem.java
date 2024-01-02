@@ -22,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.Vanishable;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
@@ -31,6 +32,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
+    public static final String CURRENT_POTION_USE = "DaggerPotionDurability";
+    public static final int MAX_POTION_USES = 64;
+
     private static final float POTION_DURATION_MOD = 0.125f;
 
     private final float attackDamage;
@@ -70,7 +74,10 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
                 user
             );
         }
-        // TODO: Make this limited and use its own "durability" system.
+        if (potion != Potions.EMPTY && this.decrementCurrentPotionUses(stack) <= 0) {
+            PotionUtil.setPotion(stack, Potions.EMPTY);
+            stack.removeSubNbt(PotionUtil.CUSTOM_POTION_EFFECTS_KEY);
+        }
     }
 
     @Override
@@ -113,6 +120,9 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
     @Override
     public void appendTooltip (ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         PotionUtil.buildTooltip(stack, tooltip, POTION_DURATION_MOD);
+
+        if (PotionUtil.getPotion(stack) != Potions.EMPTY)
+            tooltip.add(Text.translatable("tooltip.additional-armoury.dagger_uses", this.getCurrentPotionUses(stack)));
     }
 
     @Override
@@ -131,5 +141,22 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
             return this.attributeModifiers;
         }
         return super.getAttributeModifiers(slot);
+    }
+
+    public int getCurrentPotionUses (ItemStack stack) {
+        NbtCompound nbt = stack.getNbt();
+        if (nbt == null || !nbt.contains(CURRENT_POTION_USE)) return MAX_POTION_USES;
+        else return nbt.getInt(CURRENT_POTION_USE);
+    }
+
+    public void setCurrentPotionUses (ItemStack stack, int uses) {
+        NbtCompound nbt = stack.getOrCreateNbt();
+        nbt.putInt(CURRENT_POTION_USE, uses);
+    }
+
+    public int decrementCurrentPotionUses (ItemStack stack) {
+        int currentUses = this.getCurrentPotionUses(stack) - 1;
+        this.setCurrentPotionUses(stack, currentUses);
+        return currentUses;
     }
 }

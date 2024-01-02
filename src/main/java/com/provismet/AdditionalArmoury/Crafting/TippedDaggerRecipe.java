@@ -52,6 +52,7 @@ public class TippedDaggerRecipe extends SpecialCraftingRecipe {
         else {
             PotionUtil.setPotion(inputDagger, PotionUtil.getPotion(potion));
             PotionUtil.setCustomPotionEffects(inputDagger, PotionUtil.getCustomPotionEffects(potion));
+            ((DaggerItem)inputDagger.getItem()).setCurrentPotionUses(inputDagger, DaggerItem.MAX_POTION_USES);
             return inputDagger;
         }
     }

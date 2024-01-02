@@ -87,6 +87,9 @@ public class StaffItem extends Item implements Vanishable {
 
         if (enchantment != null) {
             enchantment.onChargeTick(world, user, stack, remainingUseTicks);
+            if (remainingUseTicks == this.getMaxUseTime(stack)) {
+
+            }
 
             if (world.isClient()) world.addParticle(new SpellChargeParticleEffect(Vec3d.unpackRgb(enchantment.colour).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 0, 0, 0);
         }

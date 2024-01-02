@@ -141,5 +141,6 @@
   "item.additional-armoury.wooden_dagger.effect.turtle_master": "Turtle Master-Tipped Wooden Dagger",
   "item.additional-armoury.wooden_dagger.effect.water": "Wet Wooden Dagger",
   "item.additional-armoury.wooden_dagger.effect.water_breathing": "Water Breathing-Tipped Wooden Dagger",
-  "item.additional-armoury.wooden_dagger.effect.weakness": "Weakness-Tipped Wooden Dagger"
+  "item.additional-armoury.wooden_dagger.effect.weakness": "Weakness-Tipped Wooden Dagger",
+  "tooltip.additional-armoury.dagger_uses": "Remaining Splashes: %1$s"
 }
