@@ -6,9 +6,11 @@ import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
+import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
@@ -37,11 +39,13 @@ public class LanguageGenerator extends FabricLanguageProvider {
         translationBuilder.add(AAEntityTypes.FIREBALL, "Fireball Spell");
         translationBuilder.add(AAEntityTypes.FROSTBALL, "Frostball Spell");
 
-        translationBuilder.add(AAEnchantments.BOOST, "Boosting");
-        translationBuilder.add(AAEnchantments.ERUPTION, "Eruption");
-        translationBuilder.add(AAEnchantments.JUMP, "Soaring");
-        translationBuilder.add(AAEnchantments.FIREBALL, "Fireball");
-        translationBuilder.add(AAEnchantments.FROSTBALL, "Frostball");
+        translationBuilder.add(AAStatusEffects.SHATTERED, "Shattered");
+
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.BOOST, "Boosting", "Launches the user forwards.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.ERUPTION, "Eruption", "Knockbacks all nearby enemies.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.JUMP, "Soaring", "Launch into the air and gain slow-fall.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FIREBALL, "Fireball", "Shoot a fireball that burns on hit.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FROSTBALL, "Frostball", "Shoot a frostball that freezes on hit.");
 
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "fireball_spell", "was blasted by");
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "frostball_spell", "was frozen by");
@@ -73,6 +77,11 @@ public class LanguageGenerator extends FabricLanguageProvider {
 
             }
         }
+    }
+
+    private static void addEnchantment (TranslationBuilder translationBuilder, Enchantment enchantment, String name, String description) {
+        translationBuilder.add(enchantment, name);
+        translationBuilder.add(enchantment.getTranslationKey() + ".desc", description);
     }
 
     private static String titleCase (String string) {
