@@ -34,6 +34,7 @@ import net.minecraft.world.World;
 public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
     public static final String CURRENT_POTION_USE = "DaggerPotionDurability";
     public static final int MAX_POTION_USES = 64;
+    public static final int USES_PER_POTION = 8;
 
     private static final float POTION_DURATION_MOD = 0.125f;
 
