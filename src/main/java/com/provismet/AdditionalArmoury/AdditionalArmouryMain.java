@@ -9,6 +9,7 @@ import com.provismet.AdditionalArmoury.registries.AAItemGroups;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 import com.provismet.AdditionalArmoury.registries.AARecipeSerializers;
+import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
@@ -29,5 +30,6 @@ public class AdditionalArmouryMain implements ModInitializer {
         AARecipeSerializers.register();
         AAParticleTypes.register();
         AAEntityTypes.register();
+        AAStatusEffects.register();
     }
 }
