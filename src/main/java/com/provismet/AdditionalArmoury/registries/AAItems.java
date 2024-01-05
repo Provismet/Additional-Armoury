@@ -16,6 +16,9 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 public class AAItems {
+    public static final Item OVERNETHER_INGOT = new Item(new FabricItemSettings());
+    public static final Item ENDERNETHER_INGOT = new Item(new FabricItemSettings());
+
     public static final DaggerItem WOODEN_DAGGER = new DaggerItem(ToolMaterials.WOOD, new FabricItemSettings().maxCount(1), 0x372910);
     public static final DaggerItem STONE_DAGGER = new DaggerItem(ToolMaterials.STONE, new FabricItemSettings().maxCount(1), 0x494949);
     public static final DaggerItem GOLDEN_DAGGER = new DaggerItem(ToolMaterials.GOLD, new FabricItemSettings().maxCount(1), 0x825D16);
@@ -38,6 +41,9 @@ public class AAItems {
     }
 
     public static void register () {
+        register(OVERNETHER_INGOT, "overnether_ingot");
+        register(ENDERNETHER_INGOT, "endernether_ingot");
+
         register(WOODEN_DAGGER, "wooden_dagger");
         register(STONE_DAGGER, "stone_dagger");
         register(GOLDEN_DAGGER, "golden_dagger");
