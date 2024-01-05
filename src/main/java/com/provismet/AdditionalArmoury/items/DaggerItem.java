@@ -6,11 +6,13 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.CombatPlusCore.interfaces.DualWeapon;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -75,7 +77,7 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
                 user
             );
         }
-        if (potion != Potions.EMPTY && this.decrementCurrentPotionUses(stack) <= 0) {
+        if (EnchantmentHelper.getLevel(AAEnchantments.ADHESIVE, stack) == 0 && potion != Potions.EMPTY && this.decrementCurrentPotionUses(stack) <= 0) {
             PotionUtil.setPotion(stack, Potions.EMPTY);
             stack.removeSubNbt(PotionUtil.CUSTOM_POTION_EFFECTS_KEY);
         }
@@ -122,7 +124,7 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
     public void appendTooltip (ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         PotionUtil.buildTooltip(stack, tooltip, POTION_DURATION_MOD);
 
-        if (PotionUtil.getPotion(stack) != Potions.EMPTY)
+        if (EnchantmentHelper.getLevel(AAEnchantments.ADHESIVE, stack) == 0 && PotionUtil.getPotion(stack) != Potions.EMPTY)
             tooltip.add(Text.translatable("tooltip.additional-armoury.dagger_uses", this.getCurrentPotionUses(stack)));
     }
 

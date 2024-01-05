@@ -23,6 +23,9 @@ public class LanguageGenerator extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations (TranslationBuilder translationBuilder) {
+        translationBuilder.add(AAItems.OVERNETHER_INGOT, "Overnether Ingot");
+        translationBuilder.add(AAItems.ENDERNETHER_INGOT, "Endernether Ingot");
+
         LanguageGenerator.addDagger(translationBuilder, AAItems.WOODEN_DAGGER, "Wooden Dagger");
         LanguageGenerator.addDagger(translationBuilder, AAItems.STONE_DAGGER, "Stone Dagger");
         LanguageGenerator.addDagger(translationBuilder, AAItems.GOLDEN_DAGGER, "Golden Dagger");
@@ -46,6 +49,7 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.JUMP, "Soaring", "Launch into the air and gain slow-fall.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FIREBALL, "Fireball", "Shoot a fireball that burns on hit.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FROSTBALL, "Frostball", "Shoot a frostball that freezes on hit.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.ADHESIVE, "Adhesive", "Potion-tipped daggers have unlimited uses.");
 
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "fireball_spell", "was blasted by");
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "frostball_spell", "was frozen by");
