@@ -35,6 +35,11 @@ public abstract class StaffEnchantment extends Enchantment {
         return super.canAccept(other) && !(other instanceof StaffEnchantment);
     }
 
+    @Override
+    public boolean isAvailableForEnchantedBookOffer () {
+        return false;
+    }
+
     public void onChargeTick (World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 
     }
