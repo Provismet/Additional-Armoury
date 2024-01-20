@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "additional-armoury:wooden_mace",
+    "additional-armoury:stone_mace",
+    "additional-armoury:golden_mace",
+    "additional-armoury:iron_mace",
+    "additional-armoury:diamond_mace",
+    "additional-armoury:netherite_mace",
+    "additional-armoury:overnether_mace",
+    "additional-armoury:endernether_mace"
+  ]
+}

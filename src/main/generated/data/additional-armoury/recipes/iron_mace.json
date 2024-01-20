@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "i": {
+      "tag": "c:iron_ingots"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    " i ",
+    " s ",
+    " s "
+  ],
+  "result": {
+    "item": "additional-armoury:iron_mace"
+  },
+  "show_notification": true
+}

@@ -9,6 +9,7 @@ import net.minecraft.registry.tag.TagKey;
 public class AATags {
     public static class ItemTags {
         public static final TagKey<Item> DAGGERS = ItemTags.of("daggers");
+        public static final TagKey<Item> MACES = ItemTags.of("maces");
 
         private static TagKey<Item> of (String path) {
             return TagKey.of(RegistryKeys.ITEM, AdditionalArmouryMain.identifier(path));

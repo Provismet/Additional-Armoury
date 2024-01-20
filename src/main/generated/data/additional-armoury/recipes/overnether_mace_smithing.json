@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "additional-armoury:overnether_ingot"
+  },
+  "base": {
+    "item": "additional-armoury:diamond_mace"
+  },
+  "result": {
+    "item": "additional-armoury:overnether_mace"
+  },
+  "template": {
+    "item": "additional-armoury:overnether_upgrade_smithing_template"
+  }
+}

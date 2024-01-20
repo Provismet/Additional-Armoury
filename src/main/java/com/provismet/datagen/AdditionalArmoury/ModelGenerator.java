@@ -15,6 +15,7 @@ import net.minecraft.data.client.ModelIds;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 
 public class ModelGenerator extends FabricModelProvider {
@@ -31,12 +32,30 @@ public class ModelGenerator extends FabricModelProvider {
 
     @Override
     public void generateItemModels (ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(AAItems.OVERNETHER_INGOT, Models.GENERATED);
-        itemModelGenerator.register(AAItems.ENDERNETHER_INGOT, Models.GENERATED);
+        registerMass(itemModelGenerator, Models.GENERATED,
+            AAItems.OVERNETHER_INGOT,
+            AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE,
+            AAItems.ENDERNETHER_INGOT,
+            AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE
+        );
+
+        registerMass(itemModelGenerator, Models.HANDHELD,
+            AAItems.OVERNETHER_SWORD,
+            AAItems.OVERNETHER_AXE,
+            AAItems.OVERNETHER_PICKAXE,
+            AAItems.OVERNETHER_SHOVEL,
+            AAItems.OVERNETHER_HOE,
+            AAItems.ENDERNETHER_SWORD,
+            AAItems.ENDERNETHER_AXE,
+            AAItems.ENDERNETHER_PICKAXE,
+            AAItems.ENDERNETHER_SHOVEL,
+            AAItems.ENDERNETHER_HOE
+        );
 
         AAItems.DAGGERS.forEach(dagger -> ModelGenerator.registerDagger(itemModelGenerator, dagger));
         HANDHELD_LAYERED.upload(ModelIds.getItemModelId(AAItems.STAFF), TextureMap.layered(AdditionalArmouryMain.identifier("item/staff_head"), AdditionalArmouryMain.identifier("item/staff_shaft")), itemModelGenerator.writer);
 
+        AAItems.MACES.forEach(item -> itemModelGenerator.register(item, Models.HANDHELD));
         AAItems.ITEM_PROJECTILES.forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
     }
 
@@ -46,6 +65,12 @@ public class ModelGenerator extends FabricModelProvider {
             TextureMap.layered(TextureMap.getId(dagger), AdditionalArmouryMain.identifier("item/dagger_tip")),
             itemModelGenerator.writer
         );
+    }
+
+    private static void registerMass (ItemModelGenerator itemModelGenerator, Model model, Item... items) {
+        for (Item i : items) {
+            itemModelGenerator.register(i, model);
+        }
     }
 
     private static Model createModel (String parent, TextureKey ... requiredTextureKeys) {

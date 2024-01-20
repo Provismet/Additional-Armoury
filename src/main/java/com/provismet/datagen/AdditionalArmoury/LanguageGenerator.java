@@ -26,12 +26,42 @@ public class LanguageGenerator extends FabricLanguageProvider {
         translationBuilder.add(AAItems.OVERNETHER_INGOT, "Overnether Ingot");
         translationBuilder.add(AAItems.ENDERNETHER_INGOT, "Endernether Ingot");
 
+        translationBuilder.add("upgrade.additional-armoury.overnether_upgrade", "Overnether Upgrade");
+        translationBuilder.add("item.additional-armoury.overnether_upgrade.ingredients", "Overnether Ingot");
+        translationBuilder.add("item.additional-armoury.overnether_upgrade.addition", "Add Overnether Ingot");
+
+        translationBuilder.add("upgrade.additional-armoury.endernether_upgrade", "Endernether Upgrade");
+        translationBuilder.add("item.additional-armoury.endernether_upgrade.ingredients", "Endernether Ingot");
+        translationBuilder.add("item.additional-armoury.endernether_upgrade.addition", "Add Endernether Ingot");
+
+        translationBuilder.add(AAItems.OVERNETHER_SWORD, "Overnether Sword");
+        translationBuilder.add(AAItems.OVERNETHER_AXE, "Overnether Axe");
+        translationBuilder.add(AAItems.OVERNETHER_PICKAXE, "Overnether Pickaxe");
+        translationBuilder.add(AAItems.OVERNETHER_SHOVEL, "Overnether Shovel");
+        translationBuilder.add(AAItems.OVERNETHER_HOE, "Overnether Hoe");
+
+        translationBuilder.add(AAItems.ENDERNETHER_SWORD, "Endernether Sword");
+        translationBuilder.add(AAItems.ENDERNETHER_AXE, "Endernether Axe");
+        translationBuilder.add(AAItems.ENDERNETHER_PICKAXE, "Endernether Pickaxe");
+        translationBuilder.add(AAItems.ENDERNETHER_SHOVEL, "Endernether Shovel");
+        translationBuilder.add(AAItems.ENDERNETHER_HOE, "Endernether Hoe");
+
         LanguageGenerator.addDagger(translationBuilder, AAItems.WOODEN_DAGGER, "Wooden Dagger");
         LanguageGenerator.addDagger(translationBuilder, AAItems.STONE_DAGGER, "Stone Dagger");
         LanguageGenerator.addDagger(translationBuilder, AAItems.GOLDEN_DAGGER, "Golden Dagger");
         LanguageGenerator.addDagger(translationBuilder, AAItems.IRON_DAGGER, "Iron Dagger");
         LanguageGenerator.addDagger(translationBuilder, AAItems.DIAMOND_DAGGER, "Diamond Dagger");
         LanguageGenerator.addDagger(translationBuilder, AAItems.NETHERITE_DAGGER, "Netherite Dagger");
+        LanguageGenerator.addDagger(translationBuilder, AAItems.OVERNETHER_DAGGER, "Overnether Dagger");
+        LanguageGenerator.addDagger(translationBuilder, AAItems.ENDERNETHER_DAGGER, "Endernether Dagger");
+
+        translationBuilder.add(AAItems.WOODEN_MACE, "Wooden Mace");
+        translationBuilder.add(AAItems.STONE_MACE, "Stone Mace");
+        translationBuilder.add(AAItems.IRON_MACE, "Iron Mace");
+        translationBuilder.add(AAItems.DIAMOND_MACE, "Diamond Mace");
+        translationBuilder.add(AAItems.NETHERITE_MACE, "Netherite Mace");
+        translationBuilder.add(AAItems.OVERNETHER_MACE, "Overnether Mace");
+        translationBuilder.add(AAItems.ENDERNETHER_MACE, "Endernether Mace");
 
         translationBuilder.add(AAItems.STAFF, "Unenchanted Staff");
         translationBuilder.add(AAItems.STAFF.getTranslationKey() + ".enchanted", "Enchanted Staff");

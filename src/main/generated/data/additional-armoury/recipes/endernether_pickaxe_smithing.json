@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "additional-armoury:endernether_ingot"
+  },
+  "base": {
+    "item": "minecraft:diamond_pickaxe"
+  },
+  "result": {
+    "item": "additional-armoury:endernether_pickaxe"
+  },
+  "template": {
+    "item": "additional-armoury:endernether_upgrade_smithing_template"
+  }
+}
