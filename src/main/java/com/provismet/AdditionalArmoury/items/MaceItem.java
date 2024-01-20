@@ -6,15 +6,19 @@ import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 import com.provismet.CombatPlusCore.interfaces.MeleeWeapon;
 import com.provismet.CombatPlusCore.utility.AttributeIdentifiers;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class MaceItem extends ToolItem implements MeleeWeapon {
     private final float attackDamage;
@@ -39,6 +43,11 @@ public class MaceItem extends ToolItem implements MeleeWeapon {
 
     public MaceItem (ToolMaterial material, Settings settings) {
         this(material, 6, -3.5f, settings);
+    }
+
+    @Override
+    public boolean canMine (BlockState state, World world, BlockPos pos, PlayerEntity user) {
+        return !user.isCreative();
     }
 
     @Override
