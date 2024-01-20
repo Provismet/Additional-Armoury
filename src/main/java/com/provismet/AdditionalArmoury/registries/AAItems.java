@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
+import com.provismet.AdditionalArmoury.items.AAExtraAxeItem;
+import com.provismet.AdditionalArmoury.items.AAExtraHoeItem;
+import com.provismet.AdditionalArmoury.items.AAExtraPickaxeItem;
+import com.provismet.AdditionalArmoury.items.AAExtraShovelItem;
+import com.provismet.AdditionalArmoury.items.AAExtraSwordItem;
 import com.provismet.AdditionalArmoury.items.AASmithingTemplateItem;
 import com.provismet.AdditionalArmoury.items.AAToolMaterials;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
@@ -30,16 +35,16 @@ public class AAItems {
     public static final Item OVERNETHER_UPGRADE_SMITHING_TEMPLATE = AASmithingTemplateItem.createOvernetherSmithingTemplate();
     public static final Item ENDERNETHER_UPGRADE_SMITHING_TEMPLATE = AASmithingTemplateItem.createEndernetherSmithingTemplate();
 
-    public static final SwordItem OVERNETHER_SWORD = new SwordItem(AAToolMaterials.OVERNETHER, 3, -2.4f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final SwordItem ENDERNETHER_SWORD = new SwordItem(AAToolMaterials.ENDERNETHER, 3, -2.4f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final AxeItem OVERNETHER_AXE = new AxeItem(AAToolMaterials.OVERNETHER, 5, -3f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final AxeItem ENDERNETHER_AXE = new AxeItem(AAToolMaterials.ENDERNETHER, 5, -3f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final PickaxeItem OVERNETHER_PICKAXE = new PickaxeItem(AAToolMaterials.OVERNETHER, 1, -2.8f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final PickaxeItem ENDERNETHER_PICKAXE = new PickaxeItem(AAToolMaterials.ENDERNETHER, 1, -2.8f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final ShovelItem OVERNETHER_SHOVEL = new ShovelItem(AAToolMaterials.OVERNETHER, 1.5f, -3f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final ShovelItem ENDERNETHER_SHOVEL = new ShovelItem(AAToolMaterials.ENDERNETHER, 1.5f, -3f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final HoeItem OVERNETHER_HOE = new HoeItem(AAToolMaterials.OVERNETHER, -4, 0f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final HoeItem ENDERNETHER_HOE = new HoeItem(AAToolMaterials.ENDERNETHER, -4, 0f, new FabricItemSettings().maxCount(1).fireproof());
+    public static final SwordItem OVERNETHER_SWORD = new AAExtraSwordItem(AAToolMaterials.OVERNETHER, 3, -2.4f, new FabricItemSettings().maxCount(1).fireproof());
+    public static final SwordItem ENDERNETHER_SWORD = new AAExtraSwordItem(AAToolMaterials.ENDERNETHER, 3, -2.4f, new FabricItemSettings().maxCount(1).fireproof());
+    public static final AxeItem OVERNETHER_AXE = new AAExtraAxeItem(AAToolMaterials.OVERNETHER, 5, -3f, new FabricItemSettings().maxCount(1).fireproof());
+    public static final AxeItem ENDERNETHER_AXE = new AAExtraAxeItem(AAToolMaterials.ENDERNETHER, 5, -3f, new FabricItemSettings().maxCount(1).fireproof());
+    public static final PickaxeItem OVERNETHER_PICKAXE = new AAExtraPickaxeItem(AAToolMaterials.OVERNETHER, 1, -2.8f, new FabricItemSettings().maxCount(1).fireproof());
+    public static final PickaxeItem ENDERNETHER_PICKAXE = new AAExtraPickaxeItem(AAToolMaterials.ENDERNETHER, 1, -2.8f, new FabricItemSettings().maxCount(1).fireproof());
+    public static final ShovelItem OVERNETHER_SHOVEL = new AAExtraShovelItem(AAToolMaterials.OVERNETHER, 1.5f, -3f, new FabricItemSettings().maxCount(1).fireproof());
+    public static final ShovelItem ENDERNETHER_SHOVEL = new AAExtraShovelItem(AAToolMaterials.ENDERNETHER, 1.5f, -3f, new FabricItemSettings().maxCount(1).fireproof());
+    public static final HoeItem OVERNETHER_HOE = new AAExtraHoeItem(AAToolMaterials.OVERNETHER, -4, 0f, new FabricItemSettings().maxCount(1).fireproof());
+    public static final HoeItem ENDERNETHER_HOE = new AAExtraHoeItem(AAToolMaterials.ENDERNETHER, -4, 0f, new FabricItemSettings().maxCount(1).fireproof());
 
     public static final DaggerItem WOODEN_DAGGER = new DaggerItem(ToolMaterials.WOOD, new FabricItemSettings().maxCount(1), 0x372910);
     public static final DaggerItem STONE_DAGGER = new DaggerItem(ToolMaterials.STONE, new FabricItemSettings().maxCount(1), 0x494949);
