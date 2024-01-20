@@ -62,6 +62,15 @@ public class RecipeGenerator extends FabricRecipeProvider {
         RecipeGenerator.offerOvernetherUpgradeRecipe(exporter, AAItems.DIAMOND_MACE, RecipeCategory.COMBAT, AAItems.OVERNETHER_MACE);
         RecipeGenerator.offerEndernetherUpgradeRecipe(exporter, AAItems.DIAMOND_MACE, RecipeCategory.COMBAT, AAItems.ENDERNETHER_MACE);
 
+        RecipeGenerator.offerOvernetherUpgradeRecipe(exporter, Items.DIAMOND_HELMET, RecipeCategory.COMBAT, AAItems.OVERNETHER_HELMET);
+        RecipeGenerator.offerOvernetherUpgradeRecipe(exporter, Items.DIAMOND_CHESTPLATE, RecipeCategory.COMBAT, AAItems.OVERNETHER_CHESTPLATE);
+        RecipeGenerator.offerOvernetherUpgradeRecipe(exporter, Items.DIAMOND_LEGGINGS, RecipeCategory.COMBAT, AAItems.OVERNETHER_LEGGINGS);
+        RecipeGenerator.offerOvernetherUpgradeRecipe(exporter, Items.DIAMOND_BOOTS, RecipeCategory.COMBAT, AAItems.OVERNETHER_BOOTS);
+        RecipeGenerator.offerEndernetherUpgradeRecipe(exporter, Items.DIAMOND_HELMET, RecipeCategory.COMBAT, AAItems.ENDERNETHER_HELMET);
+        RecipeGenerator.offerEndernetherUpgradeRecipe(exporter, Items.DIAMOND_CHESTPLATE, RecipeCategory.COMBAT, AAItems.ENDERNETHER_CHESTPLATE);
+        RecipeGenerator.offerEndernetherUpgradeRecipe(exporter, Items.DIAMOND_LEGGINGS, RecipeCategory.COMBAT, AAItems.ENDERNETHER_LEGGINGS);
+        RecipeGenerator.offerEndernetherUpgradeRecipe(exporter, Items.DIAMOND_BOOTS, RecipeCategory.COMBAT, AAItems.ENDERNETHER_BOOTS);
+
         ComplexRecipeJsonBuilder.create(AARecipeSerializers.TIPPED_DAGGER).offerTo(exporter, AdditionalArmouryMain.identifier("tipped_dagger").toString());
 
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, AAItems.OVERNETHER_INGOT)

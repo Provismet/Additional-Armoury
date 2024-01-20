@@ -12,7 +12,7 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 
 public enum AAToolMaterials implements ToolMaterial {
-    OVERNETHER(MiningLevels.NETHERITE, 2031, 9.0f, 3.0f, 15, EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.5f, () -> Ingredient.ofItems(AAItems.OVERNETHER_INGOT)),
+    OVERNETHER(MiningLevels.NETHERITE, 2031, 9.0f, 3.0f, 15, EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1f, () -> Ingredient.ofItems(AAItems.OVERNETHER_INGOT)),
     ENDERNETHER(MiningLevels.NETHERITE, 2031, 9.0f, 3.0f, 15, EntityAttributes.GENERIC_ATTACK_SPEED, 0.2f, () -> Ingredient.ofItems(AAItems.ENDERNETHER_INGOT));
 
     private final int miningLevel;

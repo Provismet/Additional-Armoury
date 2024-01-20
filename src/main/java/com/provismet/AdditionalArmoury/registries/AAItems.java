@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
+import com.provismet.AdditionalArmoury.items.AAArmourMaterials;
+import com.provismet.AdditionalArmoury.items.AAExtraArmourItem;
 import com.provismet.AdditionalArmoury.items.AAExtraAxeItem;
 import com.provismet.AdditionalArmoury.items.AAExtraHoeItem;
 import com.provismet.AdditionalArmoury.items.AAExtraPickaxeItem;
@@ -18,6 +20,7 @@ import com.provismet.AdditionalArmoury.items.projectiles.FireballItem;
 import com.provismet.AdditionalArmoury.items.projectiles.FrostballItem;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
@@ -64,6 +67,16 @@ public class AAItems {
     public static final MaceItem OVERNETHER_MACE = new MaceItem(AAToolMaterials.OVERNETHER, new FabricItemSettings().maxCount(1).fireproof());
     public static final MaceItem ENDERNETHER_MACE = new MaceItem(AAToolMaterials.ENDERNETHER, new FabricItemSettings().maxCount(1).fireproof());
 
+    public static final ArmorItem OVERNETHER_HELMET = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.HELMET, new FabricItemSettings().maxCount(1).fireproof());
+    public static final ArmorItem OVERNETHER_CHESTPLATE = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.CHESTPLATE, new FabricItemSettings().maxCount(1).fireproof());
+    public static final ArmorItem OVERNETHER_LEGGINGS = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.LEGGINGS, new FabricItemSettings().maxCount(1).fireproof());
+    public static final ArmorItem OVERNETHER_BOOTS = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.BOOTS, new FabricItemSettings().maxCount(1).fireproof());
+
+    public static final ArmorItem ENDERNETHER_HELMET = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.HELMET, new FabricItemSettings().maxCount(1).fireproof());
+    public static final ArmorItem ENDERNETHER_CHESTPLATE = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.CHESTPLATE, new FabricItemSettings().maxCount(1).fireproof());
+    public static final ArmorItem ENDERNETHER_LEGGINGS = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.LEGGINGS, new FabricItemSettings().maxCount(1).fireproof());
+    public static final ArmorItem ENDERNETHER_BOOTS = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.BOOTS, new FabricItemSettings().maxCount(1).fireproof());
+
     public static final StaffItem STAFF = new StaffItem(new FabricItemSettings().maxCount(1));
 
     // Projectile Items (these exist so that magic projectiles can use them for rendering, they are not obtainable in survival)
@@ -74,6 +87,8 @@ public class AAItems {
     // List representations so I don't have to update the generators and other registries.
     public static final List<DaggerItem> DAGGERS = Arrays.asList(WOODEN_DAGGER, STONE_DAGGER, GOLDEN_DAGGER, IRON_DAGGER, DIAMOND_DAGGER, NETHERITE_DAGGER, OVERNETHER_DAGGER, ENDERNETHER_DAGGER);
     public static final List<MaceItem> MACES = Arrays.asList(WOODEN_MACE, STONE_MACE, GOLDEN_MACE, IRON_MACE, DIAMOND_MACE, NETHERITE_MACE, OVERNETHER_MACE, ENDERNETHER_MACE);
+    public static final List<ArmorItem> OVERNETHER_ARMOUR = Arrays.asList(OVERNETHER_HELMET, OVERNETHER_CHESTPLATE, OVERNETHER_LEGGINGS, OVERNETHER_BOOTS);
+    public static final List<ArmorItem> ENDERNETHER_ARMOUR = Arrays.asList(ENDERNETHER_HELMET, ENDERNETHER_CHESTPLATE, ENDERNETHER_LEGGINGS, ENDERNETHER_BOOTS);
 
     private static void register (Item item, String name) {
         Registry.register(Registries.ITEM, AdditionalArmouryMain.identifier(name), item);
@@ -114,6 +129,16 @@ public class AAItems {
         register(NETHERITE_MACE, "netherite_mace");
         register(OVERNETHER_MACE, "overnether_mace");
         register(ENDERNETHER_MACE, "endernether_mace");
+
+        register(OVERNETHER_HELMET, "overnether_helmet");
+        register(OVERNETHER_CHESTPLATE, "overnether_chestplate");
+        register(OVERNETHER_LEGGINGS, "overnether_leggings");
+        register(OVERNETHER_BOOTS, "overnether_boots");
+
+        register(ENDERNETHER_HELMET, "endernether_helmet");
+        register(ENDERNETHER_CHESTPLATE, "endernether_chestplate");
+        register(ENDERNETHER_LEGGINGS, "endernether_leggings");
+        register(ENDERNETHER_BOOTS, "endernether_boots");
 
         register(STAFF, "staff");
 

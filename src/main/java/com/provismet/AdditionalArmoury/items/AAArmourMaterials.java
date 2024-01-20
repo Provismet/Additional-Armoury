@@ -4,9 +4,11 @@ import java.util.EnumMap;
 import java.util.function.Supplier;
 
 import com.google.common.base.Suppliers;
+import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorItem.Type;
@@ -30,11 +32,12 @@ public enum AAArmourMaterials implements ArmorMaterial {
         3.0f,
         0f,
         EntityAttributes.GENERIC_MAX_HEALTH,
+        EntityAttributeModifier.Operation.ADDITION,
         Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-            map.put(ArmorItem.Type.BOOTS, 1);
-            map.put(ArmorItem.Type.LEGGINGS, 2);
-            map.put(ArmorItem.Type.CHESTPLATE, 2);
-            map.put(ArmorItem.Type.HELMET, 1);
+            map.put(ArmorItem.Type.BOOTS, 1.0);
+            map.put(ArmorItem.Type.LEGGINGS, 2.0);
+            map.put(ArmorItem.Type.CHESTPLATE, 2.0);
+            map.put(ArmorItem.Type.HELMET, 1.0);
         }),
         () -> Ingredient.ofItems(AAItems.OVERNETHER_INGOT)
     ),
@@ -52,11 +55,12 @@ public enum AAArmourMaterials implements ArmorMaterial {
         3.0f,
         0f,
         EntityAttributes.GENERIC_MOVEMENT_SPEED,
+        EntityAttributeModifier.Operation.MULTIPLY_TOTAL,
         Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-            map.put(ArmorItem.Type.BOOTS, 1);
-            map.put(ArmorItem.Type.LEGGINGS, 2);
-            map.put(ArmorItem.Type.CHESTPLATE, 2);
-            map.put(ArmorItem.Type.HELMET, 1);
+            map.put(ArmorItem.Type.BOOTS, 0.05);
+            map.put(ArmorItem.Type.LEGGINGS, 0.1);
+            map.put(ArmorItem.Type.CHESTPLATE, 0.1);
+            map.put(ArmorItem.Type.HELMET, 0.05);
         }),
         () -> Ingredient.ofItems(AAItems.ENDERNETHER_INGOT)
     );
@@ -71,9 +75,10 @@ public enum AAArmourMaterials implements ArmorMaterial {
     private final float knockbackResistance;
     private final Supplier<Ingredient> repairIngredientSupplier;
     private final EntityAttribute customAttribute;
-    private final EnumMap<ArmorItem.Type, Integer> attributeValues;
+    private final EntityAttributeModifier.Operation operation;
+    private final EnumMap<ArmorItem.Type, Double> attributeValues;
 
-    private AAArmourMaterials (String name, int durabilityMultiplier, EnumMap<ArmorItem.Type, Integer> protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, EntityAttribute attribute, EnumMap<ArmorItem.Type, Integer> attributeValues, Supplier<Ingredient> repairIngredientSupplier) {
+    private AAArmourMaterials (String name, int durabilityMultiplier, EnumMap<ArmorItem.Type, Integer> protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, EntityAttribute attribute, EntityAttributeModifier.Operation operation, EnumMap<ArmorItem.Type, Double> attributeValues, Supplier<Ingredient> repairIngredientSupplier) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;
         this.protectionAmounts = protectionAmounts;
@@ -82,6 +87,7 @@ public enum AAArmourMaterials implements ArmorMaterial {
         this.toughness = toughness;
         this.knockbackResistance = knockbackResistance;
         this.customAttribute = attribute;
+        this.operation = operation;
         this.attributeValues = attributeValues;
         this.repairIngredientSupplier = Suppliers.memoize(repairIngredientSupplier::get);
     }
@@ -113,7 +119,7 @@ public enum AAArmourMaterials implements ArmorMaterial {
 
     @Override
     public String getName () {
-        return this.name;
+        return AdditionalArmouryMain.MODID + ":" + this.name;
     }
 
     @Override
@@ -130,7 +136,11 @@ public enum AAArmourMaterials implements ArmorMaterial {
         return this.customAttribute;
     }
 
-    public int getCustomAttributeValue (ArmorItem.Type armour) {
+    public EntityAttributeModifier.Operation getOperation () {
+        return this.operation;
+    }
+
+    public double getCustomAttributeValue (ArmorItem.Type armour) {
         return this.attributeValues.get(armour);
     }
     

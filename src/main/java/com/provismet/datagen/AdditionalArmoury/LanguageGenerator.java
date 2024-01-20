@@ -46,6 +46,16 @@ public class LanguageGenerator extends FabricLanguageProvider {
         translationBuilder.add(AAItems.ENDERNETHER_SHOVEL, "Endernether Shovel");
         translationBuilder.add(AAItems.ENDERNETHER_HOE, "Endernether Hoe");
 
+        translationBuilder.add(AAItems.OVERNETHER_HELMET, "Overnether Helmet");
+        translationBuilder.add(AAItems.OVERNETHER_CHESTPLATE, "Overnether Chestplate");
+        translationBuilder.add(AAItems.OVERNETHER_LEGGINGS, "Overnether Leggings");
+        translationBuilder.add(AAItems.OVERNETHER_BOOTS, "Overnether Boots");
+
+        translationBuilder.add(AAItems.ENDERNETHER_HELMET, "Endernether Helmet");
+        translationBuilder.add(AAItems.ENDERNETHER_CHESTPLATE, "Endernether Chestplate");
+        translationBuilder.add(AAItems.ENDERNETHER_LEGGINGS, "Endernether Leggings");
+        translationBuilder.add(AAItems.ENDERNETHER_BOOTS, "Endernether Boots");
+
         LanguageGenerator.addDagger(translationBuilder, AAItems.WOODEN_DAGGER, "Wooden Dagger");
         LanguageGenerator.addDagger(translationBuilder, AAItems.STONE_DAGGER, "Stone Dagger");
         LanguageGenerator.addDagger(translationBuilder, AAItems.GOLDEN_DAGGER, "Golden Dagger");

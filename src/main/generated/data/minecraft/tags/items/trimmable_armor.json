@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "additional-armoury:overnether_helmet",
+    "additional-armoury:overnether_chestplate",
+    "additional-armoury:overnether_leggings",
+    "additional-armoury:overnether_boots",
+    "additional-armoury:endernether_helmet",
+    "additional-armoury:endernether_chestplate",
+    "additional-armoury:endernether_leggings",
+    "additional-armoury:endernether_boots"
+  ]
+}

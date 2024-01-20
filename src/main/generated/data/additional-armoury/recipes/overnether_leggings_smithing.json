@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "additional-armoury:overnether_ingot"
+  },
+  "base": {
+    "item": "minecraft:diamond_leggings"
+  },
+  "result": {
+    "item": "additional-armoury:overnether_leggings"
+  },
+  "template": {
+    "item": "additional-armoury:overnether_upgrade_smithing_template"
+  }
+}

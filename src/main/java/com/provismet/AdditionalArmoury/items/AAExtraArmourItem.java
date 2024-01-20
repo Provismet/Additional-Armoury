@@ -33,7 +33,7 @@ public class AAExtraArmourItem extends ArmorItem {
         builder.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(uUID, "Armor modifier", material.getProtection(type), EntityAttributeModifier.Operation.ADDITION));
         builder.put(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, new EntityAttributeModifier(uUID, "Armor toughness", material.getToughness(), EntityAttributeModifier.Operation.ADDITION));
         if (material.getCustomAttribute() != null) {
-            builder.put(material.getCustomAttribute(), new EntityAttributeModifier(uUID, "Additional Armoury: Custom attribute", material.getCustomAttributeValue(type), EntityAttributeModifier.Operation.ADDITION));
+            builder.put(material.getCustomAttribute(), new EntityAttributeModifier(uUID, "Additional Armoury: Custom attribute", material.getCustomAttributeValue(type), material.getOperation()));
         }
         this.trueAttributeModifiers = builder.build();
     }
