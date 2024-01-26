@@ -1,15 +1,18 @@
 package com.provismet.AdditionalArmoury.entity;
 
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 
-import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageSources;
+import com.provismet.AdditionalArmoury.utility.Util;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
@@ -26,25 +29,20 @@ public class BoomerangProjectileEntity extends ThrownItemEntity {
     private static final String FLIGHT_TIME_KEY = "flight_time";
     private static final String RESETS_COOLDOWN_KEY = "resets_cooldown";
 
-    protected final int maxTime;
-    protected int flightTime;
-    protected int ricochetCount;
+    protected int maxTime = 15;
+    protected int flightTime = 0;
+    protected int ricochetCount = 1;
 
     private int ricochetCounterCooldown = 0;
     private boolean resetsCooldown = true;
+    private LivingEntity previousHit = null;
 
     public BoomerangProjectileEntity (EntityType<? extends BoomerangProjectileEntity> entityType, World world) {
         super(entityType, world);
-        this.maxTime = 40;
-        this.flightTime = 0;
-        this.ricochetCount = 1;
     }
 
     public BoomerangProjectileEntity (World world, @NotNull LivingEntity owner) {
         super(AAEntityTypes.BOOMERANG, owner, world);
-        this.maxTime = 40;
-        this.flightTime = 0;
-        this.ricochetCount = 1;
     }
 
     @Override
@@ -92,10 +90,12 @@ public class BoomerangProjectileEntity extends ThrownItemEntity {
                 this.discard();
             }
             else if (!(entityHitResult.getEntity() instanceof ProjectileEntity)) {
-                if (this.ricochetCount > 0) this.ricochet();
                 if (entityHitResult.getEntity() instanceof LivingEntity target) {
                     target.damage(AADamageSources.boomerang(this, this.getOwner()), 4f);
+                    if (target.isAlive()) this.previousHit = target;
+                    else this.previousHit = null;
                 }
+                if (this.ricochetCount > 0) this.ricochet();
             }
         }
     }
@@ -111,16 +111,29 @@ public class BoomerangProjectileEntity extends ThrownItemEntity {
             this.ricochetCount = 0;
             Entity owner = this.getOwner();
             this.setVelocity(owner.getX() - this.getX(), owner.getEyeY() - this.getY(), owner.getZ() - this.getZ(), 1f, 0.5f);
-            AdditionalArmouryMain.LOGGER.info("Ricochet Count: " + this.ricochetCount + " (player ricochet)");
-            return true;
-        }
-        else if (doFallback) {
-            this.setVelocity(-this.getVelocity().getX(), -this.getVelocity().getY(), -this.getVelocity().getZ(), 1f, 1f);
-            AdditionalArmouryMain.LOGGER.info("Ricochet Count: " + this.ricochetCount + " (used fallback)");
             return true;
         }
         
-        AdditionalArmouryMain.LOGGER.info("Ricochet Count: " + this.ricochetCount);
+        List<Entity> potentialTargets = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(5), entity -> {
+            if (entity instanceof LivingEntity target) {
+                if (target == this.getOwner() || target == this.previousHit || target.isDead()) return false;
+                else if (this.getOwner() instanceof LivingEntity owner) return !Util.isFriendly(owner, target);
+                else return target instanceof HostileEntity || target instanceof PlayerEntity;
+            }
+            return false;
+        });
+        
+        if (!potentialTargets.isEmpty()) {
+            Entity target = potentialTargets.get(this.random.nextBetween(0, potentialTargets.size() - 1));
+            this.setVelocity(target.getX() - this.getX(), target.getEyeY() - this.getY(), target.getZ() - this.getZ(), 1f, 0.5f);
+            return true;
+        }
+
+        if (doFallback) {
+            this.setVelocity(-this.getVelocity().getX(), -this.getVelocity().getY(), -this.getVelocity().getZ(), 1f, 1f);
+            return true;
+        }
+        
         return false;
     }
 
