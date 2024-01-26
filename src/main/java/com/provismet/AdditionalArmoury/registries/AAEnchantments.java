@@ -7,6 +7,8 @@ import com.provismet.AdditionalArmoury.enchantments.boomerang.MultiThrowEnchantm
 import com.provismet.AdditionalArmoury.enchantments.boomerang.RicochetEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.boomerang.ThrowStrengthEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.dagger.AdhesiveEnchantment;
+import com.provismet.AdditionalArmoury.enchantments.mace.ShreddingEnchantment;
+import com.provismet.AdditionalArmoury.enchantments.mace.MaceEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.BoostEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.EruptionEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.FireballEnchantment;
@@ -27,6 +29,8 @@ public class AAEnchantments {
 
     public static final AdhesiveEnchantment ADHESIVE = new AdhesiveEnchantment();
 
+    public static final MaceEnchantment SHREDDING = new ShreddingEnchantment();
+
     public static final BoomerangEnchantment RICOCHET = new RicochetEnchantment();
     public static final BoomerangEnchantment MULTITHROW = new MultiThrowEnchantment();
     public static final BoomerangEnchantment FAR_THROW = new DistanceEnchantment();
@@ -44,6 +48,8 @@ public class AAEnchantments {
         register("frostball", FROSTBALL);
 
         register("adhesive", ADHESIVE);
+
+        register("shredding", SHREDDING);
 
         register("ricochet", RICOCHET);
         register("multithrow", MULTITHROW);

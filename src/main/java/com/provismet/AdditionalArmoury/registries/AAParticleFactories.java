@@ -1,5 +1,6 @@
 package com.provismet.AdditionalArmoury.registries;
 
+import com.provismet.AdditionalArmoury.particles.ShatterParticle;
 import com.provismet.AdditionalArmoury.particles.SpellChargeParticle;
 
 import net.fabricmc.api.EnvType;
@@ -18,5 +19,6 @@ public class AAParticleFactories {
 
     public static void register () {
         register(AAParticleTypes.SPELL_CHARGE, SpellChargeParticle.Factory::new);
+        register(AAParticleTypes.SHATTER, ShatterParticle.Factory::new);
     }
 }

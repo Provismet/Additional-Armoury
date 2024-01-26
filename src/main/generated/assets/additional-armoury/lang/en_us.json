@@ -24,6 +24,8 @@
   "enchantment.additional-armoury.multithrow.desc": "Throws 3 boomerangs at once.",
   "enchantment.additional-armoury.ricochet": "Ricochet",
   "enchantment.additional-armoury.ricochet.desc": "Increases the number of boomerang bounces.",
+  "enchantment.additional-armoury.shredding": "Shredding",
+  "enchantment.additional-armoury.shredding.desc": "Increases the duration of the shattered effect from a mace.",
   "enchantment.additional-armoury.throw_distance": "Discus",
   "enchantment.additional-armoury.throw_distance.desc": "Increases boomerang maximum distance.",
   "enchantment.additional-armoury.throw_strength": "Strong Arm",

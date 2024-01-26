@@ -2,11 +2,14 @@ package com.provismet.AdditionalArmoury.items;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.provismet.AdditionalArmoury.registries.AAEnchantments;
+import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 import com.provismet.CombatPlusCore.interfaces.MeleeWeapon;
 import com.provismet.CombatPlusCore.utility.AttributeIdentifiers;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -17,6 +20,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -57,7 +61,12 @@ public class MaceItem extends ToolItem implements MeleeWeapon {
 
     @Override
     public void postCriticalHit (ItemStack itemStack, LivingEntity user, LivingEntity target) {
-        target.addStatusEffect(new StatusEffectInstance(AAStatusEffects.SHATTERED, 60), user);
+        int shredding = EnchantmentHelper.getLevel(AAEnchantments.SHREDDING, itemStack);
+        target.addStatusEffect(new StatusEffectInstance(AAStatusEffects.SHATTERED, 30 + shredding * 20), user);
+
+        if (user.getWorld() instanceof ServerWorld serverWorld) {
+            serverWorld.spawnParticles(AAParticleTypes.SHATTER, target.getX(), target.getHeight() + target.getY() + 0.5f, target.getZ(), 1, 0, 0, 0, 0);
+        }
     }
     
     @Override

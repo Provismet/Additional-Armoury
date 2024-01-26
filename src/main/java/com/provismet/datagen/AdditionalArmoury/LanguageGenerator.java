@@ -92,6 +92,7 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FIREBALL, "Fireball", "Shoot a fireball that burns on hit.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FROSTBALL, "Frostball", "Shoot a frostball that freezes on hit.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.ADHESIVE, "Adhesive", "Potion-tipped daggers have unlimited uses.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.SHREDDING, "Shredding", "Increases the duration of the shattered effect from a mace.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.RICOCHET, "Ricochet", "Increases the number of boomerang bounces.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.MULTITHROW, "MultiThrow", "Throws 3 boomerangs at once.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FAR_THROW, "Discus", "Increases boomerang maximum distance.");

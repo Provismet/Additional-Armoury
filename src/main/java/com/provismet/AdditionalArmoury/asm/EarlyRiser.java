@@ -13,6 +13,7 @@ public class EarlyRiser implements Runnable {
         ClassTinkerers.enumBuilder(enchantmentTarget)
             .addEnumSubclass("ADDITIONALARMOURY$STAFF", "com.provismet.AdditionalArmoury.asm.StaffEnchantmentTarget")
             .addEnumSubclass("ADDITIONALARMOURY$DAGGER", "com.provismet.AdditionalArmoury.asm.DaggerEnchantmentTarget")
+            .addEnumSubclass("ADDITIONALARMOURY$MACE", "com.provismet.AdditionalArmoury.asm.MaceEnchantmentTarget")
             .addEnumSubclass("ADDITIONALARMOURY$BOOMERANG", "com.provismet.AdditionalArmoury.asm.BoomerangEnchantmentTarget")
             .build();
     }
