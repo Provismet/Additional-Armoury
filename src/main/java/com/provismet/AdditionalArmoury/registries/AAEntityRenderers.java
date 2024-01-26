@@ -1,5 +1,7 @@
 package com.provismet.AdditionalArmoury.registries;
 
+import com.provismet.AdditionalArmoury.renderers.WorldItemRenderer;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -10,5 +12,6 @@ public class AAEntityRenderers {
     public static void register () {
         EntityRendererRegistry.register(AAEntityTypes.FIREBALL, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(AAEntityTypes.FROSTBALL, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(AAEntityTypes.BOOMERANG, FlyingItemEntityRenderer::new);
     }
 }

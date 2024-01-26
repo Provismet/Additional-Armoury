@@ -28,6 +28,7 @@ public class AAItemGroups {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> content.addAfter(AAItems.ENDERNETHER_SWORD, AAItems.DAGGERS.toArray(new DaggerItem[0])));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> content.addAfter(AAItems.ENDERNETHER_AXE, AAItems.MACES.toArray(new MaceItem[0])));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> content.addAfter(Items.TRIDENT, AAItems.STAFF));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> content.addAfter(Items.CROSSBOW, AAItems.BOOMERANG));
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.addAfter(Items.NETHERITE_INGOT, AAItems.OVERNETHER_INGOT, AAItems.ENDERNETHER_INGOT));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.addAfter(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE, AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE));

@@ -15,6 +15,7 @@ public class AADamageSources {
     private static final RegistryKey<DamageType> FIREBALL = createDamageType("fireball_spell");
     private static final RegistryKey<DamageType> FROSTBALL = createDamageType("frostball_spell");
     private static final RegistryKey<DamageType> ERUPTION = createDamageType("eruption_spell");
+    private static final RegistryKey<DamageType> BOOMERANG = createDamageType("boomerang");
 
     public static DamageSource fireball (Entity source, @Nullable Entity attacker) {
         return AADamageSources.create(source.getDamageSources(), FIREBALL, source, attacker);
@@ -26,6 +27,10 @@ public class AADamageSources {
 
     public static DamageSource eruption (Entity attacker) {
         return AADamageSources.create(attacker.getDamageSources(), ERUPTION, attacker);
+    }
+
+    public static DamageSource boomerang (Entity source, @Nullable Entity attacker) {
+        return AADamageSources.create(source.getDamageSources(), BOOMERANG, source, attacker);
     }
 
     @SuppressWarnings("unused")

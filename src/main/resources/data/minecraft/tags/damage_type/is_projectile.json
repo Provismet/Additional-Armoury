@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
-        "#additional-armoury:staff_spells"
+        "#additional-armoury:staff_spells",
+        "additional-armoury:boomerang"
     ]
 }

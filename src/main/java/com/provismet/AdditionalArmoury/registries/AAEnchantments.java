@@ -1,6 +1,9 @@
 package com.provismet.AdditionalArmoury.registries;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
+import com.provismet.AdditionalArmoury.enchantments.boomerang.BoomerangEnchantment;
+import com.provismet.AdditionalArmoury.enchantments.boomerang.MultiThrowEnchantment;
+import com.provismet.AdditionalArmoury.enchantments.boomerang.RicochetEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.dagger.AdhesiveEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.BoostEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.EruptionEnchantment;
@@ -22,6 +25,9 @@ public class AAEnchantments {
 
     public static final AdhesiveEnchantment ADHESIVE = new AdhesiveEnchantment();
 
+    public static final BoomerangEnchantment RICOCHET = new RicochetEnchantment();
+    public static final BoomerangEnchantment MULTITHROW = new MultiThrowEnchantment();
+
     private static void register (String name, Enchantment enchantment) {
         Registry.register(Registries.ENCHANTMENT, AdditionalArmouryMain.identifier(name), enchantment);
     }
@@ -34,5 +40,8 @@ public class AAEnchantments {
         register("frostball", FROSTBALL);
 
         register("adhesive", ADHESIVE);
+
+        register("ricochet", RICOCHET);
+        register("multithrow", MULTITHROW);
     }
 }

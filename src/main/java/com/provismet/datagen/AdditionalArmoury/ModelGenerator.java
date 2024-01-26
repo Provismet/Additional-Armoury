@@ -49,7 +49,8 @@ public class ModelGenerator extends FabricModelProvider {
             AAItems.ENDERNETHER_AXE,
             AAItems.ENDERNETHER_PICKAXE,
             AAItems.ENDERNETHER_SHOVEL,
-            AAItems.ENDERNETHER_HOE
+            AAItems.ENDERNETHER_HOE,
+            AAItems.BOOMERANG
         );
 
         AAItems.DAGGERS.forEach(dagger -> ModelGenerator.registerDagger(itemModelGenerator, dagger));

@@ -13,6 +13,7 @@ import com.provismet.AdditionalArmoury.items.AAExtraShovelItem;
 import com.provismet.AdditionalArmoury.items.AAExtraSwordItem;
 import com.provismet.AdditionalArmoury.items.AASmithingTemplateItem;
 import com.provismet.AdditionalArmoury.items.AAToolMaterials;
+import com.provismet.AdditionalArmoury.items.BoomerangItem;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.items.MaceItem;
 import com.provismet.AdditionalArmoury.items.StaffItem;
@@ -78,6 +79,7 @@ public class AAItems {
     public static final ArmorItem ENDERNETHER_BOOTS = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.BOOTS, new FabricItemSettings().maxCount(1).fireproof());
 
     public static final StaffItem STAFF = new StaffItem(new FabricItemSettings().maxCount(1));
+    public static final BoomerangItem BOOMERANG = new BoomerangItem(new FabricItemSettings().maxCount(1).maxDamage(256));
 
     // Projectile Items (these exist so that magic projectiles can use them for rendering, they are not obtainable in survival)
     public static final FireballItem FIREBALL = new FireballItem(new FabricItemSettings().fireproof());
@@ -141,6 +143,7 @@ public class AAItems {
         register(ENDERNETHER_BOOTS, "endernether_boots");
 
         register(STAFF, "staff");
+        register(BOOMERANG, "boomerang");
 
         register(FIREBALL, "fireball_spell");
         register(FROSTBALL, "frostball_spell");

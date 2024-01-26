@@ -75,12 +75,14 @@ public class LanguageGenerator extends FabricLanguageProvider {
 
         translationBuilder.add(AAItems.STAFF, "Unenchanted Staff");
         translationBuilder.add(AAItems.STAFF.getTranslationKey() + ".enchanted", "Enchanted Staff");
+        translationBuilder.add(AAItems.BOOMERANG, "Boomerang");
 
         translationBuilder.add(AAItems.FIREBALL, "Fireball");
         translationBuilder.add(AAItems.FROSTBALL, "Frostball");
 
         translationBuilder.add(AAEntityTypes.FIREBALL, "Fireball Spell");
         translationBuilder.add(AAEntityTypes.FROSTBALL, "Frostball Spell");
+        translationBuilder.add(AAEntityTypes.BOOMERANG, "Boomerang");
 
         translationBuilder.add(AAStatusEffects.SHATTERED, "Shattered");
 
@@ -90,10 +92,13 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FIREBALL, "Fireball", "Shoot a fireball that burns on hit.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FROSTBALL, "Frostball", "Shoot a frostball that freezes on hit.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.ADHESIVE, "Adhesive", "Potion-tipped daggers have unlimited uses.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.RICOCHET, "Ricochet", "Increases the number of boomerang bounces.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.MULTITHROW, "MultiThrow", "Throws 3 boomerangs at once.");
 
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "fireball_spell", "was blasted by");
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "frostball_spell", "was frozen by");
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "eruption_spell", "was launched by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, "boomerang", "was struck by a boomerang from");
 
         translationBuilder.add("tooltip.additional-armoury.dagger_uses", "Remaining Splashes: %1$s");
     }
