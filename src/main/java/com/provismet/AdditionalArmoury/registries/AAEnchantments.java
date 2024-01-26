@@ -2,8 +2,10 @@ package com.provismet.AdditionalArmoury.registries;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.enchantments.boomerang.BoomerangEnchantment;
+import com.provismet.AdditionalArmoury.enchantments.boomerang.DistanceEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.boomerang.MultiThrowEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.boomerang.RicochetEnchantment;
+import com.provismet.AdditionalArmoury.enchantments.boomerang.ThrowStrengthEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.dagger.AdhesiveEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.BoostEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.EruptionEnchantment;
@@ -27,6 +29,8 @@ public class AAEnchantments {
 
     public static final BoomerangEnchantment RICOCHET = new RicochetEnchantment();
     public static final BoomerangEnchantment MULTITHROW = new MultiThrowEnchantment();
+    public static final BoomerangEnchantment FAR_THROW = new DistanceEnchantment();
+    public static final BoomerangEnchantment STRONG_THROW = new ThrowStrengthEnchantment();
 
     private static void register (String name, Enchantment enchantment) {
         Registry.register(Registries.ENCHANTMENT, AdditionalArmouryMain.identifier(name), enchantment);
@@ -43,5 +47,7 @@ public class AAEnchantments {
 
         register("ricochet", RICOCHET);
         register("multithrow", MULTITHROW);
+        register("throw_distance", FAR_THROW);
+        register("throw_strength", STRONG_THROW);
     }
 }

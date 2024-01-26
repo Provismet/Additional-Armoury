@@ -12,6 +12,6 @@ public class AAEntityRenderers {
     public static void register () {
         EntityRendererRegistry.register(AAEntityTypes.FIREBALL, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(AAEntityTypes.FROSTBALL, FlyingItemEntityRenderer::new);
-        EntityRendererRegistry.register(AAEntityTypes.BOOMERANG, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(AAEntityTypes.BOOMERANG, WorldItemRenderer::new);
     }
 }

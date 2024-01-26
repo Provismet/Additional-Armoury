@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.provismet.AdditionalArmoury.entity.interfaces.WorldItemEntity;
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageSources;
@@ -24,14 +25,16 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class BoomerangProjectileEntity extends ThrownItemEntity {
+public class BoomerangProjectileEntity extends ThrownItemEntity implements WorldItemEntity {
     private static final String RICOCHET_KEY = "ricochet_count";
     private static final String FLIGHT_TIME_KEY = "flight_time";
+    private static final String POWER_KEY = "power";
     private static final String RESETS_COOLDOWN_KEY = "resets_cooldown";
 
     protected int maxTime = 15;
     protected int flightTime = 0;
     protected int ricochetCount = 1;
+    protected float power = 4f;
 
     private int ricochetCounterCooldown = 0;
     private boolean resetsCooldown = true;
@@ -50,6 +53,7 @@ public class BoomerangProjectileEntity extends ThrownItemEntity {
         super.writeCustomDataToNbt(nbt);
         nbt.putInt(RICOCHET_KEY, this.ricochetCount);
         nbt.putInt(FLIGHT_TIME_KEY, this.flightTime);
+        nbt.putFloat(POWER_KEY, this.power);
         nbt.putBoolean(RESETS_COOLDOWN_KEY, this.resetsCooldown);
     }
 
@@ -58,6 +62,7 @@ public class BoomerangProjectileEntity extends ThrownItemEntity {
         super.readCustomDataFromNbt(nbt);
         if (nbt.contains(RICOCHET_KEY)) this.ricochetCount = nbt.getInt(RICOCHET_KEY);
         if (nbt.contains(FLIGHT_TIME_KEY)) this.flightTime = nbt.getInt(FLIGHT_TIME_KEY);
+        if (nbt.contains(POWER_KEY)) this.power = nbt.getFloat(POWER_KEY);
         if (nbt.contains(RESETS_COOLDOWN_KEY)) this.resetsCooldown = nbt.getBoolean(RESETS_COOLDOWN_KEY);
     }
     
@@ -91,7 +96,8 @@ public class BoomerangProjectileEntity extends ThrownItemEntity {
             }
             else if (!(entityHitResult.getEntity() instanceof ProjectileEntity)) {
                 if (entityHitResult.getEntity() instanceof LivingEntity target) {
-                    target.damage(AADamageSources.boomerang(this, this.getOwner()), 4f);
+                    target.damage(AADamageSources.boomerang(this, this.getOwner()), this.power);
+                    this.applyOnHitEffects(target);
                     if (target.isAlive()) this.previousHit = target;
                     else this.previousHit = null;
                 }
@@ -106,9 +112,9 @@ public class BoomerangProjectileEntity extends ThrownItemEntity {
             --this.ricochetCount;
         }
         this.flightTime = 0;
+        if (this.ricochetCount < 0) this.ricochetCount = 0;
 
         if ((this.ricochetCount <= 0 || returnToUser) && this.getOwner() != null) {
-            this.ricochetCount = 0;
             Entity owner = this.getOwner();
             this.setVelocity(owner.getX() - this.getX(), owner.getEyeY() - this.getY(), owner.getZ() - this.getZ(), 1f, 0.5f);
             return true;
@@ -164,6 +170,10 @@ public class BoomerangProjectileEntity extends ThrownItemEntity {
         }
     }
 
+    protected void applyOnHitEffects (LivingEntity target) {
+
+    }
+
     @Override
     public ItemStack getStack () {
         return AAItems.BOOMERANG.getDefaultStack();
@@ -185,5 +195,51 @@ public class BoomerangProjectileEntity extends ThrownItemEntity {
 
     public void setCanResetCooldown (boolean value) {
         this.resetsCooldown = value;
+    }
+
+    public int getMaxFlightTime () {
+        return this.maxTime;
+    }
+
+    public void setMaxFlightTime (int value) {
+        this.maxTime = value;
+    }
+
+    public float getPower () {
+        return this.power;
+    }
+
+    public void setPower (float value) {
+        this.power = value;
+    }
+
+    @Override
+    public float getXRotation (float tickDelta) {
+        return 90f;
+    }
+
+    @Override
+    public float getYRotation (float tickDelta) {
+        return 0f;
+    }
+
+    @Override
+    public float getZRotation (float tickDelta) {
+        return (this.age * 33f) % 360f;
+    }
+
+    @Override
+    public float getXOffset (float tickDelta) {
+        return 0f;
+    }
+
+    @Override
+    public float getYOffset (float tickDelta) {
+        return this.getHeight() / 2f;
+    }
+
+    @Override
+    public float getZOffset (float tickDelta) {
+        return 0f;
     }
 }

@@ -24,7 +24,7 @@ public class AAEntityTypes {
             Registries.ENTITY_TYPE,
             AdditionalArmouryMain.identifier(name),
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, factory)
-                .dimensions(EntityDimensions.fixed(0.25f, 0.25f))
+                .dimensions(EntityDimensions.fixed(0.5f, 0.25f))
                 .trackRangeBlocks(30)
                 .trackedUpdateRate(10)
                 .build()
