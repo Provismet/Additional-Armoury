@@ -18,12 +18,12 @@ public class AdhesiveEnchantment extends Enchantment {
 
     @Override
     public int getMinPower (int level) {
-        return level * 25;
+        return 20;
     }
 
     @Override
     public int getMaxPower (int level) {
-        return this.getMinPower(level) + 50;
+        return 50;
     }
 
     @Override
