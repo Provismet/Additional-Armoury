@@ -28,7 +28,7 @@ public class FrostballSpellEntity extends AbstractSpellEntity {
     }
 
     public FrostballSpellEntity (World world, @NotNull LivingEntity owner) {
-        super(AAEntityTypes.FROSTBALL, world, owner, true, false, 50, 0.75f);
+        super(AAEntityTypes.FROSTBALL, world, owner, true, false, 50, 0.85f);
     }
 
     @Override
@@ -61,8 +61,8 @@ public class FrostballSpellEntity extends AbstractSpellEntity {
         Entity target = hitResult.getEntity();
         Entity owner = this.getOwner();
 
-        if (target.damage(AADamageSources.frostball(this, owner), 3f)) {
-            target.setFrozenTicks(Math.min(target.getFrozenTicks() + 100, target.getMinFreezeDamageTicks() + 100));
+        if (target.damage(AADamageSources.frostball(this, owner), 4f)) {
+            target.setFrozenTicks(Math.min(target.getFrozenTicks() + 120, target.getMinFreezeDamageTicks() + 100));
         }
     }
 

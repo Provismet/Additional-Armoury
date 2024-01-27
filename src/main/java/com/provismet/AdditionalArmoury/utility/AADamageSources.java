@@ -15,6 +15,9 @@ public class AADamageSources {
     private static final RegistryKey<DamageType> FIREBALL = createDamageType("fireball_spell");
     private static final RegistryKey<DamageType> FROSTBALL = createDamageType("frostball_spell");
     private static final RegistryKey<DamageType> ERUPTION = createDamageType("eruption_spell");
+    private static final RegistryKey<DamageType> GHOSTLY_ORB = createDamageType("ghostly_orb_spell");
+    private static final RegistryKey<DamageType> WIND_TORNADO = createDamageType("wind_tornado_spell");
+    private static final RegistryKey<DamageType> MAGIC_MISSILE = createDamageType("missile_spell");
     private static final RegistryKey<DamageType> BOOMERANG = createDamageType("boomerang");
 
     public static DamageSource fireball (Entity source, @Nullable Entity attacker) {
@@ -27,6 +30,18 @@ public class AADamageSources {
 
     public static DamageSource eruption (Entity attacker) {
         return AADamageSources.create(attacker.getDamageSources(), ERUPTION, attacker);
+    }
+
+    public static DamageSource ghostlyOrb (Entity source, @Nullable Entity attacker) {
+        return AADamageSources.create(source.getDamageSources(), GHOSTLY_ORB, source, attacker);
+    }
+
+    public static DamageSource windTornado (Entity source, @Nullable Entity attacker) {
+        return AADamageSources.create(source.getDamageSources(), WIND_TORNADO, source, attacker);
+    }
+
+    public static DamageSource magicMissile (Entity source, @Nullable Entity attacker) {
+        return AADamageSources.create(source.getDamageSources(), MAGIC_MISSILE, source, attacker);
     }
 
     public static DamageSource boomerang (Entity source, @Nullable Entity attacker) {

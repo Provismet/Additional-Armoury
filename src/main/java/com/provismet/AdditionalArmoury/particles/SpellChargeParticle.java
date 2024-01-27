@@ -19,10 +19,10 @@ public class SpellChargeParticle extends SpriteBillboardParticle {
         super(clientWorld, x, y, z, 0, 0, 0);
         this.destX = x;
         this.destZ = z;
-        this.scale = effect.scale;
-        this.red = effect.colour.x;
-        this.green = effect.colour.y;
-        this.blue = effect.colour.z;
+        this.scale = effect.getScale();
+        this.red = effect.getColor().x;
+        this.green = effect.getColor().y;
+        this.blue = effect.getColor().z;
         this.maxAge = 20;
 
         this.velocityX = this.random.nextDouble() * 0.05 - 0.025;

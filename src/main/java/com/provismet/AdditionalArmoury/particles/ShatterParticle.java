@@ -15,6 +15,7 @@ public class ShatterParticle extends AnimatedParticle {
         this.velocityX = 0;
         this.velocityY = 0;
         this.velocityZ = 0;
+        this.maxAge = 20;
         this.setSpriteForAge(spriteProvider);
     }
 

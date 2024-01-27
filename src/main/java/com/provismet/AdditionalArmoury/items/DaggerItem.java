@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.provismet.AdditionalArmoury.particles.effects.InkSplatParticleEffect;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.CombatPlusCore.interfaces.DualWeapon;
 import com.provismet.CombatPlusCore.utility.AttributeIdentifiers;
@@ -14,6 +15,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -31,7 +33,9 @@ import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.Text;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
@@ -86,7 +90,38 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
                 user
             );
         }
-        if (EnchantmentHelper.getLevel(AAEnchantments.ADHESIVE, stack) == 0 && potion != Potions.EMPTY && this.decrementCurrentPotionUses(stack) <= 0) {
+        this.spawnInkParticles(target, 3, stack);
+
+        double splatterLevel = EnchantmentHelper.getLevel(AAEnchantments.SPLATTER, stack);
+        int damage = 1;
+        if (splatterLevel > 0) {
+            List<LivingEntity> targets = target.getWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand(1.0 + splatterLevel * 0.5 , 0.25, 1.0 + splatterLevel * 0.5));
+            for (LivingEntity newTarget : targets) {
+                if (newTarget == user || newTarget == target) continue;
+                for (StatusEffectInstance instance : potion.getEffects()) {
+                    newTarget.addStatusEffect(
+                        new StatusEffectInstance(
+                            instance.getEffectType(), Math.max(instance.mapDuration(i -> (int)(i * POTION_DURATION_MOD)), 1),
+                            instance.getAmplifier(),
+                            instance.isAmbient(),
+                            instance.shouldShowParticles()
+                        ),
+                        user
+                    );
+                }
+                this.spawnInkParticles(newTarget, 3, stack);
+            }
+            damage += 2;
+        }
+
+        boolean hasAdhesive = EnchantmentHelper.getLevel(AAEnchantments.ADHESIVE, stack) > 0;
+        if (hasAdhesive) {
+            stack.damage(damage, user, p -> {
+                if (p.getStackInHand(Hand.MAIN_HAND) == stack) p.sendToolBreakStatus(Hand.MAIN_HAND);
+                else p.sendToolBreakStatus(Hand.OFF_HAND);
+            });
+        }
+        else if (user instanceof PlayerEntity player && !player.isCreative() && potion != Potions.EMPTY && this.decrementCurrentPotionUses(stack, damage * 2) <= 0) {
             PotionUtil.setPotion(stack, Potions.EMPTY);
             stack.removeSubNbt(PotionUtil.CUSTOM_POTION_EFFECTS_KEY);
         }
@@ -166,9 +201,23 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
         nbt.putInt(CURRENT_POTION_USE, uses);
     }
 
-    public int decrementCurrentPotionUses (ItemStack stack) {
-        int currentUses = this.getCurrentPotionUses(stack) - 1;
+    public int decrementCurrentPotionUses (ItemStack stack, int amount) {
+        int currentUses = this.getCurrentPotionUses(stack) - amount;
         this.setCurrentPotionUses(stack, currentUses);
         return currentUses;
+    }
+
+    public int decrementCurrentPotionUses (ItemStack stack) {
+        return this.decrementCurrentPotionUses(stack, 1);
+    }
+
+    public void spawnInkParticles (Entity entity, int count, ItemStack stack) {
+        Potion potion = PotionUtil.getPotion(stack);
+        if (potion == Potions.EMPTY || potion.getEffects().isEmpty()) return;
+
+        InkSplatParticleEffect splatEffect = new InkSplatParticleEffect(Vec3d.unpackRgb(PotionUtil.getColor(stack)).toVector3f(), 0.2f);
+        entity.getWorld().addParticle(splatEffect, entity.getX(), entity.getEyeY() - 0.1, entity.getZ(), 0, 0, 0);
+        entity.getWorld().addParticle(splatEffect, entity.getX(), entity.getEyeY() - 0.1, entity.getZ(), 0, 0, 0);
+        entity.getWorld().addParticle(splatEffect, entity.getX(), entity.getEyeY() - 0.1, entity.getZ(), 0, 0, 0);
     }
 }

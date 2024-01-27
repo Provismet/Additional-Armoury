@@ -10,15 +10,10 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.AbstractDustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.Registries;
 
-public class SpellChargeParticleEffect implements ParticleEffect {
-    public final Vector3f colour;
-    public final float scale;
-
+public class SpellChargeParticleEffect extends AbstractDustParticleEffect {
     public SpellChargeParticleEffect(Vector3f colour, float scale) {
-        this.colour = colour;
-        this.scale = scale;
+        super(colour, scale);
     }
 
     @SuppressWarnings("deprecation")
@@ -40,24 +35,5 @@ public class SpellChargeParticleEffect implements ParticleEffect {
     @Override
     public ParticleType<?> getType () {
         return AAParticleTypes.SPELL_CHARGE;
-    }
-
-    @Override
-    public void write (PacketByteBuf buffer) {
-        buffer.writeFloat(this.colour.x());
-        buffer.writeFloat(this.colour.y());
-        buffer.writeFloat(this.colour.z());
-        buffer.writeFloat(this.scale);
-    }
-
-    @Override
-    public String asString () {
-        return String.format("%s %.2 %.2 %.2 %.2",
-            Registries.PARTICLE_TYPE.getId(this.getType()),
-            this.colour.x(),
-            this.colour.y(),
-            this.colour.z(),
-            this.scale
-        );
     }
 }

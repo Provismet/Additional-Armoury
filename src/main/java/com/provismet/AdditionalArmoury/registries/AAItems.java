@@ -17,8 +17,6 @@ import com.provismet.AdditionalArmoury.items.BoomerangItem;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.items.MaceItem;
 import com.provismet.AdditionalArmoury.items.StaffItem;
-import com.provismet.AdditionalArmoury.items.projectiles.FireballItem;
-import com.provismet.AdditionalArmoury.items.projectiles.FrostballItem;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
@@ -82,9 +80,12 @@ public class AAItems {
     public static final BoomerangItem BOOMERANG = new BoomerangItem(new FabricItemSettings().maxCount(1).maxDamage(256));
 
     // Projectile Items (these exist so that magic projectiles can use them for rendering, they are not obtainable in survival)
-    public static final FireballItem FIREBALL = new FireballItem(new FabricItemSettings().fireproof());
-    public static final FrostballItem FROSTBALL = new FrostballItem(new FabricItemSettings());
-    public static final List<Item> ITEM_PROJECTILES = Arrays.asList(FIREBALL, FROSTBALL);
+    public static final Item FIREBALL = new Item(new FabricItemSettings().fireproof());
+    public static final Item FROSTBALL = new Item(new FabricItemSettings());
+    public static final Item GHOSTLY_ORB = new Item(new FabricItemSettings());
+    public static final Item WIND_TORNADO = new Item(new FabricItemSettings());
+    public static final Item MAGIC_MISSILE = new Item(new FabricItemSettings());
+    public static final List<Item> ITEM_PROJECTILES = Arrays.asList(FIREBALL, FROSTBALL, GHOSTLY_ORB, WIND_TORNADO, MAGIC_MISSILE);
 
     // List representations so I don't have to update the generators and other registries.
     public static final List<DaggerItem> DAGGERS = Arrays.asList(WOODEN_DAGGER, STONE_DAGGER, GOLDEN_DAGGER, IRON_DAGGER, DIAMOND_DAGGER, NETHERITE_DAGGER, OVERNETHER_DAGGER, ENDERNETHER_DAGGER);
@@ -147,5 +148,8 @@ public class AAItems {
 
         register(FIREBALL, "fireball_spell");
         register(FROSTBALL, "frostball_spell");
+        register(GHOSTLY_ORB, "ghostly_orb_spell");
+        register(WIND_TORNADO, "wind_tornado_spell");
+        register(MAGIC_MISSILE, "missile_spell");
     }
 }

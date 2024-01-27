@@ -24,7 +24,7 @@ public class FireballSpellEntity extends AbstractSpellEntity {
     }
 
     public FireballSpellEntity (World world, @NotNull LivingEntity owner) {
-        super(AAEntityTypes.FIREBALL, world, owner, true, false, 50, 0.75f);
+        super(AAEntityTypes.FIREBALL, world, owner, true, false, 50, 0.85f);
     }
 
     @Override

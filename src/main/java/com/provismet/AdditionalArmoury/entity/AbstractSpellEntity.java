@@ -24,7 +24,7 @@ public abstract class AbstractSpellEntity extends ThrownItemEntity {
     public AbstractSpellEntity (EntityType<? extends AbstractSpellEntity> entityType, World world, @NotNull LivingEntity owner, boolean pitchAim, boolean startOnFloor, int maxAge, float speed) {
         super(entityType, owner, world);
         this.setVelocity(-MathHelper.sin(owner.getHeadYaw() / MathHelper.DEGREES_PER_RADIAN) * speed, pitchAim ? -MathHelper.sin(owner.getPitch() / MathHelper.DEGREES_PER_RADIAN) * speed : 0f, MathHelper.cos(owner.getHeadYaw() / MathHelper.DEGREES_PER_RADIAN) * speed);
-        this.setPosition(owner.getX(), startOnFloor ? owner.getY() + this.getHeight() : owner.getEyeY() - this.getHeight() / 2f, owner.getZ());
+        this.setPosition(owner.getX(), startOnFloor ? owner.getY() + 0.05f : owner.getEyeY() - this.getHeight() / 2f, owner.getZ());
         this.setRotation(owner.getYaw(), pitchAim ? owner.getPitch() : 0f);
         this.maxAge = maxAge;
         this.setNoGravity(true);

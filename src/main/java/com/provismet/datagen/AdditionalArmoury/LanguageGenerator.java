@@ -79,9 +79,15 @@ public class LanguageGenerator extends FabricLanguageProvider {
 
         translationBuilder.add(AAItems.FIREBALL, "Fireball");
         translationBuilder.add(AAItems.FROSTBALL, "Frostball");
+        translationBuilder.add(AAItems.GHOSTLY_ORB, "Ghostly Orb");
+        translationBuilder.add(AAItems.WIND_TORNADO, "Wind Tornado");
+        translationBuilder.add(AAItems.MAGIC_MISSILE, "Magical Missile");
 
         translationBuilder.add(AAEntityTypes.FIREBALL, "Fireball Spell");
         translationBuilder.add(AAEntityTypes.FROSTBALL, "Frostball Spell");
+        translationBuilder.add(AAEntityTypes.GHOSTLY_ORB, "Ghostly Orb Spell");
+        translationBuilder.add(AAEntityTypes.WIND_TORNADO, "Wind Tornado Spell");
+        translationBuilder.add(AAEntityTypes.MAGIC_MISSILE, "Missile Spell");
         translationBuilder.add(AAEntityTypes.BOOMERANG, "Boomerang");
 
         translationBuilder.add(AAStatusEffects.SHATTERED, "Shattered");
@@ -91,7 +97,11 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.JUMP, "Soaring", "Launch into the air and gain slow-fall.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FIREBALL, "Fireball", "Shoot a fireball that burns on hit.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FROSTBALL, "Frostball", "Shoot a frostball that freezes on hit.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.GHOSTLY_ORB, "Ghostly Orb", "Shoot a spectral ball that passes through blocks.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.GALE, "Gale", "Shoot a barrage of tornados that launch targets.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.MAGIC_MISSILE, "Missile", "Shoot a magical missile that follows enemies.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.ADHESIVE, "Adhesive", "Potion-tipped daggers have unlimited uses.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.SPLATTER, "Splatter", "Potion-tipped daggers affect multiple targets at once.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.SHREDDING, "Shredding", "Increases the duration of the shattered effect from a mace.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.RICOCHET, "Ricochet", "Increases the number of boomerang bounces.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.MULTITHROW, "MultiThrow", "Throws 3 boomerangs at once.");
@@ -101,6 +111,9 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "fireball_spell", "was blasted by");
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "frostball_spell", "was frozen by");
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "eruption_spell", "was launched by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, "ghostly_orb_spell", "was haunted by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, "wind_tornado_spell", "was caught in a tornado from");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, "missile_spell", "could not outrun the magic of");
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "boomerang", "was struck by a boomerang from");
 
         translationBuilder.add("tooltip.additional-armoury.dagger_uses", "Remaining Splashes: %1$s");
