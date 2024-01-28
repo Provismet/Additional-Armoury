@@ -118,6 +118,12 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addAttackDeathMessage(translationBuilder, "boomerang", "was struck by a boomerang from");
 
         translationBuilder.add("tooltip.additional-armoury.dagger_uses", "Remaining Splashes: %1$s");
+
+        LanguageGenerator.addAdvancement(translationBuilder, "enchant_staff", "Magic Caster", "Enchant a Staff");
+        LanguageGenerator.addAdvancement(translationBuilder, "archwizard", "Arch-Wizard", "Cast the most powerful magic");
+        LanguageGenerator.addAdvancement(translationBuilder, "tipped_dagger", "Rogue-Like", "Craft a potion-tipped Dagger");
+        LanguageGenerator.addAdvancement(translationBuilder, "overnether", "I Am Listening", "Get a full suit of Overnether armor");
+        LanguageGenerator.addAdvancement(translationBuilder, "endernether", "Part Of The Chorus", "Get a full suit of Endernether armor");
     }
     
     public static void addDagger (TranslationBuilder translationBuilder, DaggerItem dagger, String basename) {
@@ -172,5 +178,10 @@ public class LanguageGenerator extends FabricLanguageProvider {
     private static void addAttackDeathMessage (TranslationBuilder translationBuilder, String suffix, String message) {
         translationBuilder.add("death.attack." + suffix, "%1$s " + message + " %2$s");
         translationBuilder.add("death.attack." + suffix + ".item", "%1$s " + message + " %2$s using %3$s");
+    }
+
+    public static void addAdvancement (TranslationBuilder translationBuilder, String name, String title, String description) {
+        translationBuilder.add("advancement.additional-armoury." + name + ".title", title);
+        translationBuilder.add("advancement.additional-armoury." + name + ".description", description);
     }
 }

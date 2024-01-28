@@ -1,0 +1,30 @@
+{
+  "parent": "additional-armoury:story/enchant_staff",
+  "criteria": {
+    "used_explosion_magic": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.additional-armoury.archwizard.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "additional-armoury:staff",
+      "nbt": "{Enchantments:[{id:\"additional-armoury:explosion\",lvl:1s}]}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.additional-armoury.archwizard.title"
+    }
+  },
+  "requirements": [
+    [
+      "used_explosion_magic"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

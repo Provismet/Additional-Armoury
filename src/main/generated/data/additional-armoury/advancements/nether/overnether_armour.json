@@ -1,0 +1,57 @@
+{
+  "parent": "minecraft:nether/obtain_ancient_debris",
+  "criteria": {
+    "overnether_armour": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "additional-armoury:overnether_helmet"
+            ]
+          },
+          {
+            "items": [
+              "additional-armoury:overnether_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "additional-armoury:overnether_leggings"
+            ]
+          },
+          {
+            "items": [
+              "additional-armoury:overnether_boots"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.additional-armoury.overnether.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "additional-armoury:overnether_chestplate",
+      "nbt": "{Damage:0}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.additional-armoury.overnether.title"
+    }
+  },
+  "requirements": [
+    [
+      "overnether_armour"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

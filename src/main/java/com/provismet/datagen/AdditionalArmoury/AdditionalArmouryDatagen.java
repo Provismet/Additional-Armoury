@@ -10,6 +10,8 @@ public class AdditionalArmouryDatagen implements DataGeneratorEntrypoint {
         pack.addProvider(TagGenerator::new);
         pack.addProvider(ModelGenerator::new);
         pack.addProvider(LanguageGenerator::new);
+        pack.addProvider(LanguageGeneratorUK::new);
         pack.addProvider(RecipeGenerator::new);
+        pack.addProvider(AdvancementGenerator::new);
     }
 }

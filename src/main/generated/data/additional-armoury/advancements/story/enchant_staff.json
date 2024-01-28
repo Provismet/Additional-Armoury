@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:story/enchant_item",
+  "criteria": {
+    "enchanted_staff": {
+      "conditions": {
+        "item": {
+          "items": [
+            "additional-armoury:staff"
+          ]
+        }
+      },
+      "trigger": "minecraft:enchanted_item"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.additional-armoury.enchant_staff.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "additional-armoury:staff",
+      "nbt": "{Enchantments:[{id:\"additional-armoury:boost\",lvl:1s}]}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.additional-armoury.enchant_staff.title"
+    }
+  },
+  "requirements": [
+    [
+      "enchanted_staff"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
