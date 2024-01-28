@@ -3,6 +3,7 @@ package com.provismet.AdditionalArmoury.registries;
 import com.provismet.AdditionalArmoury.particles.InkSplatParticle;
 import com.provismet.AdditionalArmoury.particles.ShatterParticle;
 import com.provismet.AdditionalArmoury.particles.SpellChargeParticle;
+import com.provismet.AdditionalArmoury.particles.SpellRingParticle;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -21,6 +22,8 @@ public class AAParticleFactories {
     public static void register () {
         register(AAParticleTypes.SPELL_CHARGE, SpellChargeParticle.Factory::new);
         register(AAParticleTypes.INK_SPLAT, InkSplatParticle.Factory::new);
+        register(AAParticleTypes.SPELL_RING, SpellRingParticle.Factory::new);
+
         register(AAParticleTypes.SHATTER, ShatterParticle.Factory::new);
     }
 }

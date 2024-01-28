@@ -100,6 +100,7 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.GHOSTLY_ORB, "Ghostly Orb", "Shoot a spectral ball that passes through blocks.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.GALE, "Gale", "Shoot a barrage of tornados that launch targets.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.MAGIC_MISSILE, "Missile", "Shoot a magical missile that follows enemies.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.EXPLOSION, "Bakuretsu Mahou", "Casts the most powerful of artillery magic.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.ADHESIVE, "Adhesive", "Potion-tipped daggers have unlimited uses.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.SPLATTER, "Splatter", "Potion-tipped daggers affect multiple targets at once.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.SHREDDING, "Shredding", "Increases the duration of the shattered effect from a mace.");

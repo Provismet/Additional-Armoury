@@ -13,6 +13,7 @@ import com.provismet.AdditionalArmoury.enchantments.mace.ShreddingEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.mace.MaceEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.BoostEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.EruptionEnchantment;
+import com.provismet.AdditionalArmoury.enchantments.staff.ExplosionEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.FireballEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.FrostballEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.GaleEnchantment;
@@ -34,6 +35,7 @@ public class AAEnchantments {
     public static final StaffEnchantment GHOSTLY_ORB = new GhostOrbEnchantment();
     public static final StaffEnchantment GALE = new GaleEnchantment();
     public static final StaffEnchantment MAGIC_MISSILE = new MissileEnchantment();
+    public static final StaffEnchantment EXPLOSION = new ExplosionEnchantment();
 
     public static final DaggerEnchantment ADHESIVE = new AdhesiveEnchantment();
     public static final DaggerEnchantment SPLATTER = new SplatterEnchantment();
@@ -58,6 +60,7 @@ public class AAEnchantments {
         register("ghostly_orb", GHOSTLY_ORB);
         register("gale", GALE);
         register("missile", MAGIC_MISSILE);
+        register("explosion", EXPLOSION);
 
         register("adhesive", ADHESIVE);
         register("splatter", SPLATTER);

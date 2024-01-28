@@ -1,20 +1,24 @@
 package com.provismet.AdditionalArmoury.enchantments.staff;
 
+import com.provismet.AdditionalArmoury.particles.effects.SpellRingParticleEffect;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 
 public class ExplosionEnchantment extends StaffEnchantment {
     public ExplosionEnchantment () {
-        super(Rarity.VERY_RARE, 0xCE0000, 16, 200);
+        super(Rarity.VERY_RARE, 0xCE0000, 16, 160);
     }
 
     @Override
     public boolean castSpell (ItemStack stack, LivingEntity user) {
-        // TODO: become the archwizard (also add an advancement for this)
         if (user.getWorld() instanceof ServerWorld serverWorld) {
-            serverWorld.createExplosion(user, user.getX(), user.getEyeY(), user.getZ(), 10f, true, World.ExplosionSourceType.MOB);
+            Explosion explosion = serverWorld.createExplosion(user, user.getX(), user.getY(), user.getZ(), 10f, true, World.ExplosionSourceType.TNT);
+            user.damage(user.getDamageSources().explosion(explosion), 141f); // Yes that is actually how much damage this would deal.
         }
         return true;
     }
@@ -22,7 +26,16 @@ public class ExplosionEnchantment extends StaffEnchantment {
     @Override
     public void onChargeTick (World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
         super.onChargeTick(world, user, stack, remainingUseTicks);
-        // TODO: spawn some particles
+        
+        if (remainingUseTicks == 120) world.addParticle(new SpellRingParticleEffect(2f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 0, 0, 0);
+        else if (remainingUseTicks == 80) world.addParticle(new SpellRingParticleEffect(4f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 0, 0, 0);
+        else if (remainingUseTicks == 40) world.addParticle(new SpellRingParticleEffect(7f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 0, 0, 0);
+    }
+
+    @Override
+    public int getColour (Random random) {
+        if (random.nextBoolean()) return super.getColour(random);
+        else return random.nextBetween(0, 0xFFFFFF);
     }
     
     @Override

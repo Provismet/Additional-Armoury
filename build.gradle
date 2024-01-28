@@ -52,6 +52,7 @@ dependencies {
 	include "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
 	
 	modImplementation "com.github.Provismet:combatplus-core:${project.combatplus_version}"
+	modImplementation "com.github.Provismet:lilylib:${project.lilylib_version}"
 }
 
 processResources {

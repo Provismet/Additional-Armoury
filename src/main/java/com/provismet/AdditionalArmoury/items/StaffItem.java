@@ -91,7 +91,7 @@ public class StaffItem extends Item implements Vanishable {
 
             }
 
-            if (world.isClient()) world.addParticle(new SpellChargeParticleEffect(Vec3d.unpackRgb(enchantment.colour).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 0, 0, 0);
+            if (world.isClient()) world.addParticle(new SpellChargeParticleEffect(Vec3d.unpackRgb(enchantment.getColour(user.getRandom())).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 0, 0, 0);
         }
     }
 
