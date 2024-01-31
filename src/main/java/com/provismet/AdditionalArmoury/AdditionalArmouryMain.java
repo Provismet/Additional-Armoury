@@ -3,6 +3,7 @@ package com.provismet.AdditionalArmoury;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.provismet.AdditionalArmoury.api.AdditionalArmouryEntrypointMain;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItemGroups;
@@ -12,6 +13,7 @@ import com.provismet.AdditionalArmoury.registries.AARecipeSerializers;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 
 public class AdditionalArmouryMain implements ModInitializer {
@@ -31,5 +33,17 @@ public class AdditionalArmouryMain implements ModInitializer {
         AAParticleTypes.register();
         AAEntityTypes.register();
         AAStatusEffects.register();
+
+        FabricLoader.getInstance().getEntrypointContainers(MODID, AdditionalArmouryEntrypointMain.class).forEach(
+            entrypoint -> {
+                String otherModId = entrypoint.getProvider().getMetadata().getId();
+                try {
+                    entrypoint.getEntrypoint().onInitialize();
+                }
+                catch (Exception e) {
+                    LOGGER.error("Mod " + otherModId + " caused an error during inter-mod initialisation: ", e);
+                }
+            }
+        );
     }
 }
