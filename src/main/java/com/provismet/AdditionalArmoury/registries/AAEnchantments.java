@@ -10,6 +10,7 @@ import com.provismet.AdditionalArmoury.enchantments.dagger.AdhesiveEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.dagger.DaggerEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.dagger.SplatterEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.mace.ShreddingEnchantment;
+import com.provismet.AdditionalArmoury.enchantments.mace.DismantleEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.mace.MaceEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.BoostEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.EruptionEnchantment;
@@ -41,6 +42,7 @@ public class AAEnchantments {
     public static final DaggerEnchantment SPLATTER = new SplatterEnchantment();
 
     public static final MaceEnchantment SHREDDING = new ShreddingEnchantment();
+    public static final MaceEnchantment DISMANTLE = new DismantleEnchantment();
 
     public static final BoomerangEnchantment RICOCHET = new RicochetEnchantment();
     public static final BoomerangEnchantment MULTITHROW = new MultiThrowEnchantment();
@@ -66,6 +68,7 @@ public class AAEnchantments {
         register("splatter", SPLATTER);
 
         register("shredding", SHREDDING);
+        register("dismantle", DISMANTLE);
 
         register("ricochet", RICOCHET);
         register("multithrow", MULTITHROW);

@@ -104,6 +104,7 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.ADHESIVE, "Adhesive", "Potion-tipped daggers have unlimited uses.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.SPLATTER, "Splatter", "Potion-tipped daggers affect multiple targets at once.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.SHREDDING, "Shredding", "Increases the duration of the shattered effect from a mace.");
+        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.DISMANTLE, "Dismantling", "Increases damage dealt to armor from maces.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.RICOCHET, "Ricochet", "Increases the number of boomerang bounces.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.MULTITHROW, "MultiThrow", "Throws 3 boomerangs at once.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FAR_THROW, "Discus", "Increases boomerang maximum distance.");
@@ -151,7 +152,7 @@ public class LanguageGenerator extends FabricLanguageProvider {
         }
     }
 
-    private static void addEnchantment (TranslationBuilder translationBuilder, Enchantment enchantment, String name, String description) {
+    public static void addEnchantment (TranslationBuilder translationBuilder, Enchantment enchantment, String name, String description) {
         translationBuilder.add(enchantment, name);
         translationBuilder.add(enchantment.getTranslationKey() + ".desc", description);
     }

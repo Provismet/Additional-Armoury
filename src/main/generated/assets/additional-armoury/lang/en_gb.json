@@ -2,5 +2,7 @@
   "advancement.additional-armoury.endernether.description": "Get a full suit of Endernether armour",
   "advancement.additional-armoury.endernether.title": "Part Of The Chorus",
   "advancement.additional-armoury.overnether.description": "Get a full suit of Overnether armour",
-  "advancement.additional-armoury.overnether.title": "I Am Listening"
+  "advancement.additional-armoury.overnether.title": "I Am Listening",
+  "enchantment.additional-armoury.dismantle": "Dismantling",
+  "enchantment.additional-armoury.dismantle.desc": "Increases damage dealt to armour from maces."
 }
