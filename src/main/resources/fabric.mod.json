@@ -3,7 +3,7 @@
 	"id": "additional-armoury",
 	"version": "${version}",
 	"name": "Additional Armoury",
-	"description": "Extends your armour and weapons.",
+	"description": "Adds additional weapons and materials.",
 	"authors": [
 		"Provismet"
 	],
@@ -37,5 +37,12 @@
 		"java": ">=17",
 		"fabric-api": "*",
 		"combat-plus": "*"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"wiki.lilylib.link": "https://github.com/Provismet/Additional-Armoury/wiki"
+			}
+		}
 	}
 }
