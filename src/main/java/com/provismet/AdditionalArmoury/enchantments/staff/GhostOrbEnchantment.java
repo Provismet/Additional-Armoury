@@ -8,7 +8,7 @@ import net.minecraft.server.world.ServerWorld;
 
 public class GhostOrbEnchantment extends StaffEnchantment {
     public GhostOrbEnchantment () {
-        super(Rarity.UNCOMMON, 0x6B6B6B, 64, 40);
+        super(Rarity.UNCOMMON, 0x6B6B6B, 64, 20);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.provismet.AdditionalArmoury.enchantments.mace;
 
+import net.minecraft.enchantment.Enchantment;
+
 public class ShreddingEnchantment extends MaceEnchantment {
     public ShreddingEnchantment () {
         super(Rarity.COMMON);
@@ -18,5 +20,10 @@ public class ShreddingEnchantment extends MaceEnchantment {
     @Override
     public int getMaxLevel () {
         return 3;
-    } 
+    }
+
+    @Override
+    protected boolean canAccept(Enchantment other) {
+        return super.canAccept(other) && !(other instanceof DismantleEnchantment);
+    }
 }

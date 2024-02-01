@@ -44,7 +44,7 @@ public class GhostlySpellEntity extends AbstractSpellEntity {
         super.onEntityHit(entityHitResult);
         if (this.getWorld().isClient()) return;
 
-        entityHitResult.getEntity().damage(AADamageSources.ghostlyOrb(this, this.getOwner()), 5f);
+        entityHitResult.getEntity().damage(AADamageSources.ghostlyOrb(this, this.getOwner()), 6f);
     }
 
     @Override

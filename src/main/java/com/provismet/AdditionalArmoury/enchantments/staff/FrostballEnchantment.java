@@ -8,7 +8,7 @@ import net.minecraft.server.world.ServerWorld;
 
 public class FrostballEnchantment extends StaffEnchantment {
     public FrostballEnchantment () {
-        super(Rarity.COMMON, 0xBADCFF, 64, 30);
+        super(Rarity.COMMON, 0xBADCFF, 64, 20);
     }
 
     @Override

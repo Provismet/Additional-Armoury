@@ -35,7 +35,7 @@ public class FireballSpellEntity extends AbstractSpellEntity {
         Entity target = entityHitResult.getEntity();
         Entity owner = this.getOwner();
         
-        if (target.damage(AADamageSources.fireball(this, owner), 5f)) {
+        if (target.damage(AADamageSources.fireball(this, owner), 6f)) {
             target.setOnFireFor(5);
         }
     }

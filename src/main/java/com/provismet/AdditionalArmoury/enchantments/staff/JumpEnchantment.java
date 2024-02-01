@@ -8,7 +8,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class JumpEnchantment extends StaffEnchantment {
     public JumpEnchantment () {
-        super(Rarity.COMMON, 0xA2C663, 64, 30);
+        super(Rarity.COMMON, 0xA2C663, 64, 10);
     }
 
     @Override

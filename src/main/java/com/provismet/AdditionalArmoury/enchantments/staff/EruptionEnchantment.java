@@ -21,7 +21,7 @@ public class EruptionEnchantment extends StaffEnchantment {
     private static final int RADIUS = 5;
 
     public EruptionEnchantment () {
-        super(Rarity.UNCOMMON, 0xAA3100, 64, 40);
+        super(Rarity.UNCOMMON, 0xAA3100, 64, 30);
     }
 
     @Override

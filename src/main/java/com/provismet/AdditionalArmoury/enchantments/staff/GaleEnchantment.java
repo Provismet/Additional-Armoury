@@ -8,7 +8,7 @@ import net.minecraft.server.world.ServerWorld;
 
 public class GaleEnchantment extends StaffEnchantment {
     public GaleEnchantment () {
-        super(Rarity.UNCOMMON, 0xFFFFFF, 32, 40);
+        super(Rarity.UNCOMMON, 0xFFFFFF, 32, 30);
     }
 
     @Override

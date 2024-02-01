@@ -8,7 +8,7 @@ import net.minecraft.server.world.ServerWorld;
 
 public class MissileEnchantment extends StaffEnchantment {
     public MissileEnchantment () {
-        super(Rarity.RARE, 0x975DFF, 96, 30);
+        super(Rarity.RARE, 0x975DFF, 96, 20);
     }
 
     @Override
