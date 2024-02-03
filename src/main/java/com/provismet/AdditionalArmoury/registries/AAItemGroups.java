@@ -20,6 +20,8 @@ import net.minecraft.registry.RegistryWrapper;
 public class AAItemGroups {
 
     public static void register () {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(content -> content.addAfter(Items.NETHERITE_BLOCK, AAItems.OVERNETHER_BLOCK, AAItems.ENDERNETHER_BLOCK));
+
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> content.addAfter(Items.NETHERITE_SWORD, AAItems.OVERNETHER_SWORD, AAItems.ENDERNETHER_SWORD));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> content.addAfter(Items.NETHERITE_AXE, AAItems.OVERNETHER_AXE, AAItems.ENDERNETHER_AXE));
 
