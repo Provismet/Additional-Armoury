@@ -9,6 +9,8 @@
   "advancement.additional-armoury.overnether.title": "I Am Listening",
   "advancement.additional-armoury.tipped_dagger.description": "Craft a potion-tipped Dagger",
   "advancement.additional-armoury.tipped_dagger.title": "Rogue-Like",
+  "block.additional-armoury.endernether_block": "Endernether Block",
+  "block.additional-armoury.overnether_block": "Overnether Block",
   "death.attack.boomerang": "%1$s was struck by a boomerang from %2$s",
   "death.attack.boomerang.item": "%1$s was struck by a boomerang from %2$s using %3$s",
   "death.attack.eruption_spell": "%1$s was launched by %2$s",

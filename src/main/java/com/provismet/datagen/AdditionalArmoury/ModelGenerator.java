@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
+import com.provismet.AdditionalArmoury.registries.AABlocks;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -27,7 +28,8 @@ public class ModelGenerator extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels (BlockStateModelGenerator blockStateModelGenerator) {
-        
+        blockStateModelGenerator.registerSimpleCubeAll(AABlocks.OVERNETHER_BLOCK);
+        blockStateModelGenerator.registerSimpleCubeAll(AABlocks.ENDERNETHER_BLOCK);
     }
 
     @Override

@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "additional-armoury:overnether_ingot"
+    },
+    {
+      "item": "additional-armoury:overnether_ingot"
+    },
+    {
+      "item": "additional-armoury:overnether_ingot"
+    },
+    {
+      "item": "additional-armoury:overnether_ingot"
+    },
+    {
+      "item": "additional-armoury:overnether_ingot"
+    },
+    {
+      "item": "additional-armoury:overnether_ingot"
+    },
+    {
+      "item": "additional-armoury:overnether_ingot"
+    },
+    {
+      "item": "additional-armoury:overnether_ingot"
+    },
+    {
+      "item": "additional-armoury:overnether_ingot"
+    }
+  ],
+  "result": {
+    "item": "additional-armoury:overnether_block"
+  }
+}

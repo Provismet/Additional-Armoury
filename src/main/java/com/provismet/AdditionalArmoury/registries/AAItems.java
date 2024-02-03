@@ -21,6 +21,7 @@ import com.provismet.AdditionalArmoury.items.StaffItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.PickaxeItem;
@@ -33,6 +34,9 @@ import net.minecraft.registry.Registry;
 public class AAItems {
     public static final Item OVERNETHER_INGOT = new Item(new FabricItemSettings().fireproof());
     public static final Item ENDERNETHER_INGOT = new Item(new FabricItemSettings().fireproof());
+
+    public static final BlockItem OVERNETHER_BLOCK = new BlockItem(AABlocks.OVERNETHER_BLOCK, new FabricItemSettings());
+    public static final BlockItem ENDERNETHER_BLOCK = new BlockItem(AABlocks.ENDERNETHER_BLOCK, new FabricItemSettings());
 
     public static final Item OVERNETHER_UPGRADE_SMITHING_TEMPLATE = AASmithingTemplateItem.createOvernetherSmithingTemplate();
     public static final Item ENDERNETHER_UPGRADE_SMITHING_TEMPLATE = AASmithingTemplateItem.createEndernetherSmithingTemplate();
@@ -100,6 +104,9 @@ public class AAItems {
     public static void register () {
         register(OVERNETHER_INGOT, "overnether_ingot");
         register(ENDERNETHER_INGOT, "endernether_ingot");
+        register(OVERNETHER_BLOCK, "overnether_block");
+        register(ENDERNETHER_BLOCK, "endernether_block");
+
         register(OVERNETHER_UPGRADE_SMITHING_TEMPLATE, "overnether_upgrade_smithing_template");
         register(ENDERNETHER_UPGRADE_SMITHING_TEMPLATE, "endernether_upgrade_smithing_template");
 

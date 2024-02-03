@@ -65,6 +65,10 @@ public class TagGenerator extends ItemTagProvider {
         getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR)
             .add(AAItems.OVERNETHER_ARMOUR.toArray(new ArmorItem[0]))
             .add(AAItems.ENDERNETHER_ARMOUR.toArray(new ArmorItem[0]));
+
+        getOrCreateTagBuilder(ItemTags.BEACON_PAYMENT_ITEMS)
+            .add(AAItems.OVERNETHER_INGOT)
+            .add(AAItems.ENDERNETHER_INGOT);
     }
     
 }

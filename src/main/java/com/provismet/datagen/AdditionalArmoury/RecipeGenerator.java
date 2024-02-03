@@ -88,6 +88,9 @@ public class RecipeGenerator extends FabricRecipeProvider {
 
         VanillaRecipeProvider.offerSmithingTemplateCopyingRecipe(exporter, AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE, Items.DEEPSLATE);
         VanillaRecipeProvider.offerSmithingTemplateCopyingRecipe(exporter, AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE, Items.END_STONE);
+
+        VanillaRecipeProvider.offerCompactingRecipe(exporter, RecipeCategory.BUILDING_BLOCKS, AAItems.OVERNETHER_BLOCK, AAItems.OVERNETHER_INGOT);
+        VanillaRecipeProvider.offerCompactingRecipe(exporter, RecipeCategory.BUILDING_BLOCKS, AAItems.ENDERNETHER_BLOCK, AAItems.ENDERNETHER_INGOT);
     }
     
     public static void offerDaggerRecipe (DaggerItem dagger, Item material, Consumer<RecipeJsonProvider> exporter) {

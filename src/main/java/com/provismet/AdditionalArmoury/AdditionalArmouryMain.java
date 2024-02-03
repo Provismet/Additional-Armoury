@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.provismet.AdditionalArmoury.api.AdditionalArmouryEntrypointMain;
 import com.provismet.AdditionalArmoury.config.AASettings;
+import com.provismet.AdditionalArmoury.registries.AABlocks;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItemGroups;
@@ -35,6 +36,7 @@ public class AdditionalArmouryMain implements ModInitializer {
 
     @Override
     public void onInitialize () {
+        AABlocks.register();
         AAItems.register();
         AAEnchantments.register();
         AAItemGroups.register();

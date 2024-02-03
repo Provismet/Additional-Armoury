@@ -25,6 +25,9 @@ public class LanguageGenerator extends FabricLanguageProvider {
     public void generateTranslations (TranslationBuilder translationBuilder) {
         translationBuilder.add(AAItems.OVERNETHER_INGOT, "Overnether Ingot");
         translationBuilder.add(AAItems.ENDERNETHER_INGOT, "Endernether Ingot");
+        
+        translationBuilder.add(AAItems.OVERNETHER_BLOCK, "Overnether Block");
+        translationBuilder.add(AAItems.ENDERNETHER_BLOCK, "Endernether Block");
 
         translationBuilder.add("upgrade.additional-armoury.overnether_upgrade", "Overnether Upgrade");
         translationBuilder.add("item.additional-armoury.overnether_upgrade.ingredients", "Overnether Ingot");
