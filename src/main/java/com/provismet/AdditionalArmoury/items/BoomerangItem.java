@@ -3,6 +3,7 @@ package com.provismet.AdditionalArmoury.items;
 import com.provismet.AdditionalArmoury.entity.BoomerangProjectileEntity;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.AdditionalArmoury.registries.AAItems;
+import com.provismet.AdditionalArmoury.registries.AASounds;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
@@ -11,7 +12,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Vanishable;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -77,7 +77,7 @@ public class BoomerangItem extends Item implements Vanishable {
             itemStack.damage(damage, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
             player.getItemCooldownManager().set(AAItems.BOOMERANG, 160);
         }
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.4f + 1.2f) + 0.5f);
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), AASounds.BOOMERANG_THROW, SoundCategory.PLAYERS, 1.0f, world.getRandom().nextFloat() * 0.2f + 0.9f);
         player.incrementStat(Stats.USED.getOrCreateStat(this));
     }
 

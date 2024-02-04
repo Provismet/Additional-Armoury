@@ -273,6 +273,7 @@
   "item.additional-armoury.wooden_dagger.effect.water_breathing": "Water Breathing-Tipped Wooden Dagger",
   "item.additional-armoury.wooden_dagger.effect.weakness": "Weakness-Tipped Wooden Dagger",
   "item.additional-armoury.wooden_mace": "Wooden Mace",
+  "subtitles.additional-armoury.boomerang.throw": "Throws boomerang",
   "tooltip.additional-armoury.dagger_uses": "Remaining Splashes: %1$s",
   "upgrade.additional-armoury.endernether_upgrade": "Endernether Upgrade",
   "upgrade.additional-armoury.overnether_upgrade": "Overnether Upgrade"

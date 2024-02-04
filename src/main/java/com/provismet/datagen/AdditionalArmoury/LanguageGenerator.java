@@ -23,6 +23,8 @@ public class LanguageGenerator extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations (TranslationBuilder translationBuilder) {
+        translationBuilder.add("subtitles.additional-armoury.boomerang.throw", "Throws boomerang");
+
         translationBuilder.add(AAItems.OVERNETHER_INGOT, "Overnether Ingot");
         translationBuilder.add(AAItems.ENDERNETHER_INGOT, "Endernether Ingot");
         

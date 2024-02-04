@@ -1,0 +1,10 @@
+{
+    "player.boomerang.throw": {
+        "subtitle": "subtitles.additional-armoury.boomerang.throw",
+        "sounds": [
+            "additional-armoury:boomerang_1",
+            "additional-armoury:boomerang_2",
+            "additional-armoury:boomerang_3"
+        ]
+    }
+}

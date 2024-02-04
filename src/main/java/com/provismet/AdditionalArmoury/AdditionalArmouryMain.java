@@ -12,6 +12,7 @@ import com.provismet.AdditionalArmoury.registries.AAItemGroups;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 import com.provismet.AdditionalArmoury.registries.AARecipeSerializers;
+import com.provismet.AdditionalArmoury.registries.AASounds;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 
 import net.fabricmc.api.ModInitializer;
@@ -36,6 +37,7 @@ public class AdditionalArmouryMain implements ModInitializer {
 
     @Override
     public void onInitialize () {
+        AASounds.register();
         AABlocks.register();
         AAItems.register();
         AAEnchantments.register();
