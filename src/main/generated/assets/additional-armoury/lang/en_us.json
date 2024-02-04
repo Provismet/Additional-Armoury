@@ -274,6 +274,7 @@
   "item.additional-armoury.wooden_dagger.effect.weakness": "Weakness-Tipped Wooden Dagger",
   "item.additional-armoury.wooden_mace": "Wooden Mace",
   "subtitles.additional-armoury.boomerang.throw": "Throws boomerang",
+  "subtitles.additional-armoury.staff.cast": "Casts spell",
   "tooltip.additional-armoury.dagger_uses": "Remaining Splashes: %1$s",
   "upgrade.additional-armoury.endernether_upgrade": "Endernether Upgrade",
   "upgrade.additional-armoury.overnether_upgrade": "Overnether Upgrade"

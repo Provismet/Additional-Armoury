@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.provismet.AdditionalArmoury.enchantments.staff.StaffEnchantment;
 import com.provismet.AdditionalArmoury.particles.effects.SpellChargeParticleEffect;
+import com.provismet.AdditionalArmoury.registries.AASounds;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -17,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Vanishable;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -166,8 +168,12 @@ public class StaffItem extends Item implements Vanishable {
             }
         }
 
-        if (wasUsed && user instanceof PlayerEntity player) {
-            player.getItemCooldownManager().set(this, 20);
+        if (wasUsed) {
+            if (!world.isClient())
+                world.playSound(null, user.getX(), user.getY(), user.getZ(), AASounds.STAFF_CAST, SoundCategory.PLAYERS, 1.0f, world.getRandom().nextFloat() * 0.2f + 0.9f);
+            
+            if (user instanceof PlayerEntity player)
+                player.getItemCooldownManager().set(this, 20);
         }
         return stack;
     }

@@ -6,5 +6,12 @@
             "additional-armoury:boomerang_2",
             "additional-armoury:boomerang_3"
         ]
+    },
+
+    "player.staff.cast": {
+        "subtitle": "subtitles.additional-armoury.staff.cast",
+        "sounds": [
+            "additional-armoury:staff_cast"
+        ]
     }
 }

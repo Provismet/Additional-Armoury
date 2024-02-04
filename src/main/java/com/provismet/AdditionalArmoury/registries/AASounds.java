@@ -8,6 +8,7 @@ import net.minecraft.sound.SoundEvent;
 
 public class AASounds {
     public static final SoundEvent BOOMERANG_THROW = SoundEvent.of(AdditionalArmouryMain.identifier("player.boomerang.throw"));
+    public static final SoundEvent STAFF_CAST = SoundEvent.of(AdditionalArmouryMain.identifier("player.staff.cast"));
 
     private static void register (SoundEvent soundEvent) {
         Registry.register(Registries.SOUND_EVENT, soundEvent.getId(), soundEvent);
@@ -15,5 +16,6 @@ public class AASounds {
 
     public static void register () {
         register(BOOMERANG_THROW);
+        register(STAFF_CAST);
     }
 }
