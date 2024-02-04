@@ -8,7 +8,7 @@ import net.minecraft.server.world.ServerWorld;
 
 public class FireballEnchantment extends StaffEnchantment {
     public FireballEnchantment () {
-        super(Rarity.COMMON, 0xB71F26, 64, 20);
+        super(Rarity.COMMON, 0xFF331F, 64, 20);
     }
 
     @Override

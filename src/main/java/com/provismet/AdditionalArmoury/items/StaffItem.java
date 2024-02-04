@@ -34,7 +34,7 @@ public class StaffItem extends Item implements Vanishable {
 
     public static int getColour (ItemStack stack) {
         StaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
-        if (enchantment == null) return 0x684E1E;
+        if (enchantment == null) return 0xC18920;
         else return enchantment.colour;
     }
 
