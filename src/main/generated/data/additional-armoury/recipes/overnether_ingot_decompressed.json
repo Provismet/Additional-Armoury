@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "additional-armoury:overnether_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "additional-armoury:overnether_ingot"
+  }
+}

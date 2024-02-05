@@ -23,6 +23,7 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 
@@ -89,8 +90,8 @@ public class RecipeGenerator extends FabricRecipeProvider {
         VanillaRecipeProvider.offerSmithingTemplateCopyingRecipe(exporter, AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE, Items.DEEPSLATE);
         VanillaRecipeProvider.offerSmithingTemplateCopyingRecipe(exporter, AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE, Items.END_STONE);
 
-        VanillaRecipeProvider.offerCompactingRecipe(exporter, RecipeCategory.BUILDING_BLOCKS, AAItems.OVERNETHER_BLOCK, AAItems.OVERNETHER_INGOT);
-        VanillaRecipeProvider.offerCompactingRecipe(exporter, RecipeCategory.BUILDING_BLOCKS, AAItems.ENDERNETHER_BLOCK, AAItems.ENDERNETHER_INGOT);
+        RecipeGenerator.offerReversibleCompactingRecipe(exporter, AAItems.OVERNETHER_INGOT, AAItems.OVERNETHER_BLOCK);
+        RecipeGenerator.offerReversibleCompactingRecipe(exporter, AAItems.ENDERNETHER_INGOT, AAItems.ENDERNETHER_BLOCK);
     }
     
     public static void offerDaggerRecipe (DaggerItem dagger, Item material, Consumer<RecipeJsonProvider> exporter) {
@@ -168,5 +169,17 @@ public class RecipeGenerator extends FabricRecipeProvider {
         SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE), Ingredient.ofItems(input), Ingredient.ofItems(AAItems.ENDERNETHER_INGOT), category, result)
             .criterion(FabricRecipeProvider.hasItem(AAItems.ENDERNETHER_INGOT), FabricRecipeProvider.conditionsFromItem(AAItems.ENDERNETHER_INGOT))
             .offerTo(exporter, RecipeProvider.getItemPath(result) + "_smithing");
+    }
+
+    private static void offerReversibleCompactingRecipe (Consumer<RecipeJsonProvider> exporter, Item input, Item result) {
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, result)
+            .input(input, 9)
+            .criterion(FabricRecipeProvider.hasItem(input), FabricRecipeProvider.conditionsFromItem(input))
+            .offerTo(exporter);
+
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, input, 9)
+            .input(result)
+            .criterion(FabricRecipeProvider.hasItem(result), FabricRecipeProvider.conditionsFromItem(result))
+            .offerTo(exporter, Registries.ITEM.getId(input) + "_decompressed");
     }
 }
