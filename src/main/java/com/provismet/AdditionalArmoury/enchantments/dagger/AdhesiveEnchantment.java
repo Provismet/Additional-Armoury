@@ -6,7 +6,7 @@ import net.minecraft.entity.EquipmentSlot;
 
 public class AdhesiveEnchantment extends DaggerEnchantment {
     public AdhesiveEnchantment () {
-        super(Rarity.RARE, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
+        super(Rarity.RARE, EquipmentSlot.MAINHAND);
     }
 
     @Override
