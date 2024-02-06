@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.provismet.AdditionalArmoury.entity.interfaces.WorldItemEntity;
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageSources;
 import com.provismet.AdditionalArmoury.utility.Util;
+import com.provismet.lilylib.interfaces.entity.WorldItemEntity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -219,27 +219,12 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     }
 
     @Override
-    public float getYRotation (float tickDelta) {
-        return 0f;
-    }
-
-    @Override
     public float getZRotation (float tickDelta) {
         return (this.age * 33f) % 360f;
     }
 
     @Override
-    public float getXOffset (float tickDelta) {
-        return 0f;
-    }
-
-    @Override
     public float getYOffset (float tickDelta) {
         return this.getHeight() / 2f;
-    }
-
-    @Override
-    public float getZOffset (float tickDelta) {
-        return 0f;
     }
 }
