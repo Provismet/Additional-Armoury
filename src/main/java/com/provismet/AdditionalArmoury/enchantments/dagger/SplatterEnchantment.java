@@ -1,10 +1,13 @@
 package com.provismet.AdditionalArmoury.enchantments.dagger;
 
+import com.provismet.CombatPlusCore.enchantments.WeaponUtilityEnchantment;
+
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
 
 public class SplatterEnchantment extends DaggerEnchantment {
     public SplatterEnchantment () {
-        super(Rarity.COMMON, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
+        super(Rarity.COMMON, EquipmentSlot.MAINHAND);
     }
     
     @Override
@@ -20,5 +23,10 @@ public class SplatterEnchantment extends DaggerEnchantment {
     @Override
     public int getMaxLevel () {
         return 2;
-    } 
+    }
+
+    @Override
+    protected boolean canAccept(Enchantment other) {
+        return super.canAccept(other) && !(other instanceof WeaponUtilityEnchantment);
+    }
 }
