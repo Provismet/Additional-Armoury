@@ -7,11 +7,9 @@ import com.provismet.AdditionalArmoury.enchantments.boomerang.MultiThrowEnchantm
 import com.provismet.AdditionalArmoury.enchantments.boomerang.RicochetEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.boomerang.ThrowStrengthEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.dagger.AdhesiveEnchantment;
-import com.provismet.AdditionalArmoury.enchantments.dagger.DaggerEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.dagger.SplatterEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.mace.ShreddingEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.mace.DismantleEnchantment;
-import com.provismet.AdditionalArmoury.enchantments.mace.MaceEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.BoostEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.EruptionEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.ExplosionEnchantment;
@@ -22,6 +20,7 @@ import com.provismet.AdditionalArmoury.enchantments.staff.GhostOrbEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.JumpEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.MissileEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.StaffEnchantment;
+import com.provismet.CombatPlusCore.enchantments.WeaponUtilityEnchantment;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.registry.Registries;
@@ -38,11 +37,11 @@ public class AAEnchantments {
     public static final StaffEnchantment MAGIC_MISSILE = new MissileEnchantment();
     public static final StaffEnchantment EXPLOSION = new ExplosionEnchantment();
 
-    public static final DaggerEnchantment ADHESIVE = new AdhesiveEnchantment();
-    public static final DaggerEnchantment SPLATTER = new SplatterEnchantment();
+    public static final AdhesiveEnchantment ADHESIVE = new AdhesiveEnchantment();
+    public static final WeaponUtilityEnchantment SPLATTER = new SplatterEnchantment();
 
-    public static final MaceEnchantment SHREDDING = new ShreddingEnchantment();
-    public static final MaceEnchantment DISMANTLE = new DismantleEnchantment();
+    public static final WeaponUtilityEnchantment SHREDDING = new ShreddingEnchantment();
+    public static final WeaponUtilityEnchantment DISMANTLE = new DismantleEnchantment();
 
     public static final BoomerangEnchantment RICOCHET = new RicochetEnchantment();
     public static final BoomerangEnchantment MULTITHROW = new MultiThrowEnchantment();

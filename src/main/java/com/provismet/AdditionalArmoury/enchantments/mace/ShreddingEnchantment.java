@@ -1,10 +1,13 @@
 package com.provismet.AdditionalArmoury.enchantments.mace;
 
-import net.minecraft.enchantment.Enchantment;
+import com.provismet.AdditionalArmoury.registries.AAEnchantmentTargets;
+import com.provismet.CombatPlusCore.enchantments.WeaponUtilityEnchantment;
 
-public class ShreddingEnchantment extends MaceEnchantment {
+import net.minecraft.entity.EquipmentSlot;
+
+public class ShreddingEnchantment extends WeaponUtilityEnchantment {
     public ShreddingEnchantment () {
-        super(Rarity.COMMON);
+        super(Rarity.COMMON, AAEnchantmentTargets.MACE, EquipmentSlot.MAINHAND);
     }
     
     @Override
@@ -20,10 +23,5 @@ public class ShreddingEnchantment extends MaceEnchantment {
     @Override
     public int getMaxLevel () {
         return 3;
-    }
-
-    @Override
-    protected boolean canAccept(Enchantment other) {
-        return super.canAccept(other) && !(other instanceof DismantleEnchantment);
     }
 }
