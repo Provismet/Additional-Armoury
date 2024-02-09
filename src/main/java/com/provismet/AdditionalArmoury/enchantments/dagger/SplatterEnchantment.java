@@ -2,7 +2,9 @@ package com.provismet.AdditionalArmoury.enchantments.dagger;
 
 import com.provismet.AdditionalArmoury.registries.AAEnchantmentTargets;
 import com.provismet.CombatPlusCore.enchantments.WeaponUtilityEnchantment;
+import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
 
 public class SplatterEnchantment extends WeaponUtilityEnchantment {
@@ -23,5 +25,11 @@ public class SplatterEnchantment extends WeaponUtilityEnchantment {
     @Override
     public int getMaxLevel () {
         return 2;
+    }
+
+    @Override
+    protected boolean canAccept(Enchantment other) {
+        if (CPCEnchantmentHelper.isOffhand(other)) return true;
+        return super.canAccept(other);
     }
 }
