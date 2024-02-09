@@ -9,6 +9,7 @@ public class AdditionalArmouryDatagen implements DataGeneratorEntrypoint {
         FabricDataGenerator.Pack pack = generator.createPack();
         pack.addProvider(TagGenerator::new);
         pack.addProvider(BlockTagGenerator::new);
+        pack.addProvider(EnchantmentTagGenerator::new);
         pack.addProvider(ModelGenerator::new);
         pack.addProvider(LanguageGenerator::new);
         pack.addProvider(LanguageGeneratorUK::new);
