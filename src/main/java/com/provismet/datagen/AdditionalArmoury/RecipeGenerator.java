@@ -128,7 +128,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
     public static void offerMaceRecipe (MaceItem mace, Item material, Consumer<RecipeJsonProvider> exporter) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, mace)
             .pattern(" i ")
-            .pattern(" s ")
+            .pattern("isi")
             .pattern(" s ")
             .input('i', material)
             .input('s', Items.STICK)
@@ -140,7 +140,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
     public static void offerMaceRecipe (MaceItem mace, TagKey<Item> tag, ItemConvertible baseTagItem, Consumer<RecipeJsonProvider> exporter) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, mace)
             .pattern(" i ")
-            .pattern(" s ")
+            .pattern("isi")
             .pattern(" s ")
             .input('i', tag)
             .input('s', Items.STICK)
@@ -152,7 +152,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
     public static ShapedRecipeJsonBuilder createMaceRecipe (MaceItem mace, TagKey<Item> tag) {
         return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, mace)
             .pattern(" i ")
-            .pattern(" s ")
+            .pattern("isi")
             .pattern(" s ")
             .input('i', tag)
             .input('s', Items.STICK)
