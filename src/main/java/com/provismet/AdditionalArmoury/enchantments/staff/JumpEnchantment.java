@@ -8,15 +8,16 @@ import net.minecraft.util.math.Vec3d;
 
 public class JumpEnchantment extends StaffEnchantment {
     public JumpEnchantment () {
-        super(Rarity.COMMON, 0xA2C663, 64, 10);
+        super(Rarity.COMMON, 0xA2C663, 32, 10);
     }
 
     @Override
     public boolean castSpell (ItemStack stack, LivingEntity user) {
         user.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 40));
+        user.fallDistance = 0f;
         
         Vec3d velocity = user.getVelocity();
-        user.setVelocity(velocity.x, 1, velocity.z);
+        user.setVelocity(velocity.x, 0.75, velocity.z);
         return true;
     }
 }
