@@ -35,6 +35,7 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     protected int flightTime = 0;
     protected int ricochetCount = 1;
     protected float power = 4f;
+    protected boolean isReturning = false;
 
     private int ricochetCounterCooldown = 0;
     private boolean resetsCooldown = true;
@@ -114,7 +115,8 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
         this.flightTime = 0;
         if (this.ricochetCount < 0) this.ricochetCount = 0;
 
-        if ((this.ricochetCount <= 0 || returnToUser) && this.getOwner() != null) {
+        if ((this.ricochetCount <= 0 || returnToUser) && this.getOwner() != null && !this.isReturning) {
+            this.isReturning = true;
             Entity owner = this.getOwner();
             this.setVelocity(owner.getX() - this.getX(), owner.getEyeY() - this.getY(), owner.getZ() - this.getZ(), 1f, 0.5f);
             return true;
@@ -132,11 +134,13 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
         if (!potentialTargets.isEmpty()) {
             Entity target = potentialTargets.get(this.random.nextBetween(0, potentialTargets.size() - 1));
             this.setVelocity(target.getX() - this.getX(), target.getEyeY() - this.getY(), target.getZ() - this.getZ(), 1f, 0.5f);
+            this.isReturning = false;
             return true;
         }
 
         if (doFallback) {
             this.setVelocity(-this.getVelocity().getX(), -this.getVelocity().getY(), -this.getVelocity().getZ(), 1f, 1f);
+            this.isReturning = false;
             return true;
         }
         
@@ -167,6 +171,8 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
                 default:
                     break;
             }
+
+            this.isReturning = false;
         }
     }
 
