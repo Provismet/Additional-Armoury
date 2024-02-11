@@ -1,7 +1,5 @@
 package com.provismet.datagen.AdditionalArmoury;
 
-import java.util.function.Consumer;
-
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.items.MaceItem;
@@ -12,7 +10,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.minecraft.data.server.recipe.ComplexRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.RecipeJsonProvider;
+import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
@@ -33,7 +31,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
     }
 
     @Override
-    public void generate (Consumer<RecipeJsonProvider> exporter) {
+    public void generate (RecipeExporter exporter) {
         RecipeGenerator.offerOvernetherUpgradeRecipe(exporter, Items.DIAMOND_SWORD, RecipeCategory.COMBAT, AAItems.OVERNETHER_SWORD);
         RecipeGenerator.offerEndernetherUpgradeRecipe(exporter, Items.DIAMOND_SWORD, RecipeCategory.COMBAT, AAItems.ENDERNETHER_SWORD);
         RecipeGenerator.offerOvernetherUpgradeRecipe(exporter, Items.DIAMOND_AXE, RecipeCategory.COMBAT, AAItems.OVERNETHER_AXE);
@@ -94,7 +92,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
         RecipeGenerator.offerReversibleCompactingRecipe(exporter, AAItems.ENDERNETHER_INGOT, AAItems.ENDERNETHER_BLOCK);
     }
     
-    public static void offerDaggerRecipe (DaggerItem dagger, Item material, Consumer<RecipeJsonProvider> exporter) {
+    public static void offerDaggerRecipe (DaggerItem dagger, Item material, RecipeExporter exporter) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, dagger)
             .pattern("i")
             .pattern("s")
@@ -114,7 +112,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.STICK), FabricRecipeProvider.conditionsFromItem(Items.STICK));
     }
 
-    public static void offerDaggerRecipe (DaggerItem dagger, TagKey<Item> tag, ItemConvertible baseTagItem, Consumer<RecipeJsonProvider> exporter) {
+    public static void offerDaggerRecipe (DaggerItem dagger, TagKey<Item> tag, ItemConvertible baseTagItem, RecipeExporter exporter) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, dagger)
             .pattern("i")
             .pattern("s")
@@ -125,7 +123,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
             .offerTo(exporter);
     }
 
-    public static void offerMaceRecipe (MaceItem mace, Item material, Consumer<RecipeJsonProvider> exporter) {
+    public static void offerMaceRecipe (MaceItem mace, Item material, RecipeExporter exporter) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, mace)
             .pattern(" i ")
             .pattern("isi")
@@ -137,7 +135,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
             .offerTo(exporter);
     }
 
-    public static void offerMaceRecipe (MaceItem mace, TagKey<Item> tag, ItemConvertible baseTagItem, Consumer<RecipeJsonProvider> exporter) {
+    public static void offerMaceRecipe (MaceItem mace, TagKey<Item> tag, ItemConvertible baseTagItem, RecipeExporter exporter) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, mace)
             .pattern(" i ")
             .pattern("isi")
@@ -159,19 +157,19 @@ public class RecipeGenerator extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.STICK), FabricRecipeProvider.conditionsFromItem(Items.STICK));
     }
 
-    public static void offerOvernetherUpgradeRecipe(Consumer<RecipeJsonProvider> exporter, Item input, RecipeCategory category, Item result) {
+    public static void offerOvernetherUpgradeRecipe(RecipeExporter exporter, Item input, RecipeCategory category, Item result) {
         SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE), Ingredient.ofItems(input), Ingredient.ofItems(AAItems.OVERNETHER_INGOT), category, result)
             .criterion(FabricRecipeProvider.hasItem(AAItems.OVERNETHER_INGOT), FabricRecipeProvider.conditionsFromItem(AAItems.OVERNETHER_INGOT))
             .offerTo(exporter, RecipeProvider.getItemPath(result) + "_smithing");
     }
 
-    public static void offerEndernetherUpgradeRecipe(Consumer<RecipeJsonProvider> exporter, Item input, RecipeCategory category, Item result) {
+    public static void offerEndernetherUpgradeRecipe(RecipeExporter exporter, Item input, RecipeCategory category, Item result) {
         SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE), Ingredient.ofItems(input), Ingredient.ofItems(AAItems.ENDERNETHER_INGOT), category, result)
             .criterion(FabricRecipeProvider.hasItem(AAItems.ENDERNETHER_INGOT), FabricRecipeProvider.conditionsFromItem(AAItems.ENDERNETHER_INGOT))
             .offerTo(exporter, RecipeProvider.getItemPath(result) + "_smithing");
     }
 
-    private static void offerReversibleCompactingRecipe (Consumer<RecipeJsonProvider> exporter, Item input, Item result) {
+    private static void offerReversibleCompactingRecipe (RecipeExporter exporter, Item input, Item result) {
         ShapelessRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, result)
             .input(input, 9)
             .criterion(FabricRecipeProvider.hasItem(input), FabricRecipeProvider.conditionsFromItem(input))
