@@ -73,6 +73,7 @@ public class LanguageGenerator extends FabricLanguageProvider {
 
         translationBuilder.add(AAItems.WOODEN_MACE, "Wooden Mace");
         translationBuilder.add(AAItems.STONE_MACE, "Stone Mace");
+        translationBuilder.add(AAItems.GOLDEN_MACE, "Golden Mace");
         translationBuilder.add(AAItems.IRON_MACE, "Iron Mace");
         translationBuilder.add(AAItems.DIAMOND_MACE, "Diamond Mace");
         translationBuilder.add(AAItems.NETHERITE_MACE, "Netherite Mace");
