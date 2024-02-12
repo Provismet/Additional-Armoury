@@ -10,6 +10,6 @@ import net.minecraft.entity.effect.StatusEffectCategory;
 public class ShatteredStatusEffect extends StatusEffect {
     public ShatteredStatusEffect () {
         super(StatusEffectCategory.HARMFUL, 0x726760);
-        this.addAttributeModifier(EntityAttributes.GENERIC_ARMOR, UUID.nameUUIDFromBytes("Additional Armoury: Shattered Armour".getBytes()).toString(), 0.75, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(EntityAttributes.GENERIC_ARMOR, UUID.nameUUIDFromBytes("Additional Armoury: Shattered Armour".getBytes()).toString(), -0.25, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 }
