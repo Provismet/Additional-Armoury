@@ -3,13 +3,14 @@
 	"id": "additional-armoury",
 	"version": "${version}",
 	"name": "Additional Armoury",
-	"description": "Adds additional weapons and materials.",
+	"description": "Adds additional weapons, magic, and materials. Part of the Combat+ collection.",
 	"authors": [
 		"Provismet"
 	],
 	"contact": {
 		"homepage": "https://github.com/Provismet/Additional-Armoury",
-		"sources": "https://github.com/Provismet/Additional-Armoury"
+		"sources": "https://github.com/Provismet/Additional-Armoury",
+		"issues": "https://github.com/Provismet/Additional-Armoury/issues"
 	},
 	"license": "Lily License",
 	"icon": "assets/additional-armoury/icon.png",
