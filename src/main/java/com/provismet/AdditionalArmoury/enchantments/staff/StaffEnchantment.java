@@ -33,7 +33,7 @@ public abstract class StaffEnchantment extends Enchantment {
 
     @Override
     protected boolean canAccept (Enchantment other) {
-        return super.canAccept(other) && !(other instanceof StaffEnchantment);
+        return false;
     }
 
     @Override
