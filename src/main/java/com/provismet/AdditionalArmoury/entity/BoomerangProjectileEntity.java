@@ -23,6 +23,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class BoomerangProjectileEntity extends ThrownItemEntity implements WorldItemEntity {
@@ -76,6 +77,17 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
             if (this.ricochetCounterCooldown > 0) --this.ricochetCounterCooldown;
         }
         super.tick();
+        this.setYaw(0f);
+        this.prevYaw = 0f;
+        this.setPitch(0f);
+        this.prevPitch = 0f;
+    }
+
+    @Override
+    public void setVelocity (double x, double y, double z, float speed, float divergence) {
+        super.setVelocity(x, y, z, speed, divergence);
+        this.setYaw(0f);
+        this.setPitch(0f);
     }
 
     @Override
@@ -226,11 +238,23 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
 
     @Override
     public float getZRotation (float tickDelta) {
-        return (this.age * 33f) % 360f;
+        float currentRotation = this.age * 33f;
+        float nextRotation = (this.age + 1) * 33f;
+        return MathHelper.lerp(tickDelta, currentRotation, nextRotation) % 360f;
+    }
+
+    @Override
+    public float getXOffset (float tickDelta) {
+        return -MathHelper.cos((this.getZRotation(tickDelta) - 15f) / MathHelper.DEGREES_PER_RADIAN) * 0.25f;
     }
 
     @Override
     public float getYOffset (float tickDelta) {
         return this.getHeight() / 2f;
+    }
+
+    @Override
+    public float getZOffset (float tickDelta) {
+        return -MathHelper.sin((this.getZRotation(tickDelta) - 15f) / MathHelper.DEGREES_PER_RADIAN) * 0.25f;
     }
 }
