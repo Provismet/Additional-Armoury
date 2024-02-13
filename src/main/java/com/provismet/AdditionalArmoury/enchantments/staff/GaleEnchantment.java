@@ -6,7 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 
-public class GaleEnchantment extends StaffEnchantment {
+public class GaleEnchantment extends AbstractStaffEnchantment {
     public GaleEnchantment () {
         super(Rarity.UNCOMMON, 0xFFFFFF, 32, 30);
     }

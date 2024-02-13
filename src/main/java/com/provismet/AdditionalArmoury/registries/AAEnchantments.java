@@ -19,7 +19,7 @@ import com.provismet.AdditionalArmoury.enchantments.staff.GaleEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.GhostOrbEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.JumpEnchantment;
 import com.provismet.AdditionalArmoury.enchantments.staff.MissileEnchantment;
-import com.provismet.AdditionalArmoury.enchantments.staff.StaffEnchantment;
+import com.provismet.AdditionalArmoury.enchantments.staff.AbstractStaffEnchantment;
 import com.provismet.CombatPlusCore.enchantments.WeaponUtilityEnchantment;
 
 import net.minecraft.enchantment.Enchantment;
@@ -27,15 +27,15 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 public class AAEnchantments {
-    public static final StaffEnchantment BOOST = new BoostEnchantment();
-    public static final StaffEnchantment ERUPTION = new EruptionEnchantment();
-    public static final StaffEnchantment JUMP = new JumpEnchantment();
-    public static final StaffEnchantment FIREBALL = new FireballEnchantment();
-    public static final StaffEnchantment FROSTBALL = new FrostballEnchantment();
-    public static final StaffEnchantment GHOSTLY_ORB = new GhostOrbEnchantment();
-    public static final StaffEnchantment GALE = new GaleEnchantment();
-    public static final StaffEnchantment MAGIC_MISSILE = new MissileEnchantment();
-    public static final StaffEnchantment EXPLOSION = new ExplosionEnchantment();
+    public static final AbstractStaffEnchantment BOOST = new BoostEnchantment();
+    public static final AbstractStaffEnchantment ERUPTION = new EruptionEnchantment();
+    public static final AbstractStaffEnchantment JUMP = new JumpEnchantment();
+    public static final AbstractStaffEnchantment FIREBALL = new FireballEnchantment();
+    public static final AbstractStaffEnchantment FROSTBALL = new FrostballEnchantment();
+    public static final AbstractStaffEnchantment GHOSTLY_ORB = new GhostOrbEnchantment();
+    public static final AbstractStaffEnchantment GALE = new GaleEnchantment();
+    public static final AbstractStaffEnchantment MAGIC_MISSILE = new MissileEnchantment();
+    public static final AbstractStaffEnchantment EXPLOSION = new ExplosionEnchantment();
 
     public static final AdhesiveEnchantment ADHESIVE = new AdhesiveEnchantment();
     public static final WeaponUtilityEnchantment SPLATTER = new SplatterEnchantment();

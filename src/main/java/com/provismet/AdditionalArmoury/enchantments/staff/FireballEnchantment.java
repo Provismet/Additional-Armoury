@@ -6,7 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 
-public class FireballEnchantment extends StaffEnchantment {
+public class FireballEnchantment extends AbstractStaffEnchantment {
     public FireballEnchantment () {
         super(Rarity.COMMON, 0xFF331F, 64, 20);
     }

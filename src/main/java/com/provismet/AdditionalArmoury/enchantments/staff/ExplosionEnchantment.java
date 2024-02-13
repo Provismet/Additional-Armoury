@@ -13,7 +13,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
-public class ExplosionEnchantment extends StaffEnchantment {
+public class ExplosionEnchantment extends AbstractStaffEnchantment {
     public ExplosionEnchantment () {
         super(Rarity.VERY_RARE, 0xCE0000, 16, 160);
     }

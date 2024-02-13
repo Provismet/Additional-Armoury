@@ -6,7 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 
-public class MissileEnchantment extends StaffEnchantment {
+public class MissileEnchantment extends AbstractStaffEnchantment {
     public MissileEnchantment () {
         super(Rarity.RARE, 0x975DFF, 96, 20);
     }

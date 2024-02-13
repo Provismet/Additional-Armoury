@@ -1,6 +1,6 @@
 package com.provismet.AdditionalArmoury.registries;
 
-import com.provismet.AdditionalArmoury.enchantments.staff.StaffEnchantment;
+import com.provismet.AdditionalArmoury.enchantments.staff.AbstractStaffEnchantment;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.items.MaceItem;
 
@@ -41,7 +41,7 @@ public class AAItemGroups {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> {
             content.getContext().lookup().getOptionalWrapper(RegistryKeys.ENCHANTMENT).ifPresent(wrapper -> {
                 wrapper.streamEntries()
-                    .filter(entry -> entry.value() instanceof StaffEnchantment)
+                    .filter(entry -> entry.value() instanceof AbstractStaffEnchantment)
                     .map(entry -> {
                         ItemStack stack = AAItems.STAFF.getDefaultStack();
                         stack.addEnchantment(entry.value(), 1);

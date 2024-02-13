@@ -6,7 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 
-public class FrostballEnchantment extends StaffEnchantment {
+public class FrostballEnchantment extends AbstractStaffEnchantment {
     public FrostballEnchantment () {
         super(Rarity.COMMON, 0xBADCFF, 64, 20);
     }
