@@ -6,7 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 
-public class GhostOrbEnchantment extends StaffEnchantment {
+public class GhostOrbEnchantment extends AbstractStaffEnchantment {
     public GhostOrbEnchantment () {
         super(Rarity.UNCOMMON, 0x6B6B6B, 64, 20);
     }

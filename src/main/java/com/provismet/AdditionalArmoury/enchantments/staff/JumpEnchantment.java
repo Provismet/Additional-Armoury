@@ -6,7 +6,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 
-public class JumpEnchantment extends StaffEnchantment {
+public class JumpEnchantment extends AbstractStaffEnchantment {
     public JumpEnchantment () {
         super(Rarity.COMMON, 0xA2C663, 32, 10);
     }

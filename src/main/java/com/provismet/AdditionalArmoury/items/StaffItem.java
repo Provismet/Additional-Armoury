@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.provismet.AdditionalArmoury.enchantments.staff.StaffEnchantment;
+import com.provismet.AdditionalArmoury.enchantments.staff.AbstractStaffEnchantment;
 import com.provismet.AdditionalArmoury.particles.effects.SpellChargeParticleEffect;
 import com.provismet.AdditionalArmoury.registries.AASounds;
 
@@ -35,36 +35,36 @@ public class StaffItem extends Item implements Vanishable {
     }
 
     public static int getColour (ItemStack stack) {
-        StaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
+        AbstractStaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
         if (enchantment == null) return 0xC18920;
         else return enchantment.colour;
     }
 
-    protected static List<StaffEnchantment> getStaffEnchantments (ItemStack stack) {
+    protected static List<AbstractStaffEnchantment> getStaffEnchantments (ItemStack stack) {
         Iterator<Enchantment> iter = EnchantmentHelper.get(stack).keySet().iterator();
-        List<StaffEnchantment> out = new ArrayList<>();
+        List<AbstractStaffEnchantment> out = new ArrayList<>();
         
         while (iter.hasNext()) {
             Enchantment enchantment = iter.next();
-            if (enchantment instanceof StaffEnchantment staffEnchantment) out.add(staffEnchantment);
+            if (enchantment instanceof AbstractStaffEnchantment staffEnchantment) out.add(staffEnchantment);
         }
         return out;
     }
 
     @Nullable
-    protected static StaffEnchantment getFirstStaffEnchantment (ItemStack stack)  {
+    protected static AbstractStaffEnchantment getFirstStaffEnchantment (ItemStack stack)  {
         Iterator<Enchantment> iter = EnchantmentHelper.get(stack).keySet().iterator();
         
         while (iter.hasNext()) {
             Enchantment enchantment = iter.next();
-            if (enchantment instanceof StaffEnchantment staffEnchantment) return staffEnchantment;
+            if (enchantment instanceof AbstractStaffEnchantment staffEnchantment) return staffEnchantment;
         }
         return null;
     }
 
     @Override
     public String getTranslationKey (ItemStack stack) {
-        StaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
+        AbstractStaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
 
         if (enchantment == null) return this.getTranslationKey();
         else return this.getTranslationKey() + ".enchanted";
@@ -85,7 +85,7 @@ public class StaffItem extends Item implements Vanishable {
 
     @Override
     public void usageTick (World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-        StaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
+        AbstractStaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
 
         if (enchantment != null) {
             enchantment.onChargeTick(world, user, stack, remainingUseTicks);
@@ -105,7 +105,7 @@ public class StaffItem extends Item implements Vanishable {
 
     @Override
     public int getMaxUseTime (ItemStack stack) {
-        StaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
+        AbstractStaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
         if (enchantment == null) return 0;
         else return enchantment.chargeTime;
     }
@@ -154,11 +154,11 @@ public class StaffItem extends Item implements Vanishable {
 
     @Override
     public ItemStack finishUsing (ItemStack stack, World world, LivingEntity user) {
-        List<StaffEnchantment> enchantments = StaffItem.getStaffEnchantments(stack);
+        List<AbstractStaffEnchantment> enchantments = StaffItem.getStaffEnchantments(stack);
         boolean wasUsed = false;
 
         if (enchantments.size() > 0) {
-            for (StaffEnchantment enchant : enchantments) {
+            for (AbstractStaffEnchantment enchant : enchantments) {
                 if (enchant.castSpell(stack, user)) wasUsed = true;
             }
 

@@ -3,7 +3,7 @@ package com.provismet.AdditionalArmoury.enchantments.staff;
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.particles.effects.SpellRingParticleEffect;
 
-import net.minecraft.advancement.AdvancementEntry;
+import net.minecraft.advancement.Advancement;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -13,7 +13,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
-public class ExplosionEnchantment extends StaffEnchantment {
+public class ExplosionEnchantment extends AbstractStaffEnchantment {
     public ExplosionEnchantment () {
         super(Rarity.VERY_RARE, 0xCE0000, 16, 160);
     }
@@ -26,7 +26,7 @@ public class ExplosionEnchantment extends StaffEnchantment {
 
             if (user instanceof ServerPlayerEntity serverPlayer) {
                 try { // I don't expect this to break, and it never has in testing. But I have no idea how advancements work.
-                    AdvancementEntry archWizard = MinecraftClient.getInstance().getServer().getAdvancementLoader().get(AdditionalArmouryMain.identifier("story/explosion_magic"));
+                    Advancement archWizard = MinecraftClient.getInstance().getServer().getAdvancementLoader().get(AdditionalArmouryMain.identifier("story/explosion_magic"));
                     for (String criterion : serverPlayer.getAdvancementTracker().getProgress(archWizard).getUnobtainedCriteria()) {
                         serverPlayer.getAdvancementTracker().grantCriterion(archWizard, criterion);
                     }

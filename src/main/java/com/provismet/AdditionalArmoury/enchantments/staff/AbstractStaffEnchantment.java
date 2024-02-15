@@ -9,12 +9,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
-public abstract class StaffEnchantment extends Enchantment {
+public abstract class AbstractStaffEnchantment extends Enchantment {
     public final int colour;
     public final int maxUses;
     public final int chargeTime;
 
-    protected StaffEnchantment (Rarity weight, int colour, int maxUses, int chargeTime) {
+    protected AbstractStaffEnchantment (Rarity weight, int colour, int maxUses, int chargeTime) {
         super(weight, AAEnchantmentTargets.STAFF, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
         this.colour = colour;
         this.maxUses = maxUses;
@@ -33,7 +33,7 @@ public abstract class StaffEnchantment extends Enchantment {
 
     @Override
     protected boolean canAccept (Enchantment other) {
-        return super.canAccept(other) && !(other instanceof StaffEnchantment);
+        return false;
     }
 
     @Override

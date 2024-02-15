@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class BoostEnchantment extends StaffEnchantment {
+public class BoostEnchantment extends AbstractStaffEnchantment {
     public BoostEnchantment () {
         super(Rarity.COMMON, 0x7AFFE6, 64, 10);
     }

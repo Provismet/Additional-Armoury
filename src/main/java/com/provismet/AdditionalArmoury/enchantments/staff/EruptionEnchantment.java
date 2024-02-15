@@ -17,7 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class EruptionEnchantment extends StaffEnchantment {
+public class EruptionEnchantment extends AbstractStaffEnchantment {
     private static final int RADIUS = 5;
 
     public EruptionEnchantment () {

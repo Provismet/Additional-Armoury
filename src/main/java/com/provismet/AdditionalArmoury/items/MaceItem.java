@@ -63,7 +63,7 @@ public class MaceItem extends ToolItem implements MeleeWeapon {
     public void postCriticalHit (ItemStack itemStack, LivingEntity user, LivingEntity target) {
         int shredding = EnchantmentHelper.getLevel(AAEnchantments.SHREDDING, itemStack);
         int dismantle = EnchantmentHelper.getLevel(AAEnchantments.DISMANTLE, itemStack);
-        target.addStatusEffect(new StatusEffectInstance(AAStatusEffects.SHATTERED, 30 + shredding * 20), user);
+        target.addStatusEffect(new StatusEffectInstance(AAStatusEffects.SHATTERED, 40 + shredding * 20), user);
 
         if (user.getWorld() instanceof ServerWorld serverWorld) {
             serverWorld.spawnParticles(AAParticleTypes.SHATTER, target.getX(), target.getHeight() + target.getY() + 0.5f, target.getZ(), 1, 0, 0, 0, 0);
