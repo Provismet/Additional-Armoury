@@ -30,6 +30,5 @@
     "recipes": [
       "additional-armoury:wooden_mace"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

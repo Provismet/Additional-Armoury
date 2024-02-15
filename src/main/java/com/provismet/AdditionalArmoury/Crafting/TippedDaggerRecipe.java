@@ -24,7 +24,7 @@ public class TippedDaggerRecipe extends SpecialCraftingRecipe {
         boolean hasOneDagger = false;
         Potion potionInput = null;
 
-        for (ItemStack input : recipeInputInventory.getInputStacks()) {
+        for (ItemStack input : recipeInputInventory.getHeldStacks()) {
             if (input.getItem() instanceof DaggerItem) {
                 if (hasOneDagger) return false;
                 hasOneDagger = true;
@@ -45,7 +45,7 @@ public class TippedDaggerRecipe extends SpecialCraftingRecipe {
         ItemStack potion = null;
         int potionCount = 0;
 
-        for (ItemStack input : recipeInputInventory.getInputStacks()) {
+        for (ItemStack input : recipeInputInventory.getHeldStacks()) {
             if (input.getItem() instanceof DaggerItem) inputDagger = input.copy();
             else if (input.isOf(Items.LINGERING_POTION)) {
                 potion = input;

@@ -43,6 +43,5 @@
     "recipes": [
       "additional-armoury:endernether_ingot"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

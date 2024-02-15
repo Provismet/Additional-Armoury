@@ -9,17 +9,14 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "description": {
       "translate": "advancement.additional-armoury.tipped_dagger.description"
     },
     "frame": "goal",
-    "hidden": false,
     "icon": {
       "item": "additional-armoury:diamond_dagger",
       "nbt": "{Damage:0,Potion:\"minecraft:poison\"}"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.additional-armoury.tipped_dagger.title"
     }

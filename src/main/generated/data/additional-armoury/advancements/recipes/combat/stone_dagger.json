@@ -41,6 +41,5 @@
     "recipes": [
       "additional-armoury:stone_dagger"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

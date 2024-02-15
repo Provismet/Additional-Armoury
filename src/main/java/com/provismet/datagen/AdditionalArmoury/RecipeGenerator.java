@@ -1,10 +1,10 @@
 package com.provismet.datagen.AdditionalArmoury;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
+import com.provismet.AdditionalArmoury.crafting.TippedDaggerRecipe;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.items.MaceItem;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-import com.provismet.AdditionalArmoury.registries.AARecipeSerializers;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -70,7 +70,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
         RecipeGenerator.offerEndernetherUpgradeRecipe(exporter, Items.DIAMOND_LEGGINGS, RecipeCategory.COMBAT, AAItems.ENDERNETHER_LEGGINGS);
         RecipeGenerator.offerEndernetherUpgradeRecipe(exporter, Items.DIAMOND_BOOTS, RecipeCategory.COMBAT, AAItems.ENDERNETHER_BOOTS);
 
-        ComplexRecipeJsonBuilder.create(AARecipeSerializers.TIPPED_DAGGER).offerTo(exporter, AdditionalArmouryMain.identifier("tipped_dagger").toString());
+        ComplexRecipeJsonBuilder.create(TippedDaggerRecipe::new).offerTo(exporter, AdditionalArmouryMain.identifier("tipped_dagger").toString());
 
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, AAItems.OVERNETHER_INGOT)
             .input(Items.NETHERITE_SCRAP, 4)

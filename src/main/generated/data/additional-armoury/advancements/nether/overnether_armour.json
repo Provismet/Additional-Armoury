@@ -30,17 +30,14 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "description": {
       "translate": "advancement.additional-armoury.overnether.description"
     },
     "frame": "challenge",
-    "hidden": false,
     "icon": {
       "item": "additional-armoury:overnether_chestplate",
       "nbt": "{Damage:0}"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.additional-armoury.overnether.title"
     }

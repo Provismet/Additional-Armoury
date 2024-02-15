@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:overnether_hoe_smithing"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

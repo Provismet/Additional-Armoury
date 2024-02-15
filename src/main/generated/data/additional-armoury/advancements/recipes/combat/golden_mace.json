@@ -41,6 +41,5 @@
     "recipes": [
       "additional-armoury:golden_mace"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

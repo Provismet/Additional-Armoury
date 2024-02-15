@@ -41,6 +41,5 @@
     "recipes": [
       "additional-armoury:diamond_dagger"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

@@ -30,6 +30,5 @@
     "recipes": [
       "additional-armoury:overnether_block"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

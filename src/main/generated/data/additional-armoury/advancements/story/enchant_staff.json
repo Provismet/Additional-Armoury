@@ -13,17 +13,14 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "description": {
       "translate": "advancement.additional-armoury.enchant_staff.description"
     },
     "frame": "goal",
-    "hidden": false,
     "icon": {
       "item": "additional-armoury:staff",
       "nbt": "{Enchantments:[{id:\"additional-armoury:boost\",lvl:1s}]}"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.additional-armoury.enchant_staff.title"
     }

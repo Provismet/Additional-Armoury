@@ -6,17 +6,14 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
     "description": {
       "translate": "advancement.additional-armoury.archwizard.description"
     },
     "frame": "challenge",
-    "hidden": false,
     "icon": {
       "item": "additional-armoury:staff",
       "nbt": "{Enchantments:[{id:\"additional-armoury:explosion\",lvl:1s}]}"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancement.additional-armoury.archwizard.title"
     }
