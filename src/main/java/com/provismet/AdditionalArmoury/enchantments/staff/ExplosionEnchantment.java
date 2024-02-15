@@ -3,7 +3,7 @@ package com.provismet.AdditionalArmoury.enchantments.staff;
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.particles.effects.SpellRingParticleEffect;
 
-import net.minecraft.advancement.Advancement;
+import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -26,7 +26,7 @@ public class ExplosionEnchantment extends AbstractStaffEnchantment {
 
             if (user instanceof ServerPlayerEntity serverPlayer) {
                 try { // I don't expect this to break, and it never has in testing. But I have no idea how advancements work.
-                    Advancement archWizard = MinecraftClient.getInstance().getServer().getAdvancementLoader().get(AdditionalArmouryMain.identifier("story/explosion_magic"));
+                    AdvancementEntry archWizard = MinecraftClient.getInstance().getServer().getAdvancementLoader().get(AdditionalArmouryMain.identifier("story/explosion_magic"));
                     for (String criterion : serverPlayer.getAdvancementTracker().getProgress(archWizard).getUnobtainedCriteria()) {
                         serverPlayer.getAdvancementTracker().grantCriterion(archWizard, criterion);
                     }

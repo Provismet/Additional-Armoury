@@ -34,9 +34,9 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_netherite_scrap",
-      "has_popped_chorus_fruit",
-      "has_the_recipe"
+      "has_popped_chorus_fruit"
     ]
   ],
   "rewards": {
