@@ -22,8 +22,8 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_endernether_upgrade_smithing_template"
+      "has_endernether_upgrade_smithing_template",
+      "has_the_recipe"
     ]
   ],
   "rewards": {

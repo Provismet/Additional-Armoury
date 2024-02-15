@@ -32,9 +32,9 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_stick",
-      "has_cobblestone"
+      "has_cobblestone",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
