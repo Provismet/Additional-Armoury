@@ -60,6 +60,20 @@ public class MaceItem extends ToolItem implements MeleeWeapon {
     }
 
     @Override
+    public boolean postHit (ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+        return true;
+    }
+
+    @Override
+    public boolean postMine (ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        if (state.getHardness(world, pos) != 0.0f) {
+            stack.damage(2, miner, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+        }
+        return true;
+    }
+
+    @Override
     public void postCriticalHit (ItemStack itemStack, LivingEntity user, LivingEntity target) {
         int shredding = EnchantmentHelper.getLevel(AAEnchantments.SHREDDING, itemStack);
         int dismantle = EnchantmentHelper.getLevel(AAEnchantments.DISMANTLE, itemStack);
