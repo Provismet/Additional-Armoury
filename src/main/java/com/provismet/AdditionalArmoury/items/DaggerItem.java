@@ -166,7 +166,7 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
 
     @Override
     public void appendTooltip (ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        PotionUtil.buildTooltip(stack, tooltip, POTION_DURATION_MOD, attackDamage);
+        PotionUtil.buildTooltip(stack, tooltip, POTION_DURATION_MOD, world == null ? 20.0f : world.getTickManager().getTickRate());
 
         if (EnchantmentHelper.getLevel(AAEnchantments.ADHESIVE, stack) == 0 && PotionUtil.getPotion(stack) != Potions.EMPTY)
             tooltip.add(Text.translatable("tooltip.additional-armoury.dagger_uses", this.getCurrentPotionUses(stack)));
