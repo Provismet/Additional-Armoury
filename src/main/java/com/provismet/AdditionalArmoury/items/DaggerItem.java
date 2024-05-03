@@ -110,18 +110,18 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
                     );
                 }
                 this.spawnInkParticles(newTarget, 3, stack);
+                ++damage;
             }
-            damage += 2;
         }
 
         boolean hasAdhesive = EnchantmentHelper.getLevel(AAEnchantments.ADHESIVE, stack) > 0;
         if (hasAdhesive) {
-            stack.damage(damage, user, p -> {
+            stack.damage(damage * 2, user, p -> {
                 if (p.getStackInHand(Hand.MAIN_HAND) == stack) p.sendToolBreakStatus(Hand.MAIN_HAND);
                 else p.sendToolBreakStatus(Hand.OFF_HAND);
             });
         }
-        else if (user instanceof PlayerEntity player && !player.isCreative() && potion != Potions.EMPTY && this.decrementCurrentPotionUses(stack, damage * 2) <= 0) {
+        else if (user instanceof PlayerEntity player && !player.isCreative() && potion != Potions.EMPTY && this.decrementCurrentPotionUses(stack, damage) <= 0) {
             PotionUtil.setPotion(stack, Potions.EMPTY);
             stack.removeSubNbt(PotionUtil.CUSTOM_POTION_EFFECTS_KEY);
         }
