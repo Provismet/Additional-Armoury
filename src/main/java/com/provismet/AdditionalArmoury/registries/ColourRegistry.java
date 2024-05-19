@@ -15,14 +15,14 @@ public class ColourRegistry {
         AAItems.DAGGERS.forEach(dagger -> ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
                 int colour = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT).getColor();
-                return colour == -13083194 ? DaggerItem.defaultTipColour : colour; // -13083194 is the default colour for empty potion components.
+                return colour == -13083194 ? DaggerItem.defaultTipColour : colour; // -13083194 is the vanilla default colour for empty potion components.
             }
             else return -1;
         }, dagger));
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 0) {
-                return StaffItem.getColour(stack); // TODO: This doesn't work right now
+                return StaffItem.getColour(stack);
             }
             else return -1;
         }, AAItems.STAFF);
