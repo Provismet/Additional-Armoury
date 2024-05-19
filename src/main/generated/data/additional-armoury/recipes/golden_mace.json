@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "i": {
-      "tag": "c:gold_ingots"
+      "tag": "c:ingots/gold"
     },
     "s": {
       "item": "minecraft:stick"
@@ -15,6 +15,7 @@
     " s "
   ],
   "result": {
-    "item": "additional-armoury:golden_mace"
+    "count": 1,
+    "id": "additional-armoury:golden_mace"
   }
 }

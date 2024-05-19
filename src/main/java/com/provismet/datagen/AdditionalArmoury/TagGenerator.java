@@ -6,7 +6,7 @@ import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.items.MaceItem;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AATags;
-import com.provismet.CombatPlusCore.utility.CombatTags;
+import com.provismet.CombatPlusCore.utility.CPCItemTags;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
@@ -33,11 +33,31 @@ public class TagGenerator extends ItemTagProvider {
         getOrCreateTagBuilder(AATags.ItemTags.MACES)
             .add(AAItems.MACES.toArray(new MaceItem[0]));
 
-        getOrCreateTagBuilder(CombatTags.MELEE_WEAPON)
+        getOrCreateTagBuilder(AATags.ItemTags.DAGGER_ENCHANTABLE)
+            .addOptionalTag(AATags.ItemTags.DAGGERS);
+
+        getOrCreateTagBuilder(AATags.ItemTags.MACE_ENCHANTABLE)
             .addOptionalTag(AATags.ItemTags.MACES);
 
-        getOrCreateTagBuilder(CombatTags.DUAL_WEAPON)
+        getOrCreateTagBuilder(AATags.ItemTags.BOOMERANG_ENCHANTABLE)
+            .add(AAItems.BOOMERANG);
+
+        getOrCreateTagBuilder(AATags.ItemTags.STAFF_ENCHANTABLE)
+            .add(AAItems.STAFF);
+
+        getOrCreateTagBuilder(CPCItemTags.MELEE_WEAPON)
+            .addOptionalTag(AATags.ItemTags.MACES);
+
+        getOrCreateTagBuilder(CPCItemTags.DUAL_WEAPON)
             .addOptionalTag(AATags.ItemTags.DAGGERS);
+
+        getOrCreateTagBuilder(CPCItemTags.DAMAGE_PRIMARY_ENCHANTABLE)
+            .addOptionalTag(AATags.ItemTags.DAGGERS)
+            .addOptionalTag(AATags.ItemTags.MACES);
+
+        getOrCreateTagBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE)
+            .addOptionalTag(AATags.ItemTags.DAGGERS)
+            .addOptionalTag(AATags.ItemTags.MACES);
         
         getOrCreateTagBuilder(HIDDEN_FROM_RECIPE_VIEWERS)
             .add(AAItems.ITEM_PROJECTILES.toArray(new Item[0]));
@@ -66,9 +86,35 @@ public class TagGenerator extends ItemTagProvider {
             .add(AAItems.OVERNETHER_ARMOUR.toArray(new ArmorItem[0]))
             .add(AAItems.ENDERNETHER_ARMOUR.toArray(new ArmorItem[0]));
 
+        getOrCreateTagBuilder(ItemTags.HEAD_ARMOR)
+            .add(AAItems.OVERNETHER_HELMET)
+            .add(AAItems.ENDERNETHER_HELMET);
+
+        getOrCreateTagBuilder(ItemTags.CHEST_ARMOR)
+            .add(AAItems.OVERNETHER_CHESTPLATE)
+            .add(AAItems.ENDERNETHER_CHESTPLATE);
+
+        getOrCreateTagBuilder(ItemTags.LEG_ARMOR)
+            .add(AAItems.OVERNETHER_LEGGINGS)
+            .add(AAItems.ENDERNETHER_LEGGINGS);
+
+        getOrCreateTagBuilder(ItemTags.FOOT_ARMOR)
+            .add(AAItems.OVERNETHER_BOOTS)
+            .add(AAItems.ENDERNETHER_BOOTS);
+
         getOrCreateTagBuilder(ItemTags.BEACON_PAYMENT_ITEMS)
             .add(AAItems.OVERNETHER_INGOT)
             .add(AAItems.ENDERNETHER_INGOT);
+
+        getOrCreateTagBuilder(ItemTags.VANISHING_ENCHANTABLE)
+            .addOptionalTag(AATags.ItemTags.DAGGERS)
+            .addOptionalTag(AATags.ItemTags.MACES)
+            .add(AAItems.BOOMERANG);
+
+        getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
+            .addOptionalTag(AATags.ItemTags.DAGGERS)
+            .addOptionalTag(AATags.ItemTags.MACES)
+            .add(AAItems.BOOMERANG);
     }
     
 }

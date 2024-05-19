@@ -4,21 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
-import com.provismet.AdditionalArmoury.items.AAArmourMaterials;
-import com.provismet.AdditionalArmoury.items.AAExtraArmourItem;
-import com.provismet.AdditionalArmoury.items.AAExtraAxeItem;
-import com.provismet.AdditionalArmoury.items.AAExtraHoeItem;
-import com.provismet.AdditionalArmoury.items.AAExtraPickaxeItem;
-import com.provismet.AdditionalArmoury.items.AAExtraShovelItem;
-import com.provismet.AdditionalArmoury.items.AAExtraSwordItem;
-import com.provismet.AdditionalArmoury.items.AASmithingTemplateItem;
-import com.provismet.AdditionalArmoury.items.AAToolMaterials;
-import com.provismet.AdditionalArmoury.items.BoomerangItem;
-import com.provismet.AdditionalArmoury.items.DaggerItem;
-import com.provismet.AdditionalArmoury.items.MaceItem;
-import com.provismet.AdditionalArmoury.items.StaffItem;
+import com.provismet.AdditionalArmoury.items.*;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import com.provismet.AdditionalArmoury.utility.Util;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
@@ -32,63 +20,63 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 public class AAItems {
-    public static final Item OVERNETHER_INGOT = new Item(new FabricItemSettings().fireproof());
-    public static final Item ENDERNETHER_INGOT = new Item(new FabricItemSettings().fireproof());
+    public static final Item OVERNETHER_INGOT = new Item(new Item.Settings().fireproof());
+    public static final Item ENDERNETHER_INGOT = new Item(new Item.Settings().fireproof());
 
-    public static final BlockItem OVERNETHER_BLOCK = new BlockItem(AABlocks.OVERNETHER_BLOCK, new FabricItemSettings());
-    public static final BlockItem ENDERNETHER_BLOCK = new BlockItem(AABlocks.ENDERNETHER_BLOCK, new FabricItemSettings());
+    public static final BlockItem OVERNETHER_BLOCK = new BlockItem(AABlocks.OVERNETHER_BLOCK, new Item.Settings());
+    public static final BlockItem ENDERNETHER_BLOCK = new BlockItem(AABlocks.ENDERNETHER_BLOCK, new Item.Settings());
 
     public static final Item OVERNETHER_UPGRADE_SMITHING_TEMPLATE = AASmithingTemplateItem.createOvernetherSmithingTemplate();
     public static final Item ENDERNETHER_UPGRADE_SMITHING_TEMPLATE = AASmithingTemplateItem.createEndernetherSmithingTemplate();
 
-    public static final SwordItem OVERNETHER_SWORD = new AAExtraSwordItem(AAToolMaterials.OVERNETHER, 3, -2.4f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final SwordItem ENDERNETHER_SWORD = new AAExtraSwordItem(AAToolMaterials.ENDERNETHER, 3, -2.4f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final AxeItem OVERNETHER_AXE = new AAExtraAxeItem(AAToolMaterials.OVERNETHER, 5, -3f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final AxeItem ENDERNETHER_AXE = new AAExtraAxeItem(AAToolMaterials.ENDERNETHER, 5, -3f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final PickaxeItem OVERNETHER_PICKAXE = new AAExtraPickaxeItem(AAToolMaterials.OVERNETHER, 1, -2.8f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final PickaxeItem ENDERNETHER_PICKAXE = new AAExtraPickaxeItem(AAToolMaterials.ENDERNETHER, 1, -2.8f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final ShovelItem OVERNETHER_SHOVEL = new AAExtraShovelItem(AAToolMaterials.OVERNETHER, 1.5f, -3f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final ShovelItem ENDERNETHER_SHOVEL = new AAExtraShovelItem(AAToolMaterials.ENDERNETHER, 1.5f, -3f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final HoeItem OVERNETHER_HOE = new AAExtraHoeItem(AAToolMaterials.OVERNETHER, -4, 0f, new FabricItemSettings().maxCount(1).fireproof());
-    public static final HoeItem ENDERNETHER_HOE = new AAExtraHoeItem(AAToolMaterials.ENDERNETHER, -4, 0f, new FabricItemSettings().maxCount(1).fireproof());
+    public static final SwordItem OVERNETHER_SWORD = new SwordItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, 3f, -2.4f)));
+    public static final SwordItem ENDERNETHER_SWORD = new SwordItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, 3f, -2.4f)));
+    public static final AxeItem OVERNETHER_AXE = new AxeItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, 5f, -3f)));
+    public static final AxeItem ENDERNETHER_AXE = new AxeItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, 5f, -3f)));
+    public static final PickaxeItem OVERNETHER_PICKAXE = new PickaxeItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, 1f, -2.8f)));
+    public static final PickaxeItem ENDERNETHER_PICKAXE = new PickaxeItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, 1f, -2.8f)));
+    public static final ShovelItem OVERNETHER_SHOVEL = new ShovelItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, 1.5f, -3f)));
+    public static final ShovelItem ENDERNETHER_SHOVEL = new ShovelItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, 1.5f, -3f)));
+    public static final HoeItem OVERNETHER_HOE = new HoeItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, -4f, 0f)));
+    public static final HoeItem ENDERNETHER_HOE = new HoeItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, -4f, 0f)));
 
-    public static final DaggerItem WOODEN_DAGGER = new DaggerItem(ToolMaterials.WOOD, new FabricItemSettings().maxCount(1), 0x372910);
-    public static final DaggerItem STONE_DAGGER = new DaggerItem(ToolMaterials.STONE, new FabricItemSettings().maxCount(1), 0x494949);
-    public static final DaggerItem GOLDEN_DAGGER = new DaggerItem(ToolMaterials.GOLD, new FabricItemSettings().maxCount(1), 0x825D16);
-    public static final DaggerItem IRON_DAGGER = new DaggerItem(ToolMaterials.IRON, new FabricItemSettings().maxCount(1), 0x444444);
-    public static final DaggerItem DIAMOND_DAGGER = new DaggerItem(ToolMaterials.DIAMOND, new FabricItemSettings().maxCount(1), 0x0E3F36);
-    public static final DaggerItem NETHERITE_DAGGER = new DaggerItem(ToolMaterials.NETHERITE, new FabricItemSettings().maxCount(1).fireproof(), 0x4A2940);
-    public static final DaggerItem OVERNETHER_DAGGER = new DaggerItem(AAToolMaterials.OVERNETHER, new FabricItemSettings().maxCount(1).fireproof(), 0x082832);
-    public static final DaggerItem ENDERNETHER_DAGGER = new DaggerItem(AAToolMaterials.ENDERNETHER, new FabricItemSettings().maxCount(1).fireproof(), 0x643C64);
+    public static final DaggerItem WOODEN_DAGGER = new DaggerItem(ToolMaterials.WOOD, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.WOOD)));
+    public static final DaggerItem STONE_DAGGER = new DaggerItem(ToolMaterials.STONE, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.STONE)));
+    public static final DaggerItem GOLDEN_DAGGER = new DaggerItem(ToolMaterials.GOLD, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.GOLD)));
+    public static final DaggerItem IRON_DAGGER = new DaggerItem(ToolMaterials.IRON, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.IRON)));
+    public static final DaggerItem DIAMOND_DAGGER = new DaggerItem(ToolMaterials.DIAMOND, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.DIAMOND)));
+    public static final DaggerItem NETHERITE_DAGGER = new DaggerItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof().attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.NETHERITE)));
+    public static final DaggerItem OVERNETHER_DAGGER = new DaggerItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(DaggerItem.createDefaultDaggerAttributes(AAToolMaterials.OVERNETHER)));
+    public static final DaggerItem ENDERNETHER_DAGGER = new DaggerItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(DaggerItem.createDefaultDaggerAttributes(AAToolMaterials.ENDERNETHER)));
 
-    public static final MaceItem WOODEN_MACE = new MaceItem(ToolMaterials.WOOD, new FabricItemSettings().maxCount(1));
-    public static final MaceItem STONE_MACE = new MaceItem(ToolMaterials.STONE, new FabricItemSettings().maxCount(1));
-    public static final MaceItem GOLDEN_MACE = new MaceItem(ToolMaterials.GOLD, new FabricItemSettings().maxCount(1));
-    public static final MaceItem IRON_MACE = new MaceItem(ToolMaterials.IRON, new FabricItemSettings().maxCount(1));
-    public static final MaceItem DIAMOND_MACE = new MaceItem(ToolMaterials.DIAMOND, new FabricItemSettings().maxCount(1));
-    public static final MaceItem NETHERITE_MACE = new MaceItem(ToolMaterials.NETHERITE, new FabricItemSettings().maxCount(1).fireproof());
-    public static final MaceItem OVERNETHER_MACE = new MaceItem(AAToolMaterials.OVERNETHER, new FabricItemSettings().maxCount(1).fireproof());
-    public static final MaceItem ENDERNETHER_MACE = new MaceItem(AAToolMaterials.ENDERNETHER, new FabricItemSettings().maxCount(1).fireproof());
+    public static final MaceItem WOODEN_MACE = new MaceItem(ToolMaterials.WOOD, new Item.Settings().maxCount(1).attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.WOOD)));
+    public static final MaceItem STONE_MACE = new MaceItem(ToolMaterials.STONE, new Item.Settings().maxCount(1).attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.STONE)));
+    public static final MaceItem GOLDEN_MACE = new MaceItem(ToolMaterials.GOLD, new Item.Settings().maxCount(1).attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.GOLD)));
+    public static final MaceItem IRON_MACE = new MaceItem(ToolMaterials.IRON, new Item.Settings().maxCount(1).attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.IRON)));
+    public static final MaceItem DIAMOND_MACE = new MaceItem(ToolMaterials.DIAMOND, new Item.Settings().maxCount(1).attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.DIAMOND)));
+    public static final MaceItem NETHERITE_MACE = new MaceItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof().attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.NETHERITE)));
+    public static final MaceItem OVERNETHER_MACE = new MaceItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(MaceItem.createDefaultMaceAttributes(AAToolMaterials.OVERNETHER)));
+    public static final MaceItem ENDERNETHER_MACE = new MaceItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(MaceItem.createDefaultMaceAttributes(AAToolMaterials.ENDERNETHER)));
 
-    public static final ArmorItem OVERNETHER_HELMET = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.HELMET, new FabricItemSettings().maxCount(1).fireproof());
-    public static final ArmorItem OVERNETHER_CHESTPLATE = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.CHESTPLATE, new FabricItemSettings().maxCount(1).fireproof());
-    public static final ArmorItem OVERNETHER_LEGGINGS = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.LEGGINGS, new FabricItemSettings().maxCount(1).fireproof());
-    public static final ArmorItem OVERNETHER_BOOTS = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.BOOTS, new FabricItemSettings().maxCount(1).fireproof());
+    public static final ArmorItem OVERNETHER_HELMET = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.HELMET, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(37)));
+    public static final ArmorItem OVERNETHER_CHESTPLATE = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.CHESTPLATE, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(37)));
+    public static final ArmorItem OVERNETHER_LEGGINGS = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.LEGGINGS, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(37)));
+    public static final ArmorItem OVERNETHER_BOOTS = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.BOOTS, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(37)));
 
-    public static final ArmorItem ENDERNETHER_HELMET = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.HELMET, new FabricItemSettings().maxCount(1).fireproof());
-    public static final ArmorItem ENDERNETHER_CHESTPLATE = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.CHESTPLATE, new FabricItemSettings().maxCount(1).fireproof());
-    public static final ArmorItem ENDERNETHER_LEGGINGS = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.LEGGINGS, new FabricItemSettings().maxCount(1).fireproof());
-    public static final ArmorItem ENDERNETHER_BOOTS = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.BOOTS, new FabricItemSettings().maxCount(1).fireproof());
+    public static final ArmorItem ENDERNETHER_HELMET = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.HELMET, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(37)));
+    public static final ArmorItem ENDERNETHER_CHESTPLATE = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.CHESTPLATE, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(37)));
+    public static final ArmorItem ENDERNETHER_LEGGINGS = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.LEGGINGS, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(37)));
+    public static final ArmorItem ENDERNETHER_BOOTS = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.BOOTS, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(37)));
 
-    public static final StaffItem STAFF = new StaffItem(new FabricItemSettings().maxCount(1));
-    public static final BoomerangItem BOOMERANG = new BoomerangItem(new FabricItemSettings().maxCount(1).maxDamage(256));
+    public static final StaffItem STAFF = new StaffItem(new Item.Settings().maxCount(1));
+    public static final BoomerangItem BOOMERANG = new BoomerangItem(new Item.Settings().maxCount(1).maxDamage(256));
 
     // Projectile Items (these exist so that magic projectiles can use them for rendering, they are not obtainable in survival)
-    public static final Item FIREBALL = new Item(new FabricItemSettings().fireproof());
-    public static final Item FROSTBALL = new Item(new FabricItemSettings());
-    public static final Item GHOSTLY_ORB = new Item(new FabricItemSettings());
-    public static final Item WIND_TORNADO = new Item(new FabricItemSettings());
-    public static final Item MAGIC_MISSILE = new Item(new FabricItemSettings());
+    public static final Item FIREBALL = new Item(new Item.Settings().fireproof());
+    public static final Item FROSTBALL = new Item(new Item.Settings());
+    public static final Item GHOSTLY_ORB = new Item(new Item.Settings());
+    public static final Item WIND_TORNADO = new Item(new Item.Settings());
+    public static final Item MAGIC_MISSILE = new Item(new Item.Settings());
     public static final List<Item> ITEM_PROJECTILES = Arrays.asList(FIREBALL, FROSTBALL, GHOSTLY_ORB, WIND_TORNADO, MAGIC_MISSILE);
 
     // List representations so I don't have to update the generators and other registries.

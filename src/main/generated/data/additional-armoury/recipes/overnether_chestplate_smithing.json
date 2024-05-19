@@ -7,7 +7,8 @@
     "item": "minecraft:diamond_chestplate"
   },
   "result": {
-    "item": "additional-armoury:overnether_chestplate"
+    "count": 1,
+    "id": "additional-armoury:overnether_chestplate"
   },
   "template": {
     "item": "additional-armoury:overnether_upgrade_smithing_template"

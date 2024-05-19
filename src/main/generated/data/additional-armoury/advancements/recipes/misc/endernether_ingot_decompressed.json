@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "additional-armoury:endernether_block"
-            ]
+            "items": "additional-armoury:endernether_block"
           }
         ]
       },

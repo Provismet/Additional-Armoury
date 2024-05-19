@@ -4,17 +4,7 @@ import net.minecraft.enchantment.Enchantment;
 
 public class MultiThrowEnchantment extends BoomerangEnchantment {
     public MultiThrowEnchantment () {
-        super(Rarity.UNCOMMON);
-    }
-
-    @Override
-    public int getMinPower (int level) {
-        return 20;
-    }
-
-    @Override
-    public int getMaxPower (int level) {
-        return 50;
+        super(5, 1, Enchantment.constantCost(20), Enchantment.constantCost(75), 4);
     }
     
     @Override

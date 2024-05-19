@@ -1,15 +1,15 @@
 package com.provismet.AdditionalArmoury.particles.effects;
 
-import java.util.Locale;
-
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.Registries;
+import net.minecraft.util.dynamic.Codecs;
 
 public class SpellRingParticleEffect implements ParticleEffect {
     private final float scale;
@@ -20,36 +20,24 @@ public class SpellRingParticleEffect implements ParticleEffect {
         this.duration = duration;
     }
 
-    @SuppressWarnings("deprecation")
-    public static final ParticleEffect.Factory<SpellRingParticleEffect> PARAMETERS_FACTORY = new ParticleEffect.Factory<SpellRingParticleEffect>() {
-        @Override
-        public SpellRingParticleEffect read (ParticleType<SpellRingParticleEffect> particleType, StringReader stringReader) throws CommandSyntaxException {
-            float scale = stringReader.readFloat();
-            stringReader.expect(' ');
-            int duration = stringReader.readInt();
-            return new SpellRingParticleEffect(scale, duration);
-        }
+    public static final MapCodec<SpellRingParticleEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
+        instance.group(
+            Codecs.POSITIVE_FLOAT.fieldOf("scale").forGetter(effect -> effect.scale),
+            Codecs.POSITIVE_INT.fieldOf("duration").forGetter(effect -> effect.duration)
+        ).apply(instance, SpellRingParticleEffect::new)
+    );
 
-        @Override
-        public SpellRingParticleEffect read (ParticleType<SpellRingParticleEffect> particleType, PacketByteBuf buffer) {
-            return new SpellRingParticleEffect(buffer.readFloat(), buffer.readInt());
-        }
-    };
+    public static final PacketCodec<RegistryByteBuf, SpellRingParticleEffect> PACKET_CODEC = PacketCodec.tuple(
+        PacketCodecs.FLOAT,
+        effect -> effect.scale,
+        PacketCodecs.INTEGER,
+        effect -> effect.duration,
+        SpellRingParticleEffect::new
+    );
 
     @Override
     public ParticleType<?> getType () {
         return AAParticleTypes.SPELL_RING;
-    }
-
-    @Override
-    public void write (PacketByteBuf buf) {
-        buf.writeFloat(this.scale);
-        buf.writeInt(this.duration);
-    }
-
-    @Override
-    public String asString () {
-        return String.format(Locale.ROOT, "%s %.2f %d", Registries.PARTICLE_TYPE.getId(this.getType()), Float.valueOf(this.scale), Integer.valueOf(this.duration));
     }
 
     public float getScale () {

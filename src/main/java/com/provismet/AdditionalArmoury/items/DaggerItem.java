@@ -2,84 +2,71 @@ package com.provismet.AdditionalArmoury.items;
 
 import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
+import com.provismet.AdditionalArmoury.registries.AADataComponentTypes;
+import com.provismet.AdditionalArmoury.utility.Util;
+import com.provismet.CombatPlusCore.items.AbstractMeleeWeapon;
+import net.minecraft.client.item.TooltipType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.component.type.PotionContentsComponent;
+import net.minecraft.component.type.ToolComponent;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.item.Item;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import com.provismet.AdditionalArmoury.particles.effects.InkSplatParticleEffect;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.CombatPlusCore.interfaces.DualWeapon;
-import com.provismet.CombatPlusCore.utility.AttributeIdentifiers;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.Vanishable;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.potion.Potions;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
-public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
-    public static final String CURRENT_POTION_USE = "DaggerPotionDurability";
-    public static final int MAX_POTION_USES = 64;
+public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     public static final int USES_PER_POTION = 8;
+    public static final int defaultTipColour = 0x00000000;
 
     private static final float POTION_DURATION_MOD = 0.125f;
 
-    private final float attackDamage;
-    private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
-    public final int defaultTipColour;
-
-    public DaggerItem (ToolMaterial material, int attackDamage, float attackSpeed, Settings settings, int defaultTipColour) {
-        super(material, settings);
-        this.attackDamage = attackDamage + material.getAttackDamage();
-        this.defaultTipColour = defaultTipColour;
-
-        if (material instanceof AAToolMaterials extraMat && extraMat.getCustomAttribute() == EntityAttributes.GENERIC_ATTACK_SPEED)
-            attackSpeed += extraMat.getCustomAttributeValue();
-
-        ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", (double)this.attackDamage, EntityAttributeModifier.Operation.ADDITION));
-        builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", (double)attackSpeed, EntityAttributeModifier.Operation.ADDITION));
-
-        if (material instanceof AAToolMaterials extraMat && extraMat.getCustomAttribute() != null && extraMat.getCustomAttribute() != EntityAttributes.GENERIC_ATTACK_SPEED) 
-            builder.put(extraMat.getCustomAttribute(), new EntityAttributeModifier(AttributeIdentifiers.WEAPON_BONUS_ATTRIBUTE, "Additional Armoury: Weapon Modifier", extraMat.getCustomAttributeValue(), EntityAttributeModifier.Operation.ADDITION));
-
-        this.attributeModifiers = builder.build();
+    public DaggerItem (ToolMaterial material, Settings settings) {
+        super(material, settings.component(DataComponentTypes.TOOL, DaggerItem.createToolComponent()));
     }
 
-    public DaggerItem (ToolMaterial material, Settings settings, int defaultTipColour) {
-        this(material, 1, -2f, settings, defaultTipColour);
+    public static AttributeModifiersComponent createDefaultDaggerAttributes (ToolMaterial toolMaterial) {
+        return Util.createAttributes(toolMaterial, 1, -2f);
+    }
+
+    private static ToolComponent createToolComponent () {
+        return new ToolComponent(List.of(ToolComponent.Rule.ofAlwaysDropping(List.of(Blocks.COBWEB), 15.0f), ToolComponent.Rule.of(BlockTags.SWORD_EFFICIENT, 1.5f)), 1.0f, 2);
     }
 
     @Override
-    public float getWeaponDamage () {
-        return attackDamage;
+    public float getWeaponDamage (ItemStack itemStack) {
+        AttributeModifiersComponent attributes = itemStack.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
+        double bonusDamage = 0f;
+        for (AttributeModifiersComponent.Entry entry : attributes.modifiers()) {
+            if (entry.attribute() == EntityAttributes.GENERIC_ATTACK_DAMAGE && entry.modifier().operation() == EntityAttributeModifier.Operation.ADD_VALUE) {
+                bonusDamage += entry.modifier().value();
+            }
+        }
+        return (float)bonusDamage;
     }
 
     @Override
     public void postChargedHit (ItemStack stack, LivingEntity user, LivingEntity target) {
-        Potion potion = PotionUtil.getPotion(stack);
-        for (StatusEffectInstance instance : potion.getEffects()) {
+        PotionContentsComponent potionContents = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
+        for (StatusEffectInstance instance : potionContents.getEffects()) {
             target.addStatusEffect(
                 new StatusEffectInstance(
                     instance.getEffectType(), Math.max(instance.mapDuration(i -> (int)(i * POTION_DURATION_MOD)), 1),
@@ -98,7 +85,7 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
             List<LivingEntity> targets = target.getWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand(1.0 + splatterLevel * 0.5 , 0.25, 1.0 + splatterLevel * 0.5));
             for (LivingEntity newTarget : targets) {
                 if (newTarget == user || newTarget == target) continue;
-                for (StatusEffectInstance instance : potion.getEffects()) {
+                for (StatusEffectInstance instance : potionContents.getEffects()) {
                     newTarget.addStatusEffect(
                         new StatusEffectInstance(
                             instance.getEffectType(), Math.max(instance.mapDuration(i -> (int)(i * POTION_DURATION_MOD)), 1),
@@ -116,89 +103,43 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
 
         boolean hasAdhesive = EnchantmentHelper.getLevel(AAEnchantments.ADHESIVE, stack) > 0;
         if (hasAdhesive) {
-            stack.damage(damage * 2, user, p -> {
-                if (p.getStackInHand(Hand.MAIN_HAND) == stack) p.sendToolBreakStatus(Hand.MAIN_HAND);
-                else p.sendToolBreakStatus(Hand.OFF_HAND);
-            });
+            stack.damage(damage * 2, user, user.getStackInHand(Hand.MAIN_HAND) == stack ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
         }
-        else if (user instanceof PlayerEntity player && !player.isCreative() && potion != Potions.EMPTY && this.decrementCurrentPotionUses(stack, damage) <= 0) {
-            PotionUtil.setPotion(stack, Potions.EMPTY);
-            stack.removeSubNbt(PotionUtil.CUSTOM_POTION_EFFECTS_KEY);
+        else if (user instanceof PlayerEntity player && !player.isCreative() && potionContents.hasEffects() && this.decrementCurrentPotionUses(stack, damage) <= 0) {
+            stack.set(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
         }
-    }
-
-    @Override
-    public boolean canMine (BlockState state, World world, BlockPos pos, PlayerEntity user) {
-        return !user.isCreative();
-    }
-
-    @Override
-    public float getMiningSpeedMultiplier (ItemStack stack, BlockState state) {
-        if (state.isOf(Blocks.COBWEB)) {
-            return 15.0f;
-        }
-        return state.isIn(BlockTags.SWORD_EFFICIENT) ? 1.5f : 1.0f;
-    }
-
-    @Override
-    public boolean postHit (ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
-        return true;
-    }
-
-    @Override
-    public boolean postMine (ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        if (state.getHardness(world, pos) != 0.0f) {
-            stack.damage(2, miner, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
-        }
-        return true;
-    }
-
-    @Override
-    public boolean isSuitableFor(BlockState state) {
-        return state.isOf(Blocks.COBWEB);
     }
 
     @Override
     public ItemStack getDefaultStack () {
-        return PotionUtil.setPotion(super.getDefaultStack(), Potions.EMPTY);
+        ItemStack itemStack = super.getDefaultStack();
+        itemStack.set(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
+        return itemStack;
     }
 
     @Override
-    public void appendTooltip (ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        PotionUtil.buildTooltip(stack, tooltip, POTION_DURATION_MOD, world == null ? 20.0f : world.getTickManager().getTickRate());
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
+        PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
+        potionContentsComponent.buildTooltip(tooltip::add, 0.125f, context.getUpdateTickRate());
 
-        if (EnchantmentHelper.getLevel(AAEnchantments.ADHESIVE, stack) == 0 && PotionUtil.getPotion(stack) != Potions.EMPTY)
+        if (EnchantmentHelper.getLevel(AAEnchantments.ADHESIVE, stack) == 0 && potionContentsComponent.hasEffects())
             tooltip.add(Text.translatable("tooltip.additional-armoury.dagger_uses", this.getCurrentPotionUses(stack)));
     }
 
     @Override
     public String getTranslationKey (ItemStack stack) {
-        Potion potion = PotionUtil.getPotion(stack);
+        PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
 
-        if (potion == null || potion == Potions.EMPTY) {
-            return super.getTranslationKey();
-        }
-        return PotionUtil.getPotion(stack).finishTranslationKey(this.getTranslationKey() + ".effect.");
-    }
-    
-    @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers (EquipmentSlot slot) {
-        if (slot == EquipmentSlot.MAINHAND) {
-            return this.attributeModifiers;
-        }
-        return super.getAttributeModifiers(slot);
+        if (!potionContentsComponent.hasEffects()) return super.getTranslationKey();
+        return Potion.finishTranslationKey(potionContentsComponent.potion(), this.getTranslationKey() + ".effect.");
     }
 
     public int getCurrentPotionUses (ItemStack stack) {
-        NbtCompound nbt = stack.getNbt();
-        if (nbt == null || !nbt.contains(CURRENT_POTION_USE)) return MAX_POTION_USES;
-        else return nbt.getInt(CURRENT_POTION_USE);
+        return stack.getOrDefault(AADataComponentTypes.USES, 0);
     }
 
     public void setCurrentPotionUses (ItemStack stack, int uses) {
-        NbtCompound nbt = stack.getOrCreateNbt();
-        nbt.putInt(CURRENT_POTION_USE, uses);
+        stack.set(AADataComponentTypes.USES, uses);
     }
 
     public int decrementCurrentPotionUses (ItemStack stack, int amount) {
@@ -212,10 +153,10 @@ public class DaggerItem extends ToolItem implements DualWeapon, Vanishable {
     }
 
     public void spawnInkParticles (Entity entity, int count, ItemStack stack) {
-        Potion potion = PotionUtil.getPotion(stack);
-        if (potion == Potions.EMPTY || potion.getEffects().isEmpty()) return;
+        PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
+        if (!potionContentsComponent.hasEffects()) return;
 
-        InkSplatParticleEffect splatEffect = new InkSplatParticleEffect(Vec3d.unpackRgb(PotionUtil.getColor(stack)).toVector3f(), 0.2f);
+        InkSplatParticleEffect splatEffect = new InkSplatParticleEffect(Vec3d.unpackRgb(potionContentsComponent.getColor()).toVector3f(), 0.2f);
         entity.getWorld().addParticle(splatEffect, entity.getX(), entity.getEyeY() - 0.1, entity.getZ(), 0, 0, 0);
         entity.getWorld().addParticle(splatEffect, entity.getX(), entity.getEyeY() - 0.1, entity.getZ(), 0, 0, 0);
         entity.getWorld().addParticle(splatEffect, entity.getX(), entity.getEyeY() - 0.1, entity.getZ(), 0, 0, 0);

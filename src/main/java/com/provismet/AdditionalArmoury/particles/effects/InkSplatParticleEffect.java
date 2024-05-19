@@ -1,39 +1,51 @@
 package com.provismet.AdditionalArmoury.particles.effects;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.util.dynamic.Codecs;
 import org.joml.Vector3f;
 
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.particle.AbstractDustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 
-public class InkSplatParticleEffect extends AbstractDustParticleEffect {
-    public InkSplatParticleEffect(Vector3f color, float scale) {
-        super(color, scale);
+public class InkSplatParticleEffect implements ParticleEffect {
+    private final Vector3f colour;
+    private final float scale;
+
+    public InkSplatParticleEffect (Vector3f colour, float scale) {
+        this.colour = colour;
+        this.scale = scale;
     }
 
-    @SuppressWarnings("deprecation")
-    public static final ParticleEffect.Factory<InkSplatParticleEffect> PARAMETERS_FACTORY = new ParticleEffect.Factory<InkSplatParticleEffect>() {
-        @Override
-        public InkSplatParticleEffect read (ParticleType<InkSplatParticleEffect> particleType, StringReader stringReader) throws CommandSyntaxException {
-            Vector3f colour = AbstractDustParticleEffect.readColor(stringReader);
-            stringReader.expect(' ');
-            float scale = stringReader.readFloat();
-            return new InkSplatParticleEffect(colour, scale);
-        }
+    public static final MapCodec<InkSplatParticleEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
+        instance.group(
+            Codecs.VECTOR_3F.fieldOf("colour").forGetter(effect -> effect.colour),
+            Codecs.POSITIVE_FLOAT.fieldOf("scale").forGetter(effect -> effect.scale)
+        ).apply(instance, InkSplatParticleEffect::new)
+    );
 
-        @Override
-        public InkSplatParticleEffect read (ParticleType<InkSplatParticleEffect> particleType, PacketByteBuf buffer) {
-            return new InkSplatParticleEffect(buffer.readVector3f(), buffer.readFloat());
-        }
-    };
+    public static final PacketCodec<RegistryByteBuf, InkSplatParticleEffect> PACKET_CODEC = PacketCodec.tuple(
+        PacketCodecs.VECTOR3F,
+        effect -> effect.colour,
+        PacketCodecs.FLOAT,
+        effect -> effect.scale,
+        InkSplatParticleEffect::new
+    );
 
     @Override
     public ParticleType<?> getType () {
         return AAParticleTypes.INK_SPLAT;
+    }
+
+    public Vector3f getColour () {
+        return this.colour;
+    }
+    public float getScale () {
+        return this.scale;
     }
 }

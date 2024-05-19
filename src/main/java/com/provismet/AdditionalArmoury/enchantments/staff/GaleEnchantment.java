@@ -2,13 +2,14 @@ package com.provismet.AdditionalArmoury.enchantments.staff;
 
 import com.provismet.AdditionalArmoury.entity.WindTornadoSpellEntity;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 
 public class GaleEnchantment extends AbstractStaffEnchantment {
     public GaleEnchantment () {
-        super(Rarity.UNCOMMON, 0xFFFFFF, 32, 30);
+        super(5, Enchantment.constantCost(10), Enchantment.constantCost(60), 5, 0xFFFFFFFF, 32, 30);
     }
 
     @Override

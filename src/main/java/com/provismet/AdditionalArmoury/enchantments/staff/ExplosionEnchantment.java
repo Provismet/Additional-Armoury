@@ -5,6 +5,7 @@ import com.provismet.AdditionalArmoury.particles.effects.SpellRingParticleEffect
 
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -15,7 +16,7 @@ import net.minecraft.world.explosion.Explosion;
 
 public class ExplosionEnchantment extends AbstractStaffEnchantment {
     public ExplosionEnchantment () {
-        super(Rarity.VERY_RARE, 0xCE0000, 16, 160);
+        super(1, Enchantment.constantCost(50), Enchantment.constantCost(100), 8, 0xFFCE0000, 16, 160);
     }
 
     @Override

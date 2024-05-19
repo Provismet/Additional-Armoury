@@ -1,7 +1,6 @@
 package com.provismet.AdditionalArmoury.enchantments.staff;
 
-import com.provismet.AdditionalArmoury.registries.AAEnchantmentTargets;
-
+import com.provismet.AdditionalArmoury.utility.AATags;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -14,21 +13,19 @@ public abstract class AbstractStaffEnchantment extends Enchantment {
     public final int maxUses;
     public final int chargeTime;
 
-    protected AbstractStaffEnchantment (Rarity weight, int colour, int maxUses, int chargeTime) {
-        super(weight, AAEnchantmentTargets.STAFF, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
+    protected AbstractStaffEnchantment (int weight, Cost minCost, Cost maxCost, int anvilCost, int colour, int maxUses, int chargeTime) {
+        super(Enchantment.properties(
+                AATags.ItemTags.STAFF_ENCHANTABLE,
+                weight,
+                1,
+                minCost,
+                maxCost,
+                anvilCost,
+                EquipmentSlot.MAINHAND
+        ));
         this.colour = colour;
         this.maxUses = maxUses;
         this.chargeTime = chargeTime;
-    }
-
-    @Override
-    public int getMinPower (int level) {
-        return 1;
-    }
-
-    @Override
-    public int getMaxPower (int level) {
-        return 50;
     }
 
     @Override

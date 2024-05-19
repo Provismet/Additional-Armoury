@@ -1,5 +1,6 @@
 package com.provismet.AdditionalArmoury.enchantments.staff;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -8,7 +9,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class JumpEnchantment extends AbstractStaffEnchantment {
     public JumpEnchantment () {
-        super(Rarity.COMMON, 0xA2C663, 32, 10);
+        super(10, Enchantment.constantCost(0), Enchantment.constantCost(50), 2, 0xFFA2C663, 32, 10);
     }
 
     @Override

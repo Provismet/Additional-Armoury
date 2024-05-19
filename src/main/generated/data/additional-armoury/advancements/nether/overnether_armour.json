@@ -5,24 +5,16 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "additional-armoury:overnether_helmet"
-            ]
+            "items": "additional-armoury:overnether_helmet"
           },
           {
-            "items": [
-              "additional-armoury:overnether_chestplate"
-            ]
+            "items": "additional-armoury:overnether_chestplate"
           },
           {
-            "items": [
-              "additional-armoury:overnether_leggings"
-            ]
+            "items": "additional-armoury:overnether_leggings"
           },
           {
-            "items": [
-              "additional-armoury:overnether_boots"
-            ]
+            "items": "additional-armoury:overnether_boots"
           }
         ]
       },
@@ -35,8 +27,8 @@
     },
     "frame": "challenge",
     "icon": {
-      "item": "additional-armoury:overnether_chestplate",
-      "nbt": "{Damage:0}"
+      "count": 1,
+      "id": "additional-armoury:overnether_chestplate"
     },
     "title": {
       "translate": "advancement.additional-armoury.overnether.title"

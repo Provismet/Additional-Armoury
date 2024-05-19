@@ -7,7 +7,8 @@
     "item": "additional-armoury:diamond_mace"
   },
   "result": {
-    "item": "additional-armoury:netherite_mace"
+    "count": 1,
+    "id": "additional-armoury:netherite_mace"
   },
   "template": {
     "item": "minecraft:netherite_upgrade_smithing_template"

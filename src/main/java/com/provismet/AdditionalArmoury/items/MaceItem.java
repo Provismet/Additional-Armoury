@@ -1,76 +1,42 @@
 package com.provismet.AdditionalArmoury.items;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
-import com.provismet.CombatPlusCore.interfaces.MeleeWeapon;
-import com.provismet.CombatPlusCore.utility.AttributeIdentifiers;
+import com.provismet.AdditionalArmoury.utility.Util;
+import com.provismet.CombatPlusCore.items.AbstractMeleeWeapon;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
-public class MaceItem extends ToolItem implements MeleeWeapon {
-    private final float attackDamage;
-    private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
-
-    public MaceItem (ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
-        super(material, settings);
-        this.attackDamage = attackDamage + material.getAttackDamage();
-        
-        if (material instanceof AAToolMaterials extraMat && extraMat.getCustomAttribute() == EntityAttributes.GENERIC_ATTACK_SPEED)
-            attackSpeed += extraMat.getCustomAttributeValue();
-
-        ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", (double)this.attackDamage, EntityAttributeModifier.Operation.ADDITION));
-        builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", (double)attackSpeed, EntityAttributeModifier.Operation.ADDITION));
-
-        if (material instanceof AAToolMaterials extraMat && extraMat.getCustomAttribute() != null && extraMat.getCustomAttribute() != EntityAttributes.GENERIC_ATTACK_SPEED) 
-            builder.put(extraMat.getCustomAttribute(), new EntityAttributeModifier(AttributeIdentifiers.WEAPON_BONUS_ATTRIBUTE, "Additional Armoury: Weapon Modifier", extraMat.getCustomAttributeValue(), EntityAttributeModifier.Operation.ADDITION));
-
-        this.attributeModifiers = builder.build();
-    }
-
+public class MaceItem extends AbstractMeleeWeapon {
     public MaceItem (ToolMaterial material, Settings settings) {
-        this(material, 6, -3.5f, settings);
+        super(material, settings);
+    }
+
+    public static AttributeModifiersComponent createDefaultMaceAttributes (ToolMaterial material) {
+        return Util.createAttributes(material, 6f, -3.5f);
     }
 
     @Override
-    public boolean canMine (BlockState state, World world, BlockPos pos, PlayerEntity user) {
-        return !user.isCreative();
-    }
-
-    @Override
-    public float getWeaponDamage () {
-        return this.attackDamage;
-    }
-
-    @Override
-    public boolean postHit (ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
-        return true;
-    }
-
-    @Override
-    public boolean postMine (ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        if (state.getHardness(world, pos) != 0.0f) {
-            stack.damage(2, miner, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+    public float getWeaponDamage (ItemStack itemStack) {
+        AttributeModifiersComponent attributes = itemStack.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
+        double bonusDamage = 0f;
+        for (AttributeModifiersComponent.Entry entry : attributes.modifiers()) {
+            if (entry.attribute() == EntityAttributes.GENERIC_ATTACK_DAMAGE && entry.modifier().operation() == EntityAttributeModifier.Operation.ADD_VALUE) {
+                bonusDamage += entry.modifier().value();
+            }
         }
-        return true;
+        return (float)bonusDamage;
     }
 
     @Override
@@ -85,18 +51,10 @@ public class MaceItem extends ToolItem implements MeleeWeapon {
             if (dismantle > 0) {
                 for (EquipmentSlot slot : EquipmentSlot.values()) {
                     if (slot.isArmorSlot() && !target.getEquippedStack(slot).isEmpty()) {
-                        target.getEquippedStack(slot).damage(2 * dismantle, target, p -> p.sendEquipmentBreakStatus(slot));
+                        target.getEquippedStack(slot).damage(2 * dismantle, target, slot);
                     }
                 }
             }
         }
-    }
-    
-    @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers (EquipmentSlot slot) {
-        if (slot == EquipmentSlot.MAINHAND) {
-            return this.attributeModifiers;
-        }
-        return super.getAttributeModifiers(slot);
     }
 }

@@ -2,13 +2,13 @@ package com.provismet.AdditionalArmoury.items;
 
 import java.util.EnumMap;
 import java.util.UUID;
+import java.util.function.Supplier;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.base.Suppliers;
 
 import net.minecraft.block.DispenserBlock;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ArmorItem;
@@ -22,27 +22,52 @@ public class AAExtraArmourItem extends ArmorItem {
         uuidMap.put(Type.HELMET, UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150"));
     });
 
-    private final Multimap<EntityAttribute, EntityAttributeModifier> trueAttributeModifiers;
+    private final Supplier<AttributeModifiersComponent> trueAttributeModifiers;
 
-    public AAExtraArmourItem (AAArmourMaterials material, Type type, Settings settings) {
-        super(material, type, settings);
+    public AAExtraArmourItem (AAArmourMaterial material, Type type, Settings settings) {
+        super(material.getBaseMaterial(), type, settings);
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSER_BEHAVIOR);
-        
-        ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-        UUID uUID = MODIFIERS.get((Object)type);
-        builder.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(uUID, "Armor modifier", material.getProtection(type), EntityAttributeModifier.Operation.ADDITION));
-        builder.put(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, new EntityAttributeModifier(uUID, "Armor toughness", material.getToughness(), EntityAttributeModifier.Operation.ADDITION));
-        if (material.getCustomAttribute() != null) {
-            builder.put(material.getCustomAttribute(), new EntityAttributeModifier(uUID, "Additional Armoury: Custom attribute", material.getCustomAttributeValue(type), material.getOperation()));
-        }
-        this.trueAttributeModifiers = builder.build();
+
+        this.trueAttributeModifiers = Suppliers.memoize(() -> {
+            int protection = material.getProtection(type);
+            float toughness = material.getToughness();
+            AttributeModifiersComponent.Builder builder = AttributeModifiersComponent.builder();
+            AttributeModifierSlot attributeModifierSlot = AttributeModifierSlot.forEquipmentSlot(type.getEquipmentSlot());
+            UUID uUID = MODIFIERS.get(type);
+            builder.add(
+                EntityAttributes.GENERIC_ARMOR,
+                new EntityAttributeModifier(uUID, "Armor modifier", protection, EntityAttributeModifier.Operation.ADD_VALUE),
+                attributeModifierSlot
+            );
+            builder.add(
+                EntityAttributes.GENERIC_ARMOR_TOUGHNESS,
+                new EntityAttributeModifier(uUID, "Armor toughness", toughness, EntityAttributeModifier.Operation.ADD_VALUE),
+                attributeModifierSlot
+            );
+
+            // Include this just in case dependent mods try to add it.
+            float knockbackResistance = material.getBaseMaterial().value().knockbackResistance();
+            if (knockbackResistance > 0f) {
+                builder.add(
+                    EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE,
+                    new EntityAttributeModifier(uUID, "Armor knockback resistance", knockbackResistance, EntityAttributeModifier.Operation.ADD_VALUE),
+                    attributeModifierSlot
+                );
+            }
+
+            if (material.getAttribute() != null && material.getCustomAttributeValue(type) > 0f) {
+                builder.add(
+                    material.getAttribute(),
+                    new EntityAttributeModifier(uUID, "Additional Armoury: Custom attribute", material.getCustomAttributeValue(type), material.getOperation()),
+                    attributeModifierSlot
+                );
+            }
+            return builder.build();
+        });
     }
     
     @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers (EquipmentSlot slot) {
-        if (slot == this.type.getEquipmentSlot()) {
-            return this.trueAttributeModifiers;
-        }
-        return super.getAttributeModifiers(slot);
+    public AttributeModifiersComponent getAttributeModifiers () {
+        return trueAttributeModifiers.get();
     }
 }

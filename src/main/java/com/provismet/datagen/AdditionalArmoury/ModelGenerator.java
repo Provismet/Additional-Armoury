@@ -60,8 +60,8 @@ public class ModelGenerator extends FabricModelProvider {
 
         AAItems.MACES.forEach(item -> itemModelGenerator.register(item, Models.HANDHELD));
         AAItems.ITEM_PROJECTILES.forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
-        AAItems.OVERNETHER_ARMOUR.forEach(armour -> itemModelGenerator.registerArmor(armour));
-        AAItems.ENDERNETHER_ARMOUR.forEach(armour -> itemModelGenerator.registerArmor(armour));
+        AAItems.OVERNETHER_ARMOUR.forEach(itemModelGenerator::registerArmor);
+        AAItems.ENDERNETHER_ARMOUR.forEach(itemModelGenerator::registerArmor);
     }
 
     public static void registerDagger (ItemModelGenerator itemModelGenerator, DaggerItem dagger) {

@@ -2,13 +2,14 @@ package com.provismet.AdditionalArmoury.enchantments.staff;
 
 import com.provismet.AdditionalArmoury.entity.MissileSpellEntity;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 
 public class MissileEnchantment extends AbstractStaffEnchantment {
     public MissileEnchantment () {
-        super(Rarity.RARE, 0x975DFF, 96, 20);
+        super(3, Enchantment.constantCost(20), Enchantment.constantCost(70), 5, 0xFF975DFF, 96, 20);
     }
 
     @Override

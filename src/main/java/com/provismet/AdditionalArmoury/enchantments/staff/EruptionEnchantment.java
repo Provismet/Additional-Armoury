@@ -7,6 +7,7 @@ import com.provismet.AdditionalArmoury.utility.Util;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -21,7 +22,7 @@ public class EruptionEnchantment extends AbstractStaffEnchantment {
     private static final int RADIUS = 5;
 
     public EruptionEnchantment () {
-        super(Rarity.UNCOMMON, 0x7F3C18, 64, 30);
+        super(5, Enchantment.constantCost(10), Enchantment.constantCost(75), 4, 0xFF7F3C18, 64, 30);
     }
 
     @Override

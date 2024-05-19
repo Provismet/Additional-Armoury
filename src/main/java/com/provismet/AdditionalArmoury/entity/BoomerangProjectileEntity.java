@@ -203,8 +203,8 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     }
 
     @Override
-    protected float getGravity () {
-        return 0.005f;
+    protected double getGravity () {
+        return 0.005;
     }
 
     public void setRicochetCount (int value) {

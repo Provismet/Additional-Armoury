@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "additional-armoury:overnether_ingot"
-            ]
+            "items": "additional-armoury:overnether_ingot"
           }
         ]
       },

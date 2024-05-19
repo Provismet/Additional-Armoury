@@ -1,19 +1,11 @@
 package com.provismet.AdditionalArmoury;
 
+import com.provismet.AdditionalArmoury.registries.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.provismet.AdditionalArmoury.api.AdditionalArmouryEntrypointMain;
 import com.provismet.AdditionalArmoury.config.AASettings;
-import com.provismet.AdditionalArmoury.registries.AABlocks;
-import com.provismet.AdditionalArmoury.registries.AAEnchantments;
-import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
-import com.provismet.AdditionalArmoury.registries.AAItemGroups;
-import com.provismet.AdditionalArmoury.registries.AAItems;
-import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
-import com.provismet.AdditionalArmoury.registries.AARecipeSerializers;
-import com.provismet.AdditionalArmoury.registries.AASounds;
-import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
@@ -37,6 +29,7 @@ public class AdditionalArmouryMain implements ModInitializer {
 
     @Override
     public void onInitialize () {
+        AADataComponentTypes.register();
         AASounds.register();
         AABlocks.register();
         AAItems.register();
@@ -48,7 +41,7 @@ public class AdditionalArmouryMain implements ModInitializer {
         AAStatusEffects.register();
         AASettings.read();
 
-        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
+        LootTableEvents.MODIFY.register((id, tableBuilder, source) -> {
             if (source.isBuiltin() || AASettings.shouldOverrideDatapacks()) {
                 if (LootTables.NETHER_BRIDGE_CHEST.equals(id)) {
                     tableBuilder.pool(

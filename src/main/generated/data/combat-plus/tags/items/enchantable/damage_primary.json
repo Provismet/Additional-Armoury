@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#additional-armoury:daggers",
+      "required": false
+    },
+    {
+      "id": "#additional-armoury:maces",
+      "required": false
+    }
+  ]
+}

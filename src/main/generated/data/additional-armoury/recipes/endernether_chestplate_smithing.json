@@ -7,7 +7,8 @@
     "item": "minecraft:diamond_chestplate"
   },
   "result": {
-    "item": "additional-armoury:endernether_chestplate"
+    "count": 1,
+    "id": "additional-armoury:endernether_chestplate"
   },
   "template": {
     "item": "additional-armoury:endernether_upgrade_smithing_template"

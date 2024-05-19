@@ -10,7 +10,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Vanishable;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
@@ -18,7 +17,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class BoomerangItem extends Item implements Vanishable {
+public class BoomerangItem extends Item {
     public BoomerangItem (Settings settings) {
         super(settings);
     }
@@ -74,7 +73,7 @@ public class BoomerangItem extends Item implements Vanishable {
                 }
             }
 
-            itemStack.damage(damage, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
+            itemStack.damage(damage, player, LivingEntity.getSlotForHand(player.getActiveHand()));
             player.getItemCooldownManager().set(AAItems.BOOMERANG, 160);
         }
         world.playSound(null, player.getX(), player.getY(), player.getZ(), AASounds.BOOMERANG_THROW, SoundCategory.PLAYERS, 1.0f, world.getRandom().nextFloat() * 0.2f + 0.9f);

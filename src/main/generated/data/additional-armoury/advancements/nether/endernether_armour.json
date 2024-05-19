@@ -5,24 +5,16 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "additional-armoury:endernether_helmet"
-            ]
+            "items": "additional-armoury:endernether_helmet"
           },
           {
-            "items": [
-              "additional-armoury:endernether_chestplate"
-            ]
+            "items": "additional-armoury:endernether_chestplate"
           },
           {
-            "items": [
-              "additional-armoury:endernether_leggings"
-            ]
+            "items": "additional-armoury:endernether_leggings"
           },
           {
-            "items": [
-              "additional-armoury:endernether_boots"
-            ]
+            "items": "additional-armoury:endernether_boots"
           }
         ]
       },
@@ -35,8 +27,8 @@
     },
     "frame": "challenge",
     "icon": {
-      "item": "additional-armoury:endernether_chestplate",
-      "nbt": "{Damage:0}"
+      "count": 1,
+      "id": "additional-armoury:endernether_chestplate"
     },
     "title": {
       "translate": "advancement.additional-armoury.endernether.title"

@@ -8,7 +8,7 @@ import com.provismet.AdditionalArmoury.registries.AAItems;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.data.server.recipe.ComplexRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.RecipeProvider;
@@ -22,12 +22,15 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 
+import java.util.concurrent.CompletableFuture;
+
 public class RecipeGenerator extends FabricRecipeProvider {
-    public RecipeGenerator (FabricDataOutput output) {
-        super(output);
+    public RecipeGenerator (FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        super(output, registriesFuture);
     }
 
     @Override
@@ -47,7 +50,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
         RecipeGenerator.offerDaggerRecipe(AAItems.STONE_DAGGER, ItemTags.STONE_TOOL_MATERIALS, Items.COBBLESTONE, exporter);
         RecipeGenerator.offerDaggerRecipe(AAItems.GOLDEN_DAGGER, ConventionalItemTags.GOLD_INGOTS, Items.GOLD_INGOT, exporter);
         RecipeGenerator.offerDaggerRecipe(AAItems.IRON_DAGGER, ConventionalItemTags.IRON_INGOTS, Items.IRON_INGOT, exporter);
-        RecipeGenerator.offerDaggerRecipe(AAItems.DIAMOND_DAGGER, ConventionalItemTags.DIAMONDS, Items.DIAMOND, exporter);
+        RecipeGenerator.offerDaggerRecipe(AAItems.DIAMOND_DAGGER, ConventionalItemTags.DIAMOND_GEMS, Items.DIAMOND, exporter);
         RecipeProvider.offerNetheriteUpgradeRecipe(exporter, AAItems.DIAMOND_DAGGER, RecipeCategory.COMBAT, AAItems.NETHERITE_DAGGER);
         RecipeGenerator.offerOvernetherUpgradeRecipe(exporter, AAItems.DIAMOND_DAGGER, RecipeCategory.COMBAT, AAItems.OVERNETHER_DAGGER);
         RecipeGenerator.offerEndernetherUpgradeRecipe(exporter, AAItems.DIAMOND_DAGGER, RecipeCategory.COMBAT, AAItems.ENDERNETHER_DAGGER);
@@ -56,7 +59,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
         RecipeGenerator.offerMaceRecipe(AAItems.STONE_MACE, ItemTags.STONE_TOOL_MATERIALS, Items.COBBLESTONE, exporter);
         RecipeGenerator.offerMaceRecipe(AAItems.GOLDEN_MACE, ConventionalItemTags.GOLD_INGOTS, Items.GOLD_INGOT, exporter);
         RecipeGenerator.offerMaceRecipe(AAItems.IRON_MACE, ConventionalItemTags.IRON_INGOTS, Items.IRON_INGOT, exporter);
-        RecipeGenerator.offerMaceRecipe(AAItems.DIAMOND_MACE, ConventionalItemTags.DIAMONDS, Items.DIAMOND, exporter);
+        RecipeGenerator.offerMaceRecipe(AAItems.DIAMOND_MACE, ConventionalItemTags.DIAMOND_GEMS, Items.DIAMOND, exporter);
         RecipeProvider.offerNetheriteUpgradeRecipe(exporter, AAItems.DIAMOND_MACE, RecipeCategory.COMBAT, AAItems.NETHERITE_MACE);
         RecipeGenerator.offerOvernetherUpgradeRecipe(exporter, AAItems.DIAMOND_MACE, RecipeCategory.COMBAT, AAItems.OVERNETHER_MACE);
         RecipeGenerator.offerEndernetherUpgradeRecipe(exporter, AAItems.DIAMOND_MACE, RecipeCategory.COMBAT, AAItems.ENDERNETHER_MACE);

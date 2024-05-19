@@ -14,8 +14,13 @@
     },
     "frame": "goal",
     "icon": {
-      "item": "additional-armoury:diamond_dagger",
-      "nbt": "{Damage:0,Potion:\"minecraft:poison\"}"
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:poison"
+        }
+      },
+      "count": 1,
+      "id": "additional-armoury:diamond_dagger"
     },
     "title": {
       "translate": "advancement.additional-armoury.tipped_dagger.title"

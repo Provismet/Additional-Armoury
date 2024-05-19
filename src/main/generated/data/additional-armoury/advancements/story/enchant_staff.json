@@ -4,9 +4,7 @@
     "enchanted_staff": {
       "conditions": {
         "item": {
-          "items": [
-            "additional-armoury:staff"
-          ]
+          "items": "additional-armoury:staff"
         }
       },
       "trigger": "minecraft:enchanted_item"
@@ -18,8 +16,15 @@
     },
     "frame": "goal",
     "icon": {
-      "item": "additional-armoury:staff",
-      "nbt": "{Enchantments:[{id:\"additional-armoury:boost\",lvl:1s}]}"
+      "components": {
+        "minecraft:enchantments": {
+          "levels": {
+            "additional-armoury:boost": 1
+          }
+        }
+      },
+      "count": 1,
+      "id": "additional-armoury:staff"
     },
     "title": {
       "translate": "advancement.additional-armoury.enchant_staff.title"

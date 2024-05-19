@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "c:gold_ingots"
+            "items": "#c:ingots/gold"
           }
         ]
       },
@@ -15,9 +15,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:stick"
-            ]
+            "items": "minecraft:stick"
           }
         ]
       },

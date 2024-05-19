@@ -7,7 +7,8 @@
     "item": "minecraft:diamond_sword"
   },
   "result": {
-    "item": "additional-armoury:overnether_sword"
+    "count": 1,
+    "id": "additional-armoury:overnether_sword"
   },
   "template": {
     "item": "additional-armoury:overnether_upgrade_smithing_template"

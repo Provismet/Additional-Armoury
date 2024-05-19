@@ -6,15 +6,16 @@ import com.provismet.AdditionalArmoury.effect.ShatteredStatusEffect;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.entry.RegistryEntry;
 
 public class AAStatusEffects {
-    public static final StatusEffect SHATTERED = new ShatteredStatusEffect();
+    public static final RegistryEntry<StatusEffect> SHATTERED = register(new ShatteredStatusEffect(), "shattered");
 
-    private static void register (StatusEffect effect, String name) {
-        Registry.register(Registries.STATUS_EFFECT, AdditionalArmouryMain.identifier(name), effect);
+    private static RegistryEntry<StatusEffect> register (StatusEffect effect, String name) {
+        return Registry.registerReference(Registries.STATUS_EFFECT, AdditionalArmouryMain.identifier(name), effect);
     }
 
     public static void register () {
-        register(SHATTERED, "shattered");
+        // Do nothing
     }
 }

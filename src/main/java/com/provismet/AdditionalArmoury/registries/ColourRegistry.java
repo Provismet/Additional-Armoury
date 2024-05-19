@@ -1,26 +1,28 @@
 package com.provismet.AdditionalArmoury.registries;
 
+import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.items.StaffItem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.minecraft.potion.PotionUtil;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.PotionContentsComponent;
 
 @Environment(EnvType.CLIENT)
 public class ColourRegistry {
     public static void register () {
         AAItems.DAGGERS.forEach(dagger -> ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
-                int colour = PotionUtil.getColor(stack);
-                return colour == 0xF800F8 ? dagger.defaultTipColour : colour;
+                int colour = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT).getColor();
+                return colour == -13083194 ? DaggerItem.defaultTipColour : colour; // -13083194 is the default colour for empty potion components.
             }
             else return -1;
         }, dagger));
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 0) {
-                return StaffItem.getColour(stack);
+                return StaffItem.getColour(stack); // TODO: This doesn't work right now
             }
             else return -1;
         }, AAItems.STAFF);

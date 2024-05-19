@@ -1,9 +1,11 @@
 package com.provismet.AdditionalArmoury.items;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import com.provismet.AdditionalArmoury.registries.AADataComponentTypes;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
+import net.minecraft.registry.entry.RegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
 import com.provismet.AdditionalArmoury.enchantments.staff.AbstractStaffEnchantment;
@@ -16,8 +18,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Vanishable;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -26,38 +26,33 @@ import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class StaffItem extends Item implements Vanishable {
-    public static final String SPELL_COUNT = "spell_count";
-    public static final String MAX_SPELL_COUNT = "max_spell_count";
-
+public class StaffItem extends Item {
     public StaffItem (Settings settings) {
         super(settings);
     }
 
     public static int getColour (ItemStack stack) {
         AbstractStaffEnchantment enchantment = StaffItem.getFirstStaffEnchantment(stack);
-        if (enchantment == null) return 0xC18920;
+        if (enchantment == null) return 0xFFC18920;
         else return enchantment.colour;
     }
 
     protected static List<AbstractStaffEnchantment> getStaffEnchantments (ItemStack stack) {
-        Iterator<Enchantment> iter = EnchantmentHelper.get(stack).keySet().iterator();
+        ItemEnchantmentsComponent enchantments = EnchantmentHelper.getEnchantments(stack);
         List<AbstractStaffEnchantment> out = new ArrayList<>();
         
-        while (iter.hasNext()) {
-            Enchantment enchantment = iter.next();
-            if (enchantment instanceof AbstractStaffEnchantment staffEnchantment) out.add(staffEnchantment);
+        for (RegistryEntry<Enchantment> enchantment : enchantments.getEnchantments()) {
+            if (enchantment.value() instanceof AbstractStaffEnchantment staffEnchantment) out.add(staffEnchantment);
         }
         return out;
     }
 
     @Nullable
     protected static AbstractStaffEnchantment getFirstStaffEnchantment (ItemStack stack)  {
-        Iterator<Enchantment> iter = EnchantmentHelper.get(stack).keySet().iterator();
-        
-        while (iter.hasNext()) {
-            Enchantment enchantment = iter.next();
-            if (enchantment instanceof AbstractStaffEnchantment staffEnchantment) return staffEnchantment;
+        ItemEnchantmentsComponent enchantments = EnchantmentHelper.getEnchantments(stack);
+
+        for (RegistryEntry<Enchantment> enchantment : enchantments.getEnchantments()) {
+            if (enchantment.value() instanceof AbstractStaffEnchantment staffEnchantment) return staffEnchantment;
         }
         return null;
     }
@@ -89,10 +84,6 @@ public class StaffItem extends Item implements Vanishable {
 
         if (enchantment != null) {
             enchantment.onChargeTick(world, user, stack, remainingUseTicks);
-            if (remainingUseTicks == this.getMaxUseTime(stack)) {
-
-            }
-
             if (world.isClient()) world.addParticle(new SpellChargeParticleEffect(Vec3d.unpackRgb(enchantment.getColour(user.getRandom())).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 0, 0, 0);
         }
     }
@@ -157,13 +148,13 @@ public class StaffItem extends Item implements Vanishable {
         List<AbstractStaffEnchantment> enchantments = StaffItem.getStaffEnchantments(stack);
         boolean wasUsed = false;
 
-        if (enchantments.size() > 0) {
+        if (!enchantments.isEmpty()) {
             for (AbstractStaffEnchantment enchant : enchantments) {
                 if (enchant.castSpell(stack, user)) wasUsed = true;
             }
 
             if (wasUsed && user instanceof PlayerEntity player && !player.isCreative()) {
-                this.setMaxUseCount(stack, enchantments.get(0).maxUses);
+                this.setMaxUseCount(stack, enchantments.getFirst().maxUses);
                 this.incrementUseCount(stack);
             }
         }
@@ -179,13 +170,11 @@ public class StaffItem extends Item implements Vanishable {
     }
 
     public void setMaxUseCount (ItemStack stack, int maxUses) {
-        stack.getOrCreateNbt().putInt(MAX_SPELL_COUNT, maxUses);
+        stack.set(AADataComponentTypes.MAX_USES, maxUses);
     }
 
     public int getMaxUseCount (ItemStack stack) {
-        NbtCompound nbt = stack.getNbt();
-        if (nbt == null || !nbt.contains(MAX_SPELL_COUNT)) return 0;
-        else return nbt.getInt(MAX_SPELL_COUNT);
+        return stack.getOrDefault(AADataComponentTypes.MAX_USES, 0);
     }
 
     public void incrementUseCount (ItemStack stack) {
@@ -193,22 +182,15 @@ public class StaffItem extends Item implements Vanishable {
     }
 
     public int getUseCount (ItemStack stack) {
-        NbtCompound nbt = stack.getNbt();
-        if (nbt == null || !nbt.contains(SPELL_COUNT)) return 0;
-        else return nbt.getInt(SPELL_COUNT);
+        return stack.getOrDefault(AADataComponentTypes.USES, 0);
     }
 
     public void setUseCount (ItemStack stack, int uses) {
         if (uses >= this.getMaxUseCount(stack)) {
             uses = 0;
             this.setMaxUseCount(stack, 0);
-            stack.removeSubNbt("Enchantments");
-            stack.removeSubNbt("StoredEnchantments");
+            EnchantmentHelper.apply(stack, components -> components.remove(enchantment -> true));
         }
-        stack.getOrCreateNbt().putInt(SPELL_COUNT, uses);
-    }
-
-    public void setMaxUses (ItemStack stack, int maxUses) {
-        stack.getOrCreateNbt().putInt(MAX_SPELL_COUNT, maxUses);
+        stack.set(AADataComponentTypes.USES, uses);
     }
 }

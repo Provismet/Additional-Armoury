@@ -4,26 +4,11 @@ import net.minecraft.enchantment.Enchantment;
 
 public class ThrowStrengthEnchantment extends BoomerangEnchantment {
     public ThrowStrengthEnchantment () {
-        super(Rarity.COMMON);
+        super(10, 3, Enchantment.leveledCost(0, 10), Enchantment.leveledCost(30, 10), 2);
     }
     
     @Override
     public boolean canAccept (Enchantment other) {
         return super.canAccept(other) && !(other instanceof DistanceEnchantment);
     }
-    
-    @Override
-    public int getMinPower (int level) {
-        return 1 + (level - 1) * 10;
-    }
-
-    @Override
-    public int getMaxPower(int level) {
-        return 50;
-    }
-    
-    @Override
-    public int getMaxLevel () {
-        return 3;
-    } 
 }

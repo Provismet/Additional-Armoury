@@ -61,7 +61,7 @@ public class AADamageSources {
         return sources.create(damageType, source, attacker);
     }
 
-    private static final RegistryKey<DamageType> createDamageType (String name) {
+    private static RegistryKey<DamageType> createDamageType (String name) {
         return RegistryKey.of(RegistryKeys.DAMAGE_TYPE, AdditionalArmouryMain.identifier(name));
     }
 }

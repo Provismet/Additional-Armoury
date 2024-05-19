@@ -3,15 +3,17 @@ package com.provismet.AdditionalArmoury.crafting;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.registries.AARecipeSerializers;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.World;
 
 public class TippedDaggerRecipe extends SpecialCraftingRecipe {
@@ -22,7 +24,7 @@ public class TippedDaggerRecipe extends SpecialCraftingRecipe {
     @Override
     public boolean matches (RecipeInputInventory recipeInputInventory, World world) {
         boolean hasOneDagger = false;
-        Potion potionInput = null;
+        RegistryEntry<Potion> potionInput = null;
 
         for (ItemStack input : recipeInputInventory.getHeldStacks()) {
             if (input.getItem() instanceof DaggerItem) {
@@ -30,8 +32,11 @@ public class TippedDaggerRecipe extends SpecialCraftingRecipe {
                 hasOneDagger = true;
             }
             else if (input.isOf(Items.LINGERING_POTION)) {
-                if (potionInput == null) potionInput = PotionUtil.getPotion(input);
-                else if (PotionUtil.getPotion(input) != potionInput) return false;
+                PotionContentsComponent potionComponent = input.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
+                if (!potionComponent.hasEffects() || potionComponent.potion().isEmpty()) return false;
+
+                if (potionInput == null) potionInput = potionComponent.potion().get();
+                else if (potionComponent.potion().get() != potionInput) return false;
             }
             else if (!input.isEmpty()) return false;
         }
@@ -40,7 +45,7 @@ public class TippedDaggerRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft (RecipeInputInventory recipeInputInventory, DynamicRegistryManager dynamicRegistryManager) {
+    public ItemStack craft (RecipeInputInventory recipeInputInventory, RegistryWrapper.WrapperLookup lookup) {
         ItemStack inputDagger = null;
         ItemStack potion = null;
         int potionCount = 0;
@@ -55,8 +60,7 @@ public class TippedDaggerRecipe extends SpecialCraftingRecipe {
 
         if (inputDagger == null || potion == null) return ItemStack.EMPTY;
         else {
-            PotionUtil.setPotion(inputDagger, PotionUtil.getPotion(potion));
-            PotionUtil.setCustomPotionEffects(inputDagger, PotionUtil.getCustomPotionEffects(potion));
+            inputDagger.set(DataComponentTypes.POTION_CONTENTS, potion.get(DataComponentTypes.POTION_CONTENTS));
             ((DaggerItem)inputDagger.getItem()).setCurrentPotionUses(inputDagger, potionCount * DaggerItem.USES_PER_POTION);
             return inputDagger;
         }
@@ -71,5 +75,4 @@ public class TippedDaggerRecipe extends SpecialCraftingRecipe {
     public RecipeSerializer<?> getSerializer () {
         return AARecipeSerializers.TIPPED_DAGGER;
     }
-    
 }

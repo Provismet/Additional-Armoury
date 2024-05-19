@@ -1,6 +1,7 @@
 package com.provismet.datagen.AdditionalArmoury;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
@@ -10,19 +11,21 @@ import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
 
 public class LanguageGenerator extends FabricLanguageProvider {
-    protected LanguageGenerator (FabricDataOutput dataOutput) {
-        super(dataOutput, "en_us");
+    protected LanguageGenerator(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        super(dataOutput, registryLookup);
     }
 
     @Override
-    public void generateTranslations (TranslationBuilder translationBuilder) {
+    public void generateTranslations (RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add("subtitles.additional-armoury.boomerang.throw", "Throws boomerang");
         translationBuilder.add("subtitles.additional-armoury.staff.cast", "Casts spell");
 
@@ -99,7 +102,7 @@ public class LanguageGenerator extends FabricLanguageProvider {
         translationBuilder.add(AAEntityTypes.MAGIC_MISSILE, "Missile Spell");
         translationBuilder.add(AAEntityTypes.BOOMERANG, "Boomerang");
 
-        translationBuilder.add(AAStatusEffects.SHATTERED, "Shattered");
+        translationBuilder.add(AAStatusEffects.SHATTERED.value(), "Shattered");
 
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.BOOST, "Boosting", "Launches the user forwards.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.ERUPTION, "Eruption", "Knockbacks all nearby enemies.");
@@ -139,13 +142,14 @@ public class LanguageGenerator extends FabricLanguageProvider {
     public static void addDagger (TranslationBuilder translationBuilder, DaggerItem dagger, String basename) {
         translationBuilder.add(dagger, basename);
 
-        for (Potion potionEntry : Registries.POTION.getEntrySet().stream().map(Map.Entry::getValue).toList()) {
-            String effectKey = dagger.getTranslationKey(PotionUtil.setPotion(dagger.getDefaultStack(), potionEntry));
+        for (Potion potion : Registries.POTION.getEntrySet().stream().map(Map.Entry::getValue).toList()) {
+            RegistryEntry<Potion> potionEntry = Registries.POTION.getEntry(potion);
+            String effectKey = dagger.getTranslationKey(PotionContentsComponent.createStack(dagger, potionEntry));
             String[] keySplit = effectKey.split("[.]");
             String potionBasename = LanguageGenerator.titleCase(keySplit[keySplit.length - 1].replace('_', ' '));
 
             try {
-                if (potionEntry != Potions.AWKWARD && potionEntry != Potions.MUNDANE && potionEntry != Potions.THICK && potionEntry.getEffects().size() > 0) {
+                if (potionEntry != Potions.AWKWARD && potionEntry != Potions.MUNDANE && potionEntry != Potions.THICK && !potionEntry.value().getEffects().isEmpty()) {
                     translationBuilder.add(effectKey, potionBasename + "-Tipped " + basename);
                 }
                 else if (potionEntry == Potions.WATER) {
@@ -155,7 +159,7 @@ public class LanguageGenerator extends FabricLanguageProvider {
                     translationBuilder.add(effectKey, basename);
                 }
             }
-            catch (RuntimeException e) {
+            catch (RuntimeException ignored) {
 
             }
         }

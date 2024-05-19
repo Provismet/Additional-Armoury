@@ -12,9 +12,9 @@ public class InkSplatParticle extends AnimatedParticle {
     protected InkSplatParticle (ClientWorld world, double x, double y, double z, SpriteProvider spriteProvider, float upwardsAcceleration, InkSplatParticleEffect effect) {
         super(world, x, y, z, spriteProvider, upwardsAcceleration);
 
-        this.red = effect.getColor().x;
-        this.green = effect.getColor().y;
-        this.blue = effect.getColor().z;
+        this.red = effect.getColour().x;
+        this.green = effect.getColour().y;
+        this.blue = effect.getColour().z;
         this.scale = effect.getScale();
 
         this.velocityX = this.random.nextDouble() * 0.1 - 0.05;

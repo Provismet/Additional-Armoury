@@ -2,13 +2,14 @@ package com.provismet.AdditionalArmoury.enchantments.staff;
 
 import com.provismet.AdditionalArmoury.entity.GhostlySpellEntity;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 
 public class GhostOrbEnchantment extends AbstractStaffEnchantment {
     public GhostOrbEnchantment () {
-        super(Rarity.UNCOMMON, 0x6B6B6B, 64, 20);
+        super(3, Enchantment.constantCost(20), Enchantment.constantCost(70), 5, 0xFF6B6B6B, 64, 20);
     }
 
     @Override

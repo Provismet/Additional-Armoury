@@ -11,8 +11,15 @@
     },
     "frame": "challenge",
     "icon": {
-      "item": "additional-armoury:staff",
-      "nbt": "{Enchantments:[{id:\"additional-armoury:explosion\",lvl:1s}]}"
+      "components": {
+        "minecraft:enchantments": {
+          "levels": {
+            "additional-armoury:explosion": 1
+          }
+        }
+      },
+      "count": 1,
+      "id": "additional-armoury:staff"
     },
     "title": {
       "translate": "advancement.additional-armoury.archwizard.title"

@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "additional-armoury:endernether_upgrade_smithing_template"
-            ]
+            "items": "additional-armoury:endernether_upgrade_smithing_template"
           }
         ]
       },

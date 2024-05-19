@@ -1,5 +1,6 @@
 package com.provismet.AdditionalArmoury.enchantments.staff;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.item.ItemStack;
@@ -8,7 +9,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class BoostEnchantment extends AbstractStaffEnchantment {
     public BoostEnchantment () {
-        super(Rarity.COMMON, 0x7AFFE6, 64, 10);
+        super(10, Enchantment.constantCost(0), Enchantment.constantCost(50), 2, 0xFF7AFFE6, 64, 10);
     }
 
     @Override

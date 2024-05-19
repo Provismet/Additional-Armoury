@@ -1,6 +1,7 @@
 package com.provismet.datagen.AdditionalArmoury;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
@@ -19,21 +20,22 @@ import net.minecraft.advancement.criterion.EnchantedItemCriterion;
 import net.minecraft.advancement.criterion.ImpossibleCriterion;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.advancement.criterion.RecipeCraftedCriterion;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.item.ItemPredicate;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class AdvancementGenerator extends FabricAdvancementProvider {
-    protected AdvancementGenerator (FabricDataOutput output) {
-        super(output);
+    protected AdvancementGenerator (FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        super(output, registryLookup);
     }
 
     @Override
-    public void generateAdvancement (Consumer<AdvancementEntry> consumer) {
+    public void generateAdvancement (RegistryWrapper.WrapperLookup registryLookup, Consumer<AdvancementEntry> consumer) {
         ItemStack enchantedStaff = AAItems.STAFF.getDefaultStack();
         enchantedStaff.addEnchantment(AAEnchantments.BOOST, 1);
 
@@ -73,7 +75,7 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
         AdvancementEntry dragonBreath = Advancement.Builder.create().build(new Identifier("end/dragon_breath"));
         Advancement.Builder.create().parent(dragonBreath)
             .display(
-                PotionUtil.setPotion(AAItems.DIAMOND_DAGGER.getDefaultStack(), Potions.POISON),
+                PotionContentsComponent.createStack(AAItems.DIAMOND_DAGGER, Potions.POISON),
                 this.buildTranslationKey("tipped_dagger.title"),
                 this.buildTranslationKey("tipped_dagger.description"),
                 null,

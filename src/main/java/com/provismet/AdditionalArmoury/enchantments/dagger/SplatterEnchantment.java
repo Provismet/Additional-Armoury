@@ -1,6 +1,6 @@
 package com.provismet.AdditionalArmoury.enchantments.dagger;
 
-import com.provismet.AdditionalArmoury.registries.AAEnchantmentTargets;
+import com.provismet.AdditionalArmoury.utility.AATags;
 import com.provismet.CombatPlusCore.enchantments.WeaponUtilityEnchantment;
 import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
 
@@ -9,22 +9,15 @@ import net.minecraft.entity.EquipmentSlot;
 
 public class SplatterEnchantment extends WeaponUtilityEnchantment {
     public SplatterEnchantment () {
-        super(Rarity.COMMON, AAEnchantmentTargets.DAGGER, EquipmentSlot.MAINHAND);
-    }
-    
-    @Override
-    public int getMinPower (int level) {
-        return 1 + (level - 1) * 10;
-    }
-
-    @Override
-    public int getMaxPower(int level) {
-        return 50;
-    }
-    
-    @Override
-    public int getMaxLevel () {
-        return 2;
+        super(Enchantment.properties(
+                AATags.ItemTags.DAGGER_ENCHANTABLE,
+                10,
+                2,
+                Enchantment.leveledCost(0, 10),
+                Enchantment.leveledCost(50, 10),
+                2,
+                EquipmentSlot.MAINHAND
+        ));
     }
 
     @Override
