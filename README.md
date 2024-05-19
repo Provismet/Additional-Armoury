@@ -1,6 +1,9 @@
 <div align="center">
 
 # Additional Armoury
+[![](https://img.shields.io/jitpack/version/com.github.Provismet/Additional-Armoury?style=flat-square&logo=jitpack&color=F6F6F6)](https://jitpack.io/#Provismet/Additional-Armoury)
+[![](https://img.shields.io/modrinth/dt/DxlUSaq8?style=flat-square&logo=modrinth&color=F6F6F6)](https://modrinth.com/mod/additional-armoury)
+[![](https://img.shields.io/curseforge/dt/973673?style=flat-square&logo=curseforge&color=F6F6F6)](https://www.curseforge.com/minecraft/mc-mods/additional-armoury)
 
 <img src="https://github.com/Provismet/Additional-Armoury/assets/17149901/bd703705-6811-473c-ad05-b328420ba668" alt="Combat+" width=250px>
 
