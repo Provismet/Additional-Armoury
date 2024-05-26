@@ -6,13 +6,10 @@ import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 import com.provismet.AdditionalArmoury.utility.Util;
 import com.provismet.CombatPlusCore.items.AbstractMeleeWeapon;
 
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
@@ -25,18 +22,6 @@ public class MaceItem extends AbstractMeleeWeapon {
 
     public static AttributeModifiersComponent createDefaultMaceAttributes (ToolMaterial material) {
         return Util.createAttributes(material, 6f, -3.5f);
-    }
-
-    @Override
-    public float getWeaponDamage (ItemStack itemStack) {
-        AttributeModifiersComponent attributes = itemStack.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
-        double bonusDamage = 0f;
-        for (AttributeModifiersComponent.Entry entry : attributes.modifiers()) {
-            if (entry.attribute() == EntityAttributes.GENERIC_ATTACK_DAMAGE && entry.modifier().operation() == EntityAttributeModifier.Operation.ADD_VALUE) {
-                bonusDamage += entry.modifier().value();
-            }
-        }
-        return (float)bonusDamage;
     }
 
     @Override

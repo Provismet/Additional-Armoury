@@ -52,18 +52,6 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     }
 
     @Override
-    public float getWeaponDamage (ItemStack itemStack) {
-        AttributeModifiersComponent attributes = itemStack.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
-        double bonusDamage = 0f;
-        for (AttributeModifiersComponent.Entry entry : attributes.modifiers()) {
-            if (entry.attribute() == EntityAttributes.GENERIC_ATTACK_DAMAGE && entry.modifier().operation() == EntityAttributeModifier.Operation.ADD_VALUE) {
-                bonusDamage += entry.modifier().value();
-            }
-        }
-        return (float)bonusDamage;
-    }
-
-    @Override
     public void postChargedHit (ItemStack stack, LivingEntity user, LivingEntity target) {
         PotionContentsComponent potionContents = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
         for (StatusEffectInstance instance : potionContents.getEffects()) {
