@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.provismet.AdditionalArmoury.registries.AADataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
+import net.minecraft.entity.Entity;
 import net.minecraft.registry.entry.RegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
@@ -118,7 +119,7 @@ public class StaffItem extends Item {
 
     @Override
     public boolean isItemBarVisible (ItemStack stack) {
-        return this.getMaxUseCount(stack) > 0;
+        return this.getMaxUseCount(stack) > 0 && StaffItem.getFirstStaffEnchantment(stack) != null;
     }
 
     @Override
@@ -187,10 +188,22 @@ public class StaffItem extends Item {
 
     public void setUseCount (ItemStack stack, int uses) {
         if (uses >= this.getMaxUseCount(stack)) {
-            uses = 0;
-            this.setMaxUseCount(stack, 0);
+            this.resetCounters(stack);
             EnchantmentHelper.apply(stack, components -> components.remove(enchantment -> true));
         }
-        stack.set(AADataComponentTypes.USES, uses);
+        else stack.set(AADataComponentTypes.USES, uses);
+    }
+
+    public void resetCounters (ItemStack stack) {
+        stack.remove(AADataComponentTypes.MAX_USES);
+        stack.remove(AADataComponentTypes.USES);
+    }
+
+    @Override
+    public void inventoryTick (ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+        if (this.getMaxUseCount(stack) > 0 && StaffItem.getFirstStaffEnchantment(stack) == null) {
+            this.resetCounters(stack);
+        }
     }
 }
