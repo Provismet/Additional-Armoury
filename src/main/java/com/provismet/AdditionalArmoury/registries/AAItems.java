@@ -37,8 +37,8 @@ public class AAItems {
     public static final PickaxeItem ENDERNETHER_PICKAXE = new PickaxeItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, 1f, -2.8f)));
     public static final ShovelItem OVERNETHER_SHOVEL = new ShovelItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, 1.5f, -3f)));
     public static final ShovelItem ENDERNETHER_SHOVEL = new ShovelItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, 1.5f, -3f)));
-    public static final HoeItem OVERNETHER_HOE = new HoeItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, -4f, 0f)));
-    public static final HoeItem ENDERNETHER_HOE = new HoeItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, -4f, 0f)));
+    public static final HoeItem OVERNETHER_HOE = new HoeItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, -3f, 0f)));
+    public static final HoeItem ENDERNETHER_HOE = new HoeItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, -3f, 0f)));
 
     public static final DaggerItem WOODEN_DAGGER = new DaggerItem(ToolMaterials.WOOD, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.WOOD)));
     public static final DaggerItem STONE_DAGGER = new DaggerItem(ToolMaterials.STONE, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.STONE)));
