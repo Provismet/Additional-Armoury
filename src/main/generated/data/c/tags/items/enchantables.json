@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "#additional-armoury:enchantable/maces",
+      "required": false
+    },
+    {
+      "id": "#additional-armoury:enchantable/daggers",
+      "required": false
+    },
+    {
+      "id": "#additional-armoury:enchantable/boomerang",
+      "required": false
+    }
+  ]
+}

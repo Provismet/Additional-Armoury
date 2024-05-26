@@ -10,6 +10,7 @@ import com.provismet.CombatPlusCore.utility.CPCItemTags;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
@@ -115,6 +116,12 @@ public class TagGenerator extends ItemTagProvider {
             .addOptionalTag(AATags.ItemTags.DAGGERS)
             .addOptionalTag(AATags.ItemTags.MACES)
             .add(AAItems.BOOMERANG);
+
+        getOrCreateTagBuilder(ConventionalItemTags.ENCHANTABLES)
+            .addOptionalTag(AATags.ItemTags.MACE_ENCHANTABLE)
+            .addOptionalTag(AATags.ItemTags.DAGGER_ENCHANTABLE)
+            .addOptionalTag(AATags.ItemTags.BOOMERANG_ENCHANTABLE);
+            // AATags.ItemTags.STAFF_ENCHANTABLE is omitted just in case other mods do something with this tag.
     }
     
 }
