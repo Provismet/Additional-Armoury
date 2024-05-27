@@ -9,6 +9,7 @@ import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 
+import com.provismet.AdditionalArmoury.utility.AATags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.component.type.PotionContentsComponent;
@@ -137,6 +138,13 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addAdvancement(translationBuilder, "tipped_dagger", "Rogue-Like", "Craft a potion-tipped Dagger");
         LanguageGenerator.addAdvancement(translationBuilder, "overnether", "I Am Listening", "Get a full suit of Overnether armor");
         LanguageGenerator.addAdvancement(translationBuilder, "endernether", "Part Of The Chorus", "Get a full suit of Endernether armor");
+
+        translationBuilder.add(AATags.ItemTags.DAGGERS, "Daggers");
+        translationBuilder.add(AATags.ItemTags.DAGGER_ENCHANTABLE, "Dagger Enchantable");
+        translationBuilder.add(AATags.ItemTags.MACES, "Maces");
+        translationBuilder.add(AATags.ItemTags.MACE_ENCHANTABLE, "Mace Enchantable");
+        translationBuilder.add(AATags.ItemTags.BOOMERANG_ENCHANTABLE, "Boomerang Enchantable");
+        translationBuilder.add(AATags.ItemTags.STAFF_ENCHANTABLE, "Staff Enchantable");
     }
     
     public static void addDagger (TranslationBuilder translationBuilder, DaggerItem dagger, String basename) {

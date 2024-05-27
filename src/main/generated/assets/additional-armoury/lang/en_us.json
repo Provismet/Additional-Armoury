@@ -278,6 +278,12 @@
   "item.additional-armoury.wooden_mace": "Wooden Mace",
   "subtitles.additional-armoury.boomerang.throw": "Throws boomerang",
   "subtitles.additional-armoury.staff.cast": "Casts spell",
+  "tag.item.additional-armoury.daggers": "Daggers",
+  "tag.item.additional-armoury.enchantable.boomerang": "Boomerang Enchantable",
+  "tag.item.additional-armoury.enchantable.daggers": "Dagger Enchantable",
+  "tag.item.additional-armoury.enchantable.maces": "Mace Enchantable",
+  "tag.item.additional-armoury.enchantable.staff": "Staff Enchantable",
+  "tag.item.additional-armoury.maces": "Maces",
   "tooltip.additional-armoury.dagger_uses": "Remaining Splashes: %1$s",
   "upgrade.additional-armoury.endernether_upgrade": "Endernether Upgrade",
   "upgrade.additional-armoury.overnether_upgrade": "Overnether Upgrade"
