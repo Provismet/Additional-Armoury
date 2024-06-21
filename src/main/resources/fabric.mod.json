@@ -29,6 +29,7 @@
 	"mixins": [
 		"additional-armoury.mixins.json"
 	],
+	"accessWidener": "additional-armoury.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.15.0",
 		"minecraft": "~1.20.5",
