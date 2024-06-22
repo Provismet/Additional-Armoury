@@ -1,7 +1,7 @@
 package com.provismet.AdditionalArmoury.utility;
 
 import com.provismet.AdditionalArmoury.items.AAToolMaterials;
-import com.provismet.CombatPlusCore.utility.AttributeIdentifiers;
+import com.provismet.CombatPlusCore.utility.item.AttributeIdentifiers;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.LivingEntity;
@@ -9,7 +9,7 @@ import net.minecraft.entity.Tameable;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterial;
 
 public class Util {
@@ -35,8 +35,7 @@ public class Util {
             .add(
                 EntityAttributes.GENERIC_ATTACK_DAMAGE,
                 new EntityAttributeModifier(
-                    SwordItem.ATTACK_DAMAGE_MODIFIER_ID,
-                    "Weapon modifier",
+                    Item.BASE_ATTACK_DAMAGE_MODIFIER_ID,
                     baseAttackDamage + material.getAttackDamage(),
                     EntityAttributeModifier.Operation.ADD_VALUE
                 ),
@@ -52,8 +51,7 @@ public class Util {
         builder.add(
             EntityAttributes.GENERIC_ATTACK_SPEED,
             new EntityAttributeModifier(
-                SwordItem.ATTACK_SPEED_MODIFIER_ID,
-                "Weapon modifier",
+                Item.BASE_ATTACK_SPEED_MODIFIER_ID,
                 baseAttackSpeed + bonusAttackSpeed,
                 EntityAttributeModifier.Operation.ADD_VALUE
             ),
@@ -65,7 +63,6 @@ public class Util {
                 extraMaterial.getCustomAttribute(),
                 new EntityAttributeModifier(
                     AttributeIdentifiers.WEAPON_BONUS_ATTRIBUTE,
-                    "Additional Armoury: Weapon modifier",
                     extraMaterial.getCustomAttributeValue(),
                     EntityAttributeModifier.Operation.ADD_VALUE
                 ),
