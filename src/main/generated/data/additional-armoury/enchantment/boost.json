@@ -1,0 +1,34 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.additional-armoury.boost"
+  },
+  "effects": {
+    "additional-armoury:on_activation": [
+      {
+        "effect": {
+          "type": "combat-plus:code_execution_single_entity",
+          "function": "additional-armoury:boost"
+        }
+      }
+    ],
+    "additional-armoury:spell_cast_duration": 10,
+    "additional-armoury:spell_colour": -8716314,
+    "additional-armoury:spell_uses": 64
+  },
+  "exclusive_set": "#additional-armoury:staff",
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 0
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 0,
+    "per_level_above_first": 0
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#additional-armoury:enchantable/staff",
+  "weight": 10
+}

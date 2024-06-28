@@ -1,0 +1,37 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.additional-armoury.multithrow"
+  },
+  "effects": {
+    "minecraft:projectile_count": [
+      {
+        "effect": {
+          "type": "minecraft:add",
+          "value": 2.0
+        }
+      }
+    ],
+    "minecraft:projectile_spread": [
+      {
+        "effect": {
+          "type": "minecraft:add",
+          "value": 10.0
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#additional-armoury:exclusive_set/boomerang_effect",
+  "max_cost": {
+    "base": 75,
+    "per_level_above_first": 0
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 20,
+    "per_level_above_first": 0
+  },
+  "slots": [],
+  "supported_items": "#additional-armoury:enchantable/boomerang",
+  "weight": 5
+}

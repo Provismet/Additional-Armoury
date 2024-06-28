@@ -1,0 +1,34 @@
+{
+  "anvil_cost": 5,
+  "description": {
+    "translate": "enchantment.additional-armoury.ghostly_orb"
+  },
+  "effects": {
+    "additional-armoury:on_activation": [
+      {
+        "effect": {
+          "type": "combat-plus:code_execution_single_entity",
+          "function": "additional-armoury:ghostly_orb"
+        }
+      }
+    ],
+    "additional-armoury:spell_cast_duration": 20,
+    "additional-armoury:spell_colour": -9737365,
+    "additional-armoury:spell_uses": 64
+  },
+  "exclusive_set": "#additional-armoury:staff",
+  "max_cost": {
+    "base": 70,
+    "per_level_above_first": 0
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 20,
+    "per_level_above_first": 0
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#additional-armoury:enchantable/staff",
+  "weight": 3
+}

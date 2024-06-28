@@ -1,0 +1,44 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.additional-armoury.dismantle"
+  },
+  "effects": {
+    "combat-plus:post_critical_attack": [
+      {
+        "effect": {
+          "type": "combat-plus:apply_to_target",
+          "effect": {
+            "type": "combat-plus:damage_equipment",
+            "equipment_slots": [
+              "head",
+              "body",
+              "legs",
+              "feet"
+            ],
+            "value": {
+              "type": "minecraft:linear",
+              "base": 2.0,
+              "per_level_above_first": 2.0
+            }
+          }
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#combat-plus:exclusive_set/weapon_utility",
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 10
+  },
+  "max_level": 3,
+  "min_cost": {
+    "base": 0,
+    "per_level_above_first": 10
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#additional-armoury:enchantable/maces",
+  "weight": 10
+}

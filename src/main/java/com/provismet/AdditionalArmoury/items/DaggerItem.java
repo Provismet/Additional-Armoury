@@ -2,20 +2,17 @@ package com.provismet.AdditionalArmoury.items;
 
 import java.util.List;
 
+import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.AdditionalArmoury.registries.AADataComponentTypes;
 import com.provismet.AdditionalArmoury.utility.Util;
 import com.provismet.CombatPlusCore.items.AbstractMeleeWeapon;
-import net.minecraft.client.item.TooltipType;
+import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.component.type.ToolComponent;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.item.Item;
 
 import com.provismet.AdditionalArmoury.particles.effects.InkSplatParticleEffect;
-import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.CombatPlusCore.interfaces.DualWeapon;
 
 import net.minecraft.block.Blocks;
@@ -27,8 +24,10 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.potion.Potion;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
@@ -53,6 +52,8 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
 
     @Override
     public void postChargedHit (ItemStack stack, LivingEntity user, LivingEntity target) {
+        if (!(user.getWorld() instanceof ServerWorld world)) return;
+
         PotionContentsComponent potionContents = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
         for (StatusEffectInstance instance : potionContents.getEffects()) {
             target.addStatusEffect(
@@ -67,10 +68,10 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
         }
         this.spawnInkParticles(target, 3, stack);
 
-        double splatterLevel = EnchantmentHelper.getLevel(AAEnchantments.SPLATTER, stack);
+        double splatterRadius = CPCEnchantmentHelper.modifyValue(AAEnchantmentComponentTypes.EFFECT_RADIUS, world, stack, 0f);
         int damage = 1;
-        if (splatterLevel > 0) {
-            List<LivingEntity> targets = target.getWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand(1.0 + splatterLevel * 0.5 , 0.25, 1.0 + splatterLevel * 0.5));
+        if (splatterRadius > 0) {
+            List<LivingEntity> targets = target.getWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand(splatterRadius, 0.25, splatterRadius));
             for (LivingEntity newTarget : targets) {
                 if (newTarget == user || newTarget == target) continue;
                 for (StatusEffectInstance instance : potionContents.getEffects()) {
@@ -89,7 +90,7 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
             }
         }
 
-        boolean hasAdhesive = EnchantmentHelper.getLevel(AAEnchantments.ADHESIVE, stack) > 0;
+        boolean hasAdhesive = EnchantmentHelper.hasAnyEnchantmentsWith(stack, AAEnchantmentComponentTypes.INFINITE_POTION);
         if (hasAdhesive) {
             stack.damage(damage * 2, user, user.getStackInHand(Hand.MAIN_HAND) == stack ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
         }
@@ -106,11 +107,11 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
+    public void appendTooltip (ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
         potionContentsComponent.buildTooltip(tooltip::add, 0.125f, context.getUpdateTickRate());
 
-        if (EnchantmentHelper.getLevel(AAEnchantments.ADHESIVE, stack) == 0 && potionContentsComponent.hasEffects())
+        if (!EnchantmentHelper.hasAnyEnchantmentsWith(stack, AAEnchantmentComponentTypes.INFINITE_POTION) && potionContentsComponent.hasEffects())
             tooltip.add(Text.translatable("tooltip.additional-armoury.dagger_uses", this.getCurrentPotionUses(stack)));
     }
 
@@ -131,7 +132,7 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     }
 
     public int decrementCurrentPotionUses (ItemStack stack, int amount) {
-        int currentUses = this.getCurrentPotionUses(stack) - amount;
+        int currentUses = Math.max(this.getCurrentPotionUses(stack) - amount, 0);
         this.setCurrentPotionUses(stack, currentUses);
         return currentUses;
     }
@@ -141,12 +142,13 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     }
 
     public void spawnInkParticles (Entity entity, int count, ItemStack stack) {
-        PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
-        if (!potionContentsComponent.hasEffects()) return;
+        if (entity.getWorld() instanceof ServerWorld world) {
+            PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
+            if (!potionContentsComponent.hasEffects()) return;
 
-        InkSplatParticleEffect splatEffect = new InkSplatParticleEffect(Vec3d.unpackRgb(potionContentsComponent.getColor()).toVector3f(), 0.2f);
-        entity.getWorld().addParticle(splatEffect, entity.getX(), entity.getEyeY() - 0.1, entity.getZ(), 0, 0, 0);
-        entity.getWorld().addParticle(splatEffect, entity.getX(), entity.getEyeY() - 0.1, entity.getZ(), 0, 0, 0);
-        entity.getWorld().addParticle(splatEffect, entity.getX(), entity.getEyeY() - 0.1, entity.getZ(), 0, 0, 0);
+            InkSplatParticleEffect splatEffect = new InkSplatParticleEffect(Vec3d.unpackRgb(potionContentsComponent.getColor()).toVector3f(), 0.2f);
+            world.spawnParticles(splatEffect, entity.getX(), (entity.getY() + entity.getEyeY()) / 2.0, entity.getZ(), count, 0, 0, 0, 0);
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 package com.provismet.AdditionalArmoury.entity;
 
+import com.provismet.lilylib.util.Relations;
 import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
@@ -30,7 +31,7 @@ public class MissileSpellEntity extends AbstractSpellEntity {
         if (this.getOwner() instanceof LivingEntity owner) {
             LivingEntity target = this.getWorld().getClosestEntity(
                 LivingEntity.class,
-                TargetPredicate.createAttackable().ignoreVisibility().setPredicate(entity -> !Util.isFriendly(entity, owner)),
+                TargetPredicate.createAttackable().ignoreVisibility().setPredicate(entity -> !Relations.isFriendly(entity, owner)),
                 owner,
                 this.getX(), this.getY(), this.getZ(),
                 this.getBoundingBox().expand(3.0)

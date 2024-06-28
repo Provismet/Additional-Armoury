@@ -1,10 +1,9 @@
 package com.provismet.AdditionalArmoury.registries;
 
-import com.provismet.AdditionalArmoury.enchantments.staff.AbstractStaffEnchantment;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.items.MaceItem;
 
-import com.provismet.AdditionalArmoury.utility.AATags;
+import com.provismet.AdditionalArmoury.utility.tags.AAEnchantmentTags;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.ArmorItem;
@@ -16,10 +15,7 @@ import net.minecraft.item.Items;
 import net.minecraft.potion.Potion;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.resource.featuretoggle.FeatureSet;
-
-import java.util.Set;
 
 public class AAItemGroups {
 
@@ -45,13 +41,13 @@ public class AAItemGroups {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> {
             content.getContext().lookup().getOptionalWrapper(RegistryKeys.ENCHANTMENT).ifPresent(wrapper -> {
                 wrapper.streamEntries()
-                    .filter(entry -> entry.value() instanceof AbstractStaffEnchantment)
+                    .filter(entry -> entry.isIn(AAEnchantmentTags.STAFF)).filter(entry -> entry.getKey().isPresent())
                     .map(entry -> {
                         ItemStack stack = AAItems.STAFF.getDefaultStack();
-                        stack.addEnchantment(entry.value(), 1);
+                        stack.addEnchantment(wrapper.getOrThrow(entry.registryKey()), 1);
                         return stack;
                     })
-                    .forEach(stack -> content.add(stack));
+                    .forEach(content::add);
             });
         });
 
@@ -60,20 +56,13 @@ public class AAItemGroups {
                 AAItems.DAGGERS.forEach(dagger -> addPotions(content, wrapper, dagger, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS, content.getEnabledFeatures()));
             });
         });
-
-        Set<TagKey<Item>> itemTags = Set.of(AATags.ItemTags.DAGGER_ENCHANTABLE, AATags.ItemTags.MACE_ENCHANTABLE, AATags.ItemTags.BOOMERANG_ENCHANTABLE, AATags.ItemTags.STAFF_ENCHANTABLE);
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
-            content.getContext().lookup().getOptionalWrapper(RegistryKeys.ENCHANTMENT).ifPresent(registryWrapper -> {
-                ItemGroups.addMaxLevelEnchantedBooks(content, registryWrapper, itemTags, ItemGroup.StackVisibility.PARENT_TAB_ONLY, content.getContext().enabledFeatures());
-                ItemGroups.addAllLevelEnchantedBooks(content, registryWrapper, itemTags, ItemGroup.StackVisibility.SEARCH_TAB_ONLY, content.getContext().enabledFeatures());
-            });
-        });
     }
 
     private static void addPotions (ItemGroup.Entries entries, RegistryWrapper<Potion> registryWrapper, Item item, ItemGroup.StackVisibility visibility, FeatureSet enabledFeatures) {
         registryWrapper.streamEntries()
             .filter(entry -> entry.value().isEnabled(enabledFeatures))
             .map(entry -> PotionContentsComponent.createStack(item, entry))
-            .forEach(stack -> entries.add((ItemStack)stack, visibility));
+            .peek(entry -> entry.set(AADataComponentTypes.USES, 64))
+            .forEach(stack -> entries.add(stack, visibility));
     }
 }

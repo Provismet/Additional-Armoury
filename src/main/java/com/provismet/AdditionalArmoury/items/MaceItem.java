@@ -1,14 +1,13 @@
 package com.provismet.AdditionalArmoury.items;
 
-import com.provismet.AdditionalArmoury.registries.AAEnchantments;
+import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 import com.provismet.AdditionalArmoury.utility.Util;
 import com.provismet.CombatPlusCore.items.AbstractMeleeWeapon;
 
+import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
 import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
@@ -26,20 +25,10 @@ public class MaceItem extends AbstractMeleeWeapon {
 
     @Override
     public void postCriticalHit (ItemStack itemStack, LivingEntity user, LivingEntity target) {
-        int shredding = EnchantmentHelper.getLevel(AAEnchantments.SHREDDING, itemStack);
-        int dismantle = EnchantmentHelper.getLevel(AAEnchantments.DISMANTLE, itemStack);
-        target.addStatusEffect(new StatusEffectInstance(AAStatusEffects.SHATTERED, 40 + shredding * 20), user);
-
         if (user.getWorld() instanceof ServerWorld serverWorld) {
+            float shreddingDuration = CPCEnchantmentHelper.modifyValue(AAEnchantmentComponentTypes.EFFECT_DURATION, serverWorld, itemStack, 40f);
+            target.addStatusEffect(new StatusEffectInstance(AAStatusEffects.SHATTERED, (int)shreddingDuration), user);
             serverWorld.spawnParticles(AAParticleTypes.SHATTER, target.getX(), target.getHeight() + target.getY() + 0.5f, target.getZ(), 1, 0, 0, 0, 0);
-
-            if (dismantle > 0) {
-                for (EquipmentSlot slot : EquipmentSlot.values()) {
-                    if (slot.isArmorSlot() && !target.getEquippedStack(slot).isEmpty()) {
-                        target.getEquippedStack(slot).damage(2 * dismantle, target, slot);
-                    }
-                }
-            }
         }
     }
 }

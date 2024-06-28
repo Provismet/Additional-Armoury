@@ -1,6 +1,13 @@
 package com.provismet.AdditionalArmoury;
 
+import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.AdditionalArmoury.registries.*;
+import com.provismet.AdditionalArmoury.utility.registry.AARegistries;
+import net.minecraft.MinecraftVersion;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.MinecraftServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,11 +36,14 @@ public class AdditionalArmouryMain implements ModInitializer {
 
     @Override
     public void onInitialize () {
+        AARegistries.init();
+        AAEnchantmentComponentTypes.init();
+        AAIncantationEffects.register();
         AADataComponentTypes.register();
+        AALambdas.register();
         AASounds.register();
         AABlocks.register();
         AAItems.register();
-        AAEnchantments.register();
         AAItemGroups.register();
         AARecipeSerializers.register();
         AAParticleTypes.register();
@@ -41,13 +51,14 @@ public class AdditionalArmouryMain implements ModInitializer {
         AAStatusEffects.register();
         AASettings.read();
 
+        // TODO: It's enchanted loot is currently unavailable.
         LootTableEvents.MODIFY.register((id, tableBuilder, source) -> {
             if (source.isBuiltin() || AASettings.shouldOverrideDatapacks()) {
                 if (LootTables.NETHER_BRIDGE_CHEST.equals(id)) {
-                    tableBuilder.pool(
-                        LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.05f))
-                            .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().add(AAEnchantments.EXPLOSION)))
-                    );
+                    //tableBuilder.pool(
+                    //    LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.05f))
+                    //        .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.EXPLOSION)))
+                    //);
                 }
                 else if (LootTables.DESERT_PYRAMID_CHEST.equals(id) || LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST.equals(id)) {
                     tableBuilder.pool(
@@ -68,14 +79,14 @@ public class AdditionalArmouryMain implements ModInitializer {
                     );
                 }
                 else if (EntityType.EVOKER.getLootTableId().equals(id)) {
-                    tableBuilder.pool(
-                        LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.25f))
-                            .with(ItemEntry.builder(AAItems.STAFF).weight(3))
-                            .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().add(AAEnchantments.GHOSTLY_ORB)).weight(6))
-                            .with(ItemEntry.builder(AAItems.STAFF).apply(new EnchantRandomlyLootFunction.Builder().add(AAEnchantments.GHOSTLY_ORB)).weight(1))
-                            .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().add(AAEnchantments.MAGIC_MISSILE)).weight(6))
-                            .with(ItemEntry.builder(AAItems.STAFF).apply(new EnchantRandomlyLootFunction.Builder().add(AAEnchantments.MAGIC_MISSILE)).weight(1))
-                    );
+                    //tableBuilder.pool(
+                    //    LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.25f))
+                    //        .with(ItemEntry.builder(AAItems.STAFF).weight(3))
+                    //        .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.GHOSTLY_ORB)).weight(6))
+                    //        .with(ItemEntry.builder(AAItems.STAFF).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.GHOSTLY_ORB)).weight(1))
+                    //        .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.MAGIC_MISSILE)).weight(6))
+                    //        .with(ItemEntry.builder(AAItems.STAFF).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.MAGIC_MISSILE)).weight(1))
+                    //);
                 }
             }
         });

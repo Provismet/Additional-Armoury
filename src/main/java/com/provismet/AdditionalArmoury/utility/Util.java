@@ -4,32 +4,12 @@ import com.provismet.AdditionalArmoury.items.AAToolMaterials;
 import com.provismet.CombatPlusCore.utility.item.AttributeIdentifiers;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Tameable;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterial;
 
 public class Util {
-    public static boolean isFriendly (LivingEntity entity1, LivingEntity entity2) {
-        if (entity1 == entity2) return true;
-        else return Util.friendlyInternal(entity1, entity2) && Util.friendlyInternal(entity2, entity1);
-    }
-
-    private static boolean friendlyInternal (LivingEntity entity1, LivingEntity entity2) {
-        if (entity1 instanceof Tameable tame && tame.getOwner() == entity2) return true;
-        if (entity1.getAttacker() == entity2) return false;
-        if (entity1.getAttacking() == entity2) return false;
-        if (entity1.getScoreboardTeam() != null) {
-            if (entity1.getScoreboardTeam() == entity2.getScoreboardTeam()) return true;
-            if (entity2.getScoreboardTeam() != null) return false;
-        }
-        if (entity1 instanceof HostileEntity != entity2 instanceof HostileEntity) return false;
-        return true;
-    }
-
     public static AttributeModifiersComponent createAttributes (ToolMaterial material, float baseAttackDamage, float baseAttackSpeed) {
         AttributeModifiersComponent.Builder builder = AttributeModifiersComponent.builder()
             .add(

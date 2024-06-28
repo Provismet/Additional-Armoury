@@ -1,0 +1,40 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.additional-armoury.throw_strength"
+  },
+  "effects": {
+    "minecraft:damage": [
+      {
+        "effect": {
+          "type": "minecraft:add",
+          "value": {
+            "type": "minecraft:linear",
+            "base": 1.0,
+            "per_level_above_first": 1.0
+          }
+        },
+        "requirements": {
+          "condition": "minecraft:entity_properties",
+          "entity": "direct_attacker",
+          "predicate": {
+            "type": "additional-armoury:boomerang_projectile"
+          }
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#additional-armoury:exclusive_set/boomerang_throw",
+  "max_cost": {
+    "base": 30,
+    "per_level_above_first": 10
+  },
+  "max_level": 3,
+  "min_cost": {
+    "base": 0,
+    "per_level_above_first": 10
+  },
+  "slots": [],
+  "supported_items": "#additional-armoury:enchantable/boomerang",
+  "weight": 10
+}

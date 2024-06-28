@@ -1,0 +1,25 @@
+{
+  "anvil_cost": 6,
+  "description": {
+    "translate": "enchantment.additional-armoury.adhesive"
+  },
+  "effects": {
+    "additional-armoury:infinite_potions": {}
+  },
+  "exclusive_set": "#additional-armoury:exclusive_set/adhesive",
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 0
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 20,
+    "per_level_above_first": 0
+  },
+  "slots": [
+    "mainhand",
+    "offhand"
+  ],
+  "supported_items": "#additional-armoury:enchantable/daggers",
+  "weight": 2
+}

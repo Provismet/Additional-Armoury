@@ -1,0 +1,33 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.additional-armoury.throw_distance"
+  },
+  "effects": {
+    "additional-armoury:throw_distance": [
+      {
+        "effect": {
+          "type": "minecraft:add",
+          "value": {
+            "type": "minecraft:linear",
+            "base": 5.0,
+            "per_level_above_first": 5.0
+          }
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#additional-armoury:exclusive_set/boomerang_throw",
+  "max_cost": {
+    "base": 30,
+    "per_level_above_first": 10
+  },
+  "max_level": 3,
+  "min_cost": {
+    "base": 0,
+    "per_level_above_first": 10
+  },
+  "slots": [],
+  "supported_items": "#additional-armoury:enchantable/boomerang",
+  "weight": 10
+}

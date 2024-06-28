@@ -21,10 +21,12 @@ import net.minecraft.advancement.criterion.ImpossibleCriterion;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.advancement.criterion.RecipeCraftedCriterion;
 import net.minecraft.component.type.PotionContentsComponent;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potions;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.item.ItemPredicate;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -37,13 +39,14 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
     @Override
     public void generateAdvancement (RegistryWrapper.WrapperLookup registryLookup, Consumer<AdvancementEntry> consumer) {
         ItemStack enchantedStaff = AAItems.STAFF.getDefaultStack();
-        enchantedStaff.addEnchantment(AAEnchantments.BOOST, 1);
+        RegistryWrapper.Impl<Enchantment> enchantmentImpl = registryLookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
+        enchantedStaff.addEnchantment(enchantmentImpl.getOrThrow(AAEnchantments.BOOST), 1);
 
         ItemStack bakuretsu = AAItems.STAFF.getDefaultStack();
-        bakuretsu.addEnchantment(AAEnchantments.EXPLOSION, 1);
+        bakuretsu.addEnchantment(enchantmentImpl.getOrThrow(AAEnchantments.EXPLOSION), 1);
 
         AdvancementCriterion<EnchantedItemCriterion.Conditions> staffCondition = Criteria.ENCHANTED_ITEM.create(new EnchantedItemCriterion.Conditions(Optional.empty(), Optional.of(ItemPredicate.Builder.create().items(AAItems.STAFF).build()), NumberRange.IntRange.ANY));
-        AdvancementEntry enchanter = Advancement.Builder.create().build(new Identifier("story/enchant_item"));
+        AdvancementEntry enchanter = Advancement.Builder.create().build(Identifier.ofVanilla("story/enchant_item"));
         AdvancementEntry enchantStaff = Advancement.Builder.create().parent(enchanter)
             .display(
                 enchantedStaff,
@@ -72,7 +75,7 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
             .criterion("used_explosion_magic", Criteria.IMPOSSIBLE.create(new ImpossibleCriterion.Conditions()))
             .build(consumer, AdditionalArmouryMain.identifier("story/explosion_magic").toString());
 
-        AdvancementEntry dragonBreath = Advancement.Builder.create().build(new Identifier("end/dragon_breath"));
+        AdvancementEntry dragonBreath = Advancement.Builder.create().build(Identifier.ofVanilla("end/dragon_breath"));
         Advancement.Builder.create().parent(dragonBreath)
             .display(
                 PotionContentsComponent.createStack(AAItems.DIAMOND_DAGGER, Potions.POISON),
@@ -87,7 +90,7 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
             .criterion("crafted_tipped_dagger", RecipeCraftedCriterion.Conditions.create(AdditionalArmouryMain.identifier("tipped_dagger")))
             .build(consumer, AdditionalArmouryMain.identifier("end/craft_tipped_dagger").toString());
 
-        AdvancementEntry ancientDebris = Advancement.Builder.create().build(new Identifier("nether/obtain_ancient_debris"));
+        AdvancementEntry ancientDebris = Advancement.Builder.create().build(Identifier.ofVanilla("nether/obtain_ancient_debris"));
         Advancement.Builder.create().parent(ancientDebris)
             .display(
                 AAItems.OVERNETHER_CHESTPLATE,

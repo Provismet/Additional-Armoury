@@ -1,0 +1,42 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.additional-armoury.eruption"
+  },
+  "effects": {
+    "additional-armoury:on_activation": [
+      {
+        "effect": {
+          "type": "combat-plus:code_execution_single_entity",
+          "function": "additional-armoury:eruption"
+        }
+      }
+    ],
+    "additional-armoury:spell_cast_duration": 30,
+    "additional-armoury:spell_colour": -8438760,
+    "additional-armoury:spell_incantation": [
+      {
+        "effect": {
+          "type": "additional-armoury:code_execution_incantation",
+          "function": "additional-armoury:eruption_tick"
+        }
+      }
+    ],
+    "additional-armoury:spell_uses": 64
+  },
+  "exclusive_set": "#additional-armoury:staff",
+  "max_cost": {
+    "base": 75,
+    "per_level_above_first": 0
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 10,
+    "per_level_above_first": 0
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#additional-armoury:enchantable/staff",
+  "weight": 5
+}

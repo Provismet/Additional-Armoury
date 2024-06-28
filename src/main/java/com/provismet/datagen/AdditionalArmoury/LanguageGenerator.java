@@ -9,7 +9,7 @@ import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 
-import com.provismet.AdditionalArmoury.utility.AATags;
+import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.component.type.PotionContentsComponent;
@@ -17,6 +17,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 
@@ -139,12 +140,12 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addAdvancement(translationBuilder, "overnether", "I Am Listening", "Get a full suit of Overnether armor");
         LanguageGenerator.addAdvancement(translationBuilder, "endernether", "Part Of The Chorus", "Get a full suit of Endernether armor");
 
-        translationBuilder.add(AATags.ItemTags.DAGGERS, "Daggers");
-        translationBuilder.add(AATags.ItemTags.DAGGER_ENCHANTABLE, "Dagger Enchantable");
-        translationBuilder.add(AATags.ItemTags.MACES, "Maces");
-        translationBuilder.add(AATags.ItemTags.MACE_ENCHANTABLE, "Mace Enchantable");
-        translationBuilder.add(AATags.ItemTags.BOOMERANG_ENCHANTABLE, "Boomerang Enchantable");
-        translationBuilder.add(AATags.ItemTags.STAFF_ENCHANTABLE, "Staff Enchantable");
+        translationBuilder.add(AAItemTags.DAGGERS, "Daggers");
+        translationBuilder.add(AAItemTags.DAGGER_ENCHANTABLE, "Dagger Enchantable");
+        translationBuilder.add(AAItemTags.MACES, "Maces");
+        translationBuilder.add(AAItemTags.MACE_ENCHANTABLE, "Mace Enchantable");
+        translationBuilder.add(AAItemTags.BOOMERANG_ENCHANTABLE, "Boomerang Enchantable");
+        translationBuilder.add(AAItemTags.STAFF_ENCHANTABLE, "Staff Enchantable");
     }
     
     public static void addDagger (TranslationBuilder translationBuilder, DaggerItem dagger, String basename) {
@@ -173,9 +174,10 @@ public class LanguageGenerator extends FabricLanguageProvider {
         }
     }
 
-    public static void addEnchantment (TranslationBuilder translationBuilder, Enchantment enchantment, String name, String description) {
-        translationBuilder.add(enchantment, name);
-        translationBuilder.add(enchantment.getTranslationKey() + ".desc", description);
+    public static void addEnchantment (TranslationBuilder translationBuilder, RegistryKey<Enchantment> enchantment, String name, String description) {
+        String enchantmentString = enchantment.getValue().getNamespace() + "." + enchantment.getValue().getPath();
+        translationBuilder.add("enchantment." + enchantmentString, name);
+        translationBuilder.add("enchantment." + enchantmentString + ".desc", description);
     }
 
     private static String titleCase (String string) {

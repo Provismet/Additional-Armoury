@@ -25,7 +25,7 @@ import net.minecraft.util.Util;
 
 public class AAArmourMaterial {
     public static final RegistryEntry<ArmorMaterial> OVERNETHER = AAArmourMaterial.register(
-        AdditionalArmouryMain.identifier("overnether").toString(),
+        AdditionalArmouryMain.identifier("overnether"),
         Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
             map.put(ArmorItem.Type.BOOTS, 3);
             map.put(ArmorItem.Type.LEGGINGS, 6);
@@ -41,7 +41,7 @@ public class AAArmourMaterial {
     );
 
     public static final RegistryEntry<ArmorMaterial> ENDERNETHER = AAArmourMaterial.register(
-        AdditionalArmouryMain.identifier("endernether").toString(),
+        AdditionalArmouryMain.identifier("endernether"),
         Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
             map.put(ArmorItem.Type.BOOTS, 3);
             map.put(ArmorItem.Type.LEGGINGS, 6);
@@ -95,16 +95,16 @@ public class AAArmourMaterial {
     public static void register () {}
 
     // Yoinked this code from vanilla.
-    private static RegistryEntry<ArmorMaterial> register (String id, EnumMap<ArmorItem.Type, Integer> defense, int enchantability, RegistryEntry<SoundEvent> equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
-        List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(Identifier.ofVanilla(id)));
+    private static RegistryEntry<ArmorMaterial> register (Identifier id, EnumMap<ArmorItem.Type, Integer> defense, int enchantability, RegistryEntry<SoundEvent> equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
+        List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(id));
         return AAArmourMaterial.register(id, defense, enchantability, equipSound, toughness, knockbackResistance, repairIngredient, list);
     }
 
-    private static RegistryEntry<ArmorMaterial> register (String id, EnumMap<ArmorItem.Type, Integer> defense, int enchantability, RegistryEntry<SoundEvent> equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient, List<ArmorMaterial.Layer> layers) {
+    private static RegistryEntry<ArmorMaterial> register (Identifier id, EnumMap<ArmorItem.Type, Integer> defense, int enchantability, RegistryEntry<SoundEvent> equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient, List<ArmorMaterial.Layer> layers) {
         EnumMap<ArmorItem.Type, Integer> enumMap = new EnumMap<ArmorItem.Type, Integer>(ArmorItem.Type.class);
         for (ArmorItem.Type type : ArmorItem.Type.values()) {
             enumMap.put(type, defense.get(type));
         }
-        return Registry.registerReference(Registries.ARMOR_MATERIAL, Identifier.ofVanilla(id), new ArmorMaterial(enumMap, enchantability, equipSound, repairIngredient, layers, toughness, knockbackResistance));
+        return Registry.registerReference(Registries.ARMOR_MATERIAL, id, new ArmorMaterial(enumMap, enchantability, equipSound, repairIngredient, layers, toughness, knockbackResistance));
     }
 }

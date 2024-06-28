@@ -2,6 +2,11 @@ package com.provismet.AdditionalArmoury.entity;
 
 import java.util.List;
 
+import com.provismet.AdditionalArmoury.items.BoomerangItem;
+import com.provismet.lilylib.util.Relations;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
@@ -102,15 +107,18 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     @Override
     protected void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        if (!this.getWorld().isClient()) {
+        if (this.getWorld() instanceof ServerWorld world) {
             if (this.getOwner() instanceof PlayerEntity player && entityHitResult.getEntity() == player) {
                 if (this.resetsCooldown) player.getItemCooldownManager().remove(AAItems.BOOMERANG);
                 this.discard();
             }
             else if (!(entityHitResult.getEntity() instanceof ProjectileEntity)) {
                 if (entityHitResult.getEntity() instanceof LivingEntity target) {
-                    target.damage(AADamageSources.boomerang(this, this.getOwner()), this.power);
+                    DamageSource damageSource = AADamageSources.boomerang(this, this.getOwner());
+                    float damage = EnchantmentHelper.getDamage(world, this.getStack(), target, damageSource, this.power);
+                    target.damage(damageSource, damage);
                     this.applyOnHitEffects(target);
+                    EnchantmentHelper.onTargetDamaged(world, target, damageSource, this.getStack());
                     if (target.isAlive()) this.previousHit = target;
                     else this.previousHit = null;
                 }
@@ -137,7 +145,7 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
         List<Entity> potentialTargets = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(5), entity -> {
             if (entity instanceof LivingEntity target) {
                 if (target == this.getOwner() || target == this.previousHit || target.isDead()) return false;
-                else if (this.getOwner() instanceof LivingEntity owner) return !Util.isFriendly(owner, target);
+                else if (this.getOwner() instanceof LivingEntity owner) return !Relations.isFriendly(owner, target);
                 else return target instanceof HostileEntity || target instanceof PlayerEntity;
             }
             return false;
@@ -189,12 +197,9 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     }
 
     protected void applyOnHitEffects (LivingEntity target) {
-
-    }
-
-    @Override
-    public ItemStack getStack () {
-        return AAItems.BOOMERANG.getDefaultStack();
+        if (this.getStack().getItem() instanceof BoomerangItem boomerang && this.getOwner() instanceof LivingEntity owner) {
+            boomerang.applyOnHit(owner, target);
+        }
     }
 
     @Override

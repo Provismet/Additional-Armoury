@@ -79,6 +79,6 @@ public class ModelGenerator extends FabricModelProvider {
     }
 
     private static Model createModel (String parent, TextureKey ... requiredTextureKeys) {
-        return new Model(Optional.of(new Identifier("minecraft", "item/" + parent)), Optional.empty(), requiredTextureKeys);
+        return new Model(Optional.of(Identifier.ofVanilla("item/" + parent)), Optional.empty(), requiredTextureKeys);
     }
 }
