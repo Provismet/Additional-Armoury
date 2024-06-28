@@ -78,7 +78,7 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
         AdvancementEntry dragonBreath = Advancement.Builder.create().build(Identifier.ofVanilla("end/dragon_breath"));
         Advancement.Builder.create().parent(dragonBreath)
             .display(
-                PotionContentsComponent.createStack(AAItems.DIAMOND_DAGGER, Potions.POISON),
+                PotionContentsComponent.createStack(AAItems.DIAMOND_DAGGER, Potions.NIGHT_VISION),
                 this.buildTranslationKey("tipped_dagger.title"),
                 this.buildTranslationKey("tipped_dagger.description"),
                 null,

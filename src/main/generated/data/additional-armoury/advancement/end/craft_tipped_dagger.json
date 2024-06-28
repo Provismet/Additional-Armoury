@@ -16,7 +16,7 @@
     "icon": {
       "components": {
         "minecraft:potion_contents": {
-          "potion": "minecraft:poison"
+          "potion": "minecraft:night_vision"
         }
       },
       "count": 1,
