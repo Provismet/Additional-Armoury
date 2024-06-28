@@ -55,6 +55,7 @@ public class AAEnchantments {
         return RegistryKey.of(RegistryKeys.ENCHANTMENT, AdditionalArmouryMain.identifier(name));
     }
 
+    // This only executes as part of data generation. It does NOT create files, it only pre-loads the registry.
     public static void bootstrap (Registerable<Enchantment> registerable) {
         RegistryEntryLookup<DamageType> damageLookup = registerable.getRegistryLookup(RegistryKeys.DAMAGE_TYPE);
         RegistryEntryLookup<Enchantment> enchantmentLookup = registerable.getRegistryLookup(RegistryKeys.ENCHANTMENT);
