@@ -74,6 +74,7 @@ public class AAItemGroups {
         registryWrapper.streamEntries()
             .filter(entry -> entry.value().isEnabled(enabledFeatures))
             .map(entry -> PotionContentsComponent.createStack(item, entry))
-            .forEach(stack -> entries.add((ItemStack)stack, visibility));
+            .peek(entry -> entry.set(AADataComponentTypes.USES, 64))
+            .forEach(stack -> entries.add(stack, visibility));
     }
 }

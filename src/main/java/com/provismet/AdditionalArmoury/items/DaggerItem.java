@@ -127,6 +127,7 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     }
 
     public void setCurrentPotionUses (ItemStack stack, int uses) {
+        uses = Math.max(uses, 0);
         stack.set(AADataComponentTypes.USES, uses);
     }
 
