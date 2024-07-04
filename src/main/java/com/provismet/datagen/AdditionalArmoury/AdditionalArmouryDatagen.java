@@ -7,6 +7,8 @@ public class AdditionalArmouryDatagen implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator (FabricDataGenerator generator) {
         FabricDataGenerator.Pack pack = generator.createPack();
+        pack.addProvider(EnchantmentGenerator::new);
+        pack.addProvider(DamageTypeGenerator::new);
         pack.addProvider(ItemTagGenerator::new);
         pack.addProvider(BlockTagGenerator::new);
         pack.addProvider(EnchantmentTagGenerator::new);
@@ -16,6 +18,6 @@ public class AdditionalArmouryDatagen implements DataGeneratorEntrypoint {
         pack.addProvider(RecipeGenerator::new);
         pack.addProvider(AdvancementGenerator::new);
         pack.addProvider(LootTableGenerator::new);
-        pack.addProvider(EnchantmentGenerator::new);
+        pack.addProvider(DamageTypeTagGenerator::new);
     }
 }

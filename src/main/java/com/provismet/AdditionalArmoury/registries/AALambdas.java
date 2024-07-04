@@ -8,7 +8,7 @@ import com.provismet.AdditionalArmoury.entity.GhostlySpellEntity;
 import com.provismet.AdditionalArmoury.entity.MissileSpellEntity;
 import com.provismet.AdditionalArmoury.entity.WindTornadoSpellEntity;
 import com.provismet.AdditionalArmoury.particles.effects.SpellRingParticleEffect;
-import com.provismet.AdditionalArmoury.utility.AADamageSources;
+import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import com.provismet.AdditionalArmoury.utility.registry.AARegistries;
 import com.provismet.CombatPlusCore.enchantment.effect.singleEntity.CodeExecutionSingleEntityEffect;
 import com.provismet.CombatPlusCore.utility.CPCRegistries;
@@ -78,7 +78,7 @@ public class AALambdas {
                 List<Entity> others = user.getWorld().getOtherEntities(user, user.getBoundingBox().expand(RADIUS, 0, RADIUS));
                 for (Entity otherEntity : others) {
                     if (otherEntity instanceof LivingEntity living && !Relations.isFriendly(living, livingUser)) {
-                        otherEntity.damage(AADamageSources.eruption(user), 1f);
+                        otherEntity.damage(AADamageTypes.ERUPTION.createDamageSource(user), 1f);
                         double dx = user.getX() - living.getX();
                         double dz = user.getZ() - living.getZ();
 

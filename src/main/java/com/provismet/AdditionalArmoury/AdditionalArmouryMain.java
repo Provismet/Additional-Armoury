@@ -46,14 +46,14 @@ public class AdditionalArmouryMain implements ModInitializer {
         AAStatusEffects.register();
         AASettings.read();
 
-        // TODO: Enchanted loot is currently unavailable.
+        // TODO: Enchanted loot crashes the game. :/
         LootTableEvents.MODIFY.register((id, tableBuilder, source) -> {
             if (source.isBuiltin() || AASettings.shouldOverrideDatapacks()) {
                 if (LootTables.NETHER_BRIDGE_CHEST.equals(id)) {
-                    //tableBuilder.pool(
-                    //    LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.05f))
-                    //        .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.EXPLOSION)))
-                    //);
+                    tableBuilder.pool(
+                        LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.05f))
+                            .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.EXPLOSION.getEntryOrThrow())))
+                    );
                 }
                 else if (LootTables.DESERT_PYRAMID_CHEST.equals(id) || LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST.equals(id)) {
                     tableBuilder.pool(
@@ -74,14 +74,14 @@ public class AdditionalArmouryMain implements ModInitializer {
                     );
                 }
                 else if (EntityType.EVOKER.getLootTableId().equals(id)) {
-                    //tableBuilder.pool(
-                    //    LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.25f))
-                    //        .with(ItemEntry.builder(AAItems.STAFF).weight(3))
-                    //        .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.GHOSTLY_ORB)).weight(6))
-                    //        .with(ItemEntry.builder(AAItems.STAFF).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.GHOSTLY_ORB)).weight(1))
-                    //        .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.MAGIC_MISSILE)).weight(6))
-                    //        .with(ItemEntry.builder(AAItems.STAFF).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.MAGIC_MISSILE)).weight(1))
-                    //);
+                    tableBuilder.pool(
+                        LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.25f))
+                            .with(ItemEntry.builder(AAItems.STAFF).weight(3))
+                            .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.GHOSTLY_ORB.getEntryOrThrow())).weight(6))
+                            .with(ItemEntry.builder(AAItems.STAFF).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.GHOSTLY_ORB.getEntryOrThrow())).weight(1))
+                            .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.MAGIC_MISSILE.getEntryOrThrow())).weight(6))
+                            .with(ItemEntry.builder(AAItems.STAFF).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.MAGIC_MISSILE.getEntryOrThrow())).weight(1))
+                    );
                 }
             }
         });

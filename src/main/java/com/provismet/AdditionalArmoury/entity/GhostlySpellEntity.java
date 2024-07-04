@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-import com.provismet.AdditionalArmoury.utility.AADamageSources;
+import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -44,7 +44,7 @@ public class GhostlySpellEntity extends AbstractSpellEntity {
         super.onEntityHit(entityHitResult);
         if (this.getWorld().isClient()) return;
 
-        entityHitResult.getEntity().damage(AADamageSources.ghostlyOrb(this, this.getOwner()), 6f);
+        entityHitResult.getEntity().damage(AADamageTypes.GHOSTLY_ORB.createDamageSource(this, this.getOwner()), 6f);
     }
 
     @Override

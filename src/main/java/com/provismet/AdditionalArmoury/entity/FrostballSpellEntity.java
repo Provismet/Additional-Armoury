@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-import com.provismet.AdditionalArmoury.utility.AADamageSources;
+import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -61,7 +61,7 @@ public class FrostballSpellEntity extends AbstractSpellEntity {
         Entity target = hitResult.getEntity();
         Entity owner = this.getOwner();
 
-        if (target.damage(AADamageSources.frostball(this, owner), 6f)) {
+        if (target.damage(AADamageTypes.FIREBALL.createDamageSource(this, owner), 6f)) {
             target.setFrozenTicks(Math.min(target.getFrozenTicks() + 120, target.getMinFreezeDamageTicks() + 300));
         }
     }

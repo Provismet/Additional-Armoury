@@ -10,6 +10,7 @@ import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 
 import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
+import com.provismet.lilylib.container.EnchantmentContainer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.component.type.PotionContentsComponent;
@@ -174,8 +175,8 @@ public class LanguageGenerator extends FabricLanguageProvider {
         }
     }
 
-    public static void addEnchantment (TranslationBuilder translationBuilder, RegistryKey<Enchantment> enchantment, String name, String description) {
-        String enchantmentString = enchantment.getValue().getNamespace() + "." + enchantment.getValue().getPath();
+    public static void addEnchantment (TranslationBuilder translationBuilder, EnchantmentContainer enchantment, String name, String description) {
+        String enchantmentString = enchantment.getKey().getValue().getNamespace() + "." + enchantment.getKey().getValue().getPath();
         translationBuilder.add("enchantment." + enchantmentString, name);
         translationBuilder.add("enchantment." + enchantmentString + ".desc", description);
     }

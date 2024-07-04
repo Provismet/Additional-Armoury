@@ -5,8 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-import com.provismet.AdditionalArmoury.utility.AADamageSources;
-import com.provismet.AdditionalArmoury.utility.Util;
+import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -46,7 +45,7 @@ public class MissileSpellEntity extends AbstractSpellEntity {
     @Override
     public void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        entityHitResult.getEntity().damage(AADamageSources.magicMissile(this, this.getOwner()), 6f);
+        entityHitResult.getEntity().damage(AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 6f);
     }
 
     @Override

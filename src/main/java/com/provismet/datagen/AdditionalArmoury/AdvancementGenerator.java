@@ -21,12 +21,10 @@ import net.minecraft.advancement.criterion.ImpossibleCriterion;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.advancement.criterion.RecipeCraftedCriterion;
 import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potions;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.item.ItemPredicate;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -39,11 +37,10 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
     @Override
     public void generateAdvancement (RegistryWrapper.WrapperLookup registryLookup, Consumer<AdvancementEntry> consumer) {
         ItemStack enchantedStaff = AAItems.STAFF.getDefaultStack();
-        RegistryWrapper.Impl<Enchantment> enchantmentImpl = registryLookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
-        enchantedStaff.addEnchantment(enchantmentImpl.getOrThrow(AAEnchantments.BOOST), 1);
+        enchantedStaff.addEnchantment(AAEnchantments.BOOST.getEntryOrThrow(registryLookup), 1);
 
         ItemStack bakuretsu = AAItems.STAFF.getDefaultStack();
-        bakuretsu.addEnchantment(enchantmentImpl.getOrThrow(AAEnchantments.EXPLOSION), 1);
+        bakuretsu.addEnchantment(AAEnchantments.EXPLOSION.getEntryOrThrow(registryLookup), 1);
 
         AdvancementCriterion<EnchantedItemCriterion.Conditions> staffCondition = Criteria.ENCHANTED_ITEM.create(new EnchantedItemCriterion.Conditions(Optional.empty(), Optional.of(ItemPredicate.Builder.create().items(AAItems.STAFF).build()), NumberRange.IntRange.ANY));
         AdvancementEntry enchanter = Advancement.Builder.create().build(Identifier.ofVanilla("story/enchant_item"));

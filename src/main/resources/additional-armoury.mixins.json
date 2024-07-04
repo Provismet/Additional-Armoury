@@ -3,6 +3,7 @@
   "package": "com.provismet.AdditionalArmoury.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "DamageTypesMixin",
     "EnchantmentsMixin",
     "PlayerEntityMixin"
   ],

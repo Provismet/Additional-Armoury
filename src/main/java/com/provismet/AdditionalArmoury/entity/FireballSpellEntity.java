@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-import com.provismet.AdditionalArmoury.utility.AADamageSources;
+import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 
 import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.entity.Entity;
@@ -35,7 +35,7 @@ public class FireballSpellEntity extends AbstractSpellEntity {
         Entity target = entityHitResult.getEntity();
         Entity owner = this.getOwner();
         
-        if (target.damage(AADamageSources.fireball(this, owner), 6f)) {
+        if (target.damage(AADamageTypes.FIREBALL.createDamageSource(this, owner), 6f)) {
             target.setOnFireFor(5);
         }
     }

@@ -1,0 +1,9 @@
+{
+  "values": [
+    {
+      "id": "#additional-armoury:staff_spells",
+      "required": false
+    },
+    "additional-armoury:boomerang"
+  ]
+}

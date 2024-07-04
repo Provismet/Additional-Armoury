@@ -11,8 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-import com.provismet.AdditionalArmoury.utility.AADamageSources;
-import com.provismet.AdditionalArmoury.utility.Util;
+import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import com.provismet.lilylib.interfaces.entity.WorldItemEntity;
 
 import net.minecraft.entity.Entity;
@@ -23,7 +22,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -114,7 +112,7 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
             }
             else if (!(entityHitResult.getEntity() instanceof ProjectileEntity)) {
                 if (entityHitResult.getEntity() instanceof LivingEntity target) {
-                    DamageSource damageSource = AADamageSources.boomerang(this, this.getOwner());
+                    DamageSource damageSource = AADamageTypes.BOOMERANG.createDamageSource(this, this.getOwner());
                     float damage = EnchantmentHelper.getDamage(world, this.getStack(), target, damageSource, this.power);
                     target.damage(damageSource, damage);
                     this.applyOnHitEffects(target);

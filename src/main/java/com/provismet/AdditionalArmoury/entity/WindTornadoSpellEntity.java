@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-import com.provismet.AdditionalArmoury.utility.AADamageSources;
+import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -33,7 +33,7 @@ public class WindTornadoSpellEntity extends AbstractSpellEntity {
     public void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
 
-        entityHitResult.getEntity().damage(AADamageSources.windTornado(this, this.getOwner()), 1f);
+        entityHitResult.getEntity().damage(AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 1f);
         
         if (entityHitResult.getEntity() instanceof LivingEntity living && this.getOwner() != null) {
             double dx = this.getOwner().getX() - living.getX();
