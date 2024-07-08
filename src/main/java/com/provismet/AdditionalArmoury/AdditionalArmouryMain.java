@@ -1,8 +1,20 @@
 package com.provismet.AdditionalArmoury;
 
+import com.provismet.AdditionalArmoury.registries.AABlocks;
+import com.provismet.AdditionalArmoury.registries.AADataComponentTypes;
 import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
-import com.provismet.AdditionalArmoury.registries.*;
+import com.provismet.AdditionalArmoury.registries.AAEnchantments;
+import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
+import com.provismet.AdditionalArmoury.registries.AAIncantationEffects;
+import com.provismet.AdditionalArmoury.registries.AAItemGroups;
+import com.provismet.AdditionalArmoury.registries.AAItems;
+import com.provismet.AdditionalArmoury.registries.AALambdas;
+import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
+import com.provismet.AdditionalArmoury.registries.AARecipeSerializers;
+import com.provismet.AdditionalArmoury.registries.AASounds;
+import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 import com.provismet.AdditionalArmoury.utility.registry.AARegistries;
+import com.provismet.CombatPlusCore.loot.functions.EnchantRandomlyFromKeyLootFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +29,6 @@ import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.function.EnchantRandomlyLootFunction;
 import net.minecraft.loot.provider.number.BinomialLootNumberProvider;
 import net.minecraft.util.Identifier;
 
@@ -46,13 +57,12 @@ public class AdditionalArmouryMain implements ModInitializer {
         AAStatusEffects.register();
         AASettings.read();
 
-        // TODO: Enchanted loot crashes the game. :/
         LootTableEvents.MODIFY.register((id, tableBuilder, source) -> {
             if (source.isBuiltin() || AASettings.shouldOverrideDatapacks()) {
                 if (LootTables.NETHER_BRIDGE_CHEST.equals(id)) {
                     tableBuilder.pool(
                         LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.05f))
-                            .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.EXPLOSION.getEntryOrThrow())))
+                            .with(ItemEntry.builder(Items.BOOK).apply(EnchantRandomlyFromKeyLootFunction.create().option(AAEnchantments.EXPLOSION)))
                     );
                 }
                 else if (LootTables.DESERT_PYRAMID_CHEST.equals(id) || LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST.equals(id)) {
@@ -77,10 +87,12 @@ public class AdditionalArmouryMain implements ModInitializer {
                     tableBuilder.pool(
                         LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.25f))
                             .with(ItemEntry.builder(AAItems.STAFF).weight(3))
-                            .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.GHOSTLY_ORB.getEntryOrThrow())).weight(6))
-                            .with(ItemEntry.builder(AAItems.STAFF).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.GHOSTLY_ORB.getEntryOrThrow())).weight(1))
-                            .with(ItemEntry.builder(Items.BOOK).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.MAGIC_MISSILE.getEntryOrThrow())).weight(6))
-                            .with(ItemEntry.builder(AAItems.STAFF).apply(new EnchantRandomlyLootFunction.Builder().option(AAEnchantments.MAGIC_MISSILE.getEntryOrThrow())).weight(1))
+                            .with(ItemEntry.builder(Items.BOOK).apply(EnchantRandomlyFromKeyLootFunction.create()
+                                .option(AAEnchantments.GHOSTLY_ORB)
+                                .option(AAEnchantments.MAGIC_MISSILE)).weight(6))
+                            .with(ItemEntry.builder(AAItems.STAFF).apply(EnchantRandomlyFromKeyLootFunction.create()
+                                .option(AAEnchantments.GHOSTLY_ORB)
+                                .option(AAEnchantments.MAGIC_MISSILE)).weight(1))
                     );
                 }
             }
@@ -93,7 +105,7 @@ public class AdditionalArmouryMain implements ModInitializer {
                     entrypoint.getEntrypoint().onInitialize();
                 }
                 catch (Exception e) {
-                    LOGGER.error("Mod " + otherModId + " caused an error during inter-mod initialisation: ", e);
+                    LOGGER.error("Mod {} caused an error during inter-mod initialisation: ", otherModId, e);
                 }
             }
         );
