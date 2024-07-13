@@ -9,16 +9,16 @@ import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 
+import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
+import com.provismet.lilylib.container.DamageTypeContainer;
 import com.provismet.lilylib.container.EnchantmentContainer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 
@@ -125,13 +125,13 @@ public class LanguageGenerator extends FabricLanguageProvider {
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FAR_THROW, "Discus", "Increases boomerang maximum distance.");
         LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.STRONG_THROW, "Strong Arm", "Increases boomerang damage.");
 
-        LanguageGenerator.addAttackDeathMessage(translationBuilder, "fireball_spell", "was blasted by");
-        LanguageGenerator.addAttackDeathMessage(translationBuilder, "frostball_spell", "was frozen by");
-        LanguageGenerator.addAttackDeathMessage(translationBuilder, "eruption_spell", "was launched by");
-        LanguageGenerator.addAttackDeathMessage(translationBuilder, "ghostly_orb_spell", "was haunted by");
-        LanguageGenerator.addAttackDeathMessage(translationBuilder, "wind_tornado_spell", "was caught in a tornado from");
-        LanguageGenerator.addAttackDeathMessage(translationBuilder, "missile_spell", "could not outrun the magic of");
-        LanguageGenerator.addAttackDeathMessage(translationBuilder, "boomerang", "was struck by a boomerang from");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.FIREBALL, "was blasted by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.FROSTBALL, "was frozen by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.ERUPTION, "was launched by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.GHOSTLY_ORB, "was haunted by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.WIND_TORNADO, "was caught in a tornado from");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.MAGIC_MISSILE, "could not outrun the magic of");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.BOOMERANG, "was struck by a boomerang from");
 
         translationBuilder.add("tooltip.additional-armoury.dagger_uses", "Remaining Splashes: %1$s");
 
@@ -200,9 +200,9 @@ public class LanguageGenerator extends FabricLanguageProvider {
         return builder.toString();
     }
 
-    private static void addAttackDeathMessage (TranslationBuilder translationBuilder, String suffix, String message) {
-        translationBuilder.add("death.attack." + suffix, "%1$s " + message + " %2$s");
-        translationBuilder.add("death.attack." + suffix + ".item", "%1$s " + message + " %2$s using %3$s");
+    private static void addAttackDeathMessage (TranslationBuilder translationBuilder, DamageTypeContainer container, String message) {
+        translationBuilder.add(container.getTranslationKey(), "%1$s " + message + " %2$s");
+        translationBuilder.add(container.getTranslationKey("item"), "%1$s " + message + " %2$s using %3$s");
     }
 
     public static void addAdvancement (TranslationBuilder translationBuilder, String name, String title, String description) {

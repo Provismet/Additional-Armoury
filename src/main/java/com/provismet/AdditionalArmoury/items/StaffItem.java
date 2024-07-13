@@ -31,8 +31,6 @@ import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class StaffItem extends Item {
     public StaffItem (Settings settings) {
         super(settings);

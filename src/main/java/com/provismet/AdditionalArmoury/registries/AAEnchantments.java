@@ -5,28 +5,24 @@ import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.enchantment.incantation.LambdaIncantationEffect;
 import com.provismet.AdditionalArmoury.utility.tags.AAEnchantmentTags;
 import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
-import com.provismet.CombatPlusCore.enchantment.effect.doubleEntity.ApplyToTargetEntityEnchantmentEffect;
+import com.provismet.CombatPlusCore.enchantment.effect.doubleEntity.ApplyToTargetEntityEffect;
 import com.provismet.CombatPlusCore.enchantment.effect.singleEntity.CodeExecutionSingleEntityEffect;
 import com.provismet.CombatPlusCore.enchantment.effect.singleEntity.DamageEquipmentEffect;
 import com.provismet.CombatPlusCore.registries.CPCEnchantmentComponentTypes;
 import com.provismet.CombatPlusCore.utility.tag.CPCEnchantmentTags;
 import com.provismet.lilylib.container.EnchantmentContainer;
-import net.minecraft.block.Block;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentLevelBasedValue;
 import net.minecraft.enchantment.effect.value.AddEnchantmentEffect;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.damage.DamageType;
 import net.minecraft.item.Item;
 import net.minecraft.loot.condition.EntityPropertiesLootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryEntryLookup;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 
 import java.util.List;
 
@@ -152,7 +148,7 @@ public class AAEnchantments {
             )
         ).addEffect(
             CPCEnchantmentComponentTypes.POST_CRITICAL_ATTACK,
-            new ApplyToTargetEntityEnchantmentEffect(
+            new ApplyToTargetEntityEffect(
                 new DamageEquipmentEffect(
                     List.of(EquipmentSlot.HEAD, EquipmentSlot.BODY, EquipmentSlot.LEGS, EquipmentSlot.FEET),
                     EnchantmentLevelBasedValue.linear(2)

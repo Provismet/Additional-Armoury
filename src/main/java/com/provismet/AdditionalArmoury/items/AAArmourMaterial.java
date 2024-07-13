@@ -8,10 +8,8 @@ import java.util.function.Supplier;
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 
-import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
