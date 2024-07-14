@@ -19,6 +19,7 @@ public class AAEnchantmentComponentTypes {
     // Staff
     public static final ComponentType<List<EnchantmentEffectEntry<EnchantmentEntityEffect>>> ON_ACTIVATION = register("on_activation", builder -> builder.codec(EnchantmentEffectEntry.createCodec(EnchantmentEntityEffect.CODEC, LootContextTypes.ENCHANTED_ENTITY).listOf()));
     public static final ComponentType<Integer> SPELL_COLOUR = register("spell_colour", builder -> builder.codec(Codec.INT));
+    public static final ComponentType<Unit> NO_SPELL_PARTICLES = register("no_spell_particles", builder -> builder.codec(Unit.CODEC));
     public static final ComponentType<Integer> SPELL_USES = register("spell_uses", builder -> builder.codec(Codec.INT));
     public static final ComponentType<Integer> SPELL_CAST_DURATION = register("spell_cast_duration", builder -> builder.codec(Codec.INT));
     public static final ComponentType<List<EnchantmentEffectEntry<SpellIncantationTickingEffect>>> TICK_INCANTATION = register("spell_incantation", builder -> builder.codec(EnchantmentEffectEntry.createCodec(SpellIncantationTickingEffect.CODEC, LootContextTypes.ENCHANTED_ENTITY).listOf()));

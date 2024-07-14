@@ -4,6 +4,7 @@
     "translate": "enchantment.additional-armoury.explosion"
   },
   "effects": {
+    "additional-armoury:no_spell_particles": {},
     "additional-armoury:on_activation": [
       {
         "effect": {

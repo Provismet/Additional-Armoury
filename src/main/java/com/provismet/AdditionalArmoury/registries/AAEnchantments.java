@@ -71,6 +71,7 @@ public class AAEnchantments {
         AdditionalArmouryMain.identifier("explosion"),
         (itemLookup, enchantmentLookup, damageLookup, blockLookup) ->
             buildStaff(itemLookup, enchantmentLookup, "explosion", "explosion_tick", 50, 100, 160, 16, 0xFFCE0000, 1, 8)
+            .addEffect(AAEnchantmentComponentTypes.NO_SPELL_PARTICLES)
     );
 
     public static final EnchantmentContainer ADHESIVE = new EnchantmentContainer(

@@ -69,7 +69,9 @@ public class StaffItem extends Item {
                     effect.effect().apply(serverWorld, level, context, user, remainingUseTicks);
                 }
             }, user, user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
-            serverWorld.spawnParticles(new SpellChargeParticleEffect(Vec3d.unpackRgb(StaffItem.getColour(stack)).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 1, 0, 0, 0, 0);
+
+            if (!EnchantmentHelper.hasAnyEnchantmentsWith(stack, AAEnchantmentComponentTypes.NO_SPELL_PARTICLES))
+                serverWorld.spawnParticles(new SpellChargeParticleEffect(Vec3d.unpackRgb(StaffItem.getColour(stack)).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 1, 0, 0, 0, 0);
         }
     }
 

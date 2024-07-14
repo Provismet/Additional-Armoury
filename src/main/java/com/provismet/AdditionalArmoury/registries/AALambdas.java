@@ -7,6 +7,7 @@ import com.provismet.AdditionalArmoury.entity.FrostballSpellEntity;
 import com.provismet.AdditionalArmoury.entity.GhostlySpellEntity;
 import com.provismet.AdditionalArmoury.entity.MissileSpellEntity;
 import com.provismet.AdditionalArmoury.entity.WindTornadoSpellEntity;
+import com.provismet.AdditionalArmoury.particles.effects.SpellChargeParticleEffect;
 import com.provismet.AdditionalArmoury.particles.effects.SpellRingParticleEffect;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import com.provismet.AdditionalArmoury.utility.registry.AARegistries;
@@ -149,6 +150,7 @@ public class AALambdas {
         });
 
         registerIncantation("explosion_tick", (world, level, context, user, remainingUseTicks) -> {
+            world.spawnParticles(new SpellChargeParticleEffect(Vec3d.unpackRgb(user.getRandom().nextBetween(0x000000, 0xFFFFFF)).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 1, 0, 0, 0, 0);
             if (remainingUseTicks == 120) world.spawnParticles(new SpellRingParticleEffect(2f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
             else if (remainingUseTicks == 80) world.spawnParticles(new SpellRingParticleEffect(4f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
             else if (remainingUseTicks == 40) world.spawnParticles(new SpellRingParticleEffect(7f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
