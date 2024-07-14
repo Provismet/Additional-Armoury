@@ -30,7 +30,7 @@ public class SpellRingParticle extends FlatParticle {
     @Override
     public void tick () {
         super.tick();
-        this.setAngleY(this.angle + this.rotation);
+        this.setAngleZ(this.angleZ + this.rotation);
         this.prevScale = this.scale;
 
         if (this.age <= MOVING_TICKS) this.scale = this.maxScale * ((float)this.age / MOVING_TICKS);
