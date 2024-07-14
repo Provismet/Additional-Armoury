@@ -45,7 +45,7 @@ public class WindTornadoSpellEntity extends AbstractSpellEntity {
             living.addVelocity(0, 0.1, 0);
 
             if (this.getWorld() instanceof ServerWorld serverWorld)
-                serverWorld.spawnParticles(ParticleTypes.GUST,this.getX(), this.getY() + this.getHeight() / 2f, this.getZ(), 1, 0, 0, 0, 0);
+                serverWorld.spawnParticles(ParticleTypes.GUST, this.getX(), this.getY() + this.getHeight() / 2f, this.getZ(), 1, 0, 0, 0, 0);
         }
     }
 
