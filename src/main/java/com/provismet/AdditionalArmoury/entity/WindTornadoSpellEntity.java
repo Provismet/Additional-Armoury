@@ -1,5 +1,8 @@
 package com.provismet.AdditionalArmoury.entity;
 
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
@@ -40,6 +43,9 @@ public class WindTornadoSpellEntity extends AbstractSpellEntity {
             double dz = this.getOwner().getZ() - living.getZ();
             living.takeKnockback(2.0, dx, dz);
             living.addVelocity(0, 0.1, 0);
+
+            if (this.getWorld() instanceof ServerWorld serverWorld)
+                serverWorld.spawnParticles(ParticleTypes.GUST,this.getX(), this.getY() + this.getHeight() / 2f, this.getZ(), 1, 0, 0, 0, 0);
         }
     }
 
