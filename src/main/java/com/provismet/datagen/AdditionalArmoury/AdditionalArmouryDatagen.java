@@ -19,5 +19,7 @@ public class AdditionalArmouryDatagen implements DataGeneratorEntrypoint {
         pack.addProvider(AdvancementGenerator::new);
         pack.addProvider(LootTableGenerator::new);
         pack.addProvider(DamageTypeTagGenerator::new);
+        pack.addProvider(SoundGenerator::new);
+        pack.addProvider(ParticleGenerator::new);
     }
 }
