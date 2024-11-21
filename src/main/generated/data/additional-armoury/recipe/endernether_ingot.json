@@ -2,30 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:netherite_scrap"
-    },
-    {
-      "item": "minecraft:netherite_scrap"
-    },
-    {
-      "item": "minecraft:netherite_scrap"
-    },
-    {
-      "item": "minecraft:netherite_scrap"
-    },
-    {
-      "item": "minecraft:popped_chorus_fruit"
-    },
-    {
-      "item": "minecraft:popped_chorus_fruit"
-    },
-    {
-      "item": "minecraft:popped_chorus_fruit"
-    },
-    {
-      "item": "minecraft:popped_chorus_fruit"
-    }
+    "minecraft:netherite_scrap",
+    "minecraft:netherite_scrap",
+    "minecraft:netherite_scrap",
+    "minecraft:netherite_scrap",
+    "minecraft:popped_chorus_fruit",
+    "minecraft:popped_chorus_fruit",
+    "minecraft:popped_chorus_fruit",
+    "minecraft:popped_chorus_fruit"
   ],
   "result": {
     "count": 1,

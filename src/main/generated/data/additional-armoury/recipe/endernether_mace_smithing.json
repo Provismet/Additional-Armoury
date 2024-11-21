@@ -1,16 +1,10 @@
 {
   "type": "minecraft:smithing_transform",
-  "addition": {
-    "item": "additional-armoury:endernether_ingot"
-  },
-  "base": {
-    "item": "additional-armoury:diamond_mace"
-  },
+  "addition": "additional-armoury:endernether_ingot",
+  "base": "additional-armoury:diamond_mace",
   "result": {
     "count": 1,
     "id": "additional-armoury:endernether_mace"
   },
-  "template": {
-    "item": "additional-armoury:endernether_upgrade_smithing_template"
-  }
+  "template": "additional-armoury:endernether_upgrade_smithing_template"
 }

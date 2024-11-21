@@ -1,8 +1,8 @@
 package com.provismet.AdditionalArmoury.items;
 
+import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.AdditionalArmoury.entity.BoomerangProjectileEntity;
-import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.registries.AASounds;
 
 import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
@@ -11,19 +11,19 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.consume.UseAction;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
 public class BoomerangItem extends Item {
     public BoomerangItem (Settings settings) {
         super(settings);
     }
-    
+
     @Override
     public UseAction getUseAction (ItemStack stack) {
         return UseAction.SPEAR;
@@ -35,22 +35,25 @@ public class BoomerangItem extends Item {
     }
 
     @Override
-    public TypedActionResult<ItemStack> use (World world, PlayerEntity user, Hand hand) {
+    public ActionResult use (World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         if (itemStack.getDamage() >= itemStack.getMaxDamage() - 1) {
-            return TypedActionResult.fail(itemStack);
+            return ActionResult.FAIL;
         }
         user.setCurrentHand(hand);
-        return TypedActionResult.consume(itemStack);
+        return ActionResult.CONSUME;
     }
 
     @Override
-    public void onStoppedUsing (ItemStack itemStack, World world, LivingEntity user, int remainingUseTicks) {
-        if (!(user instanceof PlayerEntity player)) return;
-        if (this.getMaxUseTime(itemStack, user) - remainingUseTicks < 10) return;
+    public boolean onStoppedUsing (ItemStack itemStack, World world, LivingEntity user, int remainingUseTicks) {
+        AdditionalArmouryMain.LOGGER.info("Threw boomerang.");
+        if (!(user instanceof PlayerEntity player)) return false;
+        if (this.getMaxUseTime(itemStack, user) - remainingUseTicks < 10) return false;
+
+        AdditionalArmouryMain.LOGGER.info("Successfully threw boomerang.");
 
         if (world instanceof ServerWorld serverWorld) {
-            BoomerangProjectileEntity boomerang = new BoomerangProjectileEntity(world, player);
+            BoomerangProjectileEntity boomerang = new BoomerangProjectileEntity(world, player, itemStack);
             boomerang.setVelocity(player, player.getPitch(), player.getYaw(), 0f, 1f, 1f);
 
             int ricochetLevel = (int)CPCEnchantmentHelper.modifyValue(AAEnchantmentComponentTypes.RICOCHET, serverWorld, itemStack, 1);
@@ -60,10 +63,12 @@ public class BoomerangItem extends Item {
             boomerang.setMaxFlightTime(boomerang.getMaxFlightTime() + (int)CPCEnchantmentHelper.modifyValue(AAEnchantmentComponentTypes.THROW_DISTANCE, serverWorld, itemStack, 0f));
             world.spawnEntity(boomerang);
 
+            AdditionalArmouryMain.LOGGER.info("Attempted to spawn boomerang.");
+
             int count = EnchantmentHelper.getProjectileCount(serverWorld, itemStack, user, 1);
             if (count > 1) {
                 for (int i = 1; i < count; ++i) {
-                    BoomerangProjectileEntity newBoomerang = new BoomerangProjectileEntity(world, player);
+                    BoomerangProjectileEntity newBoomerang = new BoomerangProjectileEntity(world, player, itemStack);
                     float spread = EnchantmentHelper.getProjectileSpread(serverWorld, itemStack, user, 0f);
                     spread *= Math.ceilDiv(i, 2) * (i % 2 == 0 ? 1 : -1);
                     newBoomerang.setVelocity(player, player.getPitch(), player.getYaw() + spread, 0f, 1f, 1f);
@@ -77,15 +82,11 @@ public class BoomerangItem extends Item {
             }
 
             itemStack.damage(count, player, LivingEntity.getSlotForHand(player.getActiveHand()));
-            player.getItemCooldownManager().set(AAItems.BOOMERANG, 160);
+            player.getItemCooldownManager().set(itemStack, 160);
         }
         world.playSound(null, player.getX(), player.getY(), player.getZ(), AASounds.BOOMERANG_THROW, SoundCategory.PLAYERS, 1.0f, world.getRandom().nextFloat() * 0.2f + 0.9f);
         player.incrementStat(Stats.USED.getOrCreateStat(this));
-    }
-
-    @Override
-    public int getEnchantability () {
-        return 1;
+        return true;
     }
 
     public void applyOnHit (LivingEntity owner, LivingEntity target) {

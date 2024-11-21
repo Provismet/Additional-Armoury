@@ -1,16 +1,10 @@
 {
   "type": "minecraft:smithing_transform",
-  "addition": {
-    "item": "additional-armoury:overnether_ingot"
-  },
-  "base": {
-    "item": "minecraft:diamond_pickaxe"
-  },
+  "addition": "additional-armoury:overnether_ingot",
+  "base": "minecraft:diamond_pickaxe",
   "result": {
     "count": 1,
     "id": "additional-armoury:overnether_pickaxe"
   },
-  "template": {
-    "item": "additional-armoury:overnether_upgrade_smithing_template"
-  }
+  "template": "additional-armoury:overnether_upgrade_smithing_template"
 }

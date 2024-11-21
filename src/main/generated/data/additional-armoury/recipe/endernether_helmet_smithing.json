@@ -1,16 +1,10 @@
 {
   "type": "minecraft:smithing_transform",
-  "addition": {
-    "item": "additional-armoury:endernether_ingot"
-  },
-  "base": {
-    "item": "minecraft:diamond_helmet"
-  },
+  "addition": "additional-armoury:endernether_ingot",
+  "base": "minecraft:diamond_helmet",
   "result": {
     "count": 1,
     "id": "additional-armoury:endernether_helmet"
   },
-  "template": {
-    "item": "additional-armoury:endernether_upgrade_smithing_template"
-  }
+  "template": "additional-armoury:endernether_upgrade_smithing_template"
 }

@@ -15,15 +15,15 @@ public class SpellRingParticle extends FlatParticle {
     private final float rotation;
     private final float maxScale;
 
-    private float prevScale = 0f;
+    private float prevScale;
 
     protected SpellRingParticle(ClientWorld world, double x, double y, double z, SpriteProvider spriteProvider, SpellRingParticleEffect effect) {
         super(world, x, y, z, spriteProvider);
 
         this.scale = 0.1f;
         this.prevScale = this.scale;
-        this.maxScale = effect.getScale();
-        this.maxAge = effect.getDuration();
+        this.maxScale = effect.scale();
+        this.maxAge = effect.duration();
         this.rotation = this.random.nextBoolean() ? (this.maxScale / 1.5f) / MathHelper.DEGREES_PER_RADIAN : (this.maxScale / -1.5f) / MathHelper.DEGREES_PER_RADIAN;
     }
 

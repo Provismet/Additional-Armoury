@@ -13,15 +13,7 @@ import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 
-public class SpellChargeParticleEffect implements ParticleEffect {
-    private final Vector3f colour;
-    private final float scale;
-
-    public SpellChargeParticleEffect (Vector3f colour, float scale) {
-        this.colour = colour;
-        this.scale = scale;
-    }
-
+public record SpellChargeParticleEffect (Vector3f colour, float scale) implements ParticleEffect {
     public static final MapCodec<SpellChargeParticleEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
             Codecs.VECTOR_3F.fieldOf("colour").forGetter(effect -> effect.colour),
@@ -30,7 +22,7 @@ public class SpellChargeParticleEffect implements ParticleEffect {
     );
 
     public static final PacketCodec<RegistryByteBuf, SpellChargeParticleEffect> PACKET_CODEC = PacketCodec.tuple(
-        PacketCodecs.VECTOR3F,
+        PacketCodecs.VECTOR_3F,
         effect -> effect.colour,
         PacketCodecs.FLOAT,
         effect -> effect.scale,
@@ -40,13 +32,5 @@ public class SpellChargeParticleEffect implements ParticleEffect {
     @Override
     public ParticleType<?> getType () {
         return AAParticleTypes.SPELL_CHARGE;
-    }
-
-    public Vector3f getColour () {
-        return this.colour;
-    }
-
-    public float getScale () {
-        return this.scale;
     }
 }

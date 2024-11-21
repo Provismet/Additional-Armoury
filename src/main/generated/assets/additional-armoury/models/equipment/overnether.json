@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "additional-armoury:overnether"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "additional-armoury:overnether"
+      }
+    ]
+  }
+}

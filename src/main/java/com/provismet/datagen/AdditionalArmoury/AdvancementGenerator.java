@@ -25,6 +25,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potions;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.item.ItemPredicate;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -42,7 +44,7 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
         ItemStack bakuretsu = AAItems.STAFF.getDefaultStack();
         bakuretsu.addEnchantment(AAEnchantments.EXPLOSION.getEntryOrThrow(registryLookup), 1);
 
-        AdvancementCriterion<EnchantedItemCriterion.Conditions> staffCondition = Criteria.ENCHANTED_ITEM.create(new EnchantedItemCriterion.Conditions(Optional.empty(), Optional.of(ItemPredicate.Builder.create().items(AAItems.STAFF).build()), NumberRange.IntRange.ANY));
+        AdvancementCriterion<EnchantedItemCriterion.Conditions> staffCondition = Criteria.ENCHANTED_ITEM.create(new EnchantedItemCriterion.Conditions(Optional.empty(), Optional.of(ItemPredicate.Builder.create().items(registryLookup.getOrThrow(RegistryKeys.ITEM), AAItems.STAFF).build()), NumberRange.IntRange.ANY));
         AdvancementEntry enchanter = Advancement.Builder.create().build(Identifier.ofVanilla("story/enchant_item"));
         AdvancementEntry enchantStaff = Advancement.Builder.create().parent(enchanter)
             .display(
@@ -84,7 +86,10 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
                 true,
                 false
             )
-            .criterion("crafted_tipped_dagger", RecipeCraftedCriterion.Conditions.create(AdditionalArmouryMain.identifier("tipped_dagger")))
+            .criterion(
+                "crafted_tipped_dagger",
+                RecipeCraftedCriterion.Conditions.create(RegistryKey.of(RegistryKeys.RECIPE, AdditionalArmouryMain.identifier("tipped_dagger")))
+            )
             .build(consumer, AdditionalArmouryMain.identifier("end/craft_tipped_dagger").toString());
 
         AdvancementEntry ancientDebris = Advancement.Builder.create().build(Identifier.ofVanilla("nether/obtain_ancient_debris"));

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "additional-armoury:endernether_block"
-    }
+    "additional-armoury:endernether_block"
   ],
   "result": {
     "count": 9,

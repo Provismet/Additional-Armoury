@@ -24,7 +24,7 @@ public class WindTornadoSpellEntity extends AbstractSpellEntity {
     }
 
     public WindTornadoSpellEntity (World world, @NotNull LivingEntity owner) {
-        super(AAEntityTypes.WIND_TORNADO, world, owner, false, true, 75, SPEED);
+        super(AAEntityTypes.WIND_TORNADO, world, owner, AAItems.WIND_TORNADO.getDefaultStack(), false, true, 75, SPEED);
     }
 
     public WindTornadoSpellEntity (World world, @NotNull LivingEntity owner, float aimOffset) {
@@ -36,16 +36,16 @@ public class WindTornadoSpellEntity extends AbstractSpellEntity {
     public void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
 
-        entityHitResult.getEntity().damage(AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 1f);
+        if (this.getWorld() instanceof ServerWorld world) {
+            entityHitResult.getEntity().damage(world, AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 1f);
+            world.spawnParticles(ParticleTypes.GUST, this.getX(), this.getY() + this.getHeight() / 2f, this.getZ(), 1, 0, 0, 0, 0);
+        }
         
         if (entityHitResult.getEntity() instanceof LivingEntity living && this.getOwner() != null) {
             double dx = this.getOwner().getX() - living.getX();
             double dz = this.getOwner().getZ() - living.getZ();
             living.takeKnockback(2.0, dx, dz);
             living.addVelocity(0, 0.1, 0);
-
-            if (this.getWorld() instanceof ServerWorld serverWorld)
-                serverWorld.spawnParticles(ParticleTypes.GUST, this.getX(), this.getY() + this.getHeight() / 2f, this.getZ(), 1, 0, 0, 0, 0);
         }
     }
 

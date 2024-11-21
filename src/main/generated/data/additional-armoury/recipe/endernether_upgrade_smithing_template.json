@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "minecraft:diamond"
-    },
-    "C": {
-      "item": "minecraft:end_stone"
-    },
-    "S": {
-      "item": "additional-armoury:endernether_upgrade_smithing_template"
-    }
+    "#": "minecraft:diamond",
+    "C": "minecraft:end_stone",
+    "S": "additional-armoury:endernether_upgrade_smithing_template"
   },
   "pattern": [
     "#S#",

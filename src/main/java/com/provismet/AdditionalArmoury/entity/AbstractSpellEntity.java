@@ -1,5 +1,7 @@
 package com.provismet.AdditionalArmoury.entity;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,8 +23,8 @@ public abstract class AbstractSpellEntity extends ThrownItemEntity {
         this.setNoGravity(true);
     }
 
-    public AbstractSpellEntity (EntityType<? extends AbstractSpellEntity> entityType, World world, @NotNull LivingEntity owner, boolean pitchAim, boolean startOnFloor, int maxAge, float speed) {
-        super(entityType, owner, world);
+    public AbstractSpellEntity (EntityType<? extends AbstractSpellEntity> entityType, World world, @NotNull LivingEntity owner, @NotNull ItemStack stack, boolean pitchAim, boolean startOnFloor, int maxAge, float speed) {
+        super(entityType, owner, world, stack);
 
         if (pitchAim) {
             this.setVelocity(owner, owner.getPitch(), owner.getYaw(), 0f, speed, 0f);
@@ -60,7 +62,7 @@ public abstract class AbstractSpellEntity extends ThrownItemEntity {
     }
 
     @Override
-    public boolean damage (DamageSource source, float amount) {
+    public boolean damage (ServerWorld world, DamageSource source, float amount) {
         return false;
     }
 

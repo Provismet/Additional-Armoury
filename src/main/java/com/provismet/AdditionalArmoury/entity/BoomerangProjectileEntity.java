@@ -6,6 +6,7 @@ import com.provismet.AdditionalArmoury.items.BoomerangItem;
 import com.provismet.lilylib.util.Relations;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,6 +30,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+// TODO: This does not render. Check what's up in LilyLib.
 public class BoomerangProjectileEntity extends ThrownItemEntity implements WorldItemEntity {
     private static final String RICOCHET_KEY = "ricochet_count";
     private static final String FLIGHT_TIME_KEY = "flight_time";
@@ -49,8 +51,8 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
         super(entityType, world);
     }
 
-    public BoomerangProjectileEntity (World world, @NotNull LivingEntity owner) {
-        super(AAEntityTypes.BOOMERANG, owner, world);
+    public BoomerangProjectileEntity (World world, @NotNull LivingEntity owner, @NotNull ItemStack stack) {
+        super(AAEntityTypes.BOOMERANG, owner, world, stack);
     }
 
     @Override
@@ -107,14 +109,14 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
         super.onEntityHit(entityHitResult);
         if (this.getWorld() instanceof ServerWorld world) {
             if (this.getOwner() instanceof PlayerEntity player && entityHitResult.getEntity() == player) {
-                if (this.resetsCooldown) player.getItemCooldownManager().remove(AAItems.BOOMERANG);
+                if (this.resetsCooldown) player.getItemCooldownManager().remove(player.getItemCooldownManager().getGroup(AAItems.BOOMERANG.getDefaultStack()));
                 this.discard();
             }
             else if (!(entityHitResult.getEntity() instanceof ProjectileEntity)) {
                 if (entityHitResult.getEntity() instanceof LivingEntity target) {
                     DamageSource damageSource = AADamageTypes.BOOMERANG.createDamageSource(this, this.getOwner());
-                    float damage = EnchantmentHelper.getDamage(world, this.getStack(), target, damageSource, this.power);
-                    target.damage(damageSource, damage);
+                    float damage = EnchantmentHelper.getDamage(world, this.getStack(), target, damageSource, this.getPower());
+                    target.damage(world, damageSource, damage);
                     this.applyOnHitEffects(target);
                     EnchantmentHelper.onTargetDamaged(world, target, damageSource, this.getStack());
                     if (target.isAlive()) this.previousHit = target;

@@ -9,6 +9,8 @@ import com.provismet.AdditionalArmoury.registries.AAItems;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Model;
@@ -16,7 +18,9 @@ import net.minecraft.data.client.ModelIds;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.equipment.EquipmentModel;
 import net.minecraft.util.Identifier;
 
 public class ModelGenerator extends FabricModelProvider {
@@ -60,8 +64,8 @@ public class ModelGenerator extends FabricModelProvider {
 
         AAItems.MACES.forEach(item -> itemModelGenerator.register(item, Models.HANDHELD));
         AAItems.ITEM_PROJECTILES.forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
-        AAItems.OVERNETHER_ARMOUR.forEach(itemModelGenerator::registerArmor);
-        AAItems.ENDERNETHER_ARMOUR.forEach(itemModelGenerator::registerArmor);
+        AAItems.OVERNETHER_ARMOUR.forEach(item -> registerArmour(item, itemModelGenerator));
+        AAItems.ENDERNETHER_ARMOUR.forEach(item -> registerArmour(item, itemModelGenerator));
     }
 
     public static void registerDagger (ItemModelGenerator itemModelGenerator, DaggerItem dagger) {
@@ -80,5 +84,18 @@ public class ModelGenerator extends FabricModelProvider {
 
     private static Model createModel (String parent, TextureKey ... requiredTextureKeys) {
         return new Model(Optional.of(Identifier.ofVanilla("item/" + parent)), Optional.empty(), requiredTextureKeys);
+    }
+
+    private void registerArmour (ArmorItem item, ItemModelGenerator itemModelGenerator) {
+        EquippableComponent equippableComponent = item.getComponents().get(DataComponentTypes.EQUIPPABLE);
+        if (equippableComponent == null || equippableComponent.model().isEmpty()) {
+            AdditionalArmouryMain.LOGGER.warn("No equippable component found for {}", item.getName().getString());
+            return;
+        }
+
+        Identifier modelId = equippableComponent.model().get();
+        EquipmentModel model = EquipmentModel.builder().addHumanoidLayers(modelId).build();
+
+        itemModelGenerator.registerArmor(item, modelId, model, equippableComponent.slot());
     }
 }

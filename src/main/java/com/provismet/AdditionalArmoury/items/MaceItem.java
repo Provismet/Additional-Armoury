@@ -10,17 +10,33 @@ import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.server.world.ServerWorld;
 
 public class MaceItem extends AbstractMeleeWeapon {
-    public MaceItem (ToolMaterial material, Settings settings) {
-        super(material, settings);
+    private static final float BASE_ATTACK_DAMAGE = 6f;
+    private static final float BASE_ATTACK_SPEED = -3.5f;
+
+    public MaceItem (Settings settings) {
+        super(settings);
     }
 
     public static AttributeModifiersComponent createDefaultMaceAttributes (ToolMaterial material) {
-        return Util.createAttributes(material, 6f, -3.5f);
+        return Util.createAttributes(material, BASE_ATTACK_DAMAGE, BASE_ATTACK_SPEED);
+    }
+
+    public static AttributeModifiersComponent createDefaultMaceAttributes (AAToolMaterial material) {
+        return material.createAttributeComponent(BASE_ATTACK_DAMAGE, BASE_ATTACK_SPEED);
+    }
+
+    public static Item.Settings createDefaultMaceSettings (ToolMaterial material, Item.Settings settings) {
+        return Util.applyToolSettings(material, settings).attributeModifiers(createDefaultMaceAttributes(material));
+    }
+
+    public static Item.Settings createDefaultMaceSettings (AAToolMaterial material, Item.Settings settings) {
+        return Util.applyToolSettings(material.baseMaterial(), settings).attributeModifiers(createDefaultMaceAttributes(material));
     }
 
     @Override

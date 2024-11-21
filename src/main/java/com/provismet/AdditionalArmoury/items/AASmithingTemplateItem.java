@@ -2,10 +2,12 @@ package com.provismet.AdditionalArmoury.items;
 
 import java.util.List;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.SmithingTemplateItem;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.Util;
 
 public class AASmithingTemplateItem extends SmithingTemplateItem {
@@ -34,24 +36,24 @@ public class AASmithingTemplateItem extends SmithingTemplateItem {
     private static final Identifier EMPTY_SLOT_PICKAXE_TEXTURE = Identifier.ofVanilla("item/empty_slot_pickaxe");
     private static final Identifier EMPTY_SLOT_INGOT_TEXTURE = Identifier.ofVanilla("item/empty_slot_ingot");
 
-    public AASmithingTemplateItem (Text ingredientsText, Text titleText, Text additionsText) {
+    public AASmithingTemplateItem (Text ingredientsText, Text additionsText, Item.Settings settings) {
         super(
             NETHERITE_UPGRADE_APPLIES_TO_TEXT,
             ingredientsText,
-            titleText,
             NETHERITE_UPGRADE_BASE_SLOT_DESCRIPTION_TEXT,
             additionsText,
             AASmithingTemplateItem.getNetheriteUpgradeEmptyBaseSlotTextures(),
-            List.of(EMPTY_SLOT_INGOT_TEXTURE)
+            List.of(EMPTY_SLOT_INGOT_TEXTURE),
+            settings
         );
     }
 
-    public static AASmithingTemplateItem createOvernetherSmithingTemplate () {
-        return new AASmithingTemplateItem(OVERNETHER_UPGRADE_INGREDIENTS_TEXT, OVERNETHER_UPGRADE_TEXT, OVERNETHER_ADDITIONS_SLOT_DESCRIPTION_TEXT);
+    public static AASmithingTemplateItem createOvernetherSmithingTemplate (Item.Settings settings) {
+        return new AASmithingTemplateItem(OVERNETHER_UPGRADE_INGREDIENTS_TEXT, OVERNETHER_ADDITIONS_SLOT_DESCRIPTION_TEXT, settings.rarity(Rarity.UNCOMMON));
     }
 
-    public static AASmithingTemplateItem createEndernetherSmithingTemplate () {
-        return new AASmithingTemplateItem(ENDERNETHER_UPGRADE_INGREDIENTS_TEXT, ENDERNETHER_UPGRADE_TEXT, ENDERNETHER_ADDITIONS_SLOT_DESCRIPTION_TEXT);
+    public static AASmithingTemplateItem createEndernetherSmithingTemplate (Item.Settings settings) {
+        return new AASmithingTemplateItem(ENDERNETHER_UPGRADE_INGREDIENTS_TEXT, ENDERNETHER_ADDITIONS_SLOT_DESCRIPTION_TEXT, settings.rarity(Rarity.UNCOMMON));
     }
     
     private static List<Identifier> getNetheriteUpgradeEmptyBaseSlotTextures() {

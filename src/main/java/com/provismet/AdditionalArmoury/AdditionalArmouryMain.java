@@ -15,6 +15,7 @@ import com.provismet.AdditionalArmoury.registries.AASounds;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 import com.provismet.AdditionalArmoury.utility.registry.AARegistries;
 import com.provismet.CombatPlusCore.loot.functions.EnchantRandomlyFromKeyLootFunction;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +23,6 @@ import com.provismet.AdditionalArmoury.api.AdditionalArmouryEntrypointMain;
 import com.provismet.AdditionalArmoury.config.AASettings;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Items;
@@ -48,8 +48,8 @@ public class AdditionalArmouryMain implements ModInitializer {
         AADataComponentTypes.register();
         AALambdas.register();
         AASounds.register();
-        AABlocks.register();
-        AAItems.register();
+        AABlocks.init();
+        AAItems.init();
         AAItemGroups.register();
         AARecipeSerializers.register();
         AAParticleTypes.register();
@@ -57,7 +57,7 @@ public class AdditionalArmouryMain implements ModInitializer {
         AAStatusEffects.register();
         AASettings.read();
 
-        LootTableEvents.MODIFY.register((id, tableBuilder, source) -> {
+        LootTableEvents.MODIFY.register((id, tableBuilder, source, registries) -> {
             if (source.isBuiltin() || AASettings.shouldOverrideDatapacks()) {
                 if (LootTables.NETHER_BRIDGE_CHEST.equals(id)) {
                     tableBuilder.pool(
@@ -83,7 +83,7 @@ public class AdditionalArmouryMain implements ModInitializer {
                             .with(ItemEntry.builder(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE))
                     );
                 }
-                else if (EntityType.EVOKER.getLootTableId().equals(id)) {
+                else if (EntityType.EVOKER.getLootTableKey().isPresent() && EntityType.EVOKER.getLootTableKey().get().equals(id)) {
                     tableBuilder.pool(
                         LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.25f))
                             .with(ItemEntry.builder(AAItems.STAFF).weight(3))

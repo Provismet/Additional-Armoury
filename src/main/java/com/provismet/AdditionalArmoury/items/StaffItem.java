@@ -21,12 +21,13 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.consume.UseAction;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -37,27 +38,27 @@ public class StaffItem extends Item {
     }
 
     public static int getColour (ItemStack stack) {
-        Pair<Integer, Integer> pair = EnchantmentHelper.getEffectListAndLevel(stack, AAEnchantmentComponentTypes.SPELL_COLOUR);
+        Pair<Integer, Integer> pair = EnchantmentHelper.getHighestLevelEffect(stack, AAEnchantmentComponentTypes.SPELL_COLOUR);
         if (pair != null) return pair.getFirst();
         return 0xFFC18920;
     }
 
     @Override
-    public String getTranslationKey (ItemStack stack) {
-        if (!EnchantmentHelper.hasEnchantments(stack)) return this.getTranslationKey();
-        else return this.getTranslationKey() + ".enchanted";
+    public Text getName (ItemStack stack) {
+        if (!EnchantmentHelper.hasEnchantments(stack)) return super.getName();
+        else return Text.translatable(this.translationKey + ".enchanted");
     }
 
     @Override
-    public TypedActionResult<ItemStack> use (World world, PlayerEntity user, Hand hand) {
+    public ActionResult use (World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         
         if (!EnchantmentHelper.hasEnchantments(itemStack)) {
-            return TypedActionResult.pass(itemStack);
+            return ActionResult.PASS;
         }
         else {
             user.setCurrentHand(hand);
-            return TypedActionResult.consume(itemStack);
+            return ActionResult.CONSUME;
         }
     }
 
@@ -83,7 +84,7 @@ public class StaffItem extends Item {
 
     @Override
     public int getMaxUseTime (ItemStack stack, LivingEntity user) {
-        Pair<Integer, Integer> pair = EnchantmentHelper.getEffectListAndLevel(stack, AAEnchantmentComponentTypes.SPELL_CAST_DURATION);
+        Pair<Integer, Integer> pair = EnchantmentHelper.getHighestLevelEffect(stack, AAEnchantmentComponentTypes.SPELL_CAST_DURATION);
         if (pair != null) return pair.getFirst();
         return 0;
     }
@@ -91,16 +92,6 @@ public class StaffItem extends Item {
     @Override
     public boolean hasGlint (ItemStack stack) {
         return false;
-    }
-
-    @Override
-    public int getEnchantability () {
-        return 1;
-    }
-
-    @Override
-    public boolean isEnchantable (ItemStack stack) {
-        return true;
     }
 
     @Override
@@ -127,7 +118,7 @@ public class StaffItem extends Item {
         if (uses == 0f || maxUses == 0f) progress = 0f;
         else progress = uses / maxUses;
 
-        return ColorHelper.Argb.lerp(progress, 0xFF3251FF, 0xFFB2BDFF);
+        return ColorHelper.lerp(progress, 0xFF3251FF, 0xFFB2BDFF);
     }
 
     @Override
@@ -141,7 +132,7 @@ public class StaffItem extends Item {
 
             if (user instanceof PlayerEntity player && !player.isCreative()) {
                 int useCount = 0;
-                Pair<Integer, Integer> pair = EnchantmentHelper.getEffectListAndLevel(stack, AAEnchantmentComponentTypes.SPELL_USES);
+                Pair<Integer, Integer> pair = EnchantmentHelper.getHighestLevelEffect(stack, AAEnchantmentComponentTypes.SPELL_USES);
                 if (pair != null) useCount = pair.getFirst();
                 this.setMaxUseCount(stack, useCount);
                 this.incrementUseCount(stack);
@@ -150,7 +141,7 @@ public class StaffItem extends Item {
             serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), AASounds.STAFF_CAST, SoundCategory.PLAYERS, 1.0f, world.getRandom().nextFloat() * 0.2f + 0.9f);
 
             if (user instanceof PlayerEntity player)
-                player.getItemCooldownManager().set(this, 20);
+                player.getItemCooldownManager().set(stack, 20);
         }
 
         return stack;

@@ -1,6 +1,8 @@
 package com.provismet.AdditionalArmoury.entity;
 
 import com.provismet.lilylib.util.Relations;
+import net.minecraft.entity.Entity;
+import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
@@ -14,6 +16,9 @@ import net.minecraft.item.Item;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Optional;
+
 public class MissileSpellEntity extends AbstractSpellEntity {
     private static final float SPEED = 0.85f;
 
@@ -22,22 +27,22 @@ public class MissileSpellEntity extends AbstractSpellEntity {
     }
 
     public MissileSpellEntity (World world, @NotNull LivingEntity owner) {
-        super(AAEntityTypes.MAGIC_MISSILE, world, owner, true, false, 50, SPEED);
+        super(AAEntityTypes.MAGIC_MISSILE, world, owner, AAItems.MAGIC_MISSILE.getDefaultStack(), true, false, 50, SPEED);
     }
 
     @Override
     public void tick () {
         if (this.getOwner() instanceof LivingEntity owner) {
-            LivingEntity target = this.getWorld().getClosestEntity(
-                LivingEntity.class,
-                TargetPredicate.createAttackable().ignoreVisibility().setPredicate(entity -> !Relations.isFriendly(entity, owner)),
-                owner,
-                this.getX(), this.getY(), this.getZ(),
-                this.getBoundingBox().expand(3.0)
-            );
+            Optional<Entity> optionalTarget = this.getWorld().getOtherEntities(
+                this,
+                this.getBoundingBox().expand(3.0),
+                entity -> entity instanceof LivingEntity livingTarget && livingTarget.canTakeDamage() && !Relations.isFriendly(owner, livingTarget)
+            ).stream().reduce((entity1, entity2) -> entity1.distanceTo(this) < entity2.distanceTo(this) ? entity1 : entity2);
 
-            if (target != null) 
+            if (optionalTarget.isPresent()) {
+                Entity target = optionalTarget.get();
                 this.setVelocity(target.getX() - this.getX(), target.getEyeY() - this.getY(), target.getZ() - this.getZ(), SPEED, 0f);
+            }
         }
         super.tick();
     }
@@ -45,7 +50,9 @@ public class MissileSpellEntity extends AbstractSpellEntity {
     @Override
     public void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        entityHitResult.getEntity().damage(AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 6f);
+        if (this.getWorld() instanceof ServerWorld world) {
+            entityHitResult.getEntity().damage(world, AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 6f);
+        }
     }
 
     @Override

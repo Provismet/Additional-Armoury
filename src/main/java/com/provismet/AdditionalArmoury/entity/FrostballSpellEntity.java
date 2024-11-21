@@ -1,5 +1,6 @@
 package com.provismet.AdditionalArmoury.entity;
 
+import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
@@ -28,7 +29,7 @@ public class FrostballSpellEntity extends AbstractSpellEntity {
     }
 
     public FrostballSpellEntity (World world, @NotNull LivingEntity owner) {
-        super(AAEntityTypes.FROSTBALL, world, owner, true, false, 50, 0.85f);
+        super(AAEntityTypes.FROSTBALL, world, owner, AAItems.FROSTBALL.getDefaultStack(), true, false, 50, 0.85f);
     }
 
     @Override
@@ -56,13 +57,13 @@ public class FrostballSpellEntity extends AbstractSpellEntity {
     @Override
     protected void onEntityHit (EntityHitResult hitResult) {
         super.onEntityHit(hitResult);
-        if (this.getWorld().isClient()) return;
+        if (this.getWorld() instanceof ServerWorld world) {
+            Entity target = hitResult.getEntity();
+            Entity owner = this.getOwner();
 
-        Entity target = hitResult.getEntity();
-        Entity owner = this.getOwner();
-
-        if (target.damage(AADamageTypes.FIREBALL.createDamageSource(this, owner), 6f)) {
-            target.setFrozenTicks(Math.min(target.getFrozenTicks() + 120, target.getMinFreezeDamageTicks() + 300));
+            if (target.damage(world, AADamageTypes.FIREBALL.createDamageSource(this, owner), 6f)) {
+                target.setFrozenTicks(Math.min(target.getFrozenTicks() + 120, target.getMinFreezeDamageTicks() + 300));
+            }
         }
     }
 

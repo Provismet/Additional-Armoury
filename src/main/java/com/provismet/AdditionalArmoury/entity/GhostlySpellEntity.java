@@ -1,5 +1,6 @@
 package com.provismet.AdditionalArmoury.entity;
 
+import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
@@ -22,7 +23,7 @@ public class GhostlySpellEntity extends AbstractSpellEntity {
     }
 
     public GhostlySpellEntity (World world, @NotNull LivingEntity owner) {
-        super(AAEntityTypes.GHOSTLY_ORB, world, owner, true, false, 75, 0.8f);
+        super(AAEntityTypes.GHOSTLY_ORB, world, owner, AAItems.GHOSTLY_ORB.getDefaultStack(), true, false, 75, 0.8f);
     }
 
     @Override
@@ -42,9 +43,9 @@ public class GhostlySpellEntity extends AbstractSpellEntity {
     @Override
     public void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        if (this.getWorld().isClient()) return;
-
-        entityHitResult.getEntity().damage(AADamageTypes.GHOSTLY_ORB.createDamageSource(this, this.getOwner()), 6f);
+        if (this.getWorld() instanceof ServerWorld world) {
+            entityHitResult.getEntity().damage(world, AADamageTypes.GHOSTLY_ORB.createDamageSource(this, this.getOwner()), 6f);
+        }
     }
 
     @Override

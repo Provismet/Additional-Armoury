@@ -11,15 +11,7 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.util.dynamic.Codecs;
 
-public class SpellRingParticleEffect implements ParticleEffect {
-    private final float scale;
-    private final int duration;
-
-    public SpellRingParticleEffect (float scale, int duration) {
-        this.scale = scale;
-        this.duration = duration;
-    }
-
+public record SpellRingParticleEffect (float scale, int duration) implements ParticleEffect {
     public static final MapCodec<SpellRingParticleEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
             Codecs.POSITIVE_FLOAT.fieldOf("scale").forGetter(effect -> effect.scale),
@@ -38,13 +30,5 @@ public class SpellRingParticleEffect implements ParticleEffect {
     @Override
     public ParticleType<?> getType () {
         return AAParticleTypes.SPELL_RING;
-    }
-
-    public float getScale () {
-        return this.scale;
-    }
-
-    public int getDuration () {
-        return this.duration;
     }
 }

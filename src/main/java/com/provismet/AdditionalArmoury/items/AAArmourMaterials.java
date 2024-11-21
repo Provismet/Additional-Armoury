@@ -1,36 +1,59 @@
 package com.provismet.AdditionalArmoury.items;
 
-import net.minecraft.entity.attribute.EntityAttributeModifier;
+import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
+import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.item.ArmorItem;
+import net.minecraft.item.equipment.ArmorMaterial;
+import net.minecraft.item.equipment.ArmorMaterials;
+import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.util.Util;
 
 import java.util.EnumMap;
 
 public class AAArmourMaterials {
+    private static final ArmorMaterial INNER_OVERNETHER = new ArmorMaterial(
+        ArmorMaterials.NETHERITE.durability(),
+        ArmorMaterials.NETHERITE.defense(),
+        ArmorMaterials.NETHERITE.enchantmentValue(),
+        ArmorMaterials.NETHERITE.equipSound(),
+        ArmorMaterials.NETHERITE.toughness(),
+        0f,
+        AAItemTags.REPAIRS_OVERNETHER_ARMOUR,
+        AdditionalArmouryMain.identifier("overnether")
+    );
+
+    private static final ArmorMaterial INNER_ENDERNETHER = new ArmorMaterial(
+        ArmorMaterials.NETHERITE.durability(),
+        ArmorMaterials.NETHERITE.defense(),
+        ArmorMaterials.NETHERITE.enchantmentValue(),
+        ArmorMaterials.NETHERITE.equipSound(),
+        ArmorMaterials.NETHERITE.toughness(),
+        0f,
+        AAItemTags.REPAIRS_ENDERNETHER_ARMOUR,
+        AdditionalArmouryMain.identifier("endernether")
+    );
+
     public static final AAArmourMaterial OVERNETHER = new AAArmourMaterial(
-        AAArmourMaterial.OVERNETHER,
-        EntityAttributes.GENERIC_MAX_HEALTH,
-        EntityAttributeModifier.Operation.ADD_VALUE,
-        Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-            map.put(ArmorItem.Type.BOOTS, 1.0);
-            map.put(ArmorItem.Type.LEGGINGS, 2.0);
-            map.put(ArmorItem.Type.CHESTPLATE, 2.0);
-            map.put(ArmorItem.Type.HELMET, 1.0);
-            map.put(ArmorItem.Type.BODY, 4.5);
+        INNER_OVERNETHER,
+        EntityAttributes.MAX_HEALTH,
+        Util.make(new EnumMap<>(EquipmentType.class), map -> {
+            map.put(EquipmentType.BOOTS, AAArmourMaterial.AttributeEntry.add(1));
+            map.put(EquipmentType.LEGGINGS, AAArmourMaterial.AttributeEntry.add(2));
+            map.put(EquipmentType.CHESTPLATE, AAArmourMaterial.AttributeEntry.add(2));
+            map.put(EquipmentType.HELMET, AAArmourMaterial.AttributeEntry.add(1));
+            map.put(EquipmentType.BODY, AAArmourMaterial.AttributeEntry.add(4.5));
         })
     );
 
     public static final AAArmourMaterial ENDERNETHER = new AAArmourMaterial(
-        AAArmourMaterial.ENDERNETHER,
-        EntityAttributes.GENERIC_MOVEMENT_SPEED,
-        EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
-        Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-            map.put(ArmorItem.Type.BOOTS, 0.05);
-            map.put(ArmorItem.Type.LEGGINGS, 0.1);
-            map.put(ArmorItem.Type.CHESTPLATE, 0.1);
-            map.put(ArmorItem.Type.HELMET, 0.05);
-            map.put(ArmorItem.Type.BODY, 0.25);
+        INNER_ENDERNETHER,
+        EntityAttributes.MOVEMENT_SPEED,
+        Util.make(new EnumMap<>(EquipmentType.class), map -> {
+            map.put(EquipmentType.BOOTS, AAArmourMaterial.AttributeEntry.multiplyTotal(0.05));
+            map.put(EquipmentType.LEGGINGS, AAArmourMaterial.AttributeEntry.multiplyTotal(0.1));
+            map.put(EquipmentType.CHESTPLATE, AAArmourMaterial.AttributeEntry.multiplyTotal(0.1));
+            map.put(EquipmentType.HELMET, AAArmourMaterial.AttributeEntry.multiplyTotal(0.05));
+            map.put(EquipmentType.BODY, AAArmourMaterial.AttributeEntry.multiplyTotal(0.25));
         })
     );
 }

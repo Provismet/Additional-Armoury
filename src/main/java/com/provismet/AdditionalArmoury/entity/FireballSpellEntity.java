@@ -1,5 +1,6 @@
 package com.provismet.AdditionalArmoury.entity;
 
+import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
@@ -24,19 +25,20 @@ public class FireballSpellEntity extends AbstractSpellEntity {
     }
 
     public FireballSpellEntity (World world, @NotNull LivingEntity owner) {
-        super(AAEntityTypes.FIREBALL, world, owner, true, false, 50, 0.85f);
+        super(AAEntityTypes.FIREBALL, world, owner, AAItems.FIREBALL.getDefaultStack(), true, false, 50, 0.85f);
     }
 
     @Override
     protected void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        if (this.getWorld().isClient()) return;
+        if (this.getWorld() instanceof ServerWorld world) {
 
-        Entity target = entityHitResult.getEntity();
-        Entity owner = this.getOwner();
-        
-        if (target.damage(AADamageTypes.FIREBALL.createDamageSource(this, owner), 6f)) {
-            target.setOnFireFor(5);
+            Entity target = entityHitResult.getEntity();
+            Entity owner = this.getOwner();
+
+            if (target.damage(world, AADamageTypes.FIREBALL.createDamageSource(this, owner), 6f)) {
+                target.setOnFireFor(5);
+            }
         }
     }
 

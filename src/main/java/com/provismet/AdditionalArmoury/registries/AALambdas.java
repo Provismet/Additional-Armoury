@@ -79,7 +79,7 @@ public class AALambdas {
                 List<Entity> others = user.getWorld().getOtherEntities(user, user.getBoundingBox().expand(RADIUS, 0, RADIUS));
                 for (Entity otherEntity : others) {
                     if (otherEntity instanceof LivingEntity living && !Relations.isFriendly(living, livingUser)) {
-                        otherEntity.damage(AADamageTypes.ERUPTION.createDamageSource(user), 1f);
+                        otherEntity.damage(world, AADamageTypes.ERUPTION.createDamageSource(user), 1f);
                         double dx = user.getX() - living.getX();
                         double dz = user.getZ() - living.getZ();
 
@@ -133,8 +133,8 @@ public class AALambdas {
         });
 
         register("explosion", (world, level, context, user, pos) -> {
-            Explosion explosion = world.createExplosion(user, user.getX(), user.getY(), user.getZ(), 10f, true, World.ExplosionSourceType.TNT);
-            user.damage(user.getDamageSources().explosion(explosion), 141f); // Yes that is actually how much damage this would deal.
+            world.createExplosion(user, user.getX(), user.getY(), user.getZ(), 10f, true, World.ExplosionSourceType.TNT);
+            user.damage(world, user.getDamageSources().explosion(user, user), 141f); // Yes that is actually how much damage this would deal.
 
             if (user instanceof ServerPlayerEntity serverPlayer) {
                 try { // I don't expect this to break, and it never has in testing. But I have no idea how advancements work.

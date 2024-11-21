@@ -11,7 +11,7 @@ public class AASounds {
     public static final SoundEvent STAFF_CAST = SoundEvent.of(AdditionalArmouryMain.identifier("player.staff.cast"));
 
     private static void register (SoundEvent soundEvent) {
-        Registry.register(Registries.SOUND_EVENT, soundEvent.getId(), soundEvent);
+        Registry.register(Registries.SOUND_EVENT, soundEvent.id(), soundEvent);
     }
 
     public static void register () {

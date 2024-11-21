@@ -2,11 +2,11 @@ package com.provismet.AdditionalArmoury.registries;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.items.*;
 
-import com.provismet.AdditionalArmoury.utility.Util;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
@@ -15,68 +15,71 @@ import net.minecraft.item.Item;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterials;
+import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 
 public class AAItems {
-    public static final Item OVERNETHER_INGOT = new Item(new Item.Settings().fireproof());
-    public static final Item ENDERNETHER_INGOT = new Item(new Item.Settings().fireproof());
+    public static final Item OVERNETHER_INGOT = register("overnether_ingot", settings -> new Item(settings.fireproof()));
+    public static final Item ENDERNETHER_INGOT = register("endernether_ingot", settings -> new Item(settings.fireproof()));
 
-    public static final BlockItem OVERNETHER_BLOCK = new BlockItem(AABlocks.OVERNETHER_BLOCK, new Item.Settings());
-    public static final BlockItem ENDERNETHER_BLOCK = new BlockItem(AABlocks.ENDERNETHER_BLOCK, new Item.Settings());
+    public static final BlockItem OVERNETHER_BLOCK = register("overnether_block", settings -> new BlockItem(AABlocks.OVERNETHER_BLOCK, settings.useBlockPrefixedTranslationKey()));
+    public static final BlockItem ENDERNETHER_BLOCK = register("endernether_block", settings -> new BlockItem(AABlocks.ENDERNETHER_BLOCK, settings.useBlockPrefixedTranslationKey()));
 
-    public static final Item OVERNETHER_UPGRADE_SMITHING_TEMPLATE = AASmithingTemplateItem.createOvernetherSmithingTemplate();
-    public static final Item ENDERNETHER_UPGRADE_SMITHING_TEMPLATE = AASmithingTemplateItem.createEndernetherSmithingTemplate();
+    public static final Item OVERNETHER_UPGRADE_SMITHING_TEMPLATE = register("overnether_upgrade_smithing_template", AASmithingTemplateItem::createOvernetherSmithingTemplate);
+    public static final Item ENDERNETHER_UPGRADE_SMITHING_TEMPLATE = register("endernether_upgrade_smithing_template", AASmithingTemplateItem::createEndernetherSmithingTemplate);
 
-    public static final SwordItem OVERNETHER_SWORD = new SwordItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, 3f, -2.4f)));
-    public static final SwordItem ENDERNETHER_SWORD = new SwordItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, 3f, -2.4f)));
-    public static final AxeItem OVERNETHER_AXE = new AxeItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, 5f, -3f)));
-    public static final AxeItem ENDERNETHER_AXE = new AxeItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, 5f, -3f)));
-    public static final PickaxeItem OVERNETHER_PICKAXE = new PickaxeItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, 1f, -2.8f)));
-    public static final PickaxeItem ENDERNETHER_PICKAXE = new PickaxeItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, 1f, -2.8f)));
-    public static final ShovelItem OVERNETHER_SHOVEL = new ShovelItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, 1.5f, -3f)));
-    public static final ShovelItem ENDERNETHER_SHOVEL = new ShovelItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, 1.5f, -3f)));
-    public static final HoeItem OVERNETHER_HOE = new HoeItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.OVERNETHER, -3f, 0f)));
-    public static final HoeItem ENDERNETHER_HOE = new HoeItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(Util.createAttributes(AAToolMaterials.ENDERNETHER, -3f, 0f)));
+    public static final SwordItem OVERNETHER_SWORD = register("overnether_sword", settings -> new AAExtraSwordItem(AAToolMaterial.OVERNETHER, 3f, -2.4f, settings.maxCount(1).fireproof()));
+    public static final SwordItem ENDERNETHER_SWORD = register("endernether_sword", settings -> new AAExtraSwordItem(AAToolMaterial.ENDERNETHER, 3f, -2.4f, settings.maxCount(1).fireproof()));
+    public static final AxeItem OVERNETHER_AXE = register("overnether_axe", settings -> new AAExtraAxeItem(AAToolMaterial.OVERNETHER, 5f, -3f, settings.maxCount(1).fireproof()));
+    public static final AxeItem ENDERNETHER_AXE = register("endernether_axe", settings -> new AAExtraAxeItem(AAToolMaterial.ENDERNETHER, 5f, -3f, settings.maxCount(1).fireproof()));
+    public static final PickaxeItem OVERNETHER_PICKAXE = register("overnether_pickaxe", settings -> new AAExtraPickaxeItem(AAToolMaterial.OVERNETHER, 1f, -2.8f, settings.maxCount(1).fireproof()));
+    public static final PickaxeItem ENDERNETHER_PICKAXE = register("endernether_pickaxe", settings -> new AAExtraPickaxeItem(AAToolMaterial.ENDERNETHER, 1f, -2.8f, settings.maxCount(1).fireproof()));
+    public static final ShovelItem OVERNETHER_SHOVEL = register("overnether_shovel", settings -> new AAExtraShovelItem(AAToolMaterial.OVERNETHER, 1.5f, -3f, settings.maxCount(1).fireproof()));
+    public static final ShovelItem ENDERNETHER_SHOVEL = register("endernether_shovel", settings -> new AAExtraShovelItem(AAToolMaterial.ENDERNETHER, 1.5f, -3f, settings.maxCount(1).fireproof()));
+    public static final HoeItem OVERNETHER_HOE = register("overnether_hoe", settings -> new AAExtraHoeItem(AAToolMaterial.OVERNETHER, -3f, 0f, settings.maxCount(1).fireproof()));
+    public static final HoeItem ENDERNETHER_HOE = register("endernether_hoe", settings -> new AAExtraHoeItem(AAToolMaterial.ENDERNETHER, -3f, 0f, settings.maxCount(1).fireproof()));
 
-    public static final DaggerItem WOODEN_DAGGER = new DaggerItem(ToolMaterials.WOOD, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.WOOD)));
-    public static final DaggerItem STONE_DAGGER = new DaggerItem(ToolMaterials.STONE, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.STONE)));
-    public static final DaggerItem GOLDEN_DAGGER = new DaggerItem(ToolMaterials.GOLD, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.GOLD)));
-    public static final DaggerItem IRON_DAGGER = new DaggerItem(ToolMaterials.IRON, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.IRON)));
-    public static final DaggerItem DIAMOND_DAGGER = new DaggerItem(ToolMaterials.DIAMOND, new Item.Settings().maxCount(1).attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.DIAMOND)));
-    public static final DaggerItem NETHERITE_DAGGER = new DaggerItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof().attributeModifiers(DaggerItem.createDefaultDaggerAttributes(ToolMaterials.NETHERITE)));
-    public static final DaggerItem OVERNETHER_DAGGER = new DaggerItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(DaggerItem.createDefaultDaggerAttributes(AAToolMaterials.OVERNETHER)));
-    public static final DaggerItem ENDERNETHER_DAGGER = new DaggerItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(DaggerItem.createDefaultDaggerAttributes(AAToolMaterials.ENDERNETHER)));
+    public static final DaggerItem WOODEN_DAGGER = register("wooden_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.WOOD, settings)));
+    public static final DaggerItem STONE_DAGGER = register("stone_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.STONE, settings)));
+    public static final DaggerItem GOLDEN_DAGGER = register("golden_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.GOLD, settings)));
+    public static final DaggerItem IRON_DAGGER = register("iron_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.IRON, settings)));
+    public static final DaggerItem DIAMOND_DAGGER = register("diamond_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.DIAMOND, settings)));
+    public static final DaggerItem NETHERITE_DAGGER = register("netherite_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.NETHERITE, settings)));
+    public static final DaggerItem OVERNETHER_DAGGER = register("overnether_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(AAToolMaterial.OVERNETHER, settings)));
+    public static final DaggerItem ENDERNETHER_DAGGER = register("endernether_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(AAToolMaterial.ENDERNETHER, settings)));
 
-    public static final MaceItem WOODEN_MACE = new MaceItem(ToolMaterials.WOOD, new Item.Settings().maxCount(1).attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.WOOD)));
-    public static final MaceItem STONE_MACE = new MaceItem(ToolMaterials.STONE, new Item.Settings().maxCount(1).attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.STONE)));
-    public static final MaceItem GOLDEN_MACE = new MaceItem(ToolMaterials.GOLD, new Item.Settings().maxCount(1).attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.GOLD)));
-    public static final MaceItem IRON_MACE = new MaceItem(ToolMaterials.IRON, new Item.Settings().maxCount(1).attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.IRON)));
-    public static final MaceItem DIAMOND_MACE = new MaceItem(ToolMaterials.DIAMOND, new Item.Settings().maxCount(1).attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.DIAMOND)));
-    public static final MaceItem NETHERITE_MACE = new MaceItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof().attributeModifiers(MaceItem.createDefaultMaceAttributes(ToolMaterials.NETHERITE)));
-    public static final MaceItem OVERNETHER_MACE = new MaceItem(AAToolMaterials.OVERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(MaceItem.createDefaultMaceAttributes(AAToolMaterials.OVERNETHER)));
-    public static final MaceItem ENDERNETHER_MACE = new MaceItem(AAToolMaterials.ENDERNETHER, new Item.Settings().maxCount(1).fireproof().attributeModifiers(MaceItem.createDefaultMaceAttributes(AAToolMaterials.ENDERNETHER)));
+    public static final MaceItem WOODEN_MACE = register("wooden_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.WOOD, settings)));
+    public static final MaceItem STONE_MACE = register("stone_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.STONE, settings)));
+    public static final MaceItem GOLDEN_MACE = register("golden_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.GOLD, settings)));
+    public static final MaceItem IRON_MACE = register("iron_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.IRON, settings)));
+    public static final MaceItem DIAMOND_MACE = register("diamond_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.DIAMOND, settings)));
+    public static final MaceItem NETHERITE_MACE = register("netherite_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.NETHERITE, settings)));
+    public static final MaceItem OVERNETHER_MACE = register("overnether_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(AAToolMaterial.OVERNETHER, settings)));
+    public static final MaceItem ENDERNETHER_MACE = register("endernether_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(AAToolMaterial.ENDERNETHER, settings)));
 
-    public static final ArmorItem OVERNETHER_HELMET = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.HELMET, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(37)));
-    public static final ArmorItem OVERNETHER_CHESTPLATE = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.CHESTPLATE, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(37)));
-    public static final ArmorItem OVERNETHER_LEGGINGS = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.LEGGINGS, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(37)));
-    public static final ArmorItem OVERNETHER_BOOTS = new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, ArmorItem.Type.BOOTS, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(37)));
+    public static final ArmorItem OVERNETHER_HELMET = register("overnether_helmet", settings -> new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, EquipmentType.HELMET, settings.fireproof()));
+    public static final ArmorItem OVERNETHER_CHESTPLATE = register("overnether_chestplate", settings -> new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, EquipmentType.CHESTPLATE, settings.fireproof()));
+    public static final ArmorItem OVERNETHER_LEGGINGS = register("overnether_leggings", settings -> new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, EquipmentType.LEGGINGS, settings.fireproof()));
+    public static final ArmorItem OVERNETHER_BOOTS = register("overnether_boots", settings -> new AAExtraArmourItem(AAArmourMaterials.OVERNETHER, EquipmentType.BOOTS, settings.fireproof()));
 
-    public static final ArmorItem ENDERNETHER_HELMET = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.HELMET, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(37)));
-    public static final ArmorItem ENDERNETHER_CHESTPLATE = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.CHESTPLATE, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(37)));
-    public static final ArmorItem ENDERNETHER_LEGGINGS = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.LEGGINGS, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(37)));
-    public static final ArmorItem ENDERNETHER_BOOTS = new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, ArmorItem.Type.BOOTS, new Item.Settings().fireproof().maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(37)));
+    public static final ArmorItem ENDERNETHER_HELMET = register("endernether_helmet", settings -> new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, EquipmentType.HELMET, settings.fireproof()));
+    public static final ArmorItem ENDERNETHER_CHESTPLATE = register("endernether_chestplate", settings -> new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, EquipmentType.CHESTPLATE, settings.fireproof()));
+    public static final ArmorItem ENDERNETHER_LEGGINGS = register("endernether_leggings", settings -> new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, EquipmentType.LEGGINGS, settings.fireproof()));
+    public static final ArmorItem ENDERNETHER_BOOTS = register("endernether_boots", settings -> new AAExtraArmourItem(AAArmourMaterials.ENDERNETHER, EquipmentType.BOOTS, settings.fireproof()));
 
-    public static final StaffItem STAFF = new StaffItem(new Item.Settings().maxCount(1));
-    public static final BoomerangItem BOOMERANG = new BoomerangItem(new Item.Settings().maxCount(1).maxDamage(256));
+    public static final StaffItem STAFF = register("staff", settings -> new StaffItem(settings.maxCount(1).enchantable(1)));
+    public static final BoomerangItem BOOMERANG = register("boomerang", settings -> new BoomerangItem(settings.maxCount(1).maxDamage(256).enchantable(1)));
 
     // Projectile Items (these exist so that magic projectiles can use them for rendering, they are not obtainable in survival)
-    public static final Item FIREBALL = new Item(new Item.Settings().fireproof());
-    public static final Item FROSTBALL = new Item(new Item.Settings());
-    public static final Item GHOSTLY_ORB = new Item(new Item.Settings());
-    public static final Item WIND_TORNADO = new Item(new Item.Settings());
-    public static final Item MAGIC_MISSILE = new Item(new Item.Settings());
+    public static final Item FIREBALL = register("fireball_spell", settings -> new Item(settings.fireproof()));
+    public static final Item FROSTBALL = register("frostball_spell");
+    public static final Item GHOSTLY_ORB = register("ghostly_orb_spell");
+    public static final Item WIND_TORNADO = register("wind_tornado_spell");
+    public static final Item MAGIC_MISSILE = register("missile_spell");
     public static final List<Item> ITEM_PROJECTILES = Arrays.asList(FIREBALL, FROSTBALL, GHOSTLY_ORB, WIND_TORNADO, MAGIC_MISSILE);
 
     // List representations so I don't have to update the generators and other registries.
@@ -85,66 +88,18 @@ public class AAItems {
     public static final List<ArmorItem> OVERNETHER_ARMOUR = Arrays.asList(OVERNETHER_HELMET, OVERNETHER_CHESTPLATE, OVERNETHER_LEGGINGS, OVERNETHER_BOOTS);
     public static final List<ArmorItem> ENDERNETHER_ARMOUR = Arrays.asList(ENDERNETHER_HELMET, ENDERNETHER_CHESTPLATE, ENDERNETHER_LEGGINGS, ENDERNETHER_BOOTS);
 
-    private static void register (Item item, String name) {
-        Registry.register(Registries.ITEM, AdditionalArmouryMain.identifier(name), item);
+    private static <T extends Item> T register (String name, Function<Item.Settings, T> registryFunction) {
+        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, AdditionalArmouryMain.identifier(name));
+        T item = registryFunction.apply(new Item.Settings().registryKey(key));
+        Registry.register(Registries.ITEM, key, item);
+        return item;
     }
 
-    public static void register () {
-        register(OVERNETHER_INGOT, "overnether_ingot");
-        register(ENDERNETHER_INGOT, "endernether_ingot");
-        register(OVERNETHER_BLOCK, "overnether_block");
-        register(ENDERNETHER_BLOCK, "endernether_block");
+    private static Item register (String name) {
+        return register(name, Item::new);
+    }
 
-        register(OVERNETHER_UPGRADE_SMITHING_TEMPLATE, "overnether_upgrade_smithing_template");
-        register(ENDERNETHER_UPGRADE_SMITHING_TEMPLATE, "endernether_upgrade_smithing_template");
-
-        register(OVERNETHER_SWORD, "overnether_sword");
-        register(OVERNETHER_AXE, "overnether_axe");
-        register(OVERNETHER_PICKAXE, "overnether_pickaxe");
-        register(OVERNETHER_SHOVEL, "overnether_shovel");
-        register(OVERNETHER_HOE, "overnether_hoe");
-
-        register(ENDERNETHER_SWORD, "endernether_sword");
-        register(ENDERNETHER_AXE, "endernether_axe");
-        register(ENDERNETHER_PICKAXE, "endernether_pickaxe");
-        register(ENDERNETHER_SHOVEL, "endernether_shovel");
-        register(ENDERNETHER_HOE, "endernether_hoe");
-
-        register(WOODEN_DAGGER, "wooden_dagger");
-        register(STONE_DAGGER, "stone_dagger");
-        register(GOLDEN_DAGGER, "golden_dagger");
-        register(IRON_DAGGER, "iron_dagger");
-        register(DIAMOND_DAGGER, "diamond_dagger");
-        register(NETHERITE_DAGGER, "netherite_dagger");
-        register(OVERNETHER_DAGGER, "overnether_dagger");
-        register(ENDERNETHER_DAGGER, "endernether_dagger");
-
-        register(WOODEN_MACE, "wooden_mace");
-        register(STONE_MACE, "stone_mace");
-        register(GOLDEN_MACE, "golden_mace");
-        register(IRON_MACE, "iron_mace");
-        register(DIAMOND_MACE, "diamond_mace");
-        register(NETHERITE_MACE, "netherite_mace");
-        register(OVERNETHER_MACE, "overnether_mace");
-        register(ENDERNETHER_MACE, "endernether_mace");
-
-        register(OVERNETHER_HELMET, "overnether_helmet");
-        register(OVERNETHER_CHESTPLATE, "overnether_chestplate");
-        register(OVERNETHER_LEGGINGS, "overnether_leggings");
-        register(OVERNETHER_BOOTS, "overnether_boots");
-
-        register(ENDERNETHER_HELMET, "endernether_helmet");
-        register(ENDERNETHER_CHESTPLATE, "endernether_chestplate");
-        register(ENDERNETHER_LEGGINGS, "endernether_leggings");
-        register(ENDERNETHER_BOOTS, "endernether_boots");
-
-        register(STAFF, "staff");
-        register(BOOMERANG, "boomerang");
-
-        register(FIREBALL, "fireball_spell");
-        register(FROSTBALL, "frostball_spell");
-        register(GHOSTLY_ORB, "ghostly_orb_spell");
-        register(WIND_TORNADO, "wind_tornado_spell");
-        register(MAGIC_MISSILE, "missile_spell");
+    public static void init () {
+        // Do nothing, just load the class.
     }
 }

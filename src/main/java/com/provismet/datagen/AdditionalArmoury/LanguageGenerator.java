@@ -15,7 +15,6 @@ import com.provismet.lilylib.container.DamageTypeContainer;
 import com.provismet.lilylib.container.EnchantmentContainer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.registry.Registries;
@@ -154,9 +153,9 @@ public class LanguageGenerator extends FabricLanguageProvider {
 
         for (Potion potion : Registries.POTION.getEntrySet().stream().map(Map.Entry::getValue).toList()) {
             RegistryEntry<Potion> potionEntry = Registries.POTION.getEntry(potion);
-            String effectKey = dagger.getTranslationKey(PotionContentsComponent.createStack(dagger, potionEntry));
-            String[] keySplit = effectKey.split("[.]");
-            String potionBasename = LanguageGenerator.titleCase(keySplit[keySplit.length - 1].replace('_', ' '));
+
+            String effectKey = dagger.getTranslationKey() + ".effect." + potionEntry.getKey().get().getValue().getPath();
+            String potionBasename = LanguageGenerator.titleCase(potion.getBaseName().replace('_', ' '));
 
             try {
                 if (potionEntry != Potions.AWKWARD && potionEntry != Potions.MUNDANE && potionEntry != Potions.THICK && !potionEntry.value().getEffects().isEmpty()) {

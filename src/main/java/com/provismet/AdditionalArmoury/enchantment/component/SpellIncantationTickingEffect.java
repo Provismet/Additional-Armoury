@@ -10,9 +10,9 @@ import net.minecraft.server.world.ServerWorld;
 import java.util.function.Function;
 
 public interface SpellIncantationTickingEffect {
-    public static final Codec<SpellIncantationTickingEffect> CODEC = AARegistries.TICKING_INCANTATION.getCodec().dispatch(SpellIncantationTickingEffect::getCodec, Function.identity());
+    Codec<SpellIncantationTickingEffect> CODEC = AARegistries.TICKING_INCANTATION.getCodec().dispatch(SpellIncantationTickingEffect::getCodec, Function.identity());
 
-    public void apply (ServerWorld world, int level, EnchantmentEffectContext context, LivingEntity user, int remainingTicks);
+    void apply (ServerWorld world, int level, EnchantmentEffectContext context, LivingEntity user, int remainingTicks);
 
-    public MapCodec<? extends SpellIncantationTickingEffect> getCodec ();
+    MapCodec<? extends SpellIncantationTickingEffect> getCodec ();
 }

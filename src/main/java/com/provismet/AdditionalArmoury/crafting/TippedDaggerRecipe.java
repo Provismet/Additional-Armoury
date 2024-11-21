@@ -67,12 +67,7 @@ public class TippedDaggerRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean fits (int width, int height) {
-        return width >= 2 || height >= 2;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer () {
+    public RecipeSerializer<? extends SpecialCraftingRecipe> getSerializer () {
         return AARecipeSerializers.TIPPED_DAGGER;
     }
 }

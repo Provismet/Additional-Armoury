@@ -10,7 +10,7 @@ public class ShatteredStatusEffect extends StatusEffect {
     public ShatteredStatusEffect () {
         super(StatusEffectCategory.HARMFUL, 0x726760);
         this.addAttributeModifier(
-                EntityAttributes.GENERIC_ARMOR,
+                EntityAttributes.ARMOR,
                 CPCMain.identifier("shattered"),
                 -0.25,
                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL

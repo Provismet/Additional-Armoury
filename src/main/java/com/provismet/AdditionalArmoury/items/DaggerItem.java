@@ -7,6 +7,7 @@ import com.provismet.AdditionalArmoury.registries.AADataComponentTypes;
 import com.provismet.AdditionalArmoury.utility.Util;
 import com.provismet.CombatPlusCore.items.AbstractMeleeWeapon;
 import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
+import net.minecraft.block.Block;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.PotionContentsComponent;
@@ -22,10 +23,13 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.potion.Potion;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryEntryLookup;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -37,17 +41,43 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     public static final int defaultTipColour = 0x00000000;
 
     private static final float POTION_DURATION_MOD = 0.125f;
+    private static final float BASE_ATTACK_DAMAGE = 1f;
+    private static final float BASE_ATTACK_SPEED = -2f;
 
-    public DaggerItem (ToolMaterial material, Settings settings) {
-        super(material, settings.component(DataComponentTypes.TOOL, DaggerItem.createToolComponent()));
+    public DaggerItem (Settings settings) {
+        super(settings);
     }
 
-    public static AttributeModifiersComponent createDefaultDaggerAttributes (ToolMaterial toolMaterial) {
-        return Util.createAttributes(toolMaterial, 1, -2f);
+    public static DaggerItem withDefaultSettings (Settings settings) {
+        return new DaggerItem(settings.component(DataComponentTypes.TOOL, DaggerItem.createToolComponent()));
+    }
+
+    public static AttributeModifiersComponent createDefaultDaggerAttributes (ToolMaterial material) {
+        return Util.createAttributes(material, BASE_ATTACK_DAMAGE, BASE_ATTACK_SPEED);
+    }
+
+    public static AttributeModifiersComponent createDefaultDaggerAttributes (AAToolMaterial material) {
+        return material.createAttributeComponent(BASE_ATTACK_DAMAGE, BASE_ATTACK_SPEED);
+    }
+
+    public static Item.Settings createDefaultDaggerSettings (ToolMaterial material, Item.Settings settings) {
+        return Util.applyToolSettings(material, settings).attributeModifiers(createDefaultDaggerAttributes(material));
+    }
+
+    public static Item.Settings createDefaultDaggerSettings (AAToolMaterial material, Item.Settings settings) {
+        return Util.applyToolSettings(material.baseMaterial(), settings).attributeModifiers(createDefaultDaggerAttributes(material));
     }
 
     private static ToolComponent createToolComponent () {
-        return new ToolComponent(List.of(ToolComponent.Rule.ofAlwaysDropping(List.of(Blocks.COBWEB), 15.0f), ToolComponent.Rule.of(BlockTags.SWORD_EFFICIENT, 1.5f)), 1.0f, 2);
+        RegistryEntryLookup<Block> blockLookup = Registries.createEntryLookup(Registries.BLOCK);
+        return new ToolComponent(
+            List.of(
+                ToolComponent.Rule.ofAlwaysDropping(RegistryEntryList.of(Blocks.COBWEB.getRegistryEntry()), 15f),
+                ToolComponent.Rule.of(blockLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5f)
+            ),
+            1F,
+            2
+        );
     }
 
     @Override
@@ -116,11 +146,11 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     }
 
     @Override
-    public String getTranslationKey (ItemStack stack) {
+    public Text getName (ItemStack stack) {
         PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
 
-        if (!potionContentsComponent.hasEffects()) return super.getTranslationKey();
-        return Potion.finishTranslationKey(potionContentsComponent.potion(), this.getTranslationKey() + ".effect.");
+        if (!potionContentsComponent.hasEffects()) return super.getName(stack);
+        return potionContentsComponent.getName(this.translationKey + ".effect.");
     }
 
     public int getCurrentPotionUses (ItemStack stack) {

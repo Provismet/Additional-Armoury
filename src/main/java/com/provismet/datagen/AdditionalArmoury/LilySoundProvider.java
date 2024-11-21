@@ -110,7 +110,7 @@ public abstract class LilySoundProvider implements DataProvider {
 
         public void add (SoundEvent sound, String subtitle, Identifier... soundFiles) {
             Objects.requireNonNull(sound);
-            this.add(sound.getId(), subtitle, soundFiles);
+            this.add(sound.id(), subtitle, soundFiles);
         }
 
         public void add (SoundEvent sound, String subtitle, List<Identifier> soundFiles) {

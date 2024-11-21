@@ -21,6 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.loot.condition.EntityPropertiesLootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.predicate.entity.EntityPredicate;
+import net.minecraft.predicate.entity.EntityTypePredicate;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryEntryLookup;
 
@@ -29,54 +30,54 @@ import java.util.List;
 public class AAEnchantments {
     public static final EnchantmentContainer BOOST = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("boost"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) ->
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) ->
             buildStaff(itemLookup, enchantmentLookup, "boost", 0, 50, 10, 64, 0xFF7AFFE6, 10, 2)
     );
     public static final EnchantmentContainer JUMP = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("jump"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) ->
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) ->
             buildStaff(itemLookup, enchantmentLookup, "jump", 0, 50, 10, 32, 0xFFA2C663, 10, 2)
     );
     public static final EnchantmentContainer FIREBALL = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("fireball"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) ->
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) ->
             buildStaff(itemLookup, enchantmentLookup, "fireball", 0, 50, 20, 64, 0xFFFF331F, 8, 2)
     );
     public static final EnchantmentContainer FROSTBALL = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("frostball"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) ->
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) ->
             buildStaff(itemLookup, enchantmentLookup, "frostball", 0, 50, 20, 64, 0xFFBADCFF, 8, 2)
     );
     public static final EnchantmentContainer ERUPTION = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("eruption"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) ->
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) ->
             buildStaff(itemLookup, enchantmentLookup, "eruption", "eruption_tick", 10, 75, 30, 64, 0xFF7F3C18, 5, 4)
     );
     public static final EnchantmentContainer GALE = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("gale"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) ->
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) ->
             buildStaff(itemLookup, enchantmentLookup, "gale", 10, 60, 30, 32, 0xFFFFFFFF, 5, 5)
     );
     public static final EnchantmentContainer MAGIC_MISSILE = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("missile"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) ->
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) ->
             buildStaff(itemLookup, enchantmentLookup, "missile", 20, 70, 20, 96, 0xFF975DFF, 3, 5)
     );
     public static final EnchantmentContainer GHOSTLY_ORB = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("ghostly_orb"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) ->
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) ->
             buildStaff(itemLookup, enchantmentLookup, "ghostly_orb", 20, 70, 20, 64, 0xFF6B6B6B, 3, 5)
     );
     public static final EnchantmentContainer EXPLOSION = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("explosion"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) ->
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) ->
             buildStaff(itemLookup, enchantmentLookup, "explosion", "explosion_tick", 50, 100, 160, 16, 0xFFCE0000, 1, 8)
             .addEffect(AAEnchantmentComponentTypes.NO_SPELL_PARTICLES)
     );
 
     public static final EnchantmentContainer ADHESIVE = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("adhesive"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.DAGGER_ENCHANTABLE),
                 2,
@@ -94,7 +95,7 @@ public class AAEnchantments {
     );
     public static final EnchantmentContainer SPLATTER = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("splatter"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.DAGGER_ENCHANTABLE),
                 10,
@@ -116,7 +117,7 @@ public class AAEnchantments {
 
     public static final EnchantmentContainer SHREDDING = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("shredding"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.MACE_ENCHANTABLE),
                 10,
@@ -137,7 +138,7 @@ public class AAEnchantments {
     );
     public static final EnchantmentContainer DISMANTLE = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("dismantle"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.MACE_ENCHANTABLE),
                 10,
@@ -162,7 +163,7 @@ public class AAEnchantments {
 
     public static final EnchantmentContainer RICOCHET = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("ricochet"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.BOOMERANG_ENCHANTABLE),
                 10,
@@ -181,7 +182,7 @@ public class AAEnchantments {
     );
     public static final EnchantmentContainer MULTITHROW = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("multithrow"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.BOOMERANG_ENCHANTABLE),
                 5,
@@ -205,7 +206,7 @@ public class AAEnchantments {
     );
     public static final EnchantmentContainer FAR_THROW = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("throw_distance"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.BOOMERANG_ENCHANTABLE),
                 10,
@@ -225,7 +226,7 @@ public class AAEnchantments {
     );
     public static final EnchantmentContainer STRONG_THROW = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("throw_strength"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.BOOMERANG_ENCHANTABLE),
                 10,
@@ -240,7 +241,9 @@ public class AAEnchantments {
             ),
             EntityPropertiesLootCondition.builder(
                 LootContext.EntityTarget.DIRECT_ATTACKER,
-                EntityPredicate.Builder.create().type(AAEntityTypes.BOOMERANG).build()
+                EntityPredicate.Builder.create().type(
+                    EntityTypePredicate.create(entityLookup, AAEntityTypes.BOOMERANG)
+                ).build()
             )
         ).exclusiveSet(
             enchantmentLookup.getOrThrow(AAEnchantmentTags.THROW_EXCLUSIVE)

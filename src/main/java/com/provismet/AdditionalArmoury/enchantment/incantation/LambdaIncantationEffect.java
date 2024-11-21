@@ -16,7 +16,7 @@ public record LambdaIncantationEffect (Identifier function) implements SpellInca
 
     @Override
     public void apply (ServerWorld world, int level, EnchantmentEffectContext context, LivingEntity user, int remainingTicks) {
-        Optional<Lambda> lambda = AARegistries.INCANTATION_LAMBDA.getOrEmpty(this.function);
+        Optional<Lambda> lambda = AARegistries.INCANTATION_LAMBDA.getOptionalValue(this.function);
         lambda.ifPresent(value -> value.execute(world, level, context, user, remainingTicks));
     }
 

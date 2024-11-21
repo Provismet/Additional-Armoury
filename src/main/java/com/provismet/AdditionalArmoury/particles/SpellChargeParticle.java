@@ -19,10 +19,10 @@ public class SpellChargeParticle extends SpriteBillboardParticle {
         super(clientWorld, x, y, z, 0, 0, 0);
         this.destX = x;
         this.destZ = z;
-        this.scale = effect.getScale();
-        this.red = effect.getColour().x;
-        this.green = effect.getColour().y;
-        this.blue = effect.getColour().z;
+        this.scale = effect.scale();
+        this.red = effect.colour().x;
+        this.green = effect.colour().y;
+        this.blue = effect.colour().z;
         this.maxAge = 20;
 
         this.velocityX = this.random.nextDouble() * 0.05 - 0.025;
@@ -51,8 +51,13 @@ public class SpellChargeParticle extends SpriteBillboardParticle {
     }
 
     @Override
+    protected int getBrightness (float tint) {
+        return 0xF000F0;
+    }
+
+    @Override
     public ParticleTextureSheet getType () {
-        return ParticleTextureSheet.PARTICLE_SHEET_LIT;
+        return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
     }
     
     public static class Factory implements ParticleFactory<SpellChargeParticleEffect> {

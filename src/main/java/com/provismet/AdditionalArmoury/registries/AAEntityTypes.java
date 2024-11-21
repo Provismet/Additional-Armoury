@@ -14,6 +14,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.Identifier;
 
 public class AAEntityTypes {
     public static final EntityType<FireballSpellEntity> FIREBALL = AAEntityTypes.buildSpell(FireballSpellEntity::new, "fireball_spell");
@@ -28,24 +31,26 @@ public class AAEntityTypes {
     }
 
     private static <T extends AbstractSpellEntity> EntityType<T> buildSpell (EntityType.EntityFactory<T> factory, String name, float width, float height) {
+        Identifier id = AdditionalArmouryMain.identifier(name);
         return Registry.register(
             Registries.ENTITY_TYPE,
-            AdditionalArmouryMain.identifier(name),
+            id,
             EntityType.Builder.create(factory, SpawnGroup.MISC)
                 .dimensions(width, height)
                 .maxTrackingRange(30)
                 .trackingTickInterval(10)
-                .build()
+                .build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, id))
         );
     }
 
     private static <T extends Entity> EntityType<T> buildEntity (EntityType.EntityFactory<T> factory, String name, float width, float height) {
+        Identifier id = AdditionalArmouryMain.identifier(name);
         return Registry.register(
             Registries.ENTITY_TYPE,
-            AdditionalArmouryMain.identifier(name),
+            id,
             EntityType.Builder.create(factory, SpawnGroup.MISC)
                 .dimensions(width, height)
-                .build()
+                .build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, id))
         );
     }
 

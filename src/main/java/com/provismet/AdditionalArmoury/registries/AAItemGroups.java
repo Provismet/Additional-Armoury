@@ -39,7 +39,7 @@ public class AAItemGroups {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> content.addAfter(AAItems.OVERNETHER_BOOTS, AAItems.ENDERNETHER_ARMOUR.toArray(new ArmorItem[0])));
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> {
-            content.getContext().lookup().getOptionalWrapper(RegistryKeys.ENCHANTMENT).ifPresent(wrapper -> {
+            content.getContext().lookup().getOptional(RegistryKeys.ENCHANTMENT).ifPresent(wrapper -> {
                 wrapper.streamEntries()
                     .filter(entry -> entry.isIn(AAEnchantmentTags.STAFF)).filter(entry -> entry.getKey().isPresent())
                     .map(entry -> {
@@ -52,7 +52,7 @@ public class AAItemGroups {
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> {
-            content.getContext().lookup().getOptionalWrapper(RegistryKeys.POTION).ifPresent(wrapper -> {
+            content.getContext().lookup().getOptional(RegistryKeys.POTION).ifPresent(wrapper -> {
                 AAItems.DAGGERS.forEach(dagger -> addPotions(content, wrapper, dagger, ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS, content.getEnabledFeatures()));
             });
         });
