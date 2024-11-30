@@ -12,7 +12,7 @@
 		"sources": "https://github.com/Provismet/Additional-Armoury",
 		"issues": "https://github.com/Provismet/Additional-Armoury/issues"
 	},
-	"license": "Lily License",
+	"license": "Lily License v1.1",
 	"icon": "assets/additional-armoury/icon.png",
 	"environment": "*",
 	"entrypoints": {
