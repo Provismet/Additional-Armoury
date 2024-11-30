@@ -30,7 +30,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-// TODO: This does not render. Check what's up in LilyLib.
 public class BoomerangProjectileEntity extends ThrownItemEntity implements WorldItemEntity {
     private static final String RICOCHET_KEY = "ricochet_count";
     private static final String FLIGHT_TIME_KEY = "flight_time";
