@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "additional-armoury:item/staff",
+    "tints": [
+      {
+        "type": "additional-armoury:spell",
+        "default": -4093664
+      }
+    ]
+  }
+}
