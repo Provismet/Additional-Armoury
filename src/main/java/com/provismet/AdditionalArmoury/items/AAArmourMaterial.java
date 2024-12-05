@@ -24,7 +24,7 @@ public record AAArmourMaterial (ArmorMaterial baseMaterial, RegistryEntry<Entity
                 DataComponentTypes.EQUIPPABLE,
                 EquippableComponent.builder(equipmentType.getEquipmentSlot())
                     .equipSound(this.baseMaterial.equipSound())
-                    .model(this.baseMaterial.modelId())
+                    .model(this.baseMaterial.assetId())
                     .build()
             )
             .repairable(this.baseMaterial.repairIngredient());

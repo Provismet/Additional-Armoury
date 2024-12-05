@@ -1,6 +1,6 @@
 package com.provismet.AdditionalArmoury.items;
 
-import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
+import com.provismet.AdditionalArmoury.items.key.AAEquipmentAssetKeys;
 import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.equipment.ArmorMaterial;
@@ -19,7 +19,7 @@ public class AAArmourMaterials {
         ArmorMaterials.NETHERITE.toughness(),
         0f,
         AAItemTags.REPAIRS_OVERNETHER_ARMOUR,
-        AdditionalArmouryMain.identifier("overnether")
+        AAEquipmentAssetKeys.OVERNETHER
     );
 
     private static final ArmorMaterial INNER_ENDERNETHER = new ArmorMaterial(
@@ -30,7 +30,7 @@ public class AAArmourMaterials {
         ArmorMaterials.NETHERITE.toughness(),
         0f,
         AAItemTags.REPAIRS_ENDERNETHER_ARMOUR,
-        AdditionalArmouryMain.identifier("endernether")
+        AAEquipmentAssetKeys.ENDERNETHER
     );
 
     public static final AAArmourMaterial OVERNETHER = new AAArmourMaterial(

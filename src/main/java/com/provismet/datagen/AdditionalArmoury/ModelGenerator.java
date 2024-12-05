@@ -1,26 +1,36 @@
 package com.provismet.datagen.AdditionalArmoury;
 
+import java.util.Map;
 import java.util.Optional;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
+import com.provismet.AdditionalArmoury.items.StaffItem;
+import com.provismet.AdditionalArmoury.items.render.DaggerTintSource;
+import com.provismet.AdditionalArmoury.items.render.SpellTintSource;
 import com.provismet.AdditionalArmoury.registries.AABlocks;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.client.data.BlockStateModelGenerator;
+import net.minecraft.client.data.ItemModelGenerator;
+import net.minecraft.client.data.ItemModels;
+import net.minecraft.client.data.Model;
+import net.minecraft.client.data.ModelIds;
+import net.minecraft.client.data.Models;
+import net.minecraft.client.data.TextureKey;
+import net.minecraft.client.data.TextureMap;
+import net.minecraft.client.render.item.tint.ConstantTintSource;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.EquippableComponent;
-import net.minecraft.data.client.BlockStateModelGenerator;
-import net.minecraft.data.client.ItemModelGenerator;
-import net.minecraft.data.client.Model;
-import net.minecraft.data.client.ModelIds;
-import net.minecraft.data.client.Models;
-import net.minecraft.data.client.TextureKey;
-import net.minecraft.data.client.TextureMap;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.equipment.EquipmentModel;
+import net.minecraft.item.equipment.EquipmentAsset;
+import net.minecraft.item.equipment.EquipmentType;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 
 public class ModelGenerator extends FabricModelProvider {
@@ -60,7 +70,7 @@ public class ModelGenerator extends FabricModelProvider {
         );
 
         AAItems.DAGGERS.forEach(dagger -> ModelGenerator.registerDagger(itemModelGenerator, dagger));
-        HANDHELD_LAYERED.upload(ModelIds.getItemModelId(AAItems.STAFF), TextureMap.layered(AdditionalArmouryMain.identifier("item/staff_head"), AdditionalArmouryMain.identifier("item/staff_shaft")), itemModelGenerator.writer);
+        ModelGenerator.registerStaff(itemModelGenerator, AAItems.STAFF);
 
         AAItems.MACES.forEach(item -> itemModelGenerator.register(item, Models.HANDHELD));
         AAItems.ITEM_PROJECTILES.forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
@@ -69,11 +79,26 @@ public class ModelGenerator extends FabricModelProvider {
     }
 
     public static void registerDagger (ItemModelGenerator itemModelGenerator, DaggerItem dagger) {
-        HANDHELD_LAYERED.upload(
+        Identifier model = HANDHELD_LAYERED.upload(
             ModelIds.getItemModelId(dagger),
-            TextureMap.layered(TextureMap.getId(dagger), AdditionalArmouryMain.identifier("item/dagger_tip")),
-            itemModelGenerator.writer
+            TextureMap.layered(
+                TextureMap.getId(dagger),
+                AdditionalArmouryMain.identifier("item/dagger_tip")
+            ),
+            itemModelGenerator.modelCollector
         );
+        itemModelGenerator.output.accept(dagger, ItemModels.tinted(model, new ConstantTintSource(Colors.WHITE), new DaggerTintSource()));
+    }
+
+    public static void registerStaff (ItemModelGenerator itemModelGenerator, StaffItem staff) {
+        Identifier model = HANDHELD_LAYERED.upload(
+            ModelIds.getItemModelId(staff),
+            TextureMap.layered(
+                AdditionalArmouryMain.identifier("item/staff_head"),
+                AdditionalArmouryMain.identifier("item/staff_shaft")),
+            itemModelGenerator.modelCollector
+        );
+        itemModelGenerator.output.accept(staff, ItemModels.tinted(model, new SpellTintSource(0xFFC18920)));
     }
 
     private static void registerMass (ItemModelGenerator itemModelGenerator, Model model, Item... items) {
@@ -87,15 +112,20 @@ public class ModelGenerator extends FabricModelProvider {
     }
 
     private void registerArmour (ArmorItem item, ItemModelGenerator itemModelGenerator) {
+        final Map<EquipmentSlot, String> slotToType = Map.of(
+            EquipmentSlot.HEAD, EquipmentType.HELMET.getName(),
+            EquipmentSlot.CHEST, EquipmentType.CHESTPLATE.getName(),
+            EquipmentSlot.LEGS, EquipmentType.LEGGINGS.getName(),
+            EquipmentSlot.FEET, EquipmentType.BOOTS.getName(),
+            EquipmentSlot.BODY, EquipmentType.BODY.getName()
+        );
+
         EquippableComponent equippableComponent = item.getComponents().get(DataComponentTypes.EQUIPPABLE);
-        if (equippableComponent == null || equippableComponent.model().isEmpty()) {
+        if (equippableComponent == null || equippableComponent.assetId().isEmpty()) {
             AdditionalArmouryMain.LOGGER.warn("No equippable component found for {}", item.getName().getString());
             return;
         }
-
-        Identifier modelId = equippableComponent.model().get();
-        EquipmentModel model = EquipmentModel.builder().addHumanoidLayers(modelId).build();
-
-        itemModelGenerator.registerArmor(item, modelId, model, equippableComponent.slot());
+        RegistryKey<EquipmentAsset> modelId = equippableComponent.assetId().get();
+        itemModelGenerator.registerArmor(item, modelId, slotToType.getOrDefault(equippableComponent.slot(), "other"), false);
     }
 }
