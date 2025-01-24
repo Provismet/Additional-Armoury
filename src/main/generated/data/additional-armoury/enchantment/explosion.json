@@ -36,7 +36,7 @@
     "per_level_above_first": 0
   },
   "slots": [
-    "mainhand"
+    "hand"
   ],
   "supported_items": "#additional-armoury:enchantable/staff",
   "weight": 1
