@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
+import com.provismet.AdditionalArmoury.lootconditions.ItemUseTimeLootCondition;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 
@@ -17,13 +18,17 @@ import net.minecraft.advancement.AdvancementFrame;
 import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.advancement.criterion.EnchantedItemCriterion;
-import net.minecraft.advancement.criterion.ImpossibleCriterion;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.advancement.criterion.RecipeCraftedCriterion;
+import net.minecraft.advancement.criterion.UsingItemCriterion;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potions;
+import net.minecraft.predicate.ComponentPredicate;
 import net.minecraft.predicate.NumberRange;
+import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -59,7 +64,10 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
             )
             .criterion("enchanted_staff", staffCondition)
             .build(consumer, AdditionalArmouryMain.identifier("story/enchant_staff").toString());
-        
+
+        ItemEnchantmentsComponent.Builder explosionBuilder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
+        explosionBuilder.add(AAEnchantments.EXPLOSION.getEntryOrThrow(registryLookup), 1);
+        AdvancementCriterion<UsingItemCriterion.Conditions> meguminCondition = Criteria.USING_ITEM.create(new UsingItemCriterion.Conditions(Optional.of(LootContextPredicate.create(new ItemUseTimeLootCondition(159))), Optional.of(ItemPredicate.Builder.create().component(ComponentPredicate.builder().add(DataComponentTypes.ENCHANTMENTS, explosionBuilder.build()).build()).build())));
         Advancement.Builder.create().parent(enchantStaff)
             .display(
                 bakuretsu,
@@ -71,7 +79,7 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
                 true,
                 false
             )
-            .criterion("used_explosion_magic", Criteria.IMPOSSIBLE.create(new ImpossibleCriterion.Conditions()))
+            .criterion("used_explosion_magic", meguminCondition)
             .build(consumer, AdditionalArmouryMain.identifier("story/explosion_magic").toString());
 
         AdvancementEntry dragonBreath = Advancement.Builder.create().build(Identifier.ofVanilla("end/dragon_breath"));

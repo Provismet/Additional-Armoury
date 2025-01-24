@@ -2,7 +2,24 @@
   "parent": "additional-armoury:story/enchant_staff",
   "criteria": {
     "used_explosion_magic": {
-      "trigger": "minecraft:impossible"
+      "conditions": {
+        "item": {
+          "components": {
+            "minecraft:enchantments": {
+              "levels": {
+                "additional-armoury:explosion": 1
+              }
+            }
+          }
+        },
+        "player": [
+          {
+            "condition": "additional-armoury:item_use_time",
+            "use_time": 159
+          }
+        ]
+      },
+      "trigger": "minecraft:using_item"
     }
   },
   "display": {
