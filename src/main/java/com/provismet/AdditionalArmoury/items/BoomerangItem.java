@@ -1,6 +1,5 @@
 package com.provismet.AdditionalArmoury.items;
 
-import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.AdditionalArmoury.entity.BoomerangProjectileEntity;
 import com.provismet.AdditionalArmoury.registries.AASounds;
@@ -46,11 +45,8 @@ public class BoomerangItem extends Item {
 
     @Override
     public boolean onStoppedUsing (ItemStack itemStack, World world, LivingEntity user, int remainingUseTicks) {
-        AdditionalArmouryMain.LOGGER.info("Threw boomerang.");
         if (!(user instanceof PlayerEntity player)) return false;
         if (this.getMaxUseTime(itemStack, user) - remainingUseTicks < 10) return false;
-
-        AdditionalArmouryMain.LOGGER.info("Successfully threw boomerang.");
 
         if (world instanceof ServerWorld serverWorld) {
             BoomerangProjectileEntity boomerang = new BoomerangProjectileEntity(world, player, itemStack);
@@ -62,8 +58,6 @@ public class BoomerangItem extends Item {
             boomerang.setItem(itemStack);
             boomerang.setMaxFlightTime(boomerang.getMaxFlightTime() + (int)CPCEnchantmentHelper.modifyValue(AAEnchantmentComponentTypes.THROW_DISTANCE, serverWorld, itemStack, 0f));
             world.spawnEntity(boomerang);
-
-            AdditionalArmouryMain.LOGGER.info("Attempted to spawn boomerang.");
 
             int count = EnchantmentHelper.getProjectileCount(serverWorld, itemStack, user, 1);
             if (count > 1) {
