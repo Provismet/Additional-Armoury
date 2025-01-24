@@ -272,7 +272,7 @@ public class AAEnchantments {
     }
 
     public static Enchantment.Builder buildStaff (RegistryEntryLookup<Item> itemLookup, RegistryEntryLookup<Enchantment> enchantmentLookup, String activeEffect, int minCost, int maxCost, int duration, int maxUses, int colour, int weight, int anvilCost) {
-        return Enchantment.builder(Enchantment.definition(itemLookup.getOrThrow(AAItemTags.STAFF_ENCHANTABLE), weight, 1, Enchantment.constantCost(minCost), Enchantment.constantCost(maxCost), anvilCost, AttributeModifierSlot.MAINHAND))
+        return Enchantment.builder(Enchantment.definition(itemLookup.getOrThrow(AAItemTags.STAFF_ENCHANTABLE), weight, 1, Enchantment.constantCost(minCost), Enchantment.constantCost(maxCost), anvilCost, AttributeModifierSlot.HAND))
             .addEffect(AAEnchantmentComponentTypes.ON_ACTIVATION, new CodeExecutionSingleEntityEffect(AdditionalArmouryMain.identifier(activeEffect)))
             .addNonListEffect(AAEnchantmentComponentTypes.SPELL_CAST_DURATION, duration)
             .addNonListEffect(AAEnchantmentComponentTypes.SPELL_USES, maxUses)
