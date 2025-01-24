@@ -14,10 +14,8 @@ import com.provismet.AdditionalArmoury.utility.registry.AARegistries;
 import com.provismet.CombatPlusCore.enchantment.effect.singleEntity.CodeExecutionSingleEntityEffect;
 import com.provismet.CombatPlusCore.utility.CPCRegistries;
 import com.provismet.lilylib.util.Relations;
-import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
@@ -26,7 +24,6 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.Registry;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -40,7 +37,6 @@ import java.util.List;
 public class AALambdas {
     public static void register () {
         register("boost", (world, level, context, user, pos) -> {
-            AdditionalArmouryMain.LOGGER.info("Boost activated.");
             double dx = -MathHelper.sin(user.getHeadYaw() / MathHelper.DEGREES_PER_RADIAN);
             double dz = MathHelper.cos(user.getHeadYaw() / MathHelper.DEGREES_PER_RADIAN);
             Vec3d velocity = new Vec3d(dx, 0.0, dz).multiply(1.25).add(0.0, 0.2, 0.0);
@@ -135,18 +131,6 @@ public class AALambdas {
         register("explosion", (world, level, context, user, pos) -> {
             Explosion explosion = world.createExplosion(user, user.getX(), user.getY(), user.getZ(), 10f, true, World.ExplosionSourceType.TNT);
             user.damage(user.getDamageSources().explosion(explosion), 141f); // Yes that is actually how much damage this would deal.
-
-            if (user instanceof ServerPlayerEntity serverPlayer) {
-                try { // I don't expect this to break, and it never has in testing. But I have no idea how advancements work.
-                    AdvancementEntry archWizard = MinecraftClient.getInstance().getServer().getAdvancementLoader().get(AdditionalArmouryMain.identifier("story/explosion_magic"));
-                    for (String criterion : serverPlayer.getAdvancementTracker().getProgress(archWizard).getUnobtainedCriteria()) {
-                        serverPlayer.getAdvancementTracker().grantCriterion(archWizard, criterion);
-                    }
-                }
-                catch (Exception e) {
-                    AdditionalArmouryMain.LOGGER.error("Failed to grant Arch-Wizard advancement to Player: {}", serverPlayer.getName().getString());
-                }
-            }
         });
 
         registerIncantation("explosion_tick", (world, level, context, user, remainingUseTicks) -> {
