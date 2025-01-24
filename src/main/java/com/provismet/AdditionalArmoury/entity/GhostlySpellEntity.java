@@ -1,6 +1,7 @@
 package com.provismet.AdditionalArmoury.entity;
 
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
@@ -32,6 +33,13 @@ public class GhostlySpellEntity extends AbstractSpellEntity {
     }
 
     @Override
+    public void tick () {
+        Vec3d truePosition = this.getPos().add(this.getVelocity());
+        super.tick();
+        this.setPosition(truePosition);
+    }
+
+    @Override
     public void onCollision (HitResult hitResult) {
         if (hitResult.getType() == HitResult.Type.ENTITY) {
             this.onEntityHit((EntityHitResult)hitResult);
@@ -51,5 +59,15 @@ public class GhostlySpellEntity extends AbstractSpellEntity {
     @Override
     public void onBlockHit (BlockHitResult blockHitResult) {
 
+    }
+
+    @Override
+    protected boolean shouldTickBlockCollision () {
+        return false;
+    }
+
+    @Override
+    public boolean isTouchingWater () {
+        return false;
     }
 }
