@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.6-SNAPSHOT'
+	id 'fabric-loom' version '1.8-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -11,6 +11,7 @@ base {
 }
 
 repositories {
+	mavenLocal()
 	maven { url "https://jitpack.io" }
 }
 
