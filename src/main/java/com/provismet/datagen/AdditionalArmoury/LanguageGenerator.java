@@ -12,16 +12,15 @@ import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
 import com.provismet.lilylib.container.DamageTypeContainer;
-import com.provismet.lilylib.container.EnchantmentContainer;
+import com.provismet.lilylib.datagen.provider.LilyLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 
-public class LanguageGenerator extends FabricLanguageProvider {
+public class LanguageGenerator extends LilyLanguageProvider {
     protected LanguageGenerator(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
         super(dataOutput, registryLookup);
     }
@@ -106,23 +105,23 @@ public class LanguageGenerator extends FabricLanguageProvider {
 
         translationBuilder.add(AAStatusEffects.SHATTERED.value(), "Shattered");
 
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.BOOST, "Boosting", "Launches the user forwards.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.ERUPTION, "Eruption", "Knockbacks all nearby enemies.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.JUMP, "Soaring", "Launch into the air and gain slow-fall.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FIREBALL, "Fireball", "Shoot a fireball that burns on hit.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FROSTBALL, "Frostball", "Shoot a frostball that freezes on hit.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.GHOSTLY_ORB, "Ghostly Orb", "Shoot a spectral ball that passes through blocks.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.GALE, "Gale", "Shoot a barrage of tornados that launch targets.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.MAGIC_MISSILE, "Missile", "Shoot a magical missile that follows enemies.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.EXPLOSION, "Bakuretsu Mahou", "Casts the most powerful of artillery magic.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.ADHESIVE, "Adhesive", "Potion-tipped daggers have unlimited uses.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.SPLATTER, "Splatter", "Potion-tipped daggers affect multiple targets at once.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.SHREDDING, "Shredding", "Increases the duration of the shattered effect from a mace.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.DISMANTLE, "Dismantling", "Increases damage dealt to armor from maces.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.RICOCHET, "Ricochet", "Increases the number of boomerang bounces.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.MULTITHROW, "MultiThrow", "Throws 3 boomerangs at once.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.FAR_THROW, "Discus", "Increases boomerang maximum distance.");
-        LanguageGenerator.addEnchantment(translationBuilder, AAEnchantments.STRONG_THROW, "Strong Arm", "Increases boomerang damage.");
+        this.addEnchantment(translationBuilder, AAEnchantments.BOOST, "Boosting", "Launches the user forwards.");
+        this.addEnchantment(translationBuilder, AAEnchantments.ERUPTION, "Eruption", "Knockbacks all nearby enemies.");
+        this.addEnchantment(translationBuilder, AAEnchantments.JUMP, "Soaring", "Launch into the air and gain slow-fall.");
+        this.addEnchantment(translationBuilder, AAEnchantments.FIREBALL, "Fireball", "Shoot a fireball that burns on hit.");
+        this.addEnchantment(translationBuilder, AAEnchantments.FROSTBALL, "Frostball", "Shoot a frostball that freezes on hit.");
+        this.addEnchantment(translationBuilder, AAEnchantments.GHOSTLY_ORB, "Ghostly Orb", "Shoot a spectral ball that passes through blocks.");
+        this.addEnchantment(translationBuilder, AAEnchantments.GALE, "Gale", "Shoot a barrage of tornados that launch targets.");
+        this.addEnchantment(translationBuilder, AAEnchantments.MAGIC_MISSILE, "Missile", "Shoot a magical missile that follows enemies.");
+        this.addEnchantment(translationBuilder, AAEnchantments.EXPLOSION, "Bakuretsu Mahou", "Casts the most powerful of artillery magic.");
+        this.addEnchantment(translationBuilder, AAEnchantments.ADHESIVE, "Adhesive", "Potion-tipped daggers have unlimited uses.");
+        this.addEnchantment(translationBuilder, AAEnchantments.SPLATTER, "Splatter", "Potion-tipped daggers affect multiple targets at once.");
+        this.addEnchantment(translationBuilder, AAEnchantments.SHREDDING, "Shredding", "Increases the duration of the shattered effect from a mace.");
+        this.addEnchantment(translationBuilder, AAEnchantments.DISMANTLE, "Dismantling", "Increases damage dealt to armor from maces.");
+        this.addEnchantment(translationBuilder, AAEnchantments.RICOCHET, "Ricochet", "Increases the number of boomerang bounces.");
+        this.addEnchantment(translationBuilder, AAEnchantments.MULTITHROW, "MultiThrow", "Throws 3 boomerangs at once.");
+        this.addEnchantment(translationBuilder, AAEnchantments.FAR_THROW, "Discus", "Increases boomerang maximum distance.");
+        this.addEnchantment(translationBuilder, AAEnchantments.STRONG_THROW, "Strong Arm", "Increases boomerang damage.");
 
         LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.FIREBALL, "was blasted by");
         LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.FROSTBALL, "was frozen by");
@@ -172,12 +171,6 @@ public class LanguageGenerator extends FabricLanguageProvider {
 
             }
         }
-    }
-
-    public static void addEnchantment (TranslationBuilder translationBuilder, EnchantmentContainer enchantment, String name, String description) {
-        String enchantmentString = enchantment.getKey().getValue().getNamespace() + "." + enchantment.getKey().getValue().getPath();
-        translationBuilder.add("enchantment." + enchantmentString, name);
-        translationBuilder.add("enchantment." + enchantmentString + ".desc", description);
     }
 
     private static String titleCase (String string) {
