@@ -2,6 +2,7 @@ package com.provismet.datagen.AdditionalArmoury;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
+import com.provismet.lilylib.datagen.provider.LilyParticleTextureProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;

@@ -2,6 +2,7 @@ package com.provismet.datagen.AdditionalArmoury;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.registries.AASounds;
+import com.provismet.lilylib.datagen.provider.LilySoundProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.registry.RegistryWrapper;
 
@@ -13,8 +14,8 @@ public class SoundGenerator extends LilySoundProvider {
     }
 
     @Override
-    protected void generateSoundFile (SoundWriter writer) {
-        writer.add(
+    protected void generateSoundFile (RegistryWrapper.WrapperLookup wrapperLookup, SoundWriter soundWriter) {
+        soundWriter.add(
             AASounds.BOOMERANG_THROW,
             "subtitles.additional-armoury.boomerang.throw",
             AdditionalArmouryMain.identifier("boomerang_1"),
@@ -22,7 +23,7 @@ public class SoundGenerator extends LilySoundProvider {
             AdditionalArmouryMain.identifier("boomerang_3")
         );
 
-        writer.add(
+        soundWriter.add(
             AASounds.STAFF_CAST,
             "subtitles.additional-armoury.staff.cast",
             AdditionalArmouryMain.identifier("staff_cast")
