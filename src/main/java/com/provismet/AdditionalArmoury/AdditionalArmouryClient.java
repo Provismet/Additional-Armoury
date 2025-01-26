@@ -22,7 +22,7 @@ public class AdditionalArmouryClient implements ClientModInitializer {
                     entrypoint.getEntrypoint().onInitializeClient();
                 }
                 catch (Exception e) {
-                    AdditionalArmouryMain.LOGGER.error("Mod " + otherModId + " caused an error during inter-mod initialisation: ", e);
+                    AdditionalArmouryMain.LOGGER.error("Mod {} caused an error during inter-mod initialisation: ", otherModId, e);
                 }
             }
         );
