@@ -6,7 +6,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.lilylib.util.JsonBuilder;
 
@@ -32,23 +34,10 @@ public class AASettings {
 
     public static void read () {
         try {
-            FileReader reader = new FileReader("config/combat-plus/additional-armoury.json");
-            JsonReader parser = new JsonReader(reader);
-            
-            parser.beginObject();
-            while (parser.hasNext()) {
-                String name = parser.nextName();
-                switch (name) {
-                    case "override_datapack_loot_tables":
-                        AASettings.overrideDatapacks = parser.nextBoolean();
-                        break;
-                
-                    default:
-                        break;
-                }
+            JsonElement element = JsonParser.parseReader(new FileReader("config/combat-plus/additional-armoury.json"));
+            if (element instanceof JsonObject json) {
+                if (json.has("override_datapack_loot_tables")) AASettings.overrideDatapacks = json.getAsJsonPrimitive("override_datapack_loot_tables").getAsBoolean();
             }
-            parser.endObject();
-            parser.close();
         }
         catch (FileNotFoundException e) {
             AdditionalArmouryMain.LOGGER.info("No config found for Additional Armoury, creating one now.");
