@@ -1,6 +1,5 @@
 package com.provismet.AdditionalArmoury.items;
 
-import com.provismet.AdditionalArmoury.utility.Util;
 import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
 import com.provismet.CombatPlusCore.utility.item.AttributeIdentifiers;
 import net.minecraft.component.type.AttributeModifierSlot;
@@ -12,8 +11,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
-
-import java.util.Map;
 
 public record AAToolMaterial (ToolMaterial baseMaterial, RegistryEntry<EntityAttribute> additionalAttribute, float attributeValue) {
     public static final AAToolMaterial OVERNETHER = new AAToolMaterial(alterNetherite(AAItemTags.OVERNETHER_TOOL_MATERIALS), EntityAttributes.ATTACK_KNOCKBACK, 1f);

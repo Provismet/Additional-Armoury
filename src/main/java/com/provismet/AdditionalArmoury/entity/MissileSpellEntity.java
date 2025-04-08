@@ -11,12 +11,10 @@ import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.item.Item;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
-import java.util.List;
 import java.util.Optional;
 
 public class MissileSpellEntity extends AbstractSpellEntity {
