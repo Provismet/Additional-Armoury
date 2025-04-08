@@ -25,10 +25,8 @@ import net.minecraft.client.render.item.tint.ConstantTintSource;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
@@ -111,13 +109,13 @@ public class ModelGenerator extends FabricModelProvider {
         return new Model(Optional.of(Identifier.ofVanilla("item/" + parent)), Optional.empty(), requiredTextureKeys);
     }
 
-    private void registerArmour (ArmorItem item, ItemModelGenerator itemModelGenerator) {
-        final Map<EquipmentSlot, String> slotToType = Map.of(
-            EquipmentSlot.HEAD, EquipmentType.HELMET.getName(),
-            EquipmentSlot.CHEST, EquipmentType.CHESTPLATE.getName(),
-            EquipmentSlot.LEGS, EquipmentType.LEGGINGS.getName(),
-            EquipmentSlot.FEET, EquipmentType.BOOTS.getName(),
-            EquipmentSlot.BODY, EquipmentType.BODY.getName()
+    private void registerArmour (Item item, ItemModelGenerator itemModelGenerator) {
+        final Map<EquipmentSlot, Identifier> slotToTrim = Map.of(
+            EquipmentSlot.HEAD, ItemModelGenerator.HELMET_TRIM_ID_PREFIX,
+            EquipmentSlot.CHEST, ItemModelGenerator.CHESTPLATE_TRIM_ID_PREFIX,
+            EquipmentSlot.LEGS, ItemModelGenerator.LEGGINGS_TRIM_ID_PREFIX,
+            EquipmentSlot.FEET, ItemModelGenerator.BOOTS_TRIM_ID_PREFIX,
+            EquipmentSlot.BODY, ItemModelGenerator.getTrimAssetIdPrefix("body")
         );
 
         EquippableComponent equippableComponent = item.getComponents().get(DataComponentTypes.EQUIPPABLE);
@@ -126,6 +124,6 @@ public class ModelGenerator extends FabricModelProvider {
             return;
         }
         RegistryKey<EquipmentAsset> modelId = equippableComponent.assetId().get();
-        itemModelGenerator.registerArmor(item, modelId, slotToType.getOrDefault(equippableComponent.slot(), "other"), false);
+        itemModelGenerator.registerArmor(item, modelId, slotToTrim.get(equippableComponent.slot()), false);
     }
 }

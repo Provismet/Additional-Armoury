@@ -11,7 +11,6 @@ import com.provismet.CombatPlusCore.utility.tag.CPCItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
@@ -84,8 +83,8 @@ public class ItemTagGenerator extends ItemTagProvider {
             .add(AAItems.ENDERNETHER_HOE);
         
         getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR)
-            .add(AAItems.OVERNETHER_ARMOUR.toArray(new ArmorItem[0]))
-            .add(AAItems.ENDERNETHER_ARMOUR.toArray(new ArmorItem[0]));
+            .add(AAItems.OVERNETHER_ARMOUR.toArray(new Item[0]))
+            .add(AAItems.ENDERNETHER_ARMOUR.toArray(new Item[0]));
 
         getOrCreateTagBuilder(ItemTags.HEAD_ARMOR)
             .add(AAItems.OVERNETHER_HELMET)
