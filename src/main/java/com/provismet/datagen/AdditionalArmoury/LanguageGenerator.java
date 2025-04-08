@@ -47,12 +47,12 @@ public class LanguageGenerator extends LilyLanguageProvider {
         translationBuilder.add(AAItems.OVERNETHER_BLOCK, "Overnether Block");
         translationBuilder.add(AAItems.ENDERNETHER_BLOCK, "Endernether Block");
 
-        translationBuilder.add(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE, "Smithing Template");
+        translationBuilder.add(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE, "Overnether Upgrade");
         translationBuilder.add("upgrade.additional-armoury.overnether_upgrade", "Overnether Upgrade");
         translationBuilder.add("item.additional-armoury.overnether_upgrade.ingredients", "Overnether Ingot");
         translationBuilder.add("item.additional-armoury.overnether_upgrade.addition", "Add Overnether Ingot");
 
-        translationBuilder.add(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE, "Smithing Template");
+        translationBuilder.add(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE, "Endernether Upgrade");
         translationBuilder.add("upgrade.additional-armoury.endernether_upgrade", "Endernether Upgrade");
         translationBuilder.add("item.additional-armoury.endernether_upgrade.ingredients", "Endernether Ingot");
         translationBuilder.add("item.additional-armoury.endernether_upgrade.addition", "Add Endernether Ingot");
