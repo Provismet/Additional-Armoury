@@ -21,6 +21,17 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 
 public class LanguageGenerator extends LilyLanguageProvider {
+    private static final Map<String, DaggerItem> DAGGER_TRANSLATIONS = Map.of(
+        "Wooden Dagger", AAItems.WOODEN_DAGGER,
+        "Stone Dagger", AAItems.STONE_DAGGER,
+        "Golden Dagger", AAItems.GOLDEN_DAGGER,
+        "Iron Dagger", AAItems.IRON_DAGGER,
+        "Diamond Dagger", AAItems.DIAMOND_DAGGER,
+        "Netherite Dagger", AAItems.NETHERITE_DAGGER,
+        "Overnether Dagger", AAItems.OVERNETHER_DAGGER,
+        "Endernether Dagger", AAItems.ENDERNETHER_DAGGER
+    );
+
     protected LanguageGenerator(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
         super(dataOutput, registryLookup);
     }
@@ -68,14 +79,9 @@ public class LanguageGenerator extends LilyLanguageProvider {
         translationBuilder.add(AAItems.ENDERNETHER_LEGGINGS, "Endernether Leggings");
         translationBuilder.add(AAItems.ENDERNETHER_BOOTS, "Endernether Boots");
 
-        LanguageGenerator.addDagger(translationBuilder, AAItems.WOODEN_DAGGER, "Wooden Dagger");
-        LanguageGenerator.addDagger(translationBuilder, AAItems.STONE_DAGGER, "Stone Dagger");
-        LanguageGenerator.addDagger(translationBuilder, AAItems.GOLDEN_DAGGER, "Golden Dagger");
-        LanguageGenerator.addDagger(translationBuilder, AAItems.IRON_DAGGER, "Iron Dagger");
-        LanguageGenerator.addDagger(translationBuilder, AAItems.DIAMOND_DAGGER, "Diamond Dagger");
-        LanguageGenerator.addDagger(translationBuilder, AAItems.NETHERITE_DAGGER, "Netherite Dagger");
-        LanguageGenerator.addDagger(translationBuilder, AAItems.OVERNETHER_DAGGER, "Overnether Dagger");
-        LanguageGenerator.addDagger(translationBuilder, AAItems.ENDERNETHER_DAGGER, "Endernether Dagger");
+        for (Map.Entry<String, DaggerItem> entry : DAGGER_TRANSLATIONS.entrySet()) {
+            LanguageGenerator.addDagger(translationBuilder, entry.getValue(), entry.getKey());
+        }
 
         translationBuilder.add(AAItems.WOODEN_MACE, "Wooden Mace");
         translationBuilder.add(AAItems.STONE_MACE, "Stone Mace");
@@ -152,6 +158,7 @@ public class LanguageGenerator extends LilyLanguageProvider {
 
         for (Potion potion : Registries.POTION.getEntrySet().stream().map(Map.Entry::getValue).toList()) {
             RegistryEntry<Potion> potionEntry = Registries.POTION.getEntry(potion);
+            if (potionEntry.getKey().isEmpty()) continue;
 
             String effectKey = dagger.getTranslationKey() + ".effect." + potionEntry.getKey().get().getValue().getPath();
             String potionBasename = LanguageGenerator.titleCase(potion.getBaseName().replace('_', ' '));
@@ -170,6 +177,25 @@ public class LanguageGenerator extends LilyLanguageProvider {
             catch (RuntimeException ignored) {
 
             }
+        }
+    }
+
+    /**
+     * <p> Intended for use by other mods, this function writes the translation keys for AdditionalArmoury daggers tipped with a potion. </p>
+     * <p> Vanilla potions are handled automatically by the {@link LanguageGenerator#addDagger} method. </p>
+     *
+     * @param translationBuilder TranslationBuilder
+     * @param potion The potion to be added.
+     * @param potionPrefix Prefixes the translation, for example: "Swiftness-Tipped "
+     */
+    public static void addPotionEntriesForDaggers (TranslationBuilder translationBuilder, RegistryEntry<Potion> potion, String potionPrefix) {
+        if (potion.getKey().isEmpty()) {
+            throw new RuntimeException("Cannot add potion to daggers because key is empty.");
+        }
+
+        for (Map.Entry<String, DaggerItem> entry : DAGGER_TRANSLATIONS.entrySet()) {
+            String effectKey = entry.getValue().getTranslationKey() + ".effect." + potion.getKey().get().getValue().getPath();
+            translationBuilder.add(effectKey, potionPrefix + entry.getKey());
         }
     }
 
