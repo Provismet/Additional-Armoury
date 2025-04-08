@@ -3,7 +3,6 @@
   "addition": "additional-armoury:endernether_ingot",
   "base": "minecraft:diamond_leggings",
   "result": {
-    "count": 1,
     "id": "additional-armoury:endernether_leggings"
   },
   "template": "additional-armoury:endernether_upgrade_smithing_template"

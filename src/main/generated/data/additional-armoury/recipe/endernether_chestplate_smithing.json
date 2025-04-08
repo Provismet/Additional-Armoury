@@ -3,7 +3,6 @@
   "addition": "additional-armoury:endernether_ingot",
   "base": "minecraft:diamond_chestplate",
   "result": {
-    "count": 1,
     "id": "additional-armoury:endernether_chestplate"
   },
   "template": "additional-armoury:endernether_upgrade_smithing_template"

@@ -3,7 +3,6 @@
   "addition": "additional-armoury:overnether_ingot",
   "base": "minecraft:diamond_boots",
   "result": {
-    "count": 1,
     "id": "additional-armoury:overnether_boots"
   },
   "template": "additional-armoury:overnether_upgrade_smithing_template"

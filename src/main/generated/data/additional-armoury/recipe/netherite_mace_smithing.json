@@ -3,7 +3,6 @@
   "addition": "#minecraft:netherite_tool_materials",
   "base": "additional-armoury:diamond_mace",
   "result": {
-    "count": 1,
     "id": "additional-armoury:netherite_mace"
   },
   "template": "minecraft:netherite_upgrade_smithing_template"

@@ -3,7 +3,6 @@
   "addition": "additional-armoury:overnether_ingot",
   "base": "additional-armoury:diamond_mace",
   "result": {
-    "count": 1,
     "id": "additional-armoury:overnether_mace"
   },
   "template": "additional-armoury:overnether_upgrade_smithing_template"

@@ -3,7 +3,6 @@
   "addition": "additional-armoury:endernether_ingot",
   "base": "minecraft:diamond_sword",
   "result": {
-    "count": 1,
     "id": "additional-armoury:endernether_sword"
   },
   "template": "additional-armoury:endernether_upgrade_smithing_template"

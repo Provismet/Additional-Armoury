@@ -4,12 +4,15 @@
     "used_explosion_magic": {
       "conditions": {
         "item": {
-          "components": {
-            "minecraft:enchantments": {
-              "levels": {
-                "additional-armoury:explosion": 1
+          "predicates": {
+            "minecraft:enchantments": [
+              {
+                "enchantments": "additional-armoury:explosion",
+                "levels": {
+                  "min": 1
+                }
               }
-            }
+            ]
           }
         },
         "player": [
@@ -30,9 +33,7 @@
     "icon": {
       "components": {
         "minecraft:enchantments": {
-          "levels": {
-            "additional-armoury:explosion": 1
-          }
+          "additional-armoury:explosion": 1
         }
       },
       "count": 1,

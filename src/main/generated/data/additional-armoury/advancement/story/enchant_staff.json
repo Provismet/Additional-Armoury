@@ -18,9 +18,7 @@
     "icon": {
       "components": {
         "minecraft:enchantments": {
-          "levels": {
-            "additional-armoury:boost": 1
-          }
+          "additional-armoury:boost": 1
         }
       },
       "count": 1,
