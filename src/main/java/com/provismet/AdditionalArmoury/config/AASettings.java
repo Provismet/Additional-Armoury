@@ -2,30 +2,26 @@ package com.provismet.AdditionalArmoury.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
-import com.provismet.lilylib.util.JsonBuilder;
+import com.provismet.CombatPlusCore.utility.CPCConfig;
+import com.provismet.lilylib.util.json.JsonBuilder;
+import com.provismet.lilylib.util.json.JsonReader;
 
 public class AASettings {
+    private static final String FILE = "additional-armoury.json";
+
     private static boolean overrideDatapacks = true;
 
     public static void write () {
-        JsonBuilder builder = new JsonBuilder();
-        String jsonString = builder.start()
-            .append("override_datapack_loot_tables", overrideDatapacks).newLine(false)
-            .closeObject()
+        String jsonString = new JsonBuilder()
+            .append(CPCConfig.KEY_OVERRIDE_DATAPACK_LOOT_TABLES, overrideDatapacks)
             .toString();
         
-        try {
-            FileWriter writer = new FileWriter("config/combat-plus/additional-armoury.json");
+        try (FileWriter writer = new FileWriter(new File(CPCConfig.FOLDER, FILE))) {
             writer.write(jsonString);
-            writer.close();
         }
         catch (IOException e) {
             AdditionalArmouryMain.LOGGER.error("Error whilst saving config: ", e);
@@ -34,17 +30,17 @@ public class AASettings {
 
     public static void read () {
         try {
-            JsonElement element = JsonParser.parseReader(new FileReader("config/combat-plus/additional-armoury.json"));
-            if (element instanceof JsonObject json) {
-                if (json.has("override_datapack_loot_tables")) AASettings.overrideDatapacks = json.getAsJsonPrimitive("override_datapack_loot_tables").getAsBoolean();
+            JsonReader reader = JsonReader.file(new File(CPCConfig.FOLDER, FILE));
+            if (reader != null) {
+                reader.getBoolean(CPCConfig.KEY_OVERRIDE_DATAPACK_LOOT_TABLES).ifPresent(val -> AASettings.overrideDatapacks = val);
             }
         }
         catch (FileNotFoundException e) {
             AdditionalArmouryMain.LOGGER.info("No config found for Additional Armoury, creating one now.");
             try {
-                (new File("config/combat-plus")).mkdirs();
+                (new File(CPCConfig.FOLDER)).mkdirs();
             }
-            catch (Exception e3) {
+            catch (Exception ignored) {
 
             }
             AASettings.write();
