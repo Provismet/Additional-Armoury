@@ -45,7 +45,7 @@ public abstract class AbstractSpellEntity extends ThrownItemEntity {
             return;
         }
         if (this.getParticleType() != null) {
-            this.getWorld().addParticle(this.getParticleType(), this.getX(), this.getY() + this.getHeight() / 2f, this.getZ(), 0, 0, 0);
+            this.getWorld().addParticleClient(this.getParticleType(), this.getX(), this.getY() + this.getHeight() / 2f, this.getZ(), 0, 0, 0);
         }
         super.tick();
     }

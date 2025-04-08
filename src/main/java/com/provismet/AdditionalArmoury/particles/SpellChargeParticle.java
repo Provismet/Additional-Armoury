@@ -31,9 +31,9 @@ public class SpellChargeParticle extends SpriteBillboardParticle {
 
         float randDeg = this.random.nextFloat() * 2f * MathHelper.PI;
         this.setPos(x - MathHelper.sin(randDeg) * 1.5, y + this.random.nextDouble() * 1.5, z + MathHelper.cos(randDeg) * 1.5);
-        this.prevPosX = this.x;
-        this.prevPosY = this.y;
-        this.prevPosZ = this.z;
+        this.lastX = this.x;
+        this.lastY = this.y;
+        this.lastZ = this.z;
         this.randomAngle = this.random.nextBoolean() ? this.random.nextFloat() * 0.2f : -this.random.nextFloat() * 0.2f;
     }
 
@@ -41,7 +41,7 @@ public class SpellChargeParticle extends SpriteBillboardParticle {
     public void tick () {
         super.tick();
 
-        this.prevAngle = this.angle;
+        this.lastAngle = this.angle;
         this.angle += this.randomAngle;
 
         if (this.age == 2) {

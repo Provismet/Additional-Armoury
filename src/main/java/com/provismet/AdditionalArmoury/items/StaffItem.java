@@ -31,6 +31,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class StaffItem extends Item {
     public StaffItem (Settings settings) {
@@ -177,8 +178,8 @@ public class StaffItem extends Item {
     }
 
     @Override
-    public void inventoryTick (ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        super.inventoryTick(stack, world, entity, slot, selected);
+    public void inventoryTick (ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot) {
+        super.inventoryTick(stack, world, entity, slot);
         if (this.getMaxUseCount(stack) > 0 && !EnchantmentHelper.hasEnchantments(stack)) {
             this.resetCounters(stack);
         }

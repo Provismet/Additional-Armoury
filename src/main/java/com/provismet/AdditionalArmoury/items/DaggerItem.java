@@ -1,6 +1,7 @@
 package com.provismet.AdditionalArmoury.items;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.AdditionalArmoury.registries.AADataComponentTypes;
@@ -17,6 +18,7 @@ import com.provismet.AdditionalArmoury.particles.effects.InkSplatParticleEffect;
 import com.provismet.CombatPlusCore.interfaces.DualWeapon;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -73,10 +75,12 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
         return new ToolComponent(
             List.of(
                 ToolComponent.Rule.ofAlwaysDropping(RegistryEntryList.of(Blocks.COBWEB.getRegistryEntry()), 15f),
+                ToolComponent.Rule.of(blockLookup.getOrThrow(BlockTags.SWORD_INSTANTLY_MINES), Float.MAX_VALUE),
                 ToolComponent.Rule.of(blockLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5f)
             ),
-            1F,
-            2
+            1f,
+            2,
+            false
         );
     }
 
@@ -137,12 +141,11 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     }
 
     @Override
-    public void appendTooltip (ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+    public void appendTooltip (ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
         PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
-        potionContentsComponent.buildTooltip(tooltip::add, 0.125f, context.getUpdateTickRate());
-
         if (!EnchantmentHelper.hasAnyEnchantmentsWith(stack, AAEnchantmentComponentTypes.INFINITE_POTION) && potionContentsComponent.hasEffects())
-            tooltip.add(Text.translatable("tooltip.additional-armoury.dagger_uses", this.getCurrentPotionUses(stack)));
+            textConsumer.accept(Text.translatable("tooltip.additional-armoury.dagger_uses", this.getCurrentPotionUses(stack)));
     }
 
     @Override

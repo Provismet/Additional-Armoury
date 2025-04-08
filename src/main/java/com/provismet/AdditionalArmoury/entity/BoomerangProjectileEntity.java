@@ -66,10 +66,10 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     @Override
     public void readCustomDataFromNbt (NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        if (nbt.contains(RICOCHET_KEY)) this.ricochetCount = nbt.getInt(RICOCHET_KEY);
-        if (nbt.contains(FLIGHT_TIME_KEY)) this.flightTime = nbt.getInt(FLIGHT_TIME_KEY);
-        if (nbt.contains(POWER_KEY)) this.power = nbt.getFloat(POWER_KEY);
-        if (nbt.contains(RESETS_COOLDOWN_KEY)) this.resetsCooldown = nbt.getBoolean(RESETS_COOLDOWN_KEY);
+        this.ricochetCount = nbt.getInt(RICOCHET_KEY, this.ricochetCount);
+        this.flightTime = nbt.getInt(FLIGHT_TIME_KEY, this.flightTime);
+        this.power = nbt.getFloat(POWER_KEY, this.power);
+        this.resetsCooldown = nbt.getBoolean(RESETS_COOLDOWN_KEY, this.resetsCooldown);
     }
     
     @Override
@@ -82,9 +82,9 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
         }
         super.tick();
         this.setYaw(0f);
-        this.prevYaw = 0f;
+        this.lastYaw = 0f;
         this.setPitch(0f);
-        this.prevPitch = 0f;
+        this.lastPitch = 0f;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
         this.flightTime = 0;
         if (this.ricochetCount < 0) this.ricochetCount = 0;
 
-        if ((this.ricochetCount <= 0 || returnToUser) && this.getOwner() != null && !this.isReturning) {
+        if ((this.ricochetCount == 0 || returnToUser) && this.getOwner() != null && !this.isReturning) {
             this.isReturning = true;
             Entity owner = this.getOwner();
             this.setVelocity(owner.getX() - this.getX(), owner.getEyeY() - this.getY(), owner.getZ() - this.getZ(), 1f, 0.5f);

@@ -1,5 +1,6 @@
 package com.provismet.datagen.AdditionalArmoury;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -21,14 +22,15 @@ import net.minecraft.advancement.criterion.EnchantedItemCriterion;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.advancement.criterion.RecipeCraftedCriterion;
 import net.minecraft.advancement.criterion.UsingItemCriterion;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potions;
-import net.minecraft.predicate.ComponentPredicate;
 import net.minecraft.predicate.NumberRange;
+import net.minecraft.predicate.component.ComponentPredicateTypes;
+import net.minecraft.predicate.component.ComponentsPredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
+import net.minecraft.predicate.item.EnchantmentPredicate;
+import net.minecraft.predicate.item.EnchantmentsPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -65,9 +67,18 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
             .criterion("enchanted_staff", staffCondition)
             .build(consumer, AdditionalArmouryMain.identifier("story/enchant_staff").toString());
 
-        ItemEnchantmentsComponent.Builder explosionBuilder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
-        explosionBuilder.add(AAEnchantments.EXPLOSION.getEntryOrThrow(registryLookup), 1);
-        AdvancementCriterion<UsingItemCriterion.Conditions> meguminCondition = Criteria.USING_ITEM.create(new UsingItemCriterion.Conditions(Optional.of(LootContextPredicate.create(new ItemUseTimeLootCondition(159))), Optional.of(ItemPredicate.Builder.create().component(ComponentPredicate.builder().add(DataComponentTypes.ENCHANTMENTS, explosionBuilder.build()).build()).build())));
+        AdvancementCriterion<UsingItemCriterion.Conditions> meguminCondition = Criteria.USING_ITEM.create(
+            new UsingItemCriterion.Conditions(
+                Optional.of(LootContextPredicate.create(new ItemUseTimeLootCondition(159))), // 159 is one tick less than the Explosion charge time of 160.
+                Optional.of(
+                    ItemPredicate.Builder.create().components(ComponentsPredicate.Builder.create()
+                        .partial(
+                            ComponentPredicateTypes.ENCHANTMENTS,
+                            EnchantmentsPredicate.enchantments(
+                                List.of(new EnchantmentPredicate(AAEnchantments.EXPLOSION.getEntryOrThrow(registryLookup), NumberRange.IntRange.atLeast(1)))
+                            )
+                        ).build()
+                    ).build())));
         Advancement.Builder.create().parent(enchantStaff)
             .display(
                 bakuretsu,
