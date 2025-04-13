@@ -2,6 +2,8 @@ package com.provismet.AdditionalArmoury.utility;
 
 import com.provismet.AdditionalArmoury.items.AAArmourMaterial;
 import com.provismet.AdditionalArmoury.items.AAToolMaterial;
+import com.provismet.CombatPlusCore.items.component.MeleeWeaponComponent;
+import com.provismet.CombatPlusCore.registries.CPCDataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -46,6 +48,7 @@ public class Util {
     public static Item.Settings applySwordSettings (AAToolMaterial material, float attack, float speed, Item.Settings settings) {
         return Util.applyToolSettings(material.baseMaterial(), settings)
             .sword(material.baseMaterial(), attack, speed)
+            .component(CPCDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createDual(material.baseMaterial().attackDamageBonus() + attack))
             .attributeModifiers(material.createAttributeComponent(attack, speed));
     }
 

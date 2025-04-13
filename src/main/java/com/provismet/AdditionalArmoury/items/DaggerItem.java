@@ -7,6 +7,8 @@ import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.AdditionalArmoury.registries.AADataComponentTypes;
 import com.provismet.AdditionalArmoury.utility.Util;
 import com.provismet.CombatPlusCore.items.AbstractMeleeWeapon;
+import com.provismet.CombatPlusCore.items.component.MeleeWeaponComponent;
+import com.provismet.CombatPlusCore.registries.CPCDataComponentTypes;
 import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
 import net.minecraft.block.Block;
 import net.minecraft.component.DataComponentTypes;
@@ -19,6 +21,7 @@ import com.provismet.CombatPlusCore.interfaces.DualWeapon;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.component.type.TooltipDisplayComponent;
+import net.minecraft.component.type.WeaponComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -63,11 +66,17 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     }
 
     public static Item.Settings createDefaultDaggerSettings (ToolMaterial material, Item.Settings settings) {
-        return Util.applyToolSettings(material, settings).attributeModifiers(createDefaultDaggerAttributes(material));
+        return Util.applyToolSettings(material, settings)
+            .attributeModifiers(createDefaultDaggerAttributes(material))
+            .component(DataComponentTypes.WEAPON, new WeaponComponent(1))
+            .component(CPCDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createDual(material.attackDamageBonus() + BASE_ATTACK_DAMAGE));
     }
 
     public static Item.Settings createDefaultDaggerSettings (AAToolMaterial material, Item.Settings settings) {
-        return Util.applyToolSettings(material.baseMaterial(), settings).attributeModifiers(createDefaultDaggerAttributes(material));
+        return Util.applyToolSettings(material.baseMaterial(), settings)
+            .attributeModifiers(createDefaultDaggerAttributes(material))
+            .component(DataComponentTypes.WEAPON, new WeaponComponent(1))
+            .component(CPCDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createDual(material.baseMaterial().attackDamageBonus() + BASE_ATTACK_DAMAGE));
     }
 
     private static ToolComponent createToolComponent () {

@@ -6,8 +6,12 @@ import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 import com.provismet.AdditionalArmoury.utility.Util;
 import com.provismet.CombatPlusCore.items.AbstractMeleeWeapon;
 
+import com.provismet.CombatPlusCore.items.component.MeleeWeaponComponent;
+import com.provismet.CombatPlusCore.registries.CPCDataComponentTypes;
 import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.component.type.WeaponComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Item;
@@ -32,11 +36,17 @@ public class MaceItem extends AbstractMeleeWeapon {
     }
 
     public static Item.Settings createDefaultMaceSettings (ToolMaterial material, Item.Settings settings) {
-        return Util.applyToolSettings(material, settings).attributeModifiers(createDefaultMaceAttributes(material));
+        return Util.applyToolSettings(material, settings)
+            .attributeModifiers(createDefaultMaceAttributes(material))
+            .component(DataComponentTypes.WEAPON, new WeaponComponent(1))
+            .component(CPCDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createMelee(material.attackDamageBonus() + BASE_ATTACK_DAMAGE));
     }
 
     public static Item.Settings createDefaultMaceSettings (AAToolMaterial material, Item.Settings settings) {
-        return Util.applyToolSettings(material.baseMaterial(), settings).attributeModifiers(createDefaultMaceAttributes(material));
+        return Util.applyToolSettings(material.baseMaterial(), settings)
+            .attributeModifiers(createDefaultMaceAttributes(material))
+            .component(DataComponentTypes.WEAPON, new WeaponComponent(1))
+            .component(CPCDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createMelee(material.baseMaterial().attackDamageBonus() + BASE_ATTACK_DAMAGE));
     }
 
     @Override
