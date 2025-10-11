@@ -240,7 +240,7 @@ public class AAEnchantments {
                 EnchantmentLevelBasedValue.linear(1)
             ),
             EntityPropertiesLootCondition.builder(
-                LootContext.EntityTarget.DIRECT_ATTACKER,
+                LootContext.EntityReference.DIRECT_ATTACKER,
                 EntityPredicate.Builder.create().type(
                     EntityTypePredicate.create(entityLookup, AAEntityTypes.BOOMERANG)
                 ).build()

@@ -1,9 +1,8 @@
 package com.provismet.AdditionalArmoury.items;
 
-import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.AdditionalArmoury.entity.BoomerangProjectileEntity;
+import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.AdditionalArmoury.registries.AASounds;
-
 import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
@@ -75,7 +74,7 @@ public class BoomerangItem extends Item {
                 }
             }
 
-            itemStack.damage(count, player, LivingEntity.getSlotForHand(player.getActiveHand()));
+            itemStack.damage(count, player, player.getActiveHand().getEquipmentSlot());
             player.getItemCooldownManager().set(itemStack, 160);
         }
         world.playSound(null, player.getX(), player.getY(), player.getZ(), AASounds.BOOMERANG_THROW, SoundCategory.PLAYERS, 1.0f, world.getRandom().nextFloat() * 0.2f + 0.9f);

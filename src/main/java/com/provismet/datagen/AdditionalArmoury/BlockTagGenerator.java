@@ -16,15 +16,15 @@ public class BlockTagGenerator extends BlockTagProvider {
 
     @Override
     protected void configure (WrapperLookup arg) {
-        getOrCreateTagBuilder(BlockTags.BEACON_BASE_BLOCKS)
+        this.valueLookupBuilder(BlockTags.BEACON_BASE_BLOCKS)
             .add(AABlocks.OVERNETHER_BLOCK)
             .add(AABlocks.ENDERNETHER_BLOCK);
 
-        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+        this.valueLookupBuilder(BlockTags.PICKAXE_MINEABLE)
             .add(AABlocks.OVERNETHER_BLOCK)
             .add(AABlocks.ENDERNETHER_BLOCK);
 
-        getOrCreateTagBuilder(BlockTags.NEEDS_DIAMOND_TOOL)
+        this.valueLookupBuilder(BlockTags.NEEDS_DIAMOND_TOOL)
             .add(AABlocks.OVERNETHER_BLOCK)
             .add(AABlocks.ENDERNETHER_BLOCK);
     }

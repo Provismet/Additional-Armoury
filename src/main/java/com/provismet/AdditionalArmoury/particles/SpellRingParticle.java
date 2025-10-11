@@ -2,12 +2,13 @@ package com.provismet.AdditionalArmoury.particles;
 
 import com.provismet.AdditionalArmoury.particles.effects.SpellRingParticleEffect;
 import com.provismet.lilylib.particle.FlatParticle;
-
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
+import org.jetbrains.annotations.Nullable;
 
 public class SpellRingParticle extends FlatParticle {
     private static final float MOVING_TICKS = 15f;
@@ -50,8 +51,8 @@ public class SpellRingParticle extends FlatParticle {
         }
 
         @Override
-        public Particle createParticle (SpellRingParticleEffect particleEffect, ClientWorld clientWorld, double x, double y, double z, double velX, double velY, double velZ) {
-            return new SpellRingParticle(clientWorld, x, y, z, this.spriteProvider, particleEffect);
+        public @Nullable Particle createParticle (SpellRingParticleEffect parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
+            return new SpellRingParticle(world, x, y, z, this.spriteProvider, parameters);
         }
     }
 }

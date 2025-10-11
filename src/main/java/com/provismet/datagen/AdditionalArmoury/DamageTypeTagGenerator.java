@@ -16,7 +16,7 @@ public class DamageTypeTagGenerator extends LilyTagProviders.LilyDamageTypeTagPr
 
     @Override
     protected void configure (RegistryWrapper.WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(AADamageTypeTags.STAFF_SPELLS)
+        this.builder(AADamageTypeTags.STAFF_SPELLS)
             .add(AADamageTypes.FIREBALL.getKey())
             .add(AADamageTypes.FROSTBALL.getKey())
             .add(AADamageTypes.ERUPTION.getKey())
@@ -24,14 +24,14 @@ public class DamageTypeTagGenerator extends LilyTagProviders.LilyDamageTypeTagPr
             .add(AADamageTypes.MAGIC_MISSILE.getKey())
             .add(AADamageTypes.WIND_TORNADO.getKey());
 
-        getOrCreateTagBuilder(DamageTypeTags.IS_PROJECTILE)
+        this.builder(DamageTypeTags.IS_PROJECTILE)
             .addOptionalTag(AADamageTypeTags.STAFF_SPELLS)
             .add(AADamageTypes.BOOMERANG.getKey());
 
-        getOrCreateTagBuilder(DamageTypeTags.IS_FIRE)
+        this.builder(DamageTypeTags.IS_FIRE)
             .add(AADamageTypes.FIREBALL.getKey());
 
-        getOrCreateTagBuilder(DamageTypeTags.IS_FREEZING)
+        this.builder(DamageTypeTags.IS_FREEZING)
             .add(AADamageTypes.FROSTBALL.getKey());
     }
 }

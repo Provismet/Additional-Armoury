@@ -1,12 +1,8 @@
 package com.provismet.AdditionalArmoury.entity;
 
-import net.minecraft.server.world.ServerWorld;
-import org.jetbrains.annotations.NotNull;
-
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
-
 import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -14,10 +10,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 public class FireballSpellEntity extends AbstractSpellEntity {
     public FireballSpellEntity (EntityType<? extends FireballSpellEntity> entityType, World world) {
@@ -31,7 +29,7 @@ public class FireballSpellEntity extends AbstractSpellEntity {
     @Override
     protected void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        if (this.getWorld() instanceof ServerWorld world) {
+        if (this.getEntityWorld() instanceof ServerWorld world) {
 
             Entity target = entityHitResult.getEntity();
             Entity owner = this.getOwner();
@@ -45,17 +43,17 @@ public class FireballSpellEntity extends AbstractSpellEntity {
     @Override
     protected void onBlockHit (BlockHitResult blockHitResult) {
         super.onBlockHit(blockHitResult);
-        if (this.getWorld().isClient()) return;
+        if (this.getEntityWorld().isClient()) return;
 
         BlockPos blockPos = blockHitResult.getBlockPos().offset(blockHitResult.getSide());
-        if (this.getWorld().isAir(blockPos)) {
-            this.getWorld().setBlockState(blockPos, AbstractFireBlock.getState(this.getWorld(), blockPos));
+        if (this.getEntityWorld().isAir(blockPos)) {
+            this.getEntityWorld().setBlockState(blockPos, AbstractFireBlock.getState(this.getEntityWorld(), blockPos));
         }
     }
 
     @Override
     public void tick () {
-        if (!this.getWorld().isClient() && this.isTouchingWater()) {
+        if (!this.getEntityWorld().isClient() && this.isTouchingWater()) {
             this.discard();
             return;
         }

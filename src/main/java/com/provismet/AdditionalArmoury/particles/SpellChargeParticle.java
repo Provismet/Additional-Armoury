@@ -1,22 +1,22 @@
 package com.provismet.AdditionalArmoury.particles;
 
 import com.provismet.AdditionalArmoury.particles.effects.SpellChargeParticleEffect;
-
+import net.minecraft.client.particle.BillboardParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleFactory;
-import net.minecraft.client.particle.ParticleTextureSheet;
-import net.minecraft.client.particle.SpriteBillboardParticle;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
+import org.jetbrains.annotations.Nullable;
 
-public class SpellChargeParticle extends SpriteBillboardParticle {
+public class SpellChargeParticle extends BillboardParticle {
     private final double destX;
     private final double destZ;
     private final float randomAngle;
 
-    protected SpellChargeParticle (ClientWorld clientWorld, double x, double y, double z, SpellChargeParticleEffect effect) {
-        super(clientWorld, x, y, z, 0, 0, 0);
+    protected SpellChargeParticle (ClientWorld clientWorld, double x, double y, double z, SpellChargeParticleEffect effect, SpriteProvider spriteProvider) {
+        super(clientWorld, x, y, z, 0, 0, 0, spriteProvider.getFirst());
         this.destX = x;
         this.destZ = z;
         this.scale = effect.scale();
@@ -41,8 +41,8 @@ public class SpellChargeParticle extends SpriteBillboardParticle {
     public void tick () {
         super.tick();
 
-        this.lastAngle = this.angle;
-        this.angle += this.randomAngle;
+        this.lastZRotation = this.zRotation;
+        this.zRotation += this.randomAngle;
 
         if (this.age == 2) {
             this.setVelocity((this.destX - this.x) * 0.05, this.velocityY, (this.destZ - this.z) * 0.05);
@@ -56,10 +56,10 @@ public class SpellChargeParticle extends SpriteBillboardParticle {
     }
 
     @Override
-    public ParticleTextureSheet getType () {
-        return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
+    protected RenderType getRenderType () {
+        return RenderType.PARTICLE_ATLAS_OPAQUE;
     }
-    
+
     public static class Factory implements ParticleFactory<SpellChargeParticleEffect> {
         private final SpriteProvider spriteProvider;
 
@@ -68,11 +68,8 @@ public class SpellChargeParticle extends SpriteBillboardParticle {
         }
 
         @Override
-        public Particle createParticle (SpellChargeParticleEffect particleEffect, ClientWorld clientWorld, double x, double y, double z, double velX, double velY, double velZ) {
-            SpellChargeParticle particle = new SpellChargeParticle(clientWorld, x, y, z, particleEffect);
-            particle.setSprite(this.spriteProvider);
-            return particle;
+        public @Nullable Particle createParticle (SpellChargeParticleEffect parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
+            return new SpellChargeParticle(world, x, y, z, parameters, this.spriteProvider);
         }
-    
     }
 }

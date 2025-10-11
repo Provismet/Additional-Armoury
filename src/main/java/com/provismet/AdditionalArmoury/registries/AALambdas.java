@@ -71,7 +71,7 @@ public class AALambdas {
         register("eruption", (world, level, context, user, pos) -> {
             final int RADIUS = 5;
             if (user.isOnGround() && user instanceof LivingEntity livingUser) {
-                List<Entity> others = user.getWorld().getOtherEntities(user, user.getBoundingBox().expand(RADIUS, 0, RADIUS));
+                List<Entity> others = user.getEntityWorld().getOtherEntities(user, user.getBoundingBox().expand(RADIUS, 0, RADIUS));
                 for (Entity otherEntity : others) {
                     if (otherEntity instanceof LivingEntity living && !Relations.isFriendly(living, livingUser)) {
                         otherEntity.damage(world, AADamageTypes.ERUPTION.createDamageSource(user), 1f);
@@ -83,14 +83,14 @@ public class AALambdas {
                     }
                 }
 
-                if (user.getWorld() instanceof ServerWorld serverWorld) {
+                if (user.getEntityWorld() instanceof ServerWorld serverWorld) {
                     BlockPos position = user.getBlockPos();
 
                     for (int x = -RADIUS; x <= RADIUS; ++x) {
                         for (int z = -RADIUS; z <= RADIUS; ++z) {
                             BlockPos newPosition = new BlockPos(position.getX() + x, position.getY(), position.getZ() + z);
-                            BlockState lowerOffset = user.getWorld().getBlockState(newPosition.offset(Direction.DOWN));
-                            if (lowerOffset.isSolidBlock(user.getWorld(), position)) {
+                            BlockState lowerOffset = user.getEntityWorld().getBlockState(newPosition.offset(Direction.DOWN));
+                            if (lowerOffset.isSolidBlock(user.getEntityWorld(), position)) {
                                 if (user.getRandom().nextFloat() > 0.6) serverWorld.spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.MAGMA_BLOCK.getDefaultState()), x + user.getX(), user.getY() + 0.1, z + user.getZ(), 20, 0, 0, 0, 0.15f);
                                 else serverWorld.spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.COBBLESTONE.getDefaultState()), x + user.getX(), user.getY() + 0.1, z + user.getZ(), 20, 0, 0, 0, 0.15f);
                             }

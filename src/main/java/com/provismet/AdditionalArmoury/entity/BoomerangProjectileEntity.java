@@ -1,34 +1,34 @@
 package com.provismet.AdditionalArmoury.entity;
 
-import java.util.List;
-
 import com.provismet.AdditionalArmoury.items.BoomerangItem;
-import com.provismet.lilylib.util.Relations;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import org.jetbrains.annotations.NotNull;
-
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import com.provismet.lilylib.interfaces.entity.WorldItemEntity;
-
+import com.provismet.lilylib.util.Relations;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class BoomerangProjectileEntity extends ThrownItemEntity implements WorldItemEntity {
     private static final String RICOCHET_KEY = "ricochet_count";
@@ -55,26 +55,26 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     }
 
     @Override
-    public void writeCustomDataToNbt (NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putInt(RICOCHET_KEY, this.ricochetCount);
-        nbt.putInt(FLIGHT_TIME_KEY, this.flightTime);
-        nbt.putFloat(POWER_KEY, this.power);
-        nbt.putBoolean(RESETS_COOLDOWN_KEY, this.resetsCooldown);
+    protected void writeCustomData (WriteView view) {
+        super.writeCustomData(view);
+        view.putInt(RICOCHET_KEY, this.ricochetCount);
+        view.putInt(FLIGHT_TIME_KEY, this.flightTime);
+        view.putFloat(POWER_KEY, this.power);
+        view.putBoolean(RESETS_COOLDOWN_KEY, this.resetsCooldown);
     }
 
     @Override
-    public void readCustomDataFromNbt (NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        this.ricochetCount = nbt.getInt(RICOCHET_KEY, this.ricochetCount);
-        this.flightTime = nbt.getInt(FLIGHT_TIME_KEY, this.flightTime);
-        this.power = nbt.getFloat(POWER_KEY, this.power);
-        this.resetsCooldown = nbt.getBoolean(RESETS_COOLDOWN_KEY, this.resetsCooldown);
+    protected void readCustomData (ReadView view) {
+        super.readCustomData(view);
+        this.ricochetCount = view.getInt(RICOCHET_KEY, this.ricochetCount);
+        this.flightTime = view.getInt(FLIGHT_TIME_KEY, this.flightTime);
+        this.power = view.getFloat(POWER_KEY, this.power);
+        this.resetsCooldown = view.getBoolean(RESETS_COOLDOWN_KEY, this.resetsCooldown);
     }
     
     @Override
     public void tick () {
-        if (!this.getWorld().isClient()) {
+        if (!this.getEntityWorld().isClient()) {
             if (this.ricochetCount > 0 && ++this.flightTime >= this.maxTime) {
                 this.ricochet(false, true);
             }
@@ -97,7 +97,7 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     @Override
     protected void onBlockHit (BlockHitResult blockHitResult) {
         super.onBlockHit(blockHitResult);
-        if (!this.getWorld().isClient()) {
+        if (!this.getEntityWorld().isClient()) {
             if (this.ricochetCount <= 0) this.discard();
             else this.ricochetBlock(blockHitResult.getSide());
         }
@@ -106,7 +106,7 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     @Override
     protected void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        if (this.getWorld() instanceof ServerWorld world) {
+        if (this.getEntityWorld() instanceof ServerWorld world) {
             if (this.getOwner() instanceof PlayerEntity player && entityHitResult.getEntity() == player) {
                 if (this.resetsCooldown) player.getItemCooldownManager().remove(player.getItemCooldownManager().getGroup(AAItems.BOOMERANG.getDefaultStack()));
                 this.discard();
@@ -141,10 +141,10 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
             return true;
         }
         
-        List<Entity> potentialTargets = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(5), entity -> {
+        List<Entity> potentialTargets = this.getEntityWorld().getOtherEntities(this, this.getBoundingBox().expand(5), entity -> {
             if (entity instanceof LivingEntity target) {
                 if (target == this.getOwner() || target == this.previousHit || target.isDead()) return false;
-                else if (this.getOwner() instanceof LivingEntity owner) return !Relations.isFriendly(owner, target);
+                else if (this.getOwner() instanceof LivingEntity livingOwner) return !Relations.isFriendly(livingOwner, target);
                 else return target instanceof HostileEntity || target instanceof PlayerEntity;
             }
             return false;
@@ -196,8 +196,8 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     }
 
     protected void applyOnHitEffects (LivingEntity target) {
-        if (this.getStack().getItem() instanceof BoomerangItem boomerang && this.getOwner() instanceof LivingEntity owner) {
-            boomerang.applyOnHit(owner, target);
+        if (this.getStack().getItem() instanceof BoomerangItem boomerang && this.getOwner() instanceof LivingEntity livingOwner) {
+            boomerang.applyOnHit(livingOwner, target);
         }
     }
 

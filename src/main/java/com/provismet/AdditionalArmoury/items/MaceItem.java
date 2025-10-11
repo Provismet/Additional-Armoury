@@ -5,7 +5,6 @@ import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 import com.provismet.AdditionalArmoury.utility.Util;
 import com.provismet.CombatPlusCore.items.AbstractMeleeWeapon;
-
 import com.provismet.CombatPlusCore.items.component.MeleeWeaponComponent;
 import com.provismet.CombatPlusCore.registries.CPCDataComponentTypes;
 import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
@@ -51,7 +50,7 @@ public class MaceItem extends AbstractMeleeWeapon {
 
     @Override
     public void postCriticalHit (ItemStack itemStack, LivingEntity user, LivingEntity target) {
-        if (user.getWorld() instanceof ServerWorld serverWorld) {
+        if (user.getEntityWorld() instanceof ServerWorld serverWorld) {
             float shreddingDuration = CPCEnchantmentHelper.modifyValue(AAEnchantmentComponentTypes.EFFECT_DURATION, serverWorld, itemStack, 40f);
             target.addStatusEffect(new StatusEffectInstance(AAStatusEffects.SHATTERED, (int)shreddingDuration), user);
             serverWorld.spawnParticles(AAParticleTypes.SHATTER, target.getX(), target.getHeight() + target.getY() + 0.5f, target.getZ(), 1, 0, 0, 0, 0);

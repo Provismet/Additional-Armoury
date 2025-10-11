@@ -1,21 +1,19 @@
 package com.provismet.AdditionalArmoury.entity;
 
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.Vec3d;
-import org.jetbrains.annotations.NotNull;
-
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
-
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class GhostlySpellEntity extends AbstractSpellEntity {
 
@@ -34,7 +32,7 @@ public class GhostlySpellEntity extends AbstractSpellEntity {
 
     @Override
     public void tick () {
-        Vec3d truePosition = this.getPos().add(this.getVelocity());
+        Vec3d truePosition = this.getEntityPos().add(this.getVelocity());
         super.tick();
         this.setPosition(truePosition);
     }
@@ -43,7 +41,7 @@ public class GhostlySpellEntity extends AbstractSpellEntity {
     public void onCollision (HitResult hitResult) {
         if (hitResult.getType() == HitResult.Type.ENTITY) {
             this.onEntityHit((EntityHitResult)hitResult);
-            this.getWorld().emitGameEvent(GameEvent.PROJECTILE_LAND, hitResult.getPos(), GameEvent.Emitter.of(this, null));
+            this.getEntityWorld().emitGameEvent(GameEvent.PROJECTILE_LAND, hitResult.getPos(), GameEvent.Emitter.of(this, null));
             this.discard();
         }
     }
@@ -51,7 +49,7 @@ public class GhostlySpellEntity extends AbstractSpellEntity {
     @Override
     public void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        if (this.getWorld() instanceof ServerWorld world) {
+        if (this.getEntityWorld() instanceof ServerWorld world) {
             entityHitResult.getEntity().damage(world, AADamageTypes.GHOSTLY_ORB.createDamageSource(this, this.getOwner()), 6f);
         }
     }

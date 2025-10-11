@@ -1,12 +1,13 @@
 package com.provismet.AdditionalArmoury.particles;
 
 import com.provismet.AdditionalArmoury.particles.effects.InkSplatParticleEffect;
-
 import net.minecraft.client.particle.AnimatedParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.util.math.random.Random;
+import org.jetbrains.annotations.Nullable;
 
 public class InkSplatParticle extends AnimatedParticle {
     protected InkSplatParticle (ClientWorld world, double x, double y, double z, SpriteProvider spriteProvider, float upwardsAcceleration, InkSplatParticleEffect effect) {
@@ -22,7 +23,7 @@ public class InkSplatParticle extends AnimatedParticle {
         this.velocityZ = this.random.nextDouble() * 0.1 - 0.05;
 
         this.maxAge += 20;
-        this.setSpriteForAge(spriteProvider);
+        this.updateSprite(spriteProvider);
     }
     
     @Override
@@ -43,8 +44,8 @@ public class InkSplatParticle extends AnimatedParticle {
         }
 
         @Override
-        public Particle createParticle (InkSplatParticleEffect particleEffect, ClientWorld clientWorld, double x, double y, double z, double velX, double velY, double velZ) {
-            return new InkSplatParticle(clientWorld, x, y, z, this.spriteProvider, 0.3f, particleEffect);
+        public @Nullable Particle createParticle (InkSplatParticleEffect parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
+            return new InkSplatParticle(world, x, y, z, this.spriteProvider, 0.3f, parameters);
         }
     }
 }

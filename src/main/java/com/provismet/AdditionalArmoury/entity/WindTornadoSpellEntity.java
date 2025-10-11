@@ -1,19 +1,17 @@
 package com.provismet.AdditionalArmoury.entity;
 
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import org.jetbrains.annotations.NotNull;
-
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
-
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 public class WindTornadoSpellEntity extends AbstractSpellEntity {
     private static final float SPEED = 0.75f;
@@ -35,7 +33,7 @@ public class WindTornadoSpellEntity extends AbstractSpellEntity {
     public void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
 
-        if (this.getWorld() instanceof ServerWorld world) {
+        if (this.getEntityWorld() instanceof ServerWorld world) {
             entityHitResult.getEntity().damage(world, AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 1f);
             world.spawnParticles(ParticleTypes.GUST, this.getX(), this.getY() + this.getHeight() / 2f, this.getZ(), 1, 0, 0, 0, 0);
         }

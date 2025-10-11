@@ -1,18 +1,17 @@
 package com.provismet.AdditionalArmoury.entity;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractSpellEntity extends ThrownItemEntity {
     private final int maxAge;
@@ -40,12 +39,12 @@ public abstract class AbstractSpellEntity extends ThrownItemEntity {
 
     @Override
     public void tick () {
-        if (!this.getWorld().isClient() && this.age >= this.maxAge) {
+        if (!this.getEntityWorld().isClient() && this.age >= this.maxAge) {
             this.discard();
             return;
         }
         if (this.getParticleType() != null) {
-            this.getWorld().addParticleClient(this.getParticleType(), this.getX(), this.getY() + this.getHeight() / 2f, this.getZ(), 0, 0, 0);
+            this.getEntityWorld().addParticleClient(this.getParticleType(), this.getX(), this.getY() + this.getHeight() / 2f, this.getZ(), 0, 0, 0);
         }
         super.tick();
     }
@@ -53,7 +52,7 @@ public abstract class AbstractSpellEntity extends ThrownItemEntity {
     @Override
     protected void onCollision (HitResult hitResult) {
         super.onCollision(hitResult);
-        if (!this.getWorld().isClient()) this.discard();
+        if (!this.getEntityWorld().isClient()) this.discard();
     }
 
     @Override

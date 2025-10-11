@@ -1,25 +1,20 @@
 package com.provismet.AdditionalArmoury.items;
 
-import java.util.List;
-import java.util.function.Consumer;
-
-import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
+import com.provismet.AdditionalArmoury.particles.effects.InkSplatParticleEffect;
 import com.provismet.AdditionalArmoury.registries.AADataComponentTypes;
+import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.AdditionalArmoury.utility.Util;
+import com.provismet.CombatPlusCore.interfaces.DualWeapon;
 import com.provismet.CombatPlusCore.items.AbstractMeleeWeapon;
 import com.provismet.CombatPlusCore.items.component.MeleeWeaponComponent;
 import com.provismet.CombatPlusCore.registries.CPCDataComponentTypes;
 import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.component.type.ToolComponent;
-
-import com.provismet.AdditionalArmoury.particles.effects.InkSplatParticleEffect;
-import com.provismet.CombatPlusCore.interfaces.DualWeapon;
-
-import net.minecraft.block.Blocks;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.component.type.WeaponComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -40,6 +35,9 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     public static final int USES_PER_POTION = 8;
@@ -95,7 +93,7 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
 
     @Override
     public void postChargedHit (ItemStack stack, LivingEntity user, LivingEntity target) {
-        if (!(user.getWorld() instanceof ServerWorld world)) return;
+        if (!(user.getEntityWorld() instanceof ServerWorld world)) return;
 
         PotionContentsComponent potionContents = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
         for (StatusEffectInstance instance : potionContents.getEffects()) {
@@ -114,7 +112,7 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
         double splatterRadius = CPCEnchantmentHelper.modifyValue(AAEnchantmentComponentTypes.EFFECT_RADIUS, world, stack, 0f);
         int damage = 1;
         if (splatterRadius > 0) {
-            List<LivingEntity> targets = target.getWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand(splatterRadius, 0.25, splatterRadius));
+            List<LivingEntity> targets = target.getEntityWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand(splatterRadius, 0.25, splatterRadius));
             for (LivingEntity newTarget : targets) {
                 if (newTarget == user || newTarget == target) continue;
                 for (StatusEffectInstance instance : potionContents.getEffects()) {
@@ -185,7 +183,7 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     }
 
     public void spawnInkParticles (Entity entity, int count, ItemStack stack) {
-        if (entity.getWorld() instanceof ServerWorld world) {
+        if (entity.getEntityWorld() instanceof ServerWorld world) {
             PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
             if (!potionContentsComponent.hasEffects()) return;
 

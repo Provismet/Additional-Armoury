@@ -2,20 +2,18 @@ package com.provismet.AdditionalArmoury.items;
 
 import com.mojang.datafixers.util.Pair;
 import com.provismet.AdditionalArmoury.enchantment.component.SpellIncantationTickingEffect;
-import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
+import com.provismet.AdditionalArmoury.particles.effects.SpellChargeParticleEffect;
 import com.provismet.AdditionalArmoury.registries.AADataComponentTypes;
+import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
+import com.provismet.AdditionalArmoury.registries.AASounds;
 import com.provismet.AdditionalArmoury.utility.tags.AAEnchantmentTags;
 import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
 import net.fabricmc.fabric.api.item.v1.EnchantingContext;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.effect.EnchantmentEffectEntry;
 import net.minecraft.enchantment.effect.EnchantmentEntityEffect;
 import net.minecraft.entity.Entity;
-
-import com.provismet.AdditionalArmoury.particles.effects.SpellChargeParticleEffect;
-import com.provismet.AdditionalArmoury.registries.AASounds;
-
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -127,7 +125,7 @@ public class StaffItem extends Item {
         if (EnchantmentHelper.hasEnchantments(stack) && world instanceof ServerWorld serverWorld) {
             CPCEnchantmentHelper.forEachEnchantment((enchantment, level, context) -> {
                 for (EnchantmentEffectEntry<EnchantmentEntityEffect> effect : enchantment.value().getEffect(AAEnchantmentComponentTypes.ON_ACTIVATION)) {
-                    effect.effect().apply(serverWorld, level, context, user, user.getPos());
+                    effect.effect().apply(serverWorld, level, context, user, user.getEntityPos());
                 }
             }, user, user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND, stack);
 

@@ -27,96 +27,96 @@ public class ItemTagGenerator extends ItemTagProvider {
 
     @Override
     protected void configure (WrapperLookup arg) {
-        getOrCreateTagBuilder(AAItemTags.DAGGERS)
+        this.valueLookupBuilder(AAItemTags.DAGGERS)
             .add(AAItems.DAGGERS.toArray(new DaggerItem[0]));
 
-        getOrCreateTagBuilder(AAItemTags.MACES)
+        this.valueLookupBuilder(AAItemTags.MACES)
             .add(AAItems.MACES.toArray(new MaceItem[0]));
 
-        getOrCreateTagBuilder(AAItemTags.DAGGER_ENCHANTABLE)
+        this.valueLookupBuilder(AAItemTags.DAGGER_ENCHANTABLE)
             .addOptionalTag(AAItemTags.DAGGERS);
 
-        getOrCreateTagBuilder(AAItemTags.MACE_ENCHANTABLE)
+        this.valueLookupBuilder(AAItemTags.MACE_ENCHANTABLE)
             .addOptionalTag(AAItemTags.MACES);
 
-        getOrCreateTagBuilder(AAItemTags.BOOMERANG_ENCHANTABLE)
+        this.valueLookupBuilder(AAItemTags.BOOMERANG_ENCHANTABLE)
             .add(AAItems.BOOMERANG);
 
-        getOrCreateTagBuilder(AAItemTags.STAFF_ENCHANTABLE)
+        this.valueLookupBuilder(AAItemTags.STAFF_ENCHANTABLE)
             .add(AAItems.STAFF);
 
-        getOrCreateTagBuilder(CPCItemTags.MELEE_WEAPON)
+        this.valueLookupBuilder(CPCItemTags.MELEE_WEAPON)
             .addOptionalTag(AAItemTags.MACES);
 
-        getOrCreateTagBuilder(CPCItemTags.DUAL_WEAPON)
+        this.valueLookupBuilder(CPCItemTags.DUAL_WEAPON)
             .addOptionalTag(AAItemTags.DAGGERS);
 
-        getOrCreateTagBuilder(CPCItemTags.DAMAGE_PRIMARY_ENCHANTABLE)
+        this.valueLookupBuilder(CPCItemTags.DAMAGE_PRIMARY_ENCHANTABLE)
             .addOptionalTag(AAItemTags.DAGGERS)
             .addOptionalTag(AAItemTags.MACES);
 
-        getOrCreateTagBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE)
+        this.valueLookupBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE)
             .addOptionalTag(AAItemTags.DAGGERS)
             .addOptionalTag(AAItemTags.MACES);
-        
-        getOrCreateTagBuilder(HIDDEN_FROM_RECIPE_VIEWERS)
+
+        this.valueLookupBuilder(HIDDEN_FROM_RECIPE_VIEWERS)
             .add(AAItems.ITEM_PROJECTILES.toArray(new Item[0]));
 
-        getOrCreateTagBuilder(ItemTags.SWORDS)
+        this.valueLookupBuilder(ItemTags.SWORDS)
             .add(AAItems.OVERNETHER_SWORD)
             .add(AAItems.ENDERNETHER_SWORD);
 
-        getOrCreateTagBuilder(ItemTags.AXES)
+        this.valueLookupBuilder(ItemTags.AXES)
             .add(AAItems.OVERNETHER_AXE)
             .add(AAItems.ENDERNETHER_AXE);
 
-        getOrCreateTagBuilder(ItemTags.PICKAXES)
+        this.valueLookupBuilder(ItemTags.PICKAXES)
             .add(AAItems.OVERNETHER_PICKAXE)
             .add(AAItems.ENDERNETHER_PICKAXE);
 
-        getOrCreateTagBuilder(ItemTags.SHOVELS)
+        this.valueLookupBuilder(ItemTags.SHOVELS)
             .add(AAItems.OVERNETHER_SHOVEL)
             .add(AAItems.ENDERNETHER_SHOVEL);
 
-        getOrCreateTagBuilder(ItemTags.HOES)
+        this.valueLookupBuilder(ItemTags.HOES)
             .add(AAItems.OVERNETHER_HOE)
             .add(AAItems.ENDERNETHER_HOE);
-        
-        getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR)
+
+        this.valueLookupBuilder(ItemTags.TRIMMABLE_ARMOR)
             .add(AAItems.OVERNETHER_ARMOUR.toArray(new Item[0]))
             .add(AAItems.ENDERNETHER_ARMOUR.toArray(new Item[0]));
 
-        getOrCreateTagBuilder(ItemTags.HEAD_ARMOR)
+        this.valueLookupBuilder(ItemTags.HEAD_ARMOR)
             .add(AAItems.OVERNETHER_HELMET)
             .add(AAItems.ENDERNETHER_HELMET);
 
-        getOrCreateTagBuilder(ItemTags.CHEST_ARMOR)
+        this.valueLookupBuilder(ItemTags.CHEST_ARMOR)
             .add(AAItems.OVERNETHER_CHESTPLATE)
             .add(AAItems.ENDERNETHER_CHESTPLATE);
 
-        getOrCreateTagBuilder(ItemTags.LEG_ARMOR)
+        this.valueLookupBuilder(ItemTags.LEG_ARMOR)
             .add(AAItems.OVERNETHER_LEGGINGS)
             .add(AAItems.ENDERNETHER_LEGGINGS);
 
-        getOrCreateTagBuilder(ItemTags.FOOT_ARMOR)
+        this.valueLookupBuilder(ItemTags.FOOT_ARMOR)
             .add(AAItems.OVERNETHER_BOOTS)
             .add(AAItems.ENDERNETHER_BOOTS);
 
-        getOrCreateTagBuilder(ItemTags.BEACON_PAYMENT_ITEMS)
+        this.valueLookupBuilder(ItemTags.BEACON_PAYMENT_ITEMS)
             .add(AAItems.OVERNETHER_INGOT)
             .add(AAItems.ENDERNETHER_INGOT);
 
-        getOrCreateTagBuilder(ItemTags.VANISHING_ENCHANTABLE)
+        this.valueLookupBuilder(ItemTags.VANISHING_ENCHANTABLE)
             .addOptionalTag(AAItemTags.DAGGERS)
             .addOptionalTag(AAItemTags.MACES)
             .add(AAItems.BOOMERANG);
 
-        getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
+        this.valueLookupBuilder(ItemTags.DURABILITY_ENCHANTABLE)
             .addOptionalTag(AAItemTags.DAGGERS)
             .addOptionalTag(AAItemTags.MACES)
             .add(AAItems.BOOMERANG);
 
-        getOrCreateTagBuilder(ConventionalItemTags.ENCHANTABLES)
+        this.valueLookupBuilder(ConventionalItemTags.ENCHANTABLES)
             .addOptionalTag(AAItemTags.MACE_ENCHANTABLE)
             .addOptionalTag(AAItemTags.DAGGER_ENCHANTABLE)
             .addOptionalTag(AAItemTags.BOOMERANG_ENCHANTABLE);

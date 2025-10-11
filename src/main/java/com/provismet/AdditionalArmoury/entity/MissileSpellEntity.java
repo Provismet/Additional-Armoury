@@ -1,19 +1,17 @@
 package com.provismet.AdditionalArmoury.entity;
 
-import com.provismet.lilylib.util.Relations;
-import net.minecraft.entity.Entity;
-import net.minecraft.server.world.ServerWorld;
-import org.jetbrains.annotations.NotNull;
-
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
-
+import com.provismet.lilylib.util.Relations;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -30,11 +28,11 @@ public class MissileSpellEntity extends AbstractSpellEntity {
 
     @Override
     public void tick () {
-        if (this.getOwner() instanceof LivingEntity owner) {
-            Optional<Entity> optionalTarget = this.getWorld().getOtherEntities(
+        if (this.getOwner() instanceof LivingEntity livingOwner) {
+            Optional<Entity> optionalTarget = this.getEntityWorld().getOtherEntities(
                 this,
                 this.getBoundingBox().expand(3.0),
-                entity -> entity instanceof LivingEntity livingTarget && livingTarget.canTakeDamage() && !Relations.isFriendly(owner, livingTarget)
+                entity -> entity instanceof LivingEntity livingTarget && livingTarget.canTakeDamage() && !Relations.isFriendly(livingOwner, livingTarget)
             ).stream().reduce((entity1, entity2) -> entity1.distanceTo(this) < entity2.distanceTo(this) ? entity1 : entity2);
 
             if (optionalTarget.isPresent()) {
@@ -48,7 +46,7 @@ public class MissileSpellEntity extends AbstractSpellEntity {
     @Override
     public void onEntityHit (EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        if (this.getWorld() instanceof ServerWorld world) {
+        if (this.getEntityWorld() instanceof ServerWorld world) {
             entityHitResult.getEntity().damage(world, AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 6f);
         }
     }
