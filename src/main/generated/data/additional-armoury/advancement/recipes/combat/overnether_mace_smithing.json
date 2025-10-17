@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:overnether_mace_smithing"
+        "recipe": "additional-armoury:overnether_mace_smithing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:overnether_mace_smithing"
+      "additional-armoury:overnether_mace_smithing"
     ]
   }
 }

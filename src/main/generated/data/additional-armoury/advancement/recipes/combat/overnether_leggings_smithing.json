@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:overnether_leggings_smithing"
+        "recipe": "additional-armoury:overnether_leggings_smithing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:overnether_leggings_smithing"
+      "additional-armoury:overnether_leggings_smithing"
     ]
   }
 }

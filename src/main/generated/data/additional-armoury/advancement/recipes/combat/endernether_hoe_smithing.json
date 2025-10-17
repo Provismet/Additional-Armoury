@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:endernether_hoe_smithing"
+        "recipe": "additional-armoury:endernether_hoe_smithing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:endernether_hoe_smithing"
+      "additional-armoury:endernether_hoe_smithing"
     ]
   }
 }

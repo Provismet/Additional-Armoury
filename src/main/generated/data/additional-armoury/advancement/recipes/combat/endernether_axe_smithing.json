@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:endernether_axe_smithing"
+        "recipe": "additional-armoury:endernether_axe_smithing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:endernether_axe_smithing"
+      "additional-armoury:endernether_axe_smithing"
     ]
   }
 }
