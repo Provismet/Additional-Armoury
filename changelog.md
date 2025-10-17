@@ -1,2 +1,1 @@
-## Additions
-- Added Russian translation. (MaroonLuv)
+- Updated to 1.21.10
