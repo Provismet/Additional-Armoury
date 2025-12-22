@@ -27,8 +27,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class StaffItem extends Item {
@@ -71,7 +71,7 @@ public class StaffItem extends Item {
             }, user, user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
 
             if (!EnchantmentHelper.hasAnyEnchantmentsWith(stack, AAEnchantmentComponentTypes.NO_SPELL_PARTICLES))
-                serverWorld.spawnParticles(new SpellChargeParticleEffect(Vec3d.unpackRgb(StaffItem.getColour(stack)).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 1, 0, 0, 0, 0);
+                serverWorld.spawnParticles(new SpellChargeParticleEffect(ColorHelper.toRgbVector(StaffItem.getColour(stack)), 0.1f), user.getX(), user.getY(), user.getZ(), 1, 0, 0, 0, 0);
         }
     }
 
@@ -184,7 +184,7 @@ public class StaffItem extends Item {
     }
 
     @Override
-    public boolean canBeEnchantedWith (ItemStack stack, RegistryEntry<Enchantment> enchantment, EnchantingContext context) {
+    public boolean canBeEnchantedWith (@NotNull ItemStack stack, @NotNull RegistryEntry<Enchantment> enchantment, @NotNull EnchantingContext context) {
         return !EnchantmentHelper.hasEnchantments(stack) && enchantment.isIn(AAEnchantmentTags.STAFF);
     }
 }

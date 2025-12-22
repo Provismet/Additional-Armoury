@@ -20,9 +20,9 @@ public class SpellChargeParticle extends BillboardParticle {
         this.destX = x;
         this.destZ = z;
         this.scale = effect.scale();
-        this.red = effect.colour().x;
-        this.green = effect.colour().y;
-        this.blue = effect.colour().z;
+        this.red = effect.colour().x();
+        this.green = effect.colour().y();
+        this.blue = effect.colour().z();
         this.maxAge = 20;
 
         this.velocityX = this.random.nextDouble() * 0.05 - 0.025;

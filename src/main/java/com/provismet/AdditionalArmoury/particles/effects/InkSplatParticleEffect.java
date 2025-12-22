@@ -2,18 +2,16 @@ package com.provismet.AdditionalArmoury.particles.effects;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.util.dynamic.Codecs;
-import org.joml.Vector3f;
-
-import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
-
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
+import net.minecraft.util.dynamic.Codecs;
+import org.joml.Vector3fc;
 
-public record InkSplatParticleEffect (Vector3f colour, float scale) implements ParticleEffect {
+public record InkSplatParticleEffect (Vector3fc colour, float scale) implements ParticleEffect {
 
     public static final MapCodec<InkSplatParticleEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(

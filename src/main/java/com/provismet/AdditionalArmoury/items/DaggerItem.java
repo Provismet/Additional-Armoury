@@ -34,6 +34,7 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
@@ -187,7 +188,7 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
             PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
             if (!potionContentsComponent.hasEffects()) return;
 
-            InkSplatParticleEffect splatEffect = new InkSplatParticleEffect(Vec3d.unpackRgb(potionContentsComponent.getColor()).toVector3f(), 0.2f);
+            InkSplatParticleEffect splatEffect = new InkSplatParticleEffect(ColorHelper.toRgbVector(potionContentsComponent.getColor()), 0.2f);
             world.spawnParticles(splatEffect, entity.getX(), (entity.getY() + entity.getEyeY()) / 2.0, entity.getZ(), count, 0, 0, 0, 0);
         }
 

@@ -26,6 +26,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.Registry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -42,7 +43,7 @@ public class AALambdas {
 
             if (user.isOnGround()) user.move(MovementType.SELF, new Vec3d(0.0, 0.2, 0.0));
             user.addVelocity(velocity);
-            user.velocityModified = true;
+            user.knockedBack = true;
         });
 
         register("jump", (world, level, context, user, pos) -> {
@@ -51,7 +52,7 @@ public class AALambdas {
 
             Vec3d velocity = user.getVelocity();
             user.setVelocity(velocity.x, 0.75, velocity.z);
-            user.velocityModified = true;
+            user.knockedBack = true;
         });
 
         register("fireball", (world, level, context, user, pos) -> {
@@ -133,7 +134,7 @@ public class AALambdas {
         });
 
         registerIncantation("explosion_tick", (world, level, context, user, remainingUseTicks) -> {
-            world.spawnParticles(new SpellChargeParticleEffect(Vec3d.unpackRgb(user.getRandom().nextBetween(0x000000, 0xFFFFFF)).toVector3f(), 0.1f), user.getX(), user.getY(), user.getZ(), 1, 0, 0, 0, 0);
+            world.spawnParticles(new SpellChargeParticleEffect(ColorHelper.toRgbVector(user.getRandom().nextBetween(0x000000, 0xFFFFFF)), 0.1f), user.getX(), user.getY(), user.getZ(), 1, 0, 0, 0, 0);
             if (remainingUseTicks == 120) world.spawnParticles(new SpellRingParticleEffect(2f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
             else if (remainingUseTicks == 80) world.spawnParticles(new SpellRingParticleEffect(4f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
             else if (remainingUseTicks == 40) world.spawnParticles(new SpellRingParticleEffect(7f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
