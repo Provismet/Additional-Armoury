@@ -2,12 +2,12 @@ package com.provismet.AdditionalArmoury.particles;
 
 import com.provismet.AdditionalArmoury.particles.effects.SpellRingParticleEffect;
 import com.provismet.lilylib.particle.FlatParticle;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleFactory;
-import net.minecraft.client.particle.SpriteProvider;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 public class SpellRingParticle extends FlatParticle {
@@ -18,40 +18,40 @@ public class SpellRingParticle extends FlatParticle {
 
     private float prevScale;
 
-    protected SpellRingParticle(ClientWorld world, double x, double y, double z, SpriteProvider spriteProvider, SpellRingParticleEffect effect) {
+    protected SpellRingParticle(ClientLevel world, double x, double y, double z, SpriteSet spriteProvider, SpellRingParticleEffect effect) {
         super(world, x, y, z, spriteProvider);
 
-        this.scale = 0.1f;
-        this.prevScale = this.scale;
+        this.quadSize = 0.1f;
+        this.prevScale = this.quadSize;
         this.maxScale = effect.scale();
-        this.maxAge = effect.duration();
-        this.rotation = this.random.nextBoolean() ? (this.maxScale / 1.5f) / MathHelper.DEGREES_PER_RADIAN : (this.maxScale / -1.5f) / MathHelper.DEGREES_PER_RADIAN;
+        this.lifetime = effect.duration();
+        this.rotation = this.random.nextBoolean() ? (this.maxScale / 1.5f) / Mth.RAD_TO_DEG : (this.maxScale / -1.5f) / Mth.RAD_TO_DEG;
     }
 
     @Override
     public void tick () {
         super.tick();
         this.setAngleZ(this.angleZ + this.rotation);
-        this.prevScale = this.scale;
+        this.prevScale = this.quadSize;
 
-        if (this.age <= MOVING_TICKS) this.scale = this.maxScale * ((float)this.age / MOVING_TICKS);
-        else if (this.maxAge - this.age <= MOVING_TICKS) this.scale = this.maxScale * ((float)(this.maxAge - this.age) / MOVING_TICKS);
+        if (this.age <= MOVING_TICKS) this.quadSize = this.maxScale * ((float)this.age / MOVING_TICKS);
+        else if (this.lifetime - this.age <= MOVING_TICKS) this.quadSize = this.maxScale * ((float)(this.lifetime - this.age) / MOVING_TICKS);
     }
 
     @Override
-    public float getSize (float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.prevScale, this.scale);
+    public float getQuadSize (float tickDelta) {
+        return Mth.lerp(tickDelta, this.prevScale, this.quadSize);
     }
     
-    public static class Factory implements ParticleFactory<SpellRingParticleEffect> {
-        private final SpriteProvider spriteProvider;
+    public static class Factory implements ParticleProvider<SpellRingParticleEffect> {
+        private final SpriteSet spriteProvider;
 
-        public Factory (SpriteProvider spriteProvider) {
+        public Factory (SpriteSet spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
 
         @Override
-        public @Nullable Particle createParticle (SpellRingParticleEffect parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
+        public @Nullable Particle createParticle (SpellRingParticleEffect parameters, ClientLevel world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, RandomSource random) {
             return new SpellRingParticle(world, x, y, z, this.spriteProvider, parameters);
         }
     }

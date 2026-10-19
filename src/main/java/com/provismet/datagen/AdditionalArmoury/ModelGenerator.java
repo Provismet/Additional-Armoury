@@ -13,47 +13,47 @@ import com.provismet.AdditionalArmoury.registries.AAItems;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.client.data.BlockStateModelGenerator;
-import net.minecraft.client.data.ItemModelGenerator;
-import net.minecraft.client.data.ItemModels;
-import net.minecraft.client.data.Model;
-import net.minecraft.client.data.ModelIds;
-import net.minecraft.client.data.Models;
-import net.minecraft.client.data.TextureKey;
-import net.minecraft.client.data.TextureMap;
-import net.minecraft.client.render.item.tint.ConstantTintSource;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.EquippableComponent;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Colors;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.color.item.Constant;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.CommonColors;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.item.equipment.Equippable;
 
 public class ModelGenerator extends FabricModelProvider {
-    public static final Model HANDHELD_LAYERED = createModel("handheld", TextureKey.LAYER0, TextureKey.LAYER1);
+    public static final ModelTemplate HANDHELD_LAYERED = createModel("handheld", TextureSlot.LAYER0, TextureSlot.LAYER1);
 
     public ModelGenerator (FabricDataOutput output) {
         super(output);
     }
 
     @Override
-    public void generateBlockStateModels (BlockStateModelGenerator blockStateModelGenerator) {
-        blockStateModelGenerator.registerSimpleCubeAll(AABlocks.OVERNETHER_BLOCK);
-        blockStateModelGenerator.registerSimpleCubeAll(AABlocks.ENDERNETHER_BLOCK);
+    public void generateBlockStateModels (BlockModelGenerators blockStateModelGenerator) {
+        blockStateModelGenerator.createTrivialCube(AABlocks.OVERNETHER_BLOCK);
+        blockStateModelGenerator.createTrivialCube(AABlocks.ENDERNETHER_BLOCK);
     }
 
     @Override
-    public void generateItemModels (ItemModelGenerator itemModelGenerator) {
-        registerMass(itemModelGenerator, Models.GENERATED,
+    public void generateItemModels (ItemModelGenerators itemModelGenerator) {
+        registerMass(itemModelGenerator, ModelTemplates.FLAT_ITEM,
             AAItems.OVERNETHER_INGOT,
             AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE,
             AAItems.ENDERNETHER_INGOT,
             AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE
         );
 
-        registerMass(itemModelGenerator, Models.HANDHELD,
+        registerMass(itemModelGenerator, ModelTemplates.FLAT_HANDHELD_ITEM,
             AAItems.OVERNETHER_SWORD,
             AAItems.OVERNETHER_AXE,
             AAItems.OVERNETHER_PICKAXE,
@@ -70,60 +70,60 @@ public class ModelGenerator extends FabricModelProvider {
         AAItems.DAGGERS.forEach(dagger -> ModelGenerator.registerDagger(itemModelGenerator, dagger));
         ModelGenerator.registerStaff(itemModelGenerator, AAItems.STAFF);
 
-        AAItems.MACES.forEach(item -> itemModelGenerator.register(item, Models.HANDHELD));
-        AAItems.ITEM_PROJECTILES.forEach(item -> itemModelGenerator.register(item, Models.GENERATED));
+        AAItems.MACES.forEach(item -> itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM));
+        AAItems.ITEM_PROJECTILES.forEach(item -> itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_ITEM));
         AAItems.OVERNETHER_ARMOUR.forEach(item -> registerArmour(item, itemModelGenerator));
         AAItems.ENDERNETHER_ARMOUR.forEach(item -> registerArmour(item, itemModelGenerator));
     }
 
-    public static void registerDagger (ItemModelGenerator itemModelGenerator, DaggerItem dagger) {
-        Identifier model = HANDHELD_LAYERED.upload(
-            ModelIds.getItemModelId(dagger),
-            TextureMap.layered(
-                TextureMap.getId(dagger),
+    public static void registerDagger (ItemModelGenerators itemModelGenerator, DaggerItem dagger) {
+        Identifier model = HANDHELD_LAYERED.create(
+            ModelLocationUtils.getModelLocation(dagger),
+            TextureMapping.layered(
+                TextureMapping.getItemTexture(dagger),
                 AdditionalArmouryMain.identifier("item/dagger_tip")
             ),
-            itemModelGenerator.modelCollector
+            itemModelGenerator.modelOutput
         );
-        itemModelGenerator.output.accept(dagger, ItemModels.tinted(model, new ConstantTintSource(Colors.WHITE), new DaggerTintSource()));
+        itemModelGenerator.itemModelOutput.accept(dagger, ItemModelUtils.tintedModel(model, new Constant(CommonColors.WHITE), new DaggerTintSource()));
     }
 
-    public static void registerStaff (ItemModelGenerator itemModelGenerator, StaffItem staff) {
-        Identifier model = HANDHELD_LAYERED.upload(
-            ModelIds.getItemModelId(staff),
-            TextureMap.layered(
+    public static void registerStaff (ItemModelGenerators itemModelGenerator, StaffItem staff) {
+        Identifier model = HANDHELD_LAYERED.create(
+            ModelLocationUtils.getModelLocation(staff),
+            TextureMapping.layered(
                 AdditionalArmouryMain.identifier("item/staff_head"),
                 AdditionalArmouryMain.identifier("item/staff_shaft")),
-            itemModelGenerator.modelCollector
+            itemModelGenerator.modelOutput
         );
-        itemModelGenerator.output.accept(staff, ItemModels.tinted(model, new SpellTintSource(0xFFC18920)));
+        itemModelGenerator.itemModelOutput.accept(staff, ItemModelUtils.tintedModel(model, new SpellTintSource(0xFFC18920)));
     }
 
-    private static void registerMass (ItemModelGenerator itemModelGenerator, Model model, Item... items) {
+    private static void registerMass (ItemModelGenerators itemModelGenerator, ModelTemplate model, Item... items) {
         for (Item i : items) {
-            itemModelGenerator.register(i, model);
+            itemModelGenerator.generateFlatItem(i, model);
         }
     }
 
-    private static Model createModel (String parent, TextureKey ... requiredTextureKeys) {
-        return new Model(Optional.of(Identifier.ofVanilla("item/" + parent)), Optional.empty(), requiredTextureKeys);
+    private static ModelTemplate createModel (String parent, TextureSlot ... requiredTextureKeys) {
+        return new ModelTemplate(Optional.of(Identifier.withDefaultNamespace("item/" + parent)), Optional.empty(), requiredTextureKeys);
     }
 
-    private void registerArmour (Item item, ItemModelGenerator itemModelGenerator) {
+    private void registerArmour (Item item, ItemModelGenerators itemModelGenerator) {
         final Map<EquipmentSlot, Identifier> slotToTrim = Map.of(
-            EquipmentSlot.HEAD, ItemModelGenerator.HELMET_TRIM_ID_PREFIX,
-            EquipmentSlot.CHEST, ItemModelGenerator.CHESTPLATE_TRIM_ID_PREFIX,
-            EquipmentSlot.LEGS, ItemModelGenerator.LEGGINGS_TRIM_ID_PREFIX,
-            EquipmentSlot.FEET, ItemModelGenerator.BOOTS_TRIM_ID_PREFIX,
-            EquipmentSlot.BODY, ItemModelGenerator.getTrimAssetIdPrefix("body")
+            EquipmentSlot.HEAD, ItemModelGenerators.TRIM_PREFIX_HELMET,
+            EquipmentSlot.CHEST, ItemModelGenerators.TRIM_PREFIX_CHESTPLATE,
+            EquipmentSlot.LEGS, ItemModelGenerators.TRIM_PREFIX_LEGGINGS,
+            EquipmentSlot.FEET, ItemModelGenerators.TRIM_PREFIX_BOOTS,
+            EquipmentSlot.BODY, ItemModelGenerators.prefixForSlotTrim("body")
         );
 
-        EquippableComponent equippableComponent = item.getComponents().get(DataComponentTypes.EQUIPPABLE);
+        Equippable equippableComponent = item.components().get(DataComponents.EQUIPPABLE);
         if (equippableComponent == null || equippableComponent.assetId().isEmpty()) {
             AdditionalArmouryMain.LOGGER.warn("No equippable component found for {}", item.getName().getString());
             return;
         }
-        RegistryKey<EquipmentAsset> modelId = equippableComponent.assetId().get();
-        itemModelGenerator.registerArmor(item, modelId, slotToTrim.get(equippableComponent.slot()), false);
+        ResourceKey<EquipmentAsset> modelId = equippableComponent.assetId().get();
+        itemModelGenerator.generateTrimmableItem(item, modelId, slotToTrim.get(equippableComponent.slot()), false);
     }
 }

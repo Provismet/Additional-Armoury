@@ -1,9 +1,9 @@
 package com.provismet.AdditionalArmoury.utility.tags;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 public class AAEnchantmentTags {
     public static final TagKey<Enchantment> STAFF = AAEnchantmentTags.of("staff");
@@ -13,6 +13,6 @@ public class AAEnchantmentTags {
     public static final TagKey<Enchantment> BOOMERANG_EXCLUSIVE = AAEnchantmentTags.of("exclusive_set/boomerang_effect");
 
     private static TagKey<Enchantment> of (String path) {
-        return TagKey.of(RegistryKeys.ENCHANTMENT, AdditionalArmouryMain.identifier(path));
+        return TagKey.create(Registries.ENCHANTMENT, AdditionalArmouryMain.identifier(path));
     }
 }

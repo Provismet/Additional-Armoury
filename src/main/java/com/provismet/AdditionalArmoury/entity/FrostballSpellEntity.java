@@ -3,49 +3,49 @@ package com.provismet.AdditionalArmoury.entity;
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
 
 public class FrostballSpellEntity extends AbstractSpellEntity {
-    public FrostballSpellEntity (EntityType<? extends AbstractSpellEntity> entityType, World world) {
+    public FrostballSpellEntity (EntityType<? extends AbstractSpellEntity> entityType, Level world) {
         super(entityType, world);
     }
 
-    public FrostballSpellEntity (World world, @NotNull LivingEntity owner) {
-        super(AAEntityTypes.FROSTBALL, world, owner, AAItems.FROSTBALL.getDefaultStack(), true, false, 50, 0.85f);
+    public FrostballSpellEntity (Level world, @NotNull LivingEntity owner) {
+        super(AAEntityTypes.FROSTBALL, world, owner, AAItems.FROSTBALL.getDefaultInstance(), true, false, 50, 0.85f);
     }
 
     @Override
-    public ItemStack getStack () {
-        return AAItems.FROSTBALL.getDefaultStack();
+    public ItemStack getItem () {
+        return AAItems.FROSTBALL.getDefaultInstance();
     }
 
     @Override
     public void tick () {
         super.tick();
-        if (!this.getEntityWorld().isClient()) {
-            FluidState fluidState = this.getEntityWorld().getFluidState(this.getBlockPos());
-            if (fluidState.isIn(FluidTags.WATER) && fluidState.isStill()) {
-                this.getEntityWorld().setBlockState(this.getBlockPos(), Blocks.ICE.getDefaultState());
+        if (!this.level().isClientSide()) {
+            FluidState fluidState = this.level().getFluidState(this.blockPosition());
+            if (fluidState.is(FluidTags.WATER) && fluidState.isSource()) {
+                this.level().setBlockAndUpdate(this.blockPosition(), Blocks.ICE.defaultBlockState());
                 for (Direction direction : Direction.values()) {
-                    BlockPos newPosition = this.getBlockPos().offset(direction);
-                    FluidState adjacentState = this.getEntityWorld().getFluidState(newPosition);
-                    if (adjacentState.isIn(FluidTags.WATER) && adjacentState.isStill()) this.getEntityWorld().setBlockState(newPosition, Blocks.ICE.getDefaultState());
+                    BlockPos newPosition = this.blockPosition().relative(direction);
+                    FluidState adjacentState = this.level().getFluidState(newPosition);
+                    if (adjacentState.is(FluidTags.WATER) && adjacentState.isSource()) this.level().setBlockAndUpdate(newPosition, Blocks.ICE.defaultBlockState());
                 }
                 this.discard();
             }
@@ -53,29 +53,29 @@ public class FrostballSpellEntity extends AbstractSpellEntity {
     }
 
     @Override
-    protected void onEntityHit (EntityHitResult hitResult) {
-        super.onEntityHit(hitResult);
-        if (this.getEntityWorld() instanceof ServerWorld world) {
+    protected void onHitEntity (EntityHitResult hitResult) {
+        super.onHitEntity(hitResult);
+        if (this.level() instanceof ServerLevel world) {
             Entity target = hitResult.getEntity();
             Entity owner = this.getOwner();
 
-            if (target.damage(world, AADamageTypes.FIREBALL.createDamageSource(this, owner), 6f)) {
-                target.setFrozenTicks(Math.min(target.getFrozenTicks() + 120, target.getMinFreezeDamageTicks() + 300));
+            if (target.hurtServer(world, AADamageTypes.FIREBALL.createDamageSource(this, owner), 6f)) {
+                target.setTicksFrozen(Math.min(target.getTicksFrozen() + 120, target.getTicksRequiredToFreeze() + 300));
             }
         }
     }
 
     @Override
-    protected void onBlockHit (BlockHitResult hitResult) {
-        super.onBlockHit(hitResult);
-        if (!this.getEntityWorld().isClient() && hitResult.getSide() == Direction.UP) {
-            BlockPos position = hitResult.getBlockPos().offset(Direction.UP);
-            if (this.getEntityWorld().isAir(position)) this.getEntityWorld().setBlockState(position, Blocks.SNOW.getDefaultState());
+    protected void onHitBlock (BlockHitResult hitResult) {
+        super.onHitBlock(hitResult);
+        if (!this.level().isClientSide() && hitResult.getDirection() == Direction.UP) {
+            BlockPos position = hitResult.getBlockPos().relative(Direction.UP);
+            if (this.level().isEmptyBlock(position)) this.level().setBlockAndUpdate(position, Blocks.SNOW.defaultBlockState());
         }
     }
 
     @Override
-    protected ParticleEffect getParticleType () {
+    protected ParticleOptions getParticleType () {
         return ParticleTypes.SNOWFLAKE;
     }
 

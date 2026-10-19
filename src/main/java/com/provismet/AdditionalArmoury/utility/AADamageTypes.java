@@ -1,12 +1,10 @@
 package com.provismet.AdditionalArmoury.utility;
 
 import com.provismet.lilylib.container.DamageTypeContainer;
-import net.minecraft.entity.damage.DamageEffects;
-import net.minecraft.registry.Registerable;
-
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.world.damagesource.DamageEffects;
+import net.minecraft.world.damagesource.DamageType;
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
-
-import net.minecraft.entity.damage.DamageType;
 
 public class AADamageTypes {
     public static final DamageTypeContainer FIREBALL = createDamageType("fireball_spell", DamageEffects.BURNING);
@@ -31,11 +29,11 @@ public class AADamageTypes {
         );
     }
 
-    private static void register (Registerable<DamageType> registry, DamageTypeContainer container) {
+    private static void register (BootstrapContext<DamageType> registry, DamageTypeContainer container) {
         registry.register(container.getKey(), container.getDamageType());
     }
 
-    public static void bootstrap (Registerable<DamageType> registerable) {
+    public static void bootstrap (BootstrapContext<DamageType> registerable) {
        register(registerable, FIREBALL);
        register(registerable, FROSTBALL);
        register(registerable, ERUPTION);

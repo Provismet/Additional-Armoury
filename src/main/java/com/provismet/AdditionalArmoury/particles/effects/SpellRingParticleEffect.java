@@ -3,26 +3,25 @@ package com.provismet.AdditionalArmoury.particles.effects;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.ExtraCodecs;
 
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.util.dynamic.Codecs;
-
-public record SpellRingParticleEffect (float scale, int duration) implements ParticleEffect {
+public record SpellRingParticleEffect (float scale, int duration) implements ParticleOptions {
     public static final MapCodec<SpellRingParticleEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
-            Codecs.POSITIVE_FLOAT.fieldOf("scale").forGetter(effect -> effect.scale),
-            Codecs.POSITIVE_INT.fieldOf("duration").forGetter(effect -> effect.duration)
+            ExtraCodecs.POSITIVE_FLOAT.fieldOf("scale").forGetter(effect -> effect.scale),
+            ExtraCodecs.POSITIVE_INT.fieldOf("duration").forGetter(effect -> effect.duration)
         ).apply(instance, SpellRingParticleEffect::new)
     );
 
-    public static final PacketCodec<RegistryByteBuf, SpellRingParticleEffect> PACKET_CODEC = PacketCodec.tuple(
-        PacketCodecs.FLOAT,
+    public static final StreamCodec<RegistryFriendlyByteBuf, SpellRingParticleEffect> PACKET_CODEC = StreamCodec.composite(
+        ByteBufCodecs.FLOAT,
         effect -> effect.scale,
-        PacketCodecs.INTEGER,
+        ByteBufCodecs.INT,
         effect -> effect.duration,
         SpellRingParticleEffect::new
     );

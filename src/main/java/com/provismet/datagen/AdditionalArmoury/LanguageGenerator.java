@@ -14,11 +14,11 @@ import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
 import com.provismet.lilylib.container.DamageTypeContainer;
 import com.provismet.lilylib.datagen.provider.LilyLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.Potions;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.Potions;
 
 public class LanguageGenerator extends LilyLanguageProvider {
     private static final Map<String, DaggerItem> DAGGER_TRANSLATIONS = Map.of(
@@ -32,12 +32,12 @@ public class LanguageGenerator extends LilyLanguageProvider {
         "Endernether Dagger", AAItems.ENDERNETHER_DAGGER
     );
 
-    protected LanguageGenerator(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    protected LanguageGenerator(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, registryLookup);
     }
 
     @Override
-    public void generateTranslations (RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
+    public void generateTranslations (HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add("subtitles.additional-armoury.boomerang.throw", "Throws boomerang");
         translationBuilder.add("subtitles.additional-armoury.staff.cast", "Casts spell");
 
@@ -93,7 +93,7 @@ public class LanguageGenerator extends LilyLanguageProvider {
         translationBuilder.add(AAItems.ENDERNETHER_MACE, "Endernether Mace");
 
         translationBuilder.add(AAItems.STAFF, "Unenchanted Staff");
-        translationBuilder.add(AAItems.STAFF.getTranslationKey() + ".enchanted", "Enchanted Staff");
+        translationBuilder.add(AAItems.STAFF.getDescriptionId() + ".enchanted", "Enchanted Staff");
         translationBuilder.add(AAItems.BOOMERANG, "Boomerang");
 
         translationBuilder.add(AAItems.FIREBALL, "Fireball");
@@ -156,12 +156,12 @@ public class LanguageGenerator extends LilyLanguageProvider {
     public static void addDagger (TranslationBuilder translationBuilder, DaggerItem dagger, String basename) {
         translationBuilder.add(dagger, basename);
 
-        for (Potion potion : Registries.POTION.getEntrySet().stream().map(Map.Entry::getValue).toList()) {
-            RegistryEntry<Potion> potionEntry = Registries.POTION.getEntry(potion);
-            if (potionEntry.getKey().isEmpty()) continue;
+        for (Potion potion : BuiltInRegistries.POTION.entrySet().stream().map(Map.Entry::getValue).toList()) {
+            Holder<Potion> potionEntry = BuiltInRegistries.POTION.wrapAsHolder(potion);
+            if (potionEntry.unwrapKey().isEmpty()) continue;
 
-            String effectKey = dagger.getTranslationKey() + ".effect." + potionEntry.getKey().get().getValue().getPath();
-            String potionBasename = LanguageGenerator.titleCase(potion.getBaseName().replace('_', ' '));
+            String effectKey = dagger.getDescriptionId() + ".effect." + potionEntry.unwrapKey().get().identifier().getPath();
+            String potionBasename = LanguageGenerator.titleCase(potion.name().replace('_', ' '));
 
             try {
                 if (potionEntry != Potions.AWKWARD && potionEntry != Potions.MUNDANE && potionEntry != Potions.THICK && !potionEntry.value().getEffects().isEmpty()) {
@@ -188,13 +188,13 @@ public class LanguageGenerator extends LilyLanguageProvider {
      * @param potion The potion to be added.
      * @param potionPrefix Prefixes the translation, for example: "Swiftness-Tipped "
      */
-    public static void addPotionEntriesForDaggers (TranslationBuilder translationBuilder, RegistryEntry<Potion> potion, String potionPrefix) {
-        if (potion.getKey().isEmpty()) {
+    public static void addPotionEntriesForDaggers (TranslationBuilder translationBuilder, Holder<Potion> potion, String potionPrefix) {
+        if (potion.unwrapKey().isEmpty()) {
             throw new RuntimeException("Cannot add potion to daggers because key is empty.");
         }
 
         for (Map.Entry<String, DaggerItem> entry : DAGGER_TRANSLATIONS.entrySet()) {
-            String effectKey = entry.getValue().getTranslationKey() + ".effect." + potion.getKey().get().getValue().getPath();
+            String effectKey = entry.getValue().getDescriptionId() + ".effect." + potion.unwrapKey().get().identifier().getPath();
             translationBuilder.add(effectKey, potionPrefix + entry.getKey());
         }
     }

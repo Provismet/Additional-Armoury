@@ -4,50 +4,50 @@ import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import com.provismet.lilylib.util.Relations;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 
 public class MissileSpellEntity extends AbstractSpellEntity {
     private static final float SPEED = 0.85f;
 
-    public MissileSpellEntity (EntityType<? extends MissileSpellEntity> entityType, World world) {
+    public MissileSpellEntity (EntityType<? extends MissileSpellEntity> entityType, Level world) {
         super(entityType, world);
     }
 
-    public MissileSpellEntity (World world, @NotNull LivingEntity owner) {
-        super(AAEntityTypes.MAGIC_MISSILE, world, owner, AAItems.MAGIC_MISSILE.getDefaultStack(), true, false, 50, SPEED);
+    public MissileSpellEntity (Level world, @NotNull LivingEntity owner) {
+        super(AAEntityTypes.MAGIC_MISSILE, world, owner, AAItems.MAGIC_MISSILE.getDefaultInstance(), true, false, 50, SPEED);
     }
 
     @Override
     public void tick () {
         if (this.getOwner() instanceof LivingEntity livingOwner) {
-            Optional<Entity> optionalTarget = this.getEntityWorld().getOtherEntities(
+            Optional<Entity> optionalTarget = this.level().getEntities(
                 this,
-                this.getBoundingBox().expand(3.0),
-                entity -> entity instanceof LivingEntity livingTarget && livingTarget.canTakeDamage() && !Relations.isFriendly(livingOwner, livingTarget)
+                this.getBoundingBox().inflate(3.0),
+                entity -> entity instanceof LivingEntity livingTarget && livingTarget.canBeSeenAsEnemy() && !Relations.isFriendly(livingOwner, livingTarget)
             ).stream().reduce((entity1, entity2) -> entity1.distanceTo(this) < entity2.distanceTo(this) ? entity1 : entity2);
 
             if (optionalTarget.isPresent()) {
                 Entity target = optionalTarget.get();
-                this.setVelocity(target.getX() - this.getX(), target.getEyeY() - this.getY(), target.getZ() - this.getZ(), SPEED, 0f);
+                this.shoot(target.getX() - this.getX(), target.getEyeY() - this.getY(), target.getZ() - this.getZ(), SPEED, 0f);
             }
         }
         super.tick();
     }
     
     @Override
-    public void onEntityHit (EntityHitResult entityHitResult) {
-        super.onEntityHit(entityHitResult);
-        if (this.getEntityWorld() instanceof ServerWorld world) {
-            entityHitResult.getEntity().damage(world, AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 6f);
+    public void onHitEntity (EntityHitResult entityHitResult) {
+        super.onHitEntity(entityHitResult);
+        if (this.level() instanceof ServerLevel world) {
+            entityHitResult.getEntity().hurtServer(world, AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 6f);
         }
     }
 

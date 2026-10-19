@@ -9,40 +9,38 @@ import com.provismet.AdditionalArmoury.registries.AAItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.data.recipe.ComplexRecipeJsonBuilder;
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.RecipeGenerator;
-import net.minecraft.data.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.data.recipe.SmithingTransformRecipeJsonBuilder;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.registry.tag.TagKey;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.data.recipes.SpecialRecipeBuilder;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import java.util.concurrent.CompletableFuture;
 
 public class RecipeProvider extends FabricRecipeProvider {
-    public RecipeProvider (FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public RecipeProvider (FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected RecipeGenerator getRecipeGenerator (RegistryWrapper.WrapperLookup wrapperLookup, RecipeExporter recipeExporter) {
+    protected net.minecraft.data.recipes.RecipeProvider createRecipeProvider (HolderLookup.Provider wrapperLookup, RecipeOutput recipeExporter) {
         return new AARecipeGenerator(wrapperLookup, recipeExporter);
     }
     
-    public static class AARecipeGenerator extends RecipeGenerator {
-        public AARecipeGenerator (RegistryWrapper.WrapperLookup wrapperLookup, RecipeExporter exporter) {
+    public static class AARecipeGenerator extends net.minecraft.data.recipes.RecipeProvider {
+        public AARecipeGenerator (HolderLookup.Provider wrapperLookup, RecipeOutput exporter) {
             super(wrapperLookup, exporter);
         }
 
         @Override
-        public void generate () {
+        public void buildRecipes () {
             offerOvernetherUpgradeRecipe(Items.DIAMOND_SWORD, RecipeCategory.COMBAT, AAItems.OVERNETHER_SWORD);
             offerEndernetherUpgradeRecipe(Items.DIAMOND_SWORD, RecipeCategory.COMBAT, AAItems.ENDERNETHER_SWORD);
             offerOvernetherUpgradeRecipe(Items.DIAMOND_AXE, RecipeCategory.COMBAT, AAItems.OVERNETHER_AXE);
@@ -54,21 +52,21 @@ public class RecipeProvider extends FabricRecipeProvider {
             offerOvernetherUpgradeRecipe(Items.DIAMOND_HOE, RecipeCategory.COMBAT, AAItems.OVERNETHER_HOE);
             offerEndernetherUpgradeRecipe(Items.DIAMOND_HOE, RecipeCategory.COMBAT, AAItems.ENDERNETHER_HOE);
 
-            createDaggerRecipe(AAItems.WOODEN_DAGGER, ItemTags.PLANKS).offerTo(exporter);
-            offerDaggerRecipe(AAItems.STONE_DAGGER, ItemTags.STONE_TOOL_MATERIALS, Items.COBBLESTONE, exporter);
-            offerDaggerRecipe(AAItems.GOLDEN_DAGGER, ConventionalItemTags.GOLD_INGOTS, Items.GOLD_INGOT, exporter);
-            offerDaggerRecipe(AAItems.IRON_DAGGER, ConventionalItemTags.IRON_INGOTS, Items.IRON_INGOT, exporter);
-            offerDaggerRecipe(AAItems.DIAMOND_DAGGER, ConventionalItemTags.DIAMOND_GEMS, Items.DIAMOND, exporter);
-            offerNetheriteUpgradeRecipe(AAItems.DIAMOND_DAGGER, RecipeCategory.COMBAT, AAItems.NETHERITE_DAGGER);
+            createDaggerRecipe(AAItems.WOODEN_DAGGER, ItemTags.PLANKS).save(output);
+            offerDaggerRecipe(AAItems.STONE_DAGGER, ItemTags.STONE_TOOL_MATERIALS, Items.COBBLESTONE, output);
+            offerDaggerRecipe(AAItems.GOLDEN_DAGGER, ConventionalItemTags.GOLD_INGOTS, Items.GOLD_INGOT, output);
+            offerDaggerRecipe(AAItems.IRON_DAGGER, ConventionalItemTags.IRON_INGOTS, Items.IRON_INGOT, output);
+            offerDaggerRecipe(AAItems.DIAMOND_DAGGER, ConventionalItemTags.DIAMOND_GEMS, Items.DIAMOND, output);
+            netheriteSmithing(AAItems.DIAMOND_DAGGER, RecipeCategory.COMBAT, AAItems.NETHERITE_DAGGER);
             offerOvernetherUpgradeRecipe(AAItems.DIAMOND_DAGGER, RecipeCategory.COMBAT, AAItems.OVERNETHER_DAGGER);
             offerEndernetherUpgradeRecipe(AAItems.DIAMOND_DAGGER, RecipeCategory.COMBAT, AAItems.ENDERNETHER_DAGGER);
 
-            createMaceRecipe(AAItems.WOODEN_MACE, ItemTags.PLANKS).offerTo(exporter);
+            createMaceRecipe(AAItems.WOODEN_MACE, ItemTags.PLANKS).save(output);
             offerMaceRecipe(AAItems.STONE_MACE, ItemTags.STONE_TOOL_MATERIALS, Items.COBBLESTONE);
             offerMaceRecipe(AAItems.GOLDEN_MACE, ConventionalItemTags.GOLD_INGOTS, Items.GOLD_INGOT);
             offerMaceRecipe(AAItems.IRON_MACE, ConventionalItemTags.IRON_INGOTS, Items.IRON_INGOT);
             offerMaceRecipe(AAItems.DIAMOND_MACE, ConventionalItemTags.DIAMOND_GEMS, Items.DIAMOND);
-            offerNetheriteUpgradeRecipe(AAItems.DIAMOND_MACE, RecipeCategory.COMBAT, AAItems.NETHERITE_MACE);
+            netheriteSmithing(AAItems.DIAMOND_MACE, RecipeCategory.COMBAT, AAItems.NETHERITE_MACE);
             offerOvernetherUpgradeRecipe(AAItems.DIAMOND_MACE, RecipeCategory.COMBAT, AAItems.OVERNETHER_MACE);
             offerEndernetherUpgradeRecipe(AAItems.DIAMOND_MACE, RecipeCategory.COMBAT, AAItems.ENDERNETHER_MACE);
 
@@ -81,111 +79,111 @@ public class RecipeProvider extends FabricRecipeProvider {
             offerEndernetherUpgradeRecipe(Items.DIAMOND_LEGGINGS, RecipeCategory.COMBAT, AAItems.ENDERNETHER_LEGGINGS);
             offerEndernetherUpgradeRecipe(Items.DIAMOND_BOOTS, RecipeCategory.COMBAT, AAItems.ENDERNETHER_BOOTS);
 
-            ComplexRecipeJsonBuilder.create(TippedDaggerRecipe::new).offerTo(exporter, AdditionalArmouryMain.identifier("tipped_dagger").toString());
+            SpecialRecipeBuilder.special(TippedDaggerRecipe::new).save(output, AdditionalArmouryMain.identifier("tipped_dagger").toString());
 
-            this.createShapeless(RecipeCategory.MISC, AAItems.OVERNETHER_INGOT)
-                .input(Items.NETHERITE_SCRAP, 4)
-                .input(Items.ECHO_SHARD, 4)
-                .criterion(RecipeGenerator.hasItem(Items.NETHERITE_SCRAP), this.conditionsFromItem(Items.NETHERITE_SCRAP))
-                .criterion(RecipeGenerator.hasItem(Items.ECHO_SHARD), this.conditionsFromItem(Items.ECHO_SHARD))
-                .offerTo(exporter);
-            this.createShapeless(RecipeCategory.MISC, AAItems.ENDERNETHER_INGOT)
-                .input(Items.NETHERITE_SCRAP, 4)
-                .input(Items.POPPED_CHORUS_FRUIT, 4)
-                .criterion(RecipeGenerator.hasItem(Items.NETHERITE_SCRAP), this.conditionsFromItem(Items.NETHERITE_SCRAP))
-                .criterion(RecipeGenerator.hasItem(Items.POPPED_CHORUS_FRUIT), this.conditionsFromItem(Items.POPPED_CHORUS_FRUIT))
-                .offerTo(exporter);
+            this.shapeless(RecipeCategory.MISC, AAItems.OVERNETHER_INGOT)
+                .requires(Items.NETHERITE_SCRAP, 4)
+                .requires(Items.ECHO_SHARD, 4)
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(Items.NETHERITE_SCRAP), this.has(Items.NETHERITE_SCRAP))
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(Items.ECHO_SHARD), this.has(Items.ECHO_SHARD))
+                .save(output);
+            this.shapeless(RecipeCategory.MISC, AAItems.ENDERNETHER_INGOT)
+                .requires(Items.NETHERITE_SCRAP, 4)
+                .requires(Items.POPPED_CHORUS_FRUIT, 4)
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(Items.NETHERITE_SCRAP), this.has(Items.NETHERITE_SCRAP))
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(Items.POPPED_CHORUS_FRUIT), this.has(Items.POPPED_CHORUS_FRUIT))
+                .save(output);
 
-            this.offerSmithingTemplateCopyingRecipe(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE, Items.DEEPSLATE);
-            this.offerSmithingTemplateCopyingRecipe(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE, Items.END_STONE);
+            this.copySmithingTemplate(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE, Items.DEEPSLATE);
+            this.copySmithingTemplate(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE, Items.END_STONE);
 
             offerReversibleCompactingRecipe(AAItems.OVERNETHER_INGOT, AAItems.OVERNETHER_BLOCK);
             offerReversibleCompactingRecipe(AAItems.ENDERNETHER_INGOT, AAItems.ENDERNETHER_BLOCK);
         }
 
-        protected ShapedRecipeJsonBuilder createDaggerRecipe (DaggerItem dagger, ItemConvertible material) {
+        protected ShapedRecipeBuilder createDaggerRecipe (DaggerItem dagger, ItemLike material) {
             return this.createDaggerBase(dagger)
-                .input('i', material)
-                .criterion(RecipeGenerator.hasItem(material), this.conditionsFromItem(material))
-                .criterion(RecipeGenerator.hasItem(Items.STICK), this.conditionsFromItem(Items.STICK));
+                .define('i', material)
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(material), this.has(material))
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(Items.STICK), this.has(Items.STICK));
         }
 
-        protected ShapedRecipeJsonBuilder createDaggerRecipe (DaggerItem dagger, TagKey<Item> tag) {
+        protected ShapedRecipeBuilder createDaggerRecipe (DaggerItem dagger, TagKey<Item> tag) {
             return this.createDaggerBase(dagger)
-                .input('i', tag)
-                .criterion(RecipeGenerator.hasItem(Items.STICK), this.conditionsFromItem(Items.STICK));
+                .define('i', tag)
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(Items.STICK), this.has(Items.STICK));
         }
 
-        protected void offerDaggerRecipe (DaggerItem dagger, ItemConvertible material) {
-            this.createDaggerRecipe(dagger, material).offerTo(exporter);
+        protected void offerDaggerRecipe (DaggerItem dagger, ItemLike material) {
+            this.createDaggerRecipe(dagger, material).save(output);
         }
 
-        protected void offerDaggerRecipe (DaggerItem dagger, TagKey<Item> tag, ItemConvertible baseTagItem, RecipeExporter exporter) {
+        protected void offerDaggerRecipe (DaggerItem dagger, TagKey<Item> tag, ItemLike baseTagItem, RecipeOutput exporter) {
             this.createDaggerRecipe(dagger, tag)
-                .criterion(RecipeGenerator.hasItem(baseTagItem), this.conditionsFromTag(tag))
-                .offerTo(exporter);
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(baseTagItem), this.has(tag))
+                .save(exporter);
         }
 
-        protected ShapedRecipeJsonBuilder createMaceRecipe (MaceItem mace, ItemConvertible material) {
+        protected ShapedRecipeBuilder createMaceRecipe (MaceItem mace, ItemLike material) {
             return this.createMaceBase(mace)
-                .input('i', material)
-                .criterion(RecipeGenerator.hasItem(Items.STICK), this.conditionsFromItem(Items.STICK))
-                .criterion(RecipeGenerator.hasItem(material), this.conditionsFromItem(material));
+                .define('i', material)
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(Items.STICK), this.has(Items.STICK))
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(material), this.has(material));
         }
 
-        protected ShapedRecipeJsonBuilder createMaceRecipe (MaceItem mace, TagKey<Item> tag) {
+        protected ShapedRecipeBuilder createMaceRecipe (MaceItem mace, TagKey<Item> tag) {
             return this.createMaceBase(mace)
-                .input('i', tag)
-                .criterion(RecipeGenerator.hasItem(Items.STICK), this.conditionsFromItem(Items.STICK));
+                .define('i', tag)
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(Items.STICK), this.has(Items.STICK));
         }
 
-        protected void offerMaceRecipe (MaceItem mace, ItemConvertible material) {
-            this.createMaceRecipe(mace, material).offerTo(exporter);
+        protected void offerMaceRecipe (MaceItem mace, ItemLike material) {
+            this.createMaceRecipe(mace, material).save(output);
         }
 
-        protected void offerMaceRecipe (MaceItem mace, TagKey<Item> tag, ItemConvertible baseTagItem) {
+        protected void offerMaceRecipe (MaceItem mace, TagKey<Item> tag, ItemLike baseTagItem) {
             this.createMaceRecipe(mace, tag)
-                .criterion(RecipeGenerator.hasItem(baseTagItem), this.conditionsFromTag(tag))
-                .offerTo(exporter);
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(baseTagItem), this.has(tag))
+                .save(output);
         }
 
         protected void offerOvernetherUpgradeRecipe (Item input, RecipeCategory category, Item result) {
-            SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE), Ingredient.ofItems(input), Ingredient.ofItems(AAItems.OVERNETHER_INGOT), category, result)
-                .criterion(RecipeGenerator.hasItem(AAItems.OVERNETHER_INGOT), this.conditionsFromItem(AAItems.OVERNETHER_INGOT))
-                .offerTo(exporter, getItemPath(result) + "_smithing");
+            SmithingTransformRecipeBuilder.smithing(Ingredient.of(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(input), Ingredient.of(AAItems.OVERNETHER_INGOT), category, result)
+                .unlocks(net.minecraft.data.recipes.RecipeProvider.getHasName(AAItems.OVERNETHER_INGOT), this.has(AAItems.OVERNETHER_INGOT))
+                .save(output, getItemName(result) + "_smithing");
         }
 
         protected void offerEndernetherUpgradeRecipe(Item input, RecipeCategory category, Item result) {
-            SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE), Ingredient.ofItems(input), Ingredient.ofItems(AAItems.ENDERNETHER_INGOT), category, result)
-                .criterion(RecipeGenerator.hasItem(AAItems.ENDERNETHER_INGOT), this.conditionsFromItem(AAItems.ENDERNETHER_INGOT))
-                .offerTo(exporter, getItemPath(result) + "_smithing");
+            SmithingTransformRecipeBuilder.smithing(Ingredient.of(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(input), Ingredient.of(AAItems.ENDERNETHER_INGOT), category, result)
+                .unlocks(net.minecraft.data.recipes.RecipeProvider.getHasName(AAItems.ENDERNETHER_INGOT), this.has(AAItems.ENDERNETHER_INGOT))
+                .save(output, getItemName(result) + "_smithing");
         }
 
         private void offerReversibleCompactingRecipe (Item input, Item result) {
-            this.createShapeless(RecipeCategory.BUILDING_BLOCKS, result)
-                .input(input, 9)
-                .criterion(RecipeGenerator.hasItem(input), this.conditionsFromItem(input))
-                .offerTo(exporter);
+            this.shapeless(RecipeCategory.BUILDING_BLOCKS, result)
+                .requires(input, 9)
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(input), this.has(input))
+                .save(output);
 
-            this.createShapeless(RecipeCategory.MISC, input, 9)
-                .input(result)
-                .criterion(RecipeGenerator.hasItem(result), this.conditionsFromItem(result))
-                .offerTo(exporter, Registries.ITEM.getId(input) + "_decompressed");
+            this.shapeless(RecipeCategory.MISC, input, 9)
+                .requires(result)
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(result), this.has(result))
+                .save(output, BuiltInRegistries.ITEM.getKey(input) + "_decompressed");
         }
 
-        private ShapedRecipeJsonBuilder createDaggerBase (DaggerItem dagger) {
-            return this.createShaped(RecipeCategory.COMBAT, dagger)
+        private ShapedRecipeBuilder createDaggerBase (DaggerItem dagger) {
+            return this.shaped(RecipeCategory.COMBAT, dagger)
                 .pattern("i")
                 .pattern("s")
-                .input('s', Items.STICK);
+                .define('s', Items.STICK);
         }
 
-        private ShapedRecipeJsonBuilder createMaceBase (MaceItem mace) {
-            return this.createShaped(RecipeCategory.COMBAT, mace)
+        private ShapedRecipeBuilder createMaceBase (MaceItem mace) {
+            return this.shaped(RecipeCategory.COMBAT, mace)
                 .pattern(" i ")
                 .pattern("isi")
                 .pattern(" s ")
-                .input('s', Items.STICK);
+                .define('s', Items.STICK);
         }
     }
 

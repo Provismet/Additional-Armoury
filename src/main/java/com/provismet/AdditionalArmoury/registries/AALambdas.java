@@ -14,86 +14,85 @@ import com.provismet.AdditionalArmoury.utility.registry.AARegistries;
 import com.provismet.CombatPlusCore.enchantment.effect.singleEntity.CodeExecutionSingleEntityEffect;
 import com.provismet.CombatPlusCore.utility.CPCRegistries;
 import com.provismet.lilylib.util.Relations;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registry;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 public class AALambdas {
     public static void register () {
         register("boost", (world, level, context, user, pos) -> {
-            double dx = -MathHelper.sin(user.getHeadYaw() / MathHelper.DEGREES_PER_RADIAN);
-            double dz = MathHelper.cos(user.getHeadYaw() / MathHelper.DEGREES_PER_RADIAN);
-            Vec3d velocity = new Vec3d(dx, 0.0, dz).multiply(1.25).add(0.0, 0.2, 0.0);
+            double dx = -Mth.sin(user.getYHeadRot() / Mth.RAD_TO_DEG);
+            double dz = Mth.cos(user.getYHeadRot() / Mth.RAD_TO_DEG);
+            Vec3 velocity = new Vec3(dx, 0.0, dz).scale(1.25).add(0.0, 0.2, 0.0);
 
-            if (user.isOnGround()) user.move(MovementType.SELF, new Vec3d(0.0, 0.2, 0.0));
-            user.addVelocity(velocity);
-            user.knockedBack = true;
+            if (user.onGround()) user.move(MoverType.SELF, new Vec3(0.0, 0.2, 0.0));
+            user.push(velocity);
+            user.hurtMarked = true;
         });
 
         register("jump", (world, level, context, user, pos) -> {
-            if (user instanceof LivingEntity living) living.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 40));
+            if (user instanceof LivingEntity living) living.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 40));
             user.fallDistance = 0f;
 
-            Vec3d velocity = user.getVelocity();
-            user.setVelocity(velocity.x, 0.75, velocity.z);
-            user.knockedBack = true;
+            Vec3 velocity = user.getDeltaMovement();
+            user.setDeltaMovement(velocity.x, 0.75, velocity.z);
+            user.hurtMarked = true;
         });
 
         register("fireball", (world, level, context, user, pos) -> {
             if (user instanceof LivingEntity living) {
                 FireballSpellEntity fireballSpell = new FireballSpellEntity(world, living);
-                world.spawnEntity(fireballSpell);
+                world.addFreshEntity(fireballSpell);
             }
         });
 
         register("frostball", (world, level, context, user, pos) -> {
             if (user instanceof LivingEntity living) {
                 FrostballSpellEntity frostball = new FrostballSpellEntity(world, living);
-                world.spawnEntity(frostball);
+                world.addFreshEntity(frostball);
             }
         });
 
         register("eruption", (world, level, context, user, pos) -> {
             final int RADIUS = 5;
-            if (user.isOnGround() && user instanceof LivingEntity livingUser) {
-                List<Entity> others = user.getEntityWorld().getOtherEntities(user, user.getBoundingBox().expand(RADIUS, 0, RADIUS));
+            if (user.onGround() && user instanceof LivingEntity livingUser) {
+                List<Entity> others = user.level().getEntities(user, user.getBoundingBox().inflate(RADIUS, 0, RADIUS));
                 for (Entity otherEntity : others) {
                     if (otherEntity instanceof LivingEntity living && !Relations.isFriendly(living, livingUser)) {
-                        otherEntity.damage(world, AADamageTypes.ERUPTION.createDamageSource(user), 1f);
+                        otherEntity.hurtServer(world, AADamageTypes.ERUPTION.createDamageSource(user), 1f);
                         double dx = user.getX() - living.getX();
                         double dz = user.getZ() - living.getZ();
 
-                        living.takeKnockback(1, dx, dz);
-                        living.addVelocity(0, 0.5, 0);
+                        living.knockback(1, dx, dz);
+                        living.push(0, 0.5, 0);
                     }
                 }
 
-                if (user.getEntityWorld() instanceof ServerWorld serverWorld) {
-                    BlockPos position = user.getBlockPos();
+                if (user.level() instanceof ServerLevel serverWorld) {
+                    BlockPos position = user.blockPosition();
 
                     for (int x = -RADIUS; x <= RADIUS; ++x) {
                         for (int z = -RADIUS; z <= RADIUS; ++z) {
                             BlockPos newPosition = new BlockPos(position.getX() + x, position.getY(), position.getZ() + z);
-                            BlockState lowerOffset = user.getEntityWorld().getBlockState(newPosition.offset(Direction.DOWN));
-                            if (lowerOffset.isSolidBlock(user.getEntityWorld(), position)) {
-                                if (user.getRandom().nextFloat() > 0.6) serverWorld.spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.MAGMA_BLOCK.getDefaultState()), x + user.getX(), user.getY() + 0.1, z + user.getZ(), 20, 0, 0, 0, 0.15f);
-                                else serverWorld.spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.COBBLESTONE.getDefaultState()), x + user.getX(), user.getY() + 0.1, z + user.getZ(), 20, 0, 0, 0, 0.15f);
+                            BlockState lowerOffset = user.level().getBlockState(newPosition.relative(Direction.DOWN));
+                            if (lowerOffset.isRedstoneConductor(user.level(), position)) {
+                                if (user.getRandom().nextFloat() > 0.6) serverWorld.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.MAGMA_BLOCK.defaultBlockState()), x + user.getX(), user.getY() + 0.1, z + user.getZ(), 20, 0, 0, 0, 0.15f);
+                                else serverWorld.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.COBBLESTONE.defaultBlockState()), x + user.getX(), user.getY() + 0.1, z + user.getZ(), 20, 0, 0, 0, 0.15f);
                             }
                         }
                     }
@@ -104,56 +103,56 @@ public class AALambdas {
         register("gale", (world, level, context, user, pos) -> {
            if (user instanceof LivingEntity living) {
                WindTornadoSpellEntity windSpell = new WindTornadoSpellEntity(world, living);
-               world.spawnEntity(windSpell);
+               world.addFreshEntity(windSpell);
 
                WindTornadoSpellEntity windSpell2 = new WindTornadoSpellEntity(world, living, 5f);
-               world.spawnEntity(windSpell2);
+               world.addFreshEntity(windSpell2);
 
                WindTornadoSpellEntity windSpell3 = new WindTornadoSpellEntity(world, living, -5f);
-               world.spawnEntity(windSpell3);
+               world.addFreshEntity(windSpell3);
            }
         });
 
         register("ghostly_orb", (world, level, context, user, pos) -> {
             if (user instanceof LivingEntity living) {
                 GhostlySpellEntity ghostSpell = new GhostlySpellEntity(world, living);
-                world.spawnEntity(ghostSpell);
+                world.addFreshEntity(ghostSpell);
             }
         });
 
         register("missile", (world, level, context, user, pos) -> {
             if (user instanceof LivingEntity living) {
                 MissileSpellEntity missile = new MissileSpellEntity(world, living);
-                world.spawnEntity(missile);
+                world.addFreshEntity(missile);
             }
         });
 
         register("explosion", (world, level, context, user, pos) -> {
-            world.createExplosion(user, user.getX(), user.getY(), user.getZ(), 10f, true, World.ExplosionSourceType.TNT);
-            user.damage(world, user.getDamageSources().explosion(user, user), 141f); // Yes that is actually how much damage this would deal.
+            world.explode(user, user.getX(), user.getY(), user.getZ(), 10f, true, Level.ExplosionInteraction.TNT);
+            user.hurtServer(world, user.damageSources().explosion(user, user), 141f); // Yes that is actually how much damage this would deal.
         });
 
         registerIncantation("explosion_tick", (world, level, context, user, remainingUseTicks) -> {
-            world.spawnParticles(new SpellChargeParticleEffect(ColorHelper.toRgbVector(user.getRandom().nextBetween(0x000000, 0xFFFFFF)), 0.1f), user.getX(), user.getY(), user.getZ(), 1, 0, 0, 0, 0);
-            if (remainingUseTicks == 120) world.spawnParticles(new SpellRingParticleEffect(2f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
-            else if (remainingUseTicks == 80) world.spawnParticles(new SpellRingParticleEffect(4f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
-            else if (remainingUseTicks == 40) world.spawnParticles(new SpellRingParticleEffect(7f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
+            world.sendParticles(new SpellChargeParticleEffect(ARGB.vector3fFromRGB24(user.getRandom().nextIntBetweenInclusive(0x000000, 0xFFFFFF)), 0.1f), user.getX(), user.getY(), user.getZ(), 1, 0, 0, 0, 0);
+            if (remainingUseTicks == 120) world.sendParticles(new SpellRingParticleEffect(2f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
+            else if (remainingUseTicks == 80) world.sendParticles(new SpellRingParticleEffect(4f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
+            else if (remainingUseTicks == 40) world.sendParticles(new SpellRingParticleEffect(7f, remainingUseTicks), user.getX(), user.getY() + 0.1, user.getZ(), 1, 0, 0, 0, 0);
         });
 
         registerIncantation("eruption_tick", (world, level, context, user, remainingUseTicks) -> {
             final int RADIUS = 5;
-            if (remainingUseTicks % 10 == 0 && user.isOnGround()) {
-                if (world instanceof ServerWorld serverWorld) {
-                    BlockPos position = user.getBlockPos();
+            if (remainingUseTicks % 10 == 0 && user.onGround()) {
+                if (world instanceof ServerLevel serverWorld) {
+                    BlockPos position = user.blockPosition();
 
                     for (int x = -RADIUS; x <= RADIUS; ++x) {
                         for (int z = -RADIUS; z <= RADIUS; ++z) {
                             if (user.getRandom().nextFloat() > 0.66) continue;
 
                             BlockPos newPosition = new BlockPos(position.getX() + x, position.getY(), position.getZ() + z);
-                            BlockState lowerOffset = world.getBlockState(newPosition.offset(Direction.DOWN));
-                            if (lowerOffset.isSolidBlock(world, position)) {
-                                serverWorld.spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, lowerOffset), x + user.getX(), user.getY() + 0.1, z + user.getZ(), 20, 0, 0, 0, 0.15f);
+                            BlockState lowerOffset = world.getBlockState(newPosition.relative(Direction.DOWN));
+                            if (lowerOffset.isRedstoneConductor(world, position)) {
+                                serverWorld.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, lowerOffset), x + user.getX(), user.getY() + 0.1, z + user.getZ(), 20, 0, 0, 0, 0.15f);
                             }
                         }
                     }

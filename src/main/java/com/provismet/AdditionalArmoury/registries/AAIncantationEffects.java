@@ -5,7 +5,7 @@ import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.enchantment.component.SpellIncantationTickingEffect;
 import com.provismet.AdditionalArmoury.enchantment.incantation.LambdaIncantationEffect;
 import com.provismet.AdditionalArmoury.utility.registry.AARegistries;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
 
 public class AAIncantationEffects {
     public static void register () {

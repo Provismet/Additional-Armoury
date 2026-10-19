@@ -2,19 +2,19 @@ package com.provismet.AdditionalArmoury.items;
 
 import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
 import com.provismet.CombatPlusCore.utility.item.AttributeIdentifiers;
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.item.Item;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.Holder;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
-public record AAToolMaterial (ToolMaterial baseMaterial, RegistryEntry<EntityAttribute> additionalAttribute, float attributeValue) {
-    public static final AAToolMaterial OVERNETHER = new AAToolMaterial(alterNetherite(AAItemTags.OVERNETHER_TOOL_MATERIALS), EntityAttributes.ATTACK_KNOCKBACK, 1f);
-    public static final AAToolMaterial ENDERNETHER = new AAToolMaterial(alterNetherite(AAItemTags.ENDERNETHER_TOOL_MATERIALS), EntityAttributes.ATTACK_SPEED, 0.2f);
+public record AAToolMaterial (ToolMaterial baseMaterial, Holder<Attribute> additionalAttribute, float attributeValue) {
+    public static final AAToolMaterial OVERNETHER = new AAToolMaterial(alterNetherite(AAItemTags.OVERNETHER_TOOL_MATERIALS), Attributes.ATTACK_KNOCKBACK, 1f);
+    public static final AAToolMaterial ENDERNETHER = new AAToolMaterial(alterNetherite(AAItemTags.ENDERNETHER_TOOL_MATERIALS), Attributes.ATTACK_SPEED, 0.2f);
 
     private static ToolMaterial alterNetherite (TagKey<Item> repairItems) {
         return new ToolMaterial(
@@ -27,54 +27,54 @@ public record AAToolMaterial (ToolMaterial baseMaterial, RegistryEntry<EntityAtt
         );
     }
 
-    public AttributeModifiersComponent createComponentFrom (AttributeModifiersComponent baseComponent) {
-        return baseComponent.with(
+    public ItemAttributeModifiers createComponentFrom (ItemAttributeModifiers baseComponent) {
+        return baseComponent.withModifierAdded(
             this.additionalAttribute,
-            new EntityAttributeModifier(
+            new AttributeModifier(
                 AttributeIdentifiers.WEAPON_BONUS_ATTRIBUTE,
                 this.attributeValue,
-                EntityAttributeModifier.Operation.ADD_VALUE
+                AttributeModifier.Operation.ADD_VALUE
             ),
-            AttributeModifierSlot.MAINHAND
+            EquipmentSlotGroup.MAINHAND
         );
     }
 
-    public AttributeModifiersComponent createAttributeComponent (float baseAttackDamage, float baseAttackSpeed) {
-        AttributeModifiersComponent.Builder builder = AttributeModifiersComponent.builder()
+    public ItemAttributeModifiers createAttributeComponent (float baseAttackDamage, float baseAttackSpeed) {
+        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder()
             .add(
-                EntityAttributes.ATTACK_DAMAGE,
-                new EntityAttributeModifier(
-                    Item.BASE_ATTACK_DAMAGE_MODIFIER_ID,
+                Attributes.ATTACK_DAMAGE,
+                new AttributeModifier(
+                    Item.BASE_ATTACK_DAMAGE_ID,
                     baseAttackDamage + this.baseMaterial.attackDamageBonus(),
-                    EntityAttributeModifier.Operation.ADD_VALUE
+                    AttributeModifier.Operation.ADD_VALUE
                 ),
-                AttributeModifierSlot.MAINHAND
+                EquipmentSlotGroup.MAINHAND
             );
 
-        if (this.additionalAttribute == EntityAttributes.ATTACK_SPEED) {
+        if (this.additionalAttribute == Attributes.ATTACK_SPEED) {
             baseAttackSpeed += this.attributeValue;
         }
 
         builder.add(
-            EntityAttributes.ATTACK_SPEED,
-            new EntityAttributeModifier(
-                Item.BASE_ATTACK_SPEED_MODIFIER_ID,
+            Attributes.ATTACK_SPEED,
+            new AttributeModifier(
+                Item.BASE_ATTACK_SPEED_ID,
                 baseAttackSpeed,
-                EntityAttributeModifier.Operation.ADD_VALUE
+                AttributeModifier.Operation.ADD_VALUE
             ),
-            AttributeModifierSlot.MAINHAND
+            EquipmentSlotGroup.MAINHAND
         );
 
         // The order determines the tooltip order.
-        if (this.additionalAttribute != null && this.additionalAttribute != EntityAttributes.ATTACK_SPEED) {
+        if (this.additionalAttribute != null && this.additionalAttribute != Attributes.ATTACK_SPEED) {
             builder.add(
                 this.additionalAttribute,
-                new EntityAttributeModifier(
+                new AttributeModifier(
                     AttributeIdentifiers.WEAPON_BONUS_ATTRIBUTE,
                     this.attributeValue,
-                    EntityAttributeModifier.Operation.ADD_VALUE
+                    AttributeModifier.Operation.ADD_VALUE
                 ),
-                AttributeModifierSlot.MAINHAND
+                EquipmentSlotGroup.MAINHAND
             );
         }
 

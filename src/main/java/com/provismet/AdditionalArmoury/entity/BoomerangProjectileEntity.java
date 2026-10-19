@@ -6,31 +6,30 @@ import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import com.provismet.lilylib.interfaces.entity.WorldItemEntity;
 import com.provismet.lilylib.util.Relations;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 
-public class BoomerangProjectileEntity extends ThrownItemEntity implements WorldItemEntity {
+public class BoomerangProjectileEntity extends ThrowableItemProjectile implements WorldItemEntity {
     private static final String RICOCHET_KEY = "ricochet_count";
     private static final String FLIGHT_TIME_KEY = "flight_time";
     private static final String POWER_KEY = "power";
@@ -46,17 +45,17 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     private boolean resetsCooldown = true;
     private LivingEntity previousHit = null;
 
-    public BoomerangProjectileEntity (EntityType<? extends BoomerangProjectileEntity> entityType, World world) {
+    public BoomerangProjectileEntity (EntityType<? extends BoomerangProjectileEntity> entityType, Level world) {
         super(entityType, world);
     }
 
-    public BoomerangProjectileEntity (World world, @NotNull LivingEntity owner, @NotNull ItemStack stack) {
+    public BoomerangProjectileEntity (Level world, @NotNull LivingEntity owner, @NotNull ItemStack stack) {
         super(AAEntityTypes.BOOMERANG, owner, world, stack);
     }
 
     @Override
-    protected void writeCustomData (WriteView view) {
-        super.writeCustomData(view);
+    protected void addAdditionalSaveData (ValueOutput view) {
+        super.addAdditionalSaveData(view);
         view.putInt(RICOCHET_KEY, this.ricochetCount);
         view.putInt(FLIGHT_TIME_KEY, this.flightTime);
         view.putFloat(POWER_KEY, this.power);
@@ -64,60 +63,60 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     }
 
     @Override
-    protected void readCustomData (ReadView view) {
-        super.readCustomData(view);
-        this.ricochetCount = view.getInt(RICOCHET_KEY, this.ricochetCount);
-        this.flightTime = view.getInt(FLIGHT_TIME_KEY, this.flightTime);
-        this.power = view.getFloat(POWER_KEY, this.power);
-        this.resetsCooldown = view.getBoolean(RESETS_COOLDOWN_KEY, this.resetsCooldown);
+    protected void readAdditionalSaveData (ValueInput view) {
+        super.readAdditionalSaveData(view);
+        this.ricochetCount = view.getIntOr(RICOCHET_KEY, this.ricochetCount);
+        this.flightTime = view.getIntOr(FLIGHT_TIME_KEY, this.flightTime);
+        this.power = view.getFloatOr(POWER_KEY, this.power);
+        this.resetsCooldown = view.getBooleanOr(RESETS_COOLDOWN_KEY, this.resetsCooldown);
     }
     
     @Override
     public void tick () {
-        if (!this.getEntityWorld().isClient()) {
+        if (!this.level().isClientSide()) {
             if (this.ricochetCount > 0 && ++this.flightTime >= this.maxTime) {
                 this.ricochet(false, true);
             }
             if (this.ricochetCounterCooldown > 0) --this.ricochetCounterCooldown;
         }
         super.tick();
-        this.setYaw(0f);
-        this.lastYaw = 0f;
-        this.setPitch(0f);
-        this.lastPitch = 0f;
+        this.setYRot(0f);
+        this.yRotO = 0f;
+        this.setXRot(0f);
+        this.xRotO = 0f;
     }
 
     @Override
-    public void setVelocity (double x, double y, double z, float speed, float divergence) {
-        super.setVelocity(x, y, z, speed, divergence);
-        this.setYaw(0f);
-        this.setPitch(0f);
+    public void shoot (double x, double y, double z, float speed, float divergence) {
+        super.shoot(x, y, z, speed, divergence);
+        this.setYRot(0f);
+        this.setXRot(0f);
     }
 
     @Override
-    protected void onBlockHit (BlockHitResult blockHitResult) {
-        super.onBlockHit(blockHitResult);
-        if (!this.getEntityWorld().isClient()) {
+    protected void onHitBlock (BlockHitResult blockHitResult) {
+        super.onHitBlock(blockHitResult);
+        if (!this.level().isClientSide()) {
             if (this.ricochetCount <= 0) this.discard();
-            else this.ricochetBlock(blockHitResult.getSide());
+            else this.ricochetBlock(blockHitResult.getDirection());
         }
     }
 
     @Override
-    protected void onEntityHit (EntityHitResult entityHitResult) {
-        super.onEntityHit(entityHitResult);
-        if (this.getEntityWorld() instanceof ServerWorld world) {
-            if (this.getOwner() instanceof PlayerEntity player && entityHitResult.getEntity() == player) {
-                if (this.resetsCooldown) player.getItemCooldownManager().remove(player.getItemCooldownManager().getGroup(AAItems.BOOMERANG.getDefaultStack()));
+    protected void onHitEntity (EntityHitResult entityHitResult) {
+        super.onHitEntity(entityHitResult);
+        if (this.level() instanceof ServerLevel world) {
+            if (this.getOwner() instanceof Player player && entityHitResult.getEntity() == player) {
+                if (this.resetsCooldown) player.getCooldowns().removeCooldown(player.getCooldowns().getCooldownGroup(AAItems.BOOMERANG.getDefaultInstance()));
                 this.discard();
             }
-            else if (!(entityHitResult.getEntity() instanceof ProjectileEntity)) {
+            else if (!(entityHitResult.getEntity() instanceof Projectile)) {
                 if (entityHitResult.getEntity() instanceof LivingEntity target) {
                     DamageSource damageSource = AADamageTypes.BOOMERANG.createDamageSource(this, this.getOwner());
-                    float damage = EnchantmentHelper.getDamage(world, this.getStack(), target, damageSource, this.getPower());
-                    target.damage(world, damageSource, damage);
+                    float damage = EnchantmentHelper.modifyDamage(world, this.getItem(), target, damageSource, this.getPower());
+                    target.hurtServer(world, damageSource, damage);
                     this.applyOnHitEffects(target);
-                    EnchantmentHelper.onTargetDamaged(world, target, damageSource, this.getStack());
+                    EnchantmentHelper.doPostAttackEffectsWithItemSource(world, target, damageSource, this.getItem());
                     if (target.isAlive()) this.previousHit = target;
                     else this.previousHit = null;
                 }
@@ -137,28 +136,28 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
         if ((this.ricochetCount == 0 || returnToUser) && this.getOwner() != null && !this.isReturning) {
             this.isReturning = true;
             Entity owner = this.getOwner();
-            this.setVelocity(owner.getX() - this.getX(), owner.getEyeY() - this.getY(), owner.getZ() - this.getZ(), 1f, 0.5f);
+            this.shoot(owner.getX() - this.getX(), owner.getEyeY() - this.getY(), owner.getZ() - this.getZ(), 1f, 0.5f);
             return true;
         }
         
-        List<Entity> potentialTargets = this.getEntityWorld().getOtherEntities(this, this.getBoundingBox().expand(5), entity -> {
+        List<Entity> potentialTargets = this.level().getEntities(this, this.getBoundingBox().inflate(5), entity -> {
             if (entity instanceof LivingEntity target) {
-                if (target == this.getOwner() || target == this.previousHit || target.isDead()) return false;
+                if (target == this.getOwner() || target == this.previousHit || target.isDeadOrDying()) return false;
                 else if (this.getOwner() instanceof LivingEntity livingOwner) return !Relations.isFriendly(livingOwner, target);
-                else return target instanceof HostileEntity || target instanceof PlayerEntity;
+                else return target instanceof Monster || target instanceof Player;
             }
             return false;
         });
         
         if (!potentialTargets.isEmpty()) {
-            Entity target = potentialTargets.get(this.random.nextBetween(0, potentialTargets.size() - 1));
-            this.setVelocity(target.getX() - this.getX(), target.getEyeY() - this.getY(), target.getZ() - this.getZ(), 1f, 0.5f);
+            Entity target = potentialTargets.get(this.random.nextIntBetweenInclusive(0, potentialTargets.size() - 1));
+            this.shoot(target.getX() - this.getX(), target.getEyeY() - this.getY(), target.getZ() - this.getZ(), 1f, 0.5f);
             this.isReturning = false;
             return true;
         }
 
         if (doFallback) {
-            this.setVelocity(-this.getVelocity().getX(), -this.getVelocity().getY(), -this.getVelocity().getZ(), 1f, 1f);
+            this.shoot(-this.getDeltaMovement().x(), -this.getDeltaMovement().y(), -this.getDeltaMovement().z(), 1f, 1f);
             this.isReturning = false;
             return true;
         }
@@ -175,17 +174,17 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
             switch (direction) {
                 case UP:
                 case DOWN:
-                    this.setVelocity(this.getVelocity().getX(), this.getVelocity().getY() * -1, this.getVelocity().getZ(), 1f, 0f);
+                    this.shoot(this.getDeltaMovement().x(), this.getDeltaMovement().y() * -1, this.getDeltaMovement().z(), 1f, 0f);
                     break;
                 
                 case NORTH:
                 case SOUTH:
-                    this.setVelocity(this.getVelocity().getX(), this.getVelocity().getY(), this.getVelocity().getZ() * -1, 1f, 0f);
+                    this.shoot(this.getDeltaMovement().x(), this.getDeltaMovement().y(), this.getDeltaMovement().z() * -1, 1f, 0f);
                     break;
 
                 case EAST:
                 case WEST:
-                    this.setVelocity(this.getVelocity().getX() * -1, this.getVelocity().getY(), this.getVelocity().getZ(), 1f, 0f);
+                    this.shoot(this.getDeltaMovement().x() * -1, this.getDeltaMovement().y(), this.getDeltaMovement().z(), 1f, 0f);
 
                 default:
                     break;
@@ -196,7 +195,7 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     }
 
     protected void applyOnHitEffects (LivingEntity target) {
-        if (this.getStack().getItem() instanceof BoomerangItem boomerang && this.getOwner() instanceof LivingEntity livingOwner) {
+        if (this.getItem().getItem() instanceof BoomerangItem boomerang && this.getOwner() instanceof LivingEntity livingOwner) {
             boomerang.applyOnHit(livingOwner, target);
         }
     }
@@ -207,7 +206,7 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
     }
 
     @Override
-    protected double getGravity () {
+    protected double getDefaultGravity () {
         return 0.005;
     }
 
@@ -242,23 +241,23 @@ public class BoomerangProjectileEntity extends ThrownItemEntity implements World
 
     @Override
     public float getZRotation (float tickDelta) {
-        float currentRotation = this.age * 33f;
-        float nextRotation = (this.age + 1) * 33f;
-        return MathHelper.lerp(tickDelta, currentRotation, nextRotation) % 360f;
+        float currentRotation = this.tickCount * 33f;
+        float nextRotation = (this.tickCount + 1) * 33f;
+        return Mth.lerp(tickDelta, currentRotation, nextRotation) % 360f;
     }
 
     @Override
     public float getXOffset (float tickDelta) {
-        return -MathHelper.cos((this.getZRotation(tickDelta) - 15f) / MathHelper.DEGREES_PER_RADIAN) * 0.25f;
+        return -Mth.cos((this.getZRotation(tickDelta) - 15f) / Mth.RAD_TO_DEG) * 0.25f;
     }
 
     @Override
     public float getYOffset (float tickDelta) {
-        return this.getHeight() / 2f;
+        return this.getBbHeight() / 2f;
     }
 
     @Override
     public float getZOffset (float tickDelta) {
-        return -MathHelper.sin((this.getZRotation(tickDelta) - 15f) / MathHelper.DEGREES_PER_RADIAN) * 0.25f;
+        return -Mth.sin((this.getZRotation(tickDelta) - 15f) / Mth.RAD_TO_DEG) * 0.25f;
     }
 }

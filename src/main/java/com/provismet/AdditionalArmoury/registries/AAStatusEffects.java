@@ -2,17 +2,16 @@ package com.provismet.AdditionalArmoury.registries;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.effect.ShatteredStatusEffect;
-
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.effect.MobEffect;
 
 public class AAStatusEffects {
-    public static final RegistryEntry<StatusEffect> SHATTERED = register(new ShatteredStatusEffect(), "shattered");
+    public static final Holder<MobEffect> SHATTERED = register(new ShatteredStatusEffect(), "shattered");
 
-    private static RegistryEntry<StatusEffect> register (StatusEffect effect, String name) {
-        return Registry.registerReference(Registries.STATUS_EFFECT, AdditionalArmouryMain.identifier(name), effect);
+    private static Holder<MobEffect> register (MobEffect effect, String name) {
+        return Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, AdditionalArmouryMain.identifier(name), effect);
     }
 
     public static void register () {

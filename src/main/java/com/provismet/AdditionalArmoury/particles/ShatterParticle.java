@@ -2,35 +2,35 @@ package com.provismet.AdditionalArmoury.particles;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.particle.AnimatedParticle;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleFactory;
-import net.minecraft.client.particle.SpriteProvider;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SimpleAnimatedParticle;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
-public class ShatterParticle extends AnimatedParticle {
-    public ShatterParticle (ClientWorld world, double x, double y, double z, SpriteProvider spriteProvider) {
+public class ShatterParticle extends SimpleAnimatedParticle {
+    public ShatterParticle (ClientLevel world, double x, double y, double z, SpriteSet spriteProvider) {
         super(world, x, y, z, spriteProvider, 0f);
-        this.velocityX = 0;
-        this.velocityY = 0;
-        this.velocityZ = 0;
-        this.maxAge = 20;
-        this.updateSprite(spriteProvider);
+        this.xd = 0;
+        this.yd = 0;
+        this.zd = 0;
+        this.lifetime = 20;
+        this.setSpriteFromAge(spriteProvider);
     }
 
     @Environment(value=EnvType.CLIENT)
-    public static class Factory implements ParticleFactory<SimpleParticleType> {
-        private final SpriteProvider spriteProvider;
+    public static class Factory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteProvider;
 
-        public Factory (SpriteProvider spriteProvider) {
+        public Factory (SpriteSet spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
 
         @Override
-        public @Nullable Particle createParticle (SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
+        public @Nullable Particle createParticle (SimpleParticleType parameters, ClientLevel world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, RandomSource random) {
             return new ShatterParticle(world, x, y, z, this.spriteProvider);
         }
     }

@@ -9,36 +9,34 @@ import com.provismet.CombatPlusCore.items.AbstractMeleeWeapon;
 import com.provismet.CombatPlusCore.items.component.MeleeWeaponComponent;
 import com.provismet.CombatPlusCore.registries.CPCDataComponentTypes;
 import com.provismet.CombatPlusCore.utility.CPCEnchantmentHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.component.type.ToolComponent;
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.component.type.WeaponComponent;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryEntryLookup;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.Vec3d;
-
 import java.util.List;
 import java.util.function.Consumer;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.ARGB;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.Tool;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.component.Weapon;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     public static final int USES_PER_POTION = 8;
@@ -48,43 +46,43 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     private static final float BASE_ATTACK_DAMAGE = 1f;
     private static final float BASE_ATTACK_SPEED = -2f;
 
-    public DaggerItem (Settings settings) {
+    public DaggerItem (Properties settings) {
         super(settings);
     }
 
-    public static DaggerItem withDefaultSettings (Settings settings) {
-        return new DaggerItem(settings.component(DataComponentTypes.TOOL, DaggerItem.createToolComponent()));
+    public static DaggerItem withDefaultSettings (Properties settings) {
+        return new DaggerItem(settings.component(DataComponents.TOOL, DaggerItem.createToolComponent()));
     }
 
-    public static AttributeModifiersComponent createDefaultDaggerAttributes (ToolMaterial material) {
+    public static ItemAttributeModifiers createDefaultDaggerAttributes (ToolMaterial material) {
         return Util.createAttributes(material, BASE_ATTACK_DAMAGE, BASE_ATTACK_SPEED);
     }
 
-    public static AttributeModifiersComponent createDefaultDaggerAttributes (AAToolMaterial material) {
+    public static ItemAttributeModifiers createDefaultDaggerAttributes (AAToolMaterial material) {
         return material.createAttributeComponent(BASE_ATTACK_DAMAGE, BASE_ATTACK_SPEED);
     }
 
-    public static Item.Settings createDefaultDaggerSettings (ToolMaterial material, Item.Settings settings) {
+    public static Item.Properties createDefaultDaggerSettings (ToolMaterial material, Item.Properties settings) {
         return Util.applyToolSettings(material, settings)
-            .attributeModifiers(createDefaultDaggerAttributes(material))
-            .component(DataComponentTypes.WEAPON, new WeaponComponent(1))
+            .attributes(createDefaultDaggerAttributes(material))
+            .component(DataComponents.WEAPON, new Weapon(1))
             .component(CPCDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createDual(material.attackDamageBonus() + BASE_ATTACK_DAMAGE));
     }
 
-    public static Item.Settings createDefaultDaggerSettings (AAToolMaterial material, Item.Settings settings) {
+    public static Item.Properties createDefaultDaggerSettings (AAToolMaterial material, Item.Properties settings) {
         return Util.applyToolSettings(material.baseMaterial(), settings)
-            .attributeModifiers(createDefaultDaggerAttributes(material))
-            .component(DataComponentTypes.WEAPON, new WeaponComponent(1))
+            .attributes(createDefaultDaggerAttributes(material))
+            .component(DataComponents.WEAPON, new Weapon(1))
             .component(CPCDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createDual(material.baseMaterial().attackDamageBonus() + BASE_ATTACK_DAMAGE));
     }
 
-    private static ToolComponent createToolComponent () {
-        RegistryEntryLookup<Block> blockLookup = Registries.createEntryLookup(Registries.BLOCK);
-        return new ToolComponent(
+    private static Tool createToolComponent () {
+        HolderGetter<Block> blockLookup = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
+        return new Tool(
             List.of(
-                ToolComponent.Rule.ofAlwaysDropping(RegistryEntryList.of(Blocks.COBWEB.getRegistryEntry()), 15f),
-                ToolComponent.Rule.of(blockLookup.getOrThrow(BlockTags.SWORD_INSTANTLY_MINES), Float.MAX_VALUE),
-                ToolComponent.Rule.of(blockLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5f)
+                Tool.Rule.minesAndDrops(HolderSet.direct(Blocks.COBWEB.builtInRegistryHolder()), 15f),
+                Tool.Rule.overrideSpeed(blockLookup.getOrThrow(BlockTags.SWORD_INSTANTLY_MINES), Float.MAX_VALUE),
+                Tool.Rule.overrideSpeed(blockLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5f)
             ),
             1f,
             2,
@@ -94,16 +92,16 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
 
     @Override
     public void postChargedHit (ItemStack stack, LivingEntity user, LivingEntity target) {
-        if (!(user.getEntityWorld() instanceof ServerWorld world)) return;
+        if (!(user.level() instanceof ServerLevel world)) return;
 
-        PotionContentsComponent potionContents = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
-        for (StatusEffectInstance instance : potionContents.getEffects()) {
-            target.addStatusEffect(
-                new StatusEffectInstance(
-                    instance.getEffectType(), Math.max(instance.mapDuration(i -> (int)(i * POTION_DURATION_MOD)), 1),
+        PotionContents potionContents = stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
+        for (MobEffectInstance instance : potionContents.getAllEffects()) {
+            target.addEffect(
+                new MobEffectInstance(
+                    instance.getEffect(), Math.max(instance.mapDuration(i -> (int)(i * POTION_DURATION_MOD)), 1),
                     instance.getAmplifier(),
                     instance.isAmbient(),
-                    instance.shouldShowParticles()
+                    instance.isVisible()
                 ),
                 user
             );
@@ -113,16 +111,16 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
         double splatterRadius = CPCEnchantmentHelper.modifyValue(AAEnchantmentComponentTypes.EFFECT_RADIUS, world, stack, 0f);
         int damage = 1;
         if (splatterRadius > 0) {
-            List<LivingEntity> targets = target.getEntityWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand(splatterRadius, 0.25, splatterRadius));
+            List<LivingEntity> targets = target.level().getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(splatterRadius, 0.25, splatterRadius));
             for (LivingEntity newTarget : targets) {
                 if (newTarget == user || newTarget == target) continue;
-                for (StatusEffectInstance instance : potionContents.getEffects()) {
-                    newTarget.addStatusEffect(
-                        new StatusEffectInstance(
-                            instance.getEffectType(), Math.max(instance.mapDuration(i -> (int)(i * POTION_DURATION_MOD)), 1),
+                for (MobEffectInstance instance : potionContents.getAllEffects()) {
+                    newTarget.addEffect(
+                        new MobEffectInstance(
+                            instance.getEffect(), Math.max(instance.mapDuration(i -> (int)(i * POTION_DURATION_MOD)), 1),
                             instance.getAmplifier(),
                             instance.isAmbient(),
-                            instance.shouldShowParticles()
+                            instance.isVisible()
                         ),
                         user
                     );
@@ -132,36 +130,36 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
             }
         }
 
-        boolean hasAdhesive = EnchantmentHelper.hasAnyEnchantmentsWith(stack, AAEnchantmentComponentTypes.INFINITE_POTION);
+        boolean hasAdhesive = EnchantmentHelper.has(stack, AAEnchantmentComponentTypes.INFINITE_POTION);
         if (hasAdhesive) {
-            stack.damage(damage * 2, user, user.getStackInHand(Hand.MAIN_HAND) == stack ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+            stack.hurtAndBreak(damage * 2, user, user.getItemInHand(InteractionHand.MAIN_HAND) == stack ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
         }
-        else if (user instanceof PlayerEntity player && !player.isCreative() && potionContents.hasEffects() && this.decrementCurrentPotionUses(stack, damage) <= 0) {
-            stack.set(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
+        else if (user instanceof Player player && !player.isCreative() && potionContents.hasEffects() && this.decrementCurrentPotionUses(stack, damage) <= 0) {
+            stack.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
         }
     }
 
     @Override
-    public ItemStack getDefaultStack () {
-        ItemStack itemStack = super.getDefaultStack();
-        itemStack.set(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
+    public ItemStack getDefaultInstance () {
+        ItemStack itemStack = super.getDefaultInstance();
+        itemStack.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
         return itemStack;
     }
 
     @Override
-    public void appendTooltip (ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
-        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
-        PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
-        if (!EnchantmentHelper.hasAnyEnchantmentsWith(stack, AAEnchantmentComponentTypes.INFINITE_POTION) && potionContentsComponent.hasEffects())
-            textConsumer.accept(Text.translatable("tooltip.additional-armoury.dagger_uses", this.getCurrentPotionUses(stack)));
+    public void appendHoverText (ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type) {
+        super.appendHoverText(stack, context, displayComponent, textConsumer, type);
+        PotionContents potionContentsComponent = stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
+        if (!EnchantmentHelper.has(stack, AAEnchantmentComponentTypes.INFINITE_POTION) && potionContentsComponent.hasEffects())
+            textConsumer.accept(Component.translatable("tooltip.additional-armoury.dagger_uses", this.getCurrentPotionUses(stack)));
     }
 
     @Override
-    public Text getName (ItemStack stack) {
-        PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
+    public Component getName (ItemStack stack) {
+        PotionContents potionContentsComponent = stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
 
         if (!potionContentsComponent.hasEffects()) return super.getName(stack);
-        return potionContentsComponent.getName(this.translationKey + ".effect.");
+        return potionContentsComponent.getName(this.descriptionId + ".effect.");
     }
 
     public int getCurrentPotionUses (ItemStack stack) {
@@ -184,12 +182,12 @@ public class DaggerItem extends AbstractMeleeWeapon implements DualWeapon {
     }
 
     public void spawnInkParticles (Entity entity, int count, ItemStack stack) {
-        if (entity.getEntityWorld() instanceof ServerWorld world) {
-            PotionContentsComponent potionContentsComponent = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
+        if (entity.level() instanceof ServerLevel world) {
+            PotionContents potionContentsComponent = stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
             if (!potionContentsComponent.hasEffects()) return;
 
-            InkSplatParticleEffect splatEffect = new InkSplatParticleEffect(ColorHelper.toRgbVector(potionContentsComponent.getColor()), 0.2f);
-            world.spawnParticles(splatEffect, entity.getX(), (entity.getY() + entity.getEyeY()) / 2.0, entity.getZ(), count, 0, 0, 0, 0);
+            InkSplatParticleEffect splatEffect = new InkSplatParticleEffect(ARGB.vector3fFromRGB24(potionContentsComponent.getColor()), 0.2f);
+            world.sendParticles(splatEffect, entity.getX(), (entity.getY() + entity.getEyeY()) / 2.0, entity.getZ(), count, 0, 0, 0, 0);
         }
 
     }

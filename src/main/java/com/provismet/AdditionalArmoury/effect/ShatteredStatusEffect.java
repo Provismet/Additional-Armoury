@@ -1,19 +1,19 @@
 package com.provismet.AdditionalArmoury.effect;
 
 import com.provismet.CombatPlusCore.CPCMain;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
-public class ShatteredStatusEffect extends StatusEffect {
+public class ShatteredStatusEffect extends MobEffect {
     public ShatteredStatusEffect () {
-        super(StatusEffectCategory.HARMFUL, 0x726760);
+        super(MobEffectCategory.HARMFUL, 0x726760);
         this.addAttributeModifier(
-                EntityAttributes.ARMOR,
+                Attributes.ARMOR,
                 CPCMain.identifier("shattered"),
                 -0.25,
-                EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
         );
     }
 }

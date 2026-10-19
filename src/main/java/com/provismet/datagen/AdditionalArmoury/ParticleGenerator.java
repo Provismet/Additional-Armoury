@@ -4,20 +4,19 @@ import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 import com.provismet.lilylib.datagen.provider.LilyParticleTextureProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class ParticleGenerator extends LilyParticleTextureProvider {
-    protected ParticleGenerator (FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    protected ParticleGenerator (FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
     @Override
-    protected void generate (RegistryWrapper.WrapperLookup registryLookup, ParticleWriter writer) {
+    protected void generate (HolderLookup.Provider registryLookup, ParticleWriter writer) {
         writer.add(
             AAParticleTypes.INK_SPLAT,
             count(AdditionalArmouryMain.identifier("ink_splat"), 1, 5)
@@ -42,7 +41,7 @@ public class ParticleGenerator extends LilyParticleTextureProvider {
     private List<Identifier> count (Identifier base, int minInclusive, int maxExclusive) {
         List<Identifier> ids = new ArrayList<>();
         for (int i = minInclusive; i < maxExclusive; ++i) {
-            ids.add(Identifier.of(base.getNamespace(), base.getPath() + "_" + i));
+            ids.add(Identifier.fromNamespaceAndPath(base.getNamespace(), base.getPath() + "_" + i));
         }
         return ids;
     }

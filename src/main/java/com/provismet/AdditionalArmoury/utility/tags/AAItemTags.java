@@ -2,9 +2,9 @@ package com.provismet.AdditionalArmoury.utility.tags;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 
 public class AAItemTags {
     public static final TagKey<Item> DAGGERS = AAItemTags.of("daggers");
@@ -22,6 +22,6 @@ public class AAItemTags {
     public static final TagKey<Item> REPAIRS_ENDERNETHER_ARMOUR = AAItemTags.of("repairs_endernether_armour");
 
     private static TagKey<Item> of (String path) {
-        return TagKey.of(RegistryKeys.ITEM, AdditionalArmouryMain.identifier(path));
+        return TagKey.create(Registries.ITEM, AdditionalArmouryMain.identifier(path));
     }
 }

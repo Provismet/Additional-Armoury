@@ -1,58 +1,58 @@
 package com.provismet.AdditionalArmoury.entity;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractSpellEntity extends ThrownItemEntity {
+public abstract class AbstractSpellEntity extends ThrowableItemProjectile {
     private final int maxAge;
 
-    protected AbstractSpellEntity (EntityType<? extends AbstractSpellEntity> entityType, World world) {
+    protected AbstractSpellEntity (EntityType<? extends AbstractSpellEntity> entityType, Level world) {
         super(entityType, world);
         this.maxAge = 10;
         this.setNoGravity(true);
     }
 
-    public AbstractSpellEntity (EntityType<? extends AbstractSpellEntity> entityType, World world, @NotNull LivingEntity owner, @NotNull ItemStack stack, boolean pitchAim, boolean startOnFloor, int maxAge, float speed) {
+    public AbstractSpellEntity (EntityType<? extends AbstractSpellEntity> entityType, Level world, @NotNull LivingEntity owner, @NotNull ItemStack stack, boolean pitchAim, boolean startOnFloor, int maxAge, float speed) {
         super(entityType, owner, world, stack);
 
         if (pitchAim) {
-            this.setVelocity(owner, owner.getPitch(), owner.getYaw(), 0f, speed, 0f);
+            this.shootFromRotation(owner, owner.getXRot(), owner.getYRot(), 0f, speed, 0f);
         }
         else {
-            this.setVelocity(-MathHelper.sin(owner.getYaw() / MathHelper.DEGREES_PER_RADIAN) * speed, 0f, MathHelper.cos(owner.getYaw() / MathHelper.DEGREES_PER_RADIAN) * speed);
+            this.setDeltaMovement(-Mth.sin(owner.getYRot() / Mth.RAD_TO_DEG) * speed, 0f, Mth.cos(owner.getYRot() / Mth.RAD_TO_DEG) * speed);
         }
-        this.setPosition(owner.getX(), startOnFloor ? owner.getY() + 0.05f : owner.getEyeY() - this.getHeight() / 2f, owner.getZ());
-        this.setRotation(owner.getYaw(), pitchAim ? owner.getPitch() : 0f);
+        this.setPos(owner.getX(), startOnFloor ? owner.getY() + 0.05f : owner.getEyeY() - this.getBbHeight() / 2f, owner.getZ());
+        this.setRot(owner.getYRot(), pitchAim ? owner.getXRot() : 0f);
         this.maxAge = maxAge;
         this.setNoGravity(true);
     }
 
     @Override
     public void tick () {
-        if (!this.getEntityWorld().isClient() && this.age >= this.maxAge) {
+        if (!this.level().isClientSide() && this.tickCount >= this.maxAge) {
             this.discard();
             return;
         }
         if (this.getParticleType() != null) {
-            this.getEntityWorld().addParticleClient(this.getParticleType(), this.getX(), this.getY() + this.getHeight() / 2f, this.getZ(), 0, 0, 0);
+            this.level().addParticle(this.getParticleType(), this.getX(), this.getY() + this.getBbHeight() / 2f, this.getZ(), 0, 0, 0);
         }
         super.tick();
     }
 
     @Override
-    protected void onCollision (HitResult hitResult) {
-        super.onCollision(hitResult);
-        if (!this.getEntityWorld().isClient()) this.discard();
+    protected void onHit (HitResult hitResult) {
+        super.onHit(hitResult);
+        if (!this.level().isClientSide()) this.discard();
     }
 
     @Override
@@ -61,17 +61,17 @@ public abstract class AbstractSpellEntity extends ThrownItemEntity {
     }
 
     @Override
-    public boolean damage (ServerWorld world, DamageSource source, float amount) {
+    public boolean hurtServer (ServerLevel world, DamageSource source, float amount) {
         return false;
     }
 
     @Override
-    public boolean canHit () {
+    public boolean isPickable () {
         return false;
     }
 
     @Nullable
-    protected ParticleEffect getParticleType () {
+    protected ParticleOptions getParticleType () {
         return null;
     }
 }

@@ -8,18 +8,18 @@ import com.provismet.AdditionalArmoury.utility.tags.AAEnchantmentTags;
 import com.provismet.CombatPlusCore.utility.tag.CPCEnchantmentTags;
 import com.provismet.lilylib.datagen.tag.LilyTagProviders;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
-import net.minecraft.registry.tag.EnchantmentTags;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 public class EnchantmentTagGenerator extends LilyTagProviders.LilyEnchantmentTagProvider {
-    public EnchantmentTagGenerator (FabricDataOutput output, CompletableFuture<WrapperLookup> completableFuture) {
+    public EnchantmentTagGenerator (FabricDataOutput output, CompletableFuture<Provider> completableFuture) {
         super(output, completableFuture);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    protected void configure (WrapperLookup arg) {
+    protected void addTags (Provider arg) {
         this.builder(CPCEnchantmentTags.WEAPON_UTILITY)
             .add(AAEnchantments.SPLATTER.getKey())
             .add(AAEnchantments.DISMANTLE.getKey())

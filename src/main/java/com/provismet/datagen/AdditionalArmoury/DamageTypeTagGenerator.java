@@ -4,18 +4,17 @@ import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import com.provismet.AdditionalArmoury.utility.tags.AADamageTypeTags;
 import com.provismet.lilylib.datagen.tag.LilyTagProviders;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.DamageTypeTags;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.tags.DamageTypeTags;
 import java.util.concurrent.CompletableFuture;
 
 public class DamageTypeTagGenerator extends LilyTagProviders.LilyDamageTypeTagProvider {
-    public DamageTypeTagGenerator (FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public DamageTypeTagGenerator (FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected void configure (RegistryWrapper.WrapperLookup wrapperLookup) {
+    protected void addTags (HolderLookup.Provider wrapperLookup) {
         this.builder(AADamageTypeTags.STAFF_SPELLS)
             .add(AADamageTypes.FIREBALL.getKey())
             .add(AADamageTypes.FROSTBALL.getKey())

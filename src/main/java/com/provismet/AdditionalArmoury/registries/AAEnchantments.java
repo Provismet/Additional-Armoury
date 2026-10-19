@@ -11,21 +11,20 @@ import com.provismet.CombatPlusCore.enchantment.effect.singleEntity.DamageEquipm
 import com.provismet.CombatPlusCore.registries.CPCEnchantmentComponentTypes;
 import com.provismet.CombatPlusCore.utility.tag.CPCEnchantmentTags;
 import com.provismet.lilylib.container.EnchantmentContainer;
-import net.minecraft.component.EnchantmentEffectComponentTypes;
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentLevelBasedValue;
-import net.minecraft.enchantment.effect.value.AddEnchantmentEffect;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.loot.condition.EntityPropertiesLootCondition;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.predicate.entity.EntityPredicate;
-import net.minecraft.predicate.entity.EntityTypePredicate;
-import net.minecraft.registry.Registerable;
-import net.minecraft.registry.RegistryEntryLookup;
-
 import java.util.List;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.EntityTypePredicate;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
+import net.minecraft.world.item.enchantment.LevelBasedValue;
+import net.minecraft.world.item.enchantment.effects.AddValue;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 
 public class AAEnchantments {
     public static final EnchantmentContainer BOOST = new EnchantmentContainer(
@@ -72,12 +71,12 @@ public class AAEnchantments {
         AdditionalArmouryMain.identifier("explosion"),
         (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) ->
             buildStaff(itemLookup, enchantmentLookup, "explosion", "explosion_tick", 50, 100, 160, 16, 0xFFCE0000, 1, 8)
-            .addEffect(AAEnchantmentComponentTypes.NO_SPELL_PARTICLES)
+            .withEffect(AAEnchantmentComponentTypes.NO_SPELL_PARTICLES)
     );
 
     public static final EnchantmentContainer ADHESIVE = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("adhesive"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.enchantment(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.DAGGER_ENCHANTABLE),
                 2,
@@ -85,104 +84,104 @@ public class AAEnchantments {
                 Enchantment.constantCost(20),
                 Enchantment.constantCost(50),
                 6,
-                AttributeModifierSlot.MAINHAND,
-                AttributeModifierSlot.OFFHAND)
-        ).addEffect(
+                EquipmentSlotGroup.MAINHAND,
+                EquipmentSlotGroup.OFFHAND)
+        ).withEffect(
             AAEnchantmentComponentTypes.INFINITE_POTION
-        ).exclusiveSet(
+        ).exclusiveWith(
             enchantmentLookup.getOrThrow(AAEnchantmentTags.ADHESIVE_EXCLUSIVE)
         )
     );
     public static final EnchantmentContainer SPLATTER = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("splatter"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.enchantment(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.DAGGER_ENCHANTABLE),
                 10,
                 2,
-                Enchantment.leveledCost(0, 10),
-                Enchantment.leveledCost(50, 10),
+                Enchantment.dynamicCost(0, 10),
+                Enchantment.dynamicCost(50, 10),
                 2,
-                AttributeModifierSlot.MAINHAND,
-                AttributeModifierSlot.OFFHAND)
-        ).addEffect(
+                EquipmentSlotGroup.MAINHAND,
+                EquipmentSlotGroup.OFFHAND)
+        ).withEffect(
             AAEnchantmentComponentTypes.EFFECT_RADIUS,
-            new AddEnchantmentEffect(
-                EnchantmentLevelBasedValue.linear(1.5f, 0.5f)
+            new AddValue(
+                LevelBasedValue.perLevel(1.5f, 0.5f)
             )
-        ).exclusiveSet(
+        ).exclusiveWith(
             enchantmentLookup.getOrThrow(CPCEnchantmentTags.WEAPON_UTILITY_OFFHAND_EXCLUSIVE)
         )
     );
 
     public static final EnchantmentContainer SHREDDING = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("shredding"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.enchantment(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.MACE_ENCHANTABLE),
                 10,
                 3,
-                Enchantment.leveledCost(0, 10),
-                Enchantment.leveledCost(50, 10),
+                Enchantment.dynamicCost(0, 10),
+                Enchantment.dynamicCost(50, 10),
                 2,
-                AttributeModifierSlot.MAINHAND
+                EquipmentSlotGroup.MAINHAND
             )
-        ).addEffect(
+        ).withEffect(
             AAEnchantmentComponentTypes.EFFECT_DURATION,
-            new AddEnchantmentEffect(
-                EnchantmentLevelBasedValue.linear(20)
+            new AddValue(
+                LevelBasedValue.perLevel(20)
             )
-        ).exclusiveSet(
+        ).exclusiveWith(
             enchantmentLookup.getOrThrow(CPCEnchantmentTags.WEAPON_UTILITY_EXCLUSIVE)
         )
     );
     public static final EnchantmentContainer DISMANTLE = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("dismantle"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.enchantment(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.MACE_ENCHANTABLE),
                 10,
                 3,
-                Enchantment.leveledCost(0, 10),
-                Enchantment.leveledCost(50, 10),
+                Enchantment.dynamicCost(0, 10),
+                Enchantment.dynamicCost(50, 10),
                 2,
-                AttributeModifierSlot.MAINHAND
+                EquipmentSlotGroup.MAINHAND
             )
-        ).addEffect(
+        ).withEffect(
             CPCEnchantmentComponentTypes.POST_CRITICAL_ATTACK,
             new ApplyToTargetEntityEffect(
                 new DamageEquipmentEffect(
                     List.of(EquipmentSlot.HEAD, EquipmentSlot.BODY, EquipmentSlot.LEGS, EquipmentSlot.FEET),
-                    EnchantmentLevelBasedValue.linear(2)
+                    LevelBasedValue.perLevel(2)
                 )
             )
-        ).exclusiveSet(
+        ).exclusiveWith(
             enchantmentLookup.getOrThrow(CPCEnchantmentTags.WEAPON_UTILITY_EXCLUSIVE)
         )
     );
 
     public static final EnchantmentContainer RICOCHET = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("ricochet"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.enchantment(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.BOOMERANG_ENCHANTABLE),
                 10,
                 4,
-                Enchantment.leveledCost(0, 10),
-                Enchantment.leveledCost(30, 10),
+                Enchantment.dynamicCost(0, 10),
+                Enchantment.dynamicCost(30, 10),
                 2)
-        ).addEffect(
+        ).withEffect(
             AAEnchantmentComponentTypes.RICOCHET,
-            new AddEnchantmentEffect(
-                EnchantmentLevelBasedValue.linear(1)
+            new AddValue(
+                LevelBasedValue.perLevel(1)
             )
-        ).exclusiveSet(
+        ).exclusiveWith(
             enchantmentLookup.getOrThrow(AAEnchantmentTags.BOOMERANG_EXCLUSIVE)
         )
     );
     public static final EnchantmentContainer MULTITHROW = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("multithrow"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.enchantment(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.BOOMERANG_ENCHANTABLE),
                 5,
@@ -190,68 +189,68 @@ public class AAEnchantments {
                 Enchantment.constantCost(20),
                 Enchantment.constantCost(75),
                 4)
-        ).addEffect(
-            EnchantmentEffectComponentTypes.PROJECTILE_COUNT,
-            new AddEnchantmentEffect(
-                EnchantmentLevelBasedValue.constant(2)
+        ).withEffect(
+            EnchantmentEffectComponents.PROJECTILE_COUNT,
+            new AddValue(
+                LevelBasedValue.constant(2)
             )
-        ).addEffect(
-            EnchantmentEffectComponentTypes.PROJECTILE_SPREAD,
-            new AddEnchantmentEffect(
-                EnchantmentLevelBasedValue.constant(10)
+        ).withEffect(
+            EnchantmentEffectComponents.PROJECTILE_SPREAD,
+            new AddValue(
+                LevelBasedValue.constant(10)
             )
-        ).exclusiveSet(
+        ).exclusiveWith(
             enchantmentLookup.getOrThrow(AAEnchantmentTags.BOOMERANG_EXCLUSIVE)
         )
     );
     public static final EnchantmentContainer FAR_THROW = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("throw_distance"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.enchantment(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.BOOMERANG_ENCHANTABLE),
                 10,
                 3,
-                Enchantment.leveledCost(0, 10),
-                Enchantment.leveledCost(30, 10),
+                Enchantment.dynamicCost(0, 10),
+                Enchantment.dynamicCost(30, 10),
                 2
             )
-        ).addEffect(
+        ).withEffect(
             AAEnchantmentComponentTypes.THROW_DISTANCE,
-            new AddEnchantmentEffect(
-                EnchantmentLevelBasedValue.linear(5)
+            new AddValue(
+                LevelBasedValue.perLevel(5)
             )
-        ).exclusiveSet(
+        ).exclusiveWith(
             enchantmentLookup.getOrThrow(AAEnchantmentTags.THROW_EXCLUSIVE)
         )
     );
     public static final EnchantmentContainer STRONG_THROW = new EnchantmentContainer(
         AdditionalArmouryMain.identifier("throw_strength"),
-        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.builder(
+        (itemLookup, enchantmentLookup, damageLookup, blockLookup, entityLookup) -> Enchantment.enchantment(
             Enchantment.definition(
                 itemLookup.getOrThrow(AAItemTags.BOOMERANG_ENCHANTABLE),
                 10,
                 3,
-                Enchantment.leveledCost(0, 10),
-                Enchantment.leveledCost(30, 10),
+                Enchantment.dynamicCost(0, 10),
+                Enchantment.dynamicCost(30, 10),
                 2)
-        ).addEffect(
-            EnchantmentEffectComponentTypes.DAMAGE,
-            new AddEnchantmentEffect(
-                EnchantmentLevelBasedValue.linear(1)
+        ).withEffect(
+            EnchantmentEffectComponents.DAMAGE,
+            new AddValue(
+                LevelBasedValue.perLevel(1)
             ),
-            EntityPropertiesLootCondition.builder(
-                LootContext.EntityReference.DIRECT_ATTACKER,
-                EntityPredicate.Builder.create().type(
-                    EntityTypePredicate.create(entityLookup, AAEntityTypes.BOOMERANG)
+            LootItemEntityPropertyCondition.hasProperties(
+                LootContext.EntityTarget.DIRECT_ATTACKER,
+                EntityPredicate.Builder.entity().entityType(
+                    EntityTypePredicate.of(entityLookup, AAEntityTypes.BOOMERANG)
                 ).build()
             )
-        ).exclusiveSet(
+        ).exclusiveWith(
             enchantmentLookup.getOrThrow(AAEnchantmentTags.THROW_EXCLUSIVE)
         )
     );
 
     // This only executes as part of data generation. It does NOT create files, it only pre-loads the registry.
-    public static void bootstrap (Registerable<Enchantment> registerable) {
+    public static void bootstrap (BootstrapContext<Enchantment> registerable) {
         register(registerable, BOOST);
         register(registerable, JUMP);
         register(registerable, FIREBALL);
@@ -274,21 +273,21 @@ public class AAEnchantments {
         register(registerable, FAR_THROW);
     }
 
-    public static Enchantment.Builder buildStaff (RegistryEntryLookup<Item> itemLookup, RegistryEntryLookup<Enchantment> enchantmentLookup, String activeEffect, int minCost, int maxCost, int duration, int maxUses, int colour, int weight, int anvilCost) {
-        return Enchantment.builder(Enchantment.definition(itemLookup.getOrThrow(AAItemTags.STAFF_ENCHANTABLE), weight, 1, Enchantment.constantCost(minCost), Enchantment.constantCost(maxCost), anvilCost, AttributeModifierSlot.HAND))
-            .addEffect(AAEnchantmentComponentTypes.ON_ACTIVATION, new CodeExecutionSingleEntityEffect(AdditionalArmouryMain.identifier(activeEffect)))
-            .addNonListEffect(AAEnchantmentComponentTypes.SPELL_CAST_DURATION, duration)
-            .addNonListEffect(AAEnchantmentComponentTypes.SPELL_USES, maxUses)
-            .addNonListEffect(AAEnchantmentComponentTypes.SPELL_COLOUR, colour)
-            .exclusiveSet(enchantmentLookup.getOrThrow(AAEnchantmentTags.STAFF));
+    public static Enchantment.Builder buildStaff (HolderGetter<Item> itemLookup, HolderGetter<Enchantment> enchantmentLookup, String activeEffect, int minCost, int maxCost, int duration, int maxUses, int colour, int weight, int anvilCost) {
+        return Enchantment.enchantment(Enchantment.definition(itemLookup.getOrThrow(AAItemTags.STAFF_ENCHANTABLE), weight, 1, Enchantment.constantCost(minCost), Enchantment.constantCost(maxCost), anvilCost, EquipmentSlotGroup.HAND))
+            .withEffect(AAEnchantmentComponentTypes.ON_ACTIVATION, new CodeExecutionSingleEntityEffect(AdditionalArmouryMain.identifier(activeEffect)))
+            .withSpecialEffect(AAEnchantmentComponentTypes.SPELL_CAST_DURATION, duration)
+            .withSpecialEffect(AAEnchantmentComponentTypes.SPELL_USES, maxUses)
+            .withSpecialEffect(AAEnchantmentComponentTypes.SPELL_COLOUR, colour)
+            .exclusiveWith(enchantmentLookup.getOrThrow(AAEnchantmentTags.STAFF));
     }
 
-    public static Enchantment.Builder buildStaff (RegistryEntryLookup<Item> itemLookup, RegistryEntryLookup<Enchantment> enchantmentLookup, String activeEffect, String incantationEffect, int minCost, int maxCost, int duration, int maxUses, int colour, int weight, int anvilCost) {
+    public static Enchantment.Builder buildStaff (HolderGetter<Item> itemLookup, HolderGetter<Enchantment> enchantmentLookup, String activeEffect, String incantationEffect, int minCost, int maxCost, int duration, int maxUses, int colour, int weight, int anvilCost) {
         return buildStaff(itemLookup, enchantmentLookup, activeEffect, minCost, maxCost, duration, maxUses, colour, weight, anvilCost)
-            .addEffect(AAEnchantmentComponentTypes.TICK_INCANTATION, new LambdaIncantationEffect(AdditionalArmouryMain.identifier(incantationEffect)));
+            .withEffect(AAEnchantmentComponentTypes.TICK_INCANTATION, new LambdaIncantationEffect(AdditionalArmouryMain.identifier(incantationEffect)));
     }
 
-    public static void register (Registerable<Enchantment> registry, EnchantmentContainer enchantment) {
-        registry.register(enchantment.getKey(), enchantment.getBuilder(registry).build(enchantment.getKey().getValue()));
+    public static void register (BootstrapContext<Enchantment> registry, EnchantmentContainer enchantment) {
+        registry.register(enchantment.getKey(), enchantment.getBuilder(registry).build(enchantment.getKey().identifier()));
     }
 }

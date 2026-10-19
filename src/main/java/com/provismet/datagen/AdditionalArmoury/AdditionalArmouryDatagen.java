@@ -4,8 +4,8 @@ import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.minecraft.registry.RegistryBuilder;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
 
 public class AdditionalArmouryDatagen implements DataGeneratorEntrypoint {
     @Override
@@ -29,8 +29,8 @@ public class AdditionalArmouryDatagen implements DataGeneratorEntrypoint {
     }
 
     @Override
-    public void buildRegistry (RegistryBuilder registryBuilder) {
-        registryBuilder.addRegistry(RegistryKeys.DAMAGE_TYPE, AADamageTypes::bootstrap);
-        registryBuilder.addRegistry(RegistryKeys.ENCHANTMENT, AAEnchantments::bootstrap);
+    public void buildRegistry (RegistrySetBuilder registryBuilder) {
+        registryBuilder.add(Registries.DAMAGE_TYPE, AADamageTypes::bootstrap);
+        registryBuilder.add(Registries.ENCHANTMENT, AAEnchantments::bootstrap);
     }
 }

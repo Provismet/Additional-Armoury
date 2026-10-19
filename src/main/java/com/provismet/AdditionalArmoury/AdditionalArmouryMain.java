@@ -1,5 +1,7 @@
 package com.provismet.AdditionalArmoury;
 
+import com.provismet.AdditionalArmoury.api.AdditionalArmouryEntrypointMain;
+import com.provismet.AdditionalArmoury.config.AASettings;
 import com.provismet.AdditionalArmoury.registries.AABlocks;
 import com.provismet.AdditionalArmoury.registries.AADataComponentTypes;
 import com.provismet.AdditionalArmoury.registries.AAEnchantmentComponentTypes;
@@ -16,29 +18,25 @@ import com.provismet.AdditionalArmoury.registries.AASounds;
 import com.provismet.AdditionalArmoury.registries.AAStatusEffects;
 import com.provismet.AdditionalArmoury.utility.registry.AARegistries;
 import com.provismet.CombatPlusCore.loot.functions.EnchantRandomlyFromKeyLootFunction;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.providers.number.BinomialDistributionGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.provismet.AdditionalArmoury.api.AdditionalArmouryEntrypointMain;
-import com.provismet.AdditionalArmoury.config.AASettings;
-
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Items;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTables;
-import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.provider.number.BinomialLootNumberProvider;
-import net.minecraft.util.Identifier;
 
 public class AdditionalArmouryMain implements ModInitializer {
     public static final String MODID = "additional-armoury";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public static Identifier identifier (String path) {
-        return Identifier.of(MODID, path);
+        return Identifier.fromNamespaceAndPath(MODID, path);
     }
 
     @Override
@@ -61,40 +59,40 @@ public class AdditionalArmouryMain implements ModInitializer {
 
         LootTableEvents.MODIFY.register((id, tableBuilder, source, registries) -> {
             if (source.isBuiltin() || AASettings.shouldOverrideDatapacks()) {
-                if (LootTables.NETHER_BRIDGE_CHEST.equals(id)) {
-                    tableBuilder.pool(
-                        LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.05f))
-                            .with(ItemEntry.builder(Items.BOOK).apply(EnchantRandomlyFromKeyLootFunction.create().option(AAEnchantments.EXPLOSION)))
+                if (BuiltInLootTables.NETHER_BRIDGE.equals(id)) {
+                    tableBuilder.withPool(
+                        LootPool.lootPool().setRolls(BinomialDistributionGenerator.binomial(1, 0.05f))
+                            .add(LootItem.lootTableItem(Items.BOOK).apply(EnchantRandomlyFromKeyLootFunction.create().option(AAEnchantments.EXPLOSION)))
                     );
                 }
-                else if (LootTables.DESERT_PYRAMID_CHEST.equals(id) || LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST.equals(id)) {
-                    tableBuilder.pool(
-                        LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.25f))
-                            .with(ItemEntry.builder(AAItems.BOOMERANG))
+                else if (BuiltInLootTables.DESERT_PYRAMID.equals(id) || BuiltInLootTables.JUNGLE_TEMPLE_DISPENSER.equals(id)) {
+                    tableBuilder.withPool(
+                        LootPool.lootPool().setRolls(BinomialDistributionGenerator.binomial(1, 0.25f))
+                            .add(LootItem.lootTableItem(AAItems.BOOMERANG))
                     );
                 }
-                else if (LootTables.ANCIENT_CITY_CHEST.equals(id) || LootTables.ANCIENT_CITY_ICE_BOX_CHEST.equals(id)) {
-                    tableBuilder.pool(
-                        LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.2f))
-                            .with(ItemEntry.builder(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE))
+                else if (BuiltInLootTables.ANCIENT_CITY.equals(id) || BuiltInLootTables.ANCIENT_CITY_ICE_BOX.equals(id)) {
+                    tableBuilder.withPool(
+                        LootPool.lootPool().setRolls(BinomialDistributionGenerator.binomial(1, 0.2f))
+                            .add(LootItem.lootTableItem(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE))
                     );
                 }
-                else if (LootTables.END_CITY_TREASURE_CHEST.equals(id)) {
-                    tableBuilder.pool(
-                        LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.2f))
-                            .with(ItemEntry.builder(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE))
+                else if (BuiltInLootTables.END_CITY_TREASURE.equals(id)) {
+                    tableBuilder.withPool(
+                        LootPool.lootPool().setRolls(BinomialDistributionGenerator.binomial(1, 0.2f))
+                            .add(LootItem.lootTableItem(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE))
                     );
                 }
-                else if (EntityType.EVOKER.getLootTableKey().isPresent() && EntityType.EVOKER.getLootTableKey().get().equals(id)) {
-                    tableBuilder.pool(
-                        LootPool.builder().rolls(BinomialLootNumberProvider.create(1, 0.25f))
-                            .with(ItemEntry.builder(AAItems.STAFF).weight(3))
-                            .with(ItemEntry.builder(Items.BOOK).apply(EnchantRandomlyFromKeyLootFunction.create()
+                else if (EntityType.EVOKER.getDefaultLootTable().isPresent() && EntityType.EVOKER.getDefaultLootTable().get().equals(id)) {
+                    tableBuilder.withPool(
+                        LootPool.lootPool().setRolls(BinomialDistributionGenerator.binomial(1, 0.25f))
+                            .add(LootItem.lootTableItem(AAItems.STAFF).setWeight(3))
+                            .add(LootItem.lootTableItem(Items.BOOK).apply(EnchantRandomlyFromKeyLootFunction.create()
                                 .option(AAEnchantments.GHOSTLY_ORB)
-                                .option(AAEnchantments.MAGIC_MISSILE)).weight(6))
-                            .with(ItemEntry.builder(AAItems.STAFF).apply(EnchantRandomlyFromKeyLootFunction.create()
+                                .option(AAEnchantments.MAGIC_MISSILE)).setWeight(6))
+                            .add(LootItem.lootTableItem(AAItems.STAFF).apply(EnchantRandomlyFromKeyLootFunction.create()
                                 .option(AAEnchantments.GHOSTLY_ORB)
-                                .option(AAEnchantments.MAGIC_MISSILE)).weight(1))
+                                .option(AAEnchantments.MAGIC_MISSILE)).setWeight(1))
                     );
                 }
             }

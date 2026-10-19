@@ -6,11 +6,11 @@ import com.provismet.AdditionalArmoury.particles.effects.SpellChargeParticleEffe
 import com.provismet.AdditionalArmoury.particles.effects.SpellRingParticleEffect;
 
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class AAParticleTypes {
     public static final ParticleType<SpellChargeParticleEffect> SPELL_CHARGE = FabricParticleTypes.complex(SpellChargeParticleEffect.CODEC, SpellChargeParticleEffect.PACKET_CODEC);
@@ -19,8 +19,8 @@ public class AAParticleTypes {
 
     public static final SimpleParticleType SHATTER = FabricParticleTypes.simple(true);
 
-    private static <T extends ParticleEffect> void register (ParticleType<T> particle, String name) {
-        Registry.register(Registries.PARTICLE_TYPE, AdditionalArmouryMain.identifier(name), particle);
+    private static <T extends ParticleOptions> void register (ParticleType<T> particle, String name) {
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, AdditionalArmouryMain.identifier(name), particle);
     }
 
     public static void register () {

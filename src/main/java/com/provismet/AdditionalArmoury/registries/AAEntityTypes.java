@@ -8,15 +8,14 @@ import com.provismet.AdditionalArmoury.entity.FrostballSpellEntity;
 import com.provismet.AdditionalArmoury.entity.GhostlySpellEntity;
 import com.provismet.AdditionalArmoury.entity.MissileSpellEntity;
 import com.provismet.AdditionalArmoury.entity.WindTornadoSpellEntity;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 
 public class AAEntityTypes {
     public static final EntityType<FireballSpellEntity> FIREBALL = AAEntityTypes.buildSpell(FireballSpellEntity::new, "fireball_spell");
@@ -33,24 +32,24 @@ public class AAEntityTypes {
     private static <T extends AbstractSpellEntity> EntityType<T> buildSpell (EntityType.EntityFactory<T> factory, String name, float width, float height) {
         Identifier id = AdditionalArmouryMain.identifier(name);
         return Registry.register(
-            Registries.ENTITY_TYPE,
+            BuiltInRegistries.ENTITY_TYPE,
             id,
-            EntityType.Builder.create(factory, SpawnGroup.MISC)
-                .dimensions(width, height)
-                .maxTrackingRange(30)
-                .trackingTickInterval(10)
-                .build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, id))
+            EntityType.Builder.of(factory, MobCategory.MISC)
+                .sized(width, height)
+                .clientTrackingRange(30)
+                .updateInterval(10)
+                .build(ResourceKey.create(Registries.ENTITY_TYPE, id))
         );
     }
 
     private static <T extends Entity> EntityType<T> buildEntity (EntityType.EntityFactory<T> factory, String name, float width, float height) {
         Identifier id = AdditionalArmouryMain.identifier(name);
         return Registry.register(
-            Registries.ENTITY_TYPE,
+            BuiltInRegistries.ENTITY_TYPE,
             id,
-            EntityType.Builder.create(factory, SpawnGroup.MISC)
-                .dimensions(width, height)
-                .build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, id))
+            EntityType.Builder.of(factory, MobCategory.MISC)
+                .sized(width, height)
+                .build(ResourceKey.create(Registries.ENTITY_TYPE, id))
         );
     }
 

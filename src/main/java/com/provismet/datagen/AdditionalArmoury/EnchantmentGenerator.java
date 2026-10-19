@@ -3,17 +3,16 @@ package com.provismet.datagen.AdditionalArmoury;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.lilylib.datagen.provider.LilyEnchantmentProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.registry.RegistryWrapper;
-
+import net.minecraft.core.HolderLookup;
 import java.util.concurrent.CompletableFuture;
 
 public class EnchantmentGenerator extends LilyEnchantmentProvider {
-    public EnchantmentGenerator (FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public EnchantmentGenerator (FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected void generate (RegistryWrapper.WrapperLookup wrapperLookup, EnchantmentBuilder builder) {
+    protected void generate (HolderLookup.Provider wrapperLookup, EnchantmentBuilder builder) {
         builder.add(AAEnchantments.BOOST);
         builder.add(AAEnchantments.JUMP);
         builder.add(AAEnchantments.FIREBALL);

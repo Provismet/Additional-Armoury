@@ -6,21 +6,21 @@ import com.provismet.AdditionalArmoury.registries.AABlocks;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagProvider;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
-import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.tags.BlockTags;
 
 public class BlockTagGenerator extends BlockTagProvider {
-    public BlockTagGenerator (FabricDataOutput output, CompletableFuture<WrapperLookup> registriesFuture) {
+    public BlockTagGenerator (FabricDataOutput output, CompletableFuture<Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected void configure (WrapperLookup arg) {
+    protected void addTags (Provider arg) {
         this.valueLookupBuilder(BlockTags.BEACON_BASE_BLOCKS)
             .add(AABlocks.OVERNETHER_BLOCK)
             .add(AABlocks.ENDERNETHER_BLOCK);
 
-        this.valueLookupBuilder(BlockTags.PICKAXE_MINEABLE)
+        this.valueLookupBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
             .add(AABlocks.OVERNETHER_BLOCK)
             .add(AABlocks.ENDERNETHER_BLOCK);
 
