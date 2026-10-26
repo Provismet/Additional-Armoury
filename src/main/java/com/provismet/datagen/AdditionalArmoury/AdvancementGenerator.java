@@ -1,15 +1,9 @@
 package com.provismet.datagen.AdditionalArmoury;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
-
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.lootconditions.ItemUseTimeLootCondition;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.Advancement;
@@ -28,16 +22,23 @@ import net.minecraft.advancements.criterion.MinMaxBounds;
 import net.minecraft.advancements.criterion.RecipeCraftedTrigger;
 import net.minecraft.advancements.criterion.UsingItemTrigger;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.component.predicates.DataComponentPredicates;
 import net.minecraft.core.component.predicates.EnchantmentsPredicate;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public class AdvancementGenerator extends FabricAdvancementProvider {
     protected AdvancementGenerator (FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
@@ -46,17 +47,17 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
 
     @Override
     public void generateAdvancement (HolderLookup.Provider registryLookup, Consumer<AdvancementHolder> consumer) {
-        ItemStack enchantedStaff = AAItems.STAFF.getDefaultInstance();
-        enchantedStaff.enchant(AAEnchantments.BOOST.getEntryOrThrow(registryLookup), 1);
+        ItemEnchantments.Mutable boostMutable = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+        boostMutable.set(AAEnchantments.BOOST.getEntryOrThrow(registryLookup), 1);
 
-        ItemStack bakuretsu = AAItems.STAFF.getDefaultInstance();
-        bakuretsu.enchant(AAEnchantments.EXPLOSION.getEntryOrThrow(registryLookup), 1);
+        ItemEnchantments.Mutable meguMutable = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+        meguMutable.set(AAEnchantments.EXPLOSION.getEntryOrThrow(registryLookup), 1);
 
         Criterion<EnchantedItemTrigger.TriggerInstance> staffCondition = CriteriaTriggers.ENCHANTED_ITEM.createCriterion(new EnchantedItemTrigger.TriggerInstance(Optional.empty(), Optional.of(ItemPredicate.Builder.item().of(registryLookup.lookupOrThrow(Registries.ITEM), AAItems.STAFF).build()), MinMaxBounds.Ints.ANY));
         AdvancementHolder enchanter = Advancement.Builder.advancement().build(Identifier.withDefaultNamespace("story/enchant_item"));
         AdvancementHolder enchantStaff = Advancement.Builder.advancement().parent(enchanter)
             .display(
-                ItemStackTemplate.fromNonEmptyStack(enchantedStaff),
+                new ItemStackTemplate(AAItems.STAFF, DataComponentPatch.builder().set(DataComponents.ENCHANTMENTS, boostMutable.toImmutable()).build()),
                 this.buildTranslationKey("enchant_staff.title"),
                 this.buildTranslationKey("enchant_staff.description"),
                 null,
@@ -82,7 +83,7 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
                     ).build())));
         Advancement.Builder.advancement().parent(enchantStaff)
             .display(
-                ItemStackTemplate.fromNonEmptyStack(bakuretsu),
+                new ItemStackTemplate(AAItems.STAFF, DataComponentPatch.builder().set(DataComponents.ENCHANTMENTS, meguMutable.toImmutable()).build()),
                 this.buildTranslationKey("archwizard.title"),
                 this.buildTranslationKey("archwizard.description"),
                 null,
@@ -97,7 +98,7 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
         AdvancementHolder dragonBreath = Advancement.Builder.advancement().build(Identifier.withDefaultNamespace("end/dragon_breath"));
         Advancement.Builder.advancement().parent(dragonBreath)
             .display(
-                ItemStackTemplate.fromNonEmptyStack(PotionContents.createItemStack(AAItems.DIAMOND_DAGGER, Potions.NIGHT_VISION)),
+                new ItemStackTemplate(AAItems.DIAMOND_DAGGER, DataComponentPatch.builder().set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.NIGHT_VISION)).build()),
                 this.buildTranslationKey("tipped_dagger.title"),
                 this.buildTranslationKey("tipped_dagger.description"),
                 null,

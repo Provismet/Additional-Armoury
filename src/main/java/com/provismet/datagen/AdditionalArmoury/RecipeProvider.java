@@ -94,8 +94,10 @@ public class RecipeProvider extends FabricRecipeProvider {
                     craftingBookInfo,
                     Ingredient.of(Items.LINGERING_POTION),
                     Ingredient.of(this.lookup.getOrThrow(AAItemTags.DAGGERS))
-                )
-            ).save(output, AdditionalArmouryMain.identifier("tipped_dagger").toString());
+                ))
+                .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(Items.LINGERING_POTION), this.has(Items.LINGERING_POTION))
+                .unlockedBy("has_any_dagger", this.has(AAItemTags.DAGGERS))
+                .save(output, AdditionalArmouryMain.identifier("tipped_dagger").toString());
 
             this.shapeless(RecipeCategory.MISC, AAItems.OVERNETHER_INGOT)
                 .requires(Items.NETHERITE_SCRAP, 4)

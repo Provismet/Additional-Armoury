@@ -1,4 +1,6 @@
 {
   "type": "additional-armoury:tipped_dagger",
-  "category": "misc"
+  "category": "equipment",
+  "potion_input": "minecraft:lingering_potion",
+  "weapon": "#additional-armoury:daggers"
 }

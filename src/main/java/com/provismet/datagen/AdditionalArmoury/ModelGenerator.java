@@ -1,16 +1,13 @@
 package com.provismet.datagen.AdditionalArmoury;
 
-import java.util.Map;
-import java.util.Optional;
-
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.items.StaffItem;
+import com.provismet.AdditionalArmoury.items.key.AAEquipmentAssetKeys;
 import com.provismet.AdditionalArmoury.items.render.DaggerTintSource;
 import com.provismet.AdditionalArmoury.items.render.SpellTintSource;
 import com.provismet.AdditionalArmoury.registries.AABlocks;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.color.item.Constant;
@@ -23,14 +20,14 @@ import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.resources.model.sprite.Material;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.CommonColors;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.equipment.EquipmentAsset;
-import net.minecraft.world.item.equipment.Equippable;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class ModelGenerator extends FabricModelProvider {
     public static final ModelTemplate HANDHELD_LAYERED = createModel("handheld", TextureSlot.LAYER0, TextureSlot.LAYER1);
@@ -73,8 +70,8 @@ public class ModelGenerator extends FabricModelProvider {
 
         AAItems.MACES.forEach(item -> itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM));
         AAItems.ITEM_PROJECTILES.forEach(item -> itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_ITEM));
-        AAItems.OVERNETHER_ARMOUR.forEach(item -> registerArmour(item, itemModelGenerator));
-        AAItems.ENDERNETHER_ARMOUR.forEach(item -> registerArmour(item, itemModelGenerator));
+        this.registerArmour(AAItems.OVERNETHER_HELMET, AAItems.OVERNETHER_CHESTPLATE, AAItems.OVERNETHER_LEGGINGS, AAItems.OVERNETHER_BOOTS, null, AAEquipmentAssetKeys.OVERNETHER, itemModelGenerator);
+        this.registerArmour(AAItems.ENDERNETHER_HELMET, AAItems.ENDERNETHER_CHESTPLATE, AAItems.ENDERNETHER_LEGGINGS, AAItems.ENDERNETHER_BOOTS, null, AAEquipmentAssetKeys.ENDERNETHER, itemModelGenerator);
     }
 
     public static void registerDagger (ItemModelGenerators itemModelGenerator, DaggerItem dagger) {
@@ -110,21 +107,21 @@ public class ModelGenerator extends FabricModelProvider {
         return new ModelTemplate(Optional.of(Identifier.withDefaultNamespace("item/" + parent)), Optional.empty(), requiredTextureKeys);
     }
 
-    private void registerArmour (Item item, ItemModelGenerators itemModelGenerator) {
-        final Map<EquipmentSlot, Identifier> slotToTrim = Map.of(
-            EquipmentSlot.HEAD, ItemModelGenerators.TRIM_PREFIX_HELMET,
-            EquipmentSlot.CHEST, ItemModelGenerators.TRIM_PREFIX_CHESTPLATE,
-            EquipmentSlot.LEGS, ItemModelGenerators.TRIM_PREFIX_LEGGINGS,
-            EquipmentSlot.FEET, ItemModelGenerators.TRIM_PREFIX_BOOTS,
-            EquipmentSlot.BODY, ItemModelGenerators.prefixForSlotTrim("body")
-        );
-
-        Equippable equippableComponent = item.components().get(DataComponents.EQUIPPABLE);
-        if (equippableComponent == null || equippableComponent.assetId().isEmpty()) {
-            AdditionalArmouryMain.LOGGER.warn("No equippable component found for {}", item.getName(item.getDefaultInstance()).getString());
-            return;
+    private void registerArmour (@Nullable Item head, @Nullable Item chest, @Nullable Item legs, @Nullable Item feet, @Nullable Item body, ResourceKey<EquipmentAsset> equipableAsset, ItemModelGenerators itemModelGenerator) {
+        if (head != null) {
+            itemModelGenerator.generateTrimmableItem(head, equipableAsset, ItemModelGenerators.TRIM_PREFIX_HELMET, false);
         }
-        ResourceKey<EquipmentAsset> modelId = equippableComponent.assetId().get();
-        itemModelGenerator.generateTrimmableItem(item, modelId, slotToTrim.get(equippableComponent.slot()), false);
+        if (chest != null) {
+            itemModelGenerator.generateTrimmableItem(chest, equipableAsset, ItemModelGenerators.TRIM_PREFIX_CHESTPLATE, false);
+        }
+        if (legs != null) {
+            itemModelGenerator.generateTrimmableItem(legs, equipableAsset, ItemModelGenerators.TRIM_PREFIX_LEGGINGS, false);
+        }
+        if (feet != null) {
+            itemModelGenerator.generateTrimmableItem(feet, equipableAsset, ItemModelGenerators.TRIM_PREFIX_BOOTS, false);
+        }
+        if (body != null) {
+            itemModelGenerator.generateTrimmableItem(body, equipableAsset, ItemModelGenerators.prefixForSlotTrim("body"), false);
+        }
     }
 }

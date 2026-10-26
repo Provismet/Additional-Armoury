@@ -5,6 +5,11 @@
         "texture": "additional-armoury:overnether"
       }
     ],
+    "humanoid_baby": [
+      {
+        "texture": "additional-armoury:overnether"
+      }
+    ],
     "humanoid_leggings": [
       {
         "texture": "additional-armoury:overnether"
