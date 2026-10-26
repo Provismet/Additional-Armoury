@@ -39,6 +39,8 @@ public class AAItems {
     public static final ShovelItem ENDERNETHER_SHOVEL = register("endernether_shovel", settings -> new AAExtraShovelItem(AAToolMaterial.ENDERNETHER, 1.5f, -3f, settings.stacksTo(1).fireResistant()));
     public static final HoeItem OVERNETHER_HOE = register("overnether_hoe", settings -> new AAExtraHoeItem(AAToolMaterial.OVERNETHER, -3f, 0f, settings.stacksTo(1).fireResistant()));
     public static final HoeItem ENDERNETHER_HOE = register("endernether_hoe", settings -> new AAExtraHoeItem(AAToolMaterial.ENDERNETHER, -3f, 0f, settings.stacksTo(1).fireResistant()));
+    public static final Item OVERNETHER_SPEAR = register("overnether_spear", Util.applySpearSettings(AAToolMaterial.OVERNETHER, 1.15f, 1.075f, 0.4f, 2.5f, 9f, 5.5F, 5.1f, 8.75f, 4.6f, new Item.Properties().stacksTo(1).fireResistant()));
+    public static final Item ENDERNETHER_SPEAR = register("endernether_spear", Util.applySpearSettings(AAToolMaterial.ENDERNETHER, 1.15f, 1.075f, 0.2f, 2.5f, 9f, 5.5F, 5.1f, 8.75f, 4.6f, new Item.Properties().stacksTo(1).fireResistant()));
 
     public static final DaggerItem WOODEN_DAGGER = register("wooden_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.WOOD, settings)));
     public static final DaggerItem STONE_DAGGER = register("stone_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.STONE, settings)));

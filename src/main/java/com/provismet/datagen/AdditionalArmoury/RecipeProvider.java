@@ -51,6 +51,8 @@ public class RecipeProvider extends FabricRecipeProvider {
         public void buildRecipes () {
             offerOvernetherUpgradeRecipe(Items.DIAMOND_SWORD, RecipeCategory.COMBAT, AAItems.OVERNETHER_SWORD);
             offerEndernetherUpgradeRecipe(Items.DIAMOND_SWORD, RecipeCategory.COMBAT, AAItems.ENDERNETHER_SWORD);
+            offerOvernetherUpgradeRecipe(Items.DIAMOND_SPEAR, RecipeCategory.COMBAT, AAItems.OVERNETHER_SPEAR);
+            offerEndernetherUpgradeRecipe(Items.DIAMOND_SPEAR, RecipeCategory.COMBAT, AAItems.ENDERNETHER_SPEAR);
             offerOvernetherUpgradeRecipe(Items.DIAMOND_AXE, RecipeCategory.COMBAT, AAItems.OVERNETHER_AXE);
             offerEndernetherUpgradeRecipe(Items.DIAMOND_AXE, RecipeCategory.COMBAT, AAItems.ENDERNETHER_AXE);
             offerOvernetherUpgradeRecipe(Items.DIAMOND_PICKAXE, RecipeCategory.COMBAT, AAItems.OVERNETHER_PICKAXE);

@@ -65,6 +65,10 @@ public class ItemTagGenerator extends ItemTagsProvider {
             .add(AAItems.OVERNETHER_SWORD)
             .add(AAItems.ENDERNETHER_SWORD);
 
+        this.valueLookupBuilder(ItemTags.SPEARS)
+            .add(AAItems.OVERNETHER_SPEAR)
+            .add(AAItems.ENDERNETHER_SPEAR);
+
         this.valueLookupBuilder(ItemTags.AXES)
             .add(AAItems.OVERNETHER_AXE)
             .add(AAItems.ENDERNETHER_AXE);

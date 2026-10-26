@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "additional-armoury:overnether_ingot",
+  "base": "minecraft:diamond_spear",
+  "result": {
+    "id": "additional-armoury:overnether_spear"
+  },
+  "template": "additional-armoury:overnether_upgrade_smithing_template"
+}

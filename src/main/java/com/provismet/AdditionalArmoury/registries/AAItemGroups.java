@@ -22,6 +22,7 @@ public class AAItemGroups {
 
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(content -> content.insertAfter(Items.NETHERITE_SWORD, AAItems.OVERNETHER_SWORD, AAItems.ENDERNETHER_SWORD));
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(content -> content.insertAfter(Items.NETHERITE_AXE, AAItems.OVERNETHER_AXE, AAItems.ENDERNETHER_AXE));
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(content -> content.insertAfter(Items.NETHERITE_SPEAR, AAItems.OVERNETHER_SPEAR, AAItems.ENDERNETHER_SPEAR));
 
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> content.insertAfter(Items.NETHERITE_HOE, AAItems.OVERNETHER_SHOVEL, AAItems.OVERNETHER_PICKAXE, AAItems.OVERNETHER_AXE, AAItems.OVERNETHER_HOE, AAItems.ENDERNETHER_SHOVEL, AAItems.ENDERNETHER_PICKAXE, AAItems.ENDERNETHER_AXE, AAItems.ENDERNETHER_HOE));
 

@@ -80,6 +80,9 @@ public class ModelGenerator extends FabricModelProvider {
         AAItems.ITEM_PROJECTILES.forEach(item -> itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_ITEM));
         this.registerArmour(AAItems.OVERNETHER_HELMET, AAItems.OVERNETHER_CHESTPLATE, AAItems.OVERNETHER_LEGGINGS, AAItems.OVERNETHER_BOOTS, null, AAEquipmentAssetKeys.OVERNETHER, itemModelGenerator);
         this.registerArmour(AAItems.ENDERNETHER_HELMET, AAItems.ENDERNETHER_CHESTPLATE, AAItems.ENDERNETHER_LEGGINGS, AAItems.ENDERNETHER_BOOTS, null, AAEquipmentAssetKeys.ENDERNETHER, itemModelGenerator);
+
+        itemModelGenerator.generateSpear(AAItems.OVERNETHER_SPEAR);
+        itemModelGenerator.generateSpear(AAItems.ENDERNETHER_SPEAR);
     }
 
     public static void registerDagger (ItemModelGenerators itemModelGenerator, DaggerItem dagger, int defaultColour) {

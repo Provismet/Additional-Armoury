@@ -52,6 +52,12 @@ public class Util {
             .attributes(material.createAttributeComponent(attack, speed));
     }
 
+    public static Item.Properties applySpearSettings (AAToolMaterial material, float attackDuration, float damageMultiplier, float delay, float dismountTime, float dismountThreshold, float knockbackTime, float knockbackThreshold, float damageTime, float damageThreshold, Item.Properties settings) {
+        return settings.spear(material.baseMaterial(), attackDuration, damageMultiplier, delay, dismountTime, dismountThreshold, knockbackTime, knockbackThreshold, damageTime, damageThreshold)
+            .component(CPCDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createMelee(material.baseMaterial().attackDamageBonus()))
+            .attributes(material.createAttributeComponent(0, 1f / attackDuration - 4f));
+    }
+
     public static Item.Properties applyPickaxeSettings (AAToolMaterial material, float attackDamage, float attackSpeed, Item.Properties settings) {
         return Util.applyToolSettings(material.baseMaterial(), settings)
             .pickaxe(material.baseMaterial(), attackDamage, attackSpeed)
