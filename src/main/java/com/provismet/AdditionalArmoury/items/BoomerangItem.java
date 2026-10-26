@@ -24,7 +24,7 @@ public class BoomerangItem extends Item {
 
     @Override
     public ItemUseAnimation getUseAnimation (ItemStack stack) {
-        return ItemUseAnimation.SPEAR;
+        return ItemUseAnimation.TRIDENT;
     }
 
     @Override
