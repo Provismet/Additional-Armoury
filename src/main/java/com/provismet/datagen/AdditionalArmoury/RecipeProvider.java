@@ -5,38 +5,46 @@ import com.provismet.AdditionalArmoury.crafting.TippedDaggerRecipe;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.items.MaceItem;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.recipes.CustomCraftingRecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
-import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.CompletableFuture;
 
 public class RecipeProvider extends FabricRecipeProvider {
-    public RecipeProvider (FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public RecipeProvider (FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
+    @NotNull
     protected net.minecraft.data.recipes.RecipeProvider createRecipeProvider (HolderLookup.Provider wrapperLookup, RecipeOutput recipeExporter) {
         return new AARecipeGenerator(wrapperLookup, recipeExporter);
     }
     
     public static class AARecipeGenerator extends net.minecraft.data.recipes.RecipeProvider {
+        private final HolderGetter<Item> lookup;
+
         public AARecipeGenerator (HolderLookup.Provider wrapperLookup, RecipeOutput exporter) {
             super(wrapperLookup, exporter);
+            this.lookup = registries.lookupOrThrow(Registries.ITEM);
         }
 
         @Override
@@ -79,7 +87,15 @@ public class RecipeProvider extends FabricRecipeProvider {
             offerEndernetherUpgradeRecipe(Items.DIAMOND_LEGGINGS, RecipeCategory.COMBAT, AAItems.ENDERNETHER_LEGGINGS);
             offerEndernetherUpgradeRecipe(Items.DIAMOND_BOOTS, RecipeCategory.COMBAT, AAItems.ENDERNETHER_BOOTS);
 
-            SpecialRecipeBuilder.special(TippedDaggerRecipe::new).save(output, AdditionalArmouryMain.identifier("tipped_dagger").toString());
+            CustomCraftingRecipeBuilder.customCrafting(
+                RecipeCategory.COMBAT,
+                (commonInfo, craftingBookInfo) -> new TippedDaggerRecipe(
+                    commonInfo,
+                    craftingBookInfo,
+                    Ingredient.of(Items.LINGERING_POTION),
+                    Ingredient.of(this.lookup.getOrThrow(AAItemTags.DAGGERS))
+                )
+            ).save(output, AdditionalArmouryMain.identifier("tipped_dagger").toString());
 
             this.shapeless(RecipeCategory.MISC, AAItems.OVERNETHER_INGOT)
                 .requires(Items.NETHERITE_SCRAP, 4)

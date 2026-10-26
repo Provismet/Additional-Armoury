@@ -12,7 +12,7 @@ import com.provismet.AdditionalArmoury.registries.AABlocks;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.color.item.Constant;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -22,6 +22,7 @@ import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -34,7 +35,7 @@ import net.minecraft.world.item.equipment.Equippable;
 public class ModelGenerator extends FabricModelProvider {
     public static final ModelTemplate HANDHELD_LAYERED = createModel("handheld", TextureSlot.LAYER0, TextureSlot.LAYER1);
 
-    public ModelGenerator (FabricDataOutput output) {
+    public ModelGenerator (FabricPackOutput output) {
         super(output);
     }
 
@@ -81,7 +82,7 @@ public class ModelGenerator extends FabricModelProvider {
             ModelLocationUtils.getModelLocation(dagger),
             TextureMapping.layered(
                 TextureMapping.getItemTexture(dagger),
-                AdditionalArmouryMain.identifier("item/dagger_tip")
+                new Material(AdditionalArmouryMain.identifier("item/dagger_tip"))
             ),
             itemModelGenerator.modelOutput
         );
@@ -92,8 +93,8 @@ public class ModelGenerator extends FabricModelProvider {
         Identifier model = HANDHELD_LAYERED.create(
             ModelLocationUtils.getModelLocation(staff),
             TextureMapping.layered(
-                AdditionalArmouryMain.identifier("item/staff_head"),
-                AdditionalArmouryMain.identifier("item/staff_shaft")),
+                new Material(AdditionalArmouryMain.identifier("item/staff_head")),
+                new Material(AdditionalArmouryMain.identifier("item/staff_shaft"))),
             itemModelGenerator.modelOutput
         );
         itemModelGenerator.itemModelOutput.accept(staff, ItemModelUtils.tintedModel(model, new SpellTintSource(0xFFC18920)));
@@ -120,7 +121,7 @@ public class ModelGenerator extends FabricModelProvider {
 
         Equippable equippableComponent = item.components().get(DataComponents.EQUIPPABLE);
         if (equippableComponent == null || equippableComponent.assetId().isEmpty()) {
-            AdditionalArmouryMain.LOGGER.warn("No equippable component found for {}", item.getName().getString());
+            AdditionalArmouryMain.LOGGER.warn("No equippable component found for {}", item.getName(item.getDefaultInstance()).getString());
             return;
         }
         ResourceKey<EquipmentAsset> modelId = equippableComponent.assetId().get();

@@ -4,13 +4,13 @@ import java.util.concurrent.CompletableFuture;
 
 import com.provismet.AdditionalArmoury.registries.AABlocks;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider.BlockTagsProvider;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.tags.BlockTags;
 
-public class BlockTagGenerator extends BlockTagProvider {
-    public BlockTagGenerator (FabricDataOutput output, CompletableFuture<Provider> registriesFuture) {
+public class BlockTagGenerator extends BlockTagsProvider {
+    public BlockTagGenerator (FabricPackOutput output, CompletableFuture<Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 

@@ -42,7 +42,7 @@ public class AdditionalArmouryMain implements ModInitializer {
     @Override
     public void onInitialize () {
         AARegistries.init();
-        AALootConditionTypes.init();
+        AALootConditionTypes.register();
         AAEnchantmentComponentTypes.init();
         AAIncantationEffects.register();
         AADataComponentTypes.register();

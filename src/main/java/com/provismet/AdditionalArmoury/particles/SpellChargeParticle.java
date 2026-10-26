@@ -8,6 +8,7 @@ import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SpellChargeParticle extends SingleQuadParticle {
@@ -51,11 +52,7 @@ public class SpellChargeParticle extends SingleQuadParticle {
     }
 
     @Override
-    protected int getLightColor (float tint) {
-        return 0xF000F0;
-    }
-
-    @Override
+    @NotNull
     protected Layer getLayer () {
         return Layer.OPAQUE;
     }

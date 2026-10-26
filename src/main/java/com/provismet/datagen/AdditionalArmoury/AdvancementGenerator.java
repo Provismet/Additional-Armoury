@@ -10,7 +10,7 @@ import com.provismet.AdditionalArmoury.lootconditions.ItemUseTimeLootCondition;
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
@@ -35,11 +35,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 
 public class AdvancementGenerator extends FabricAdvancementProvider {
-    protected AdvancementGenerator (FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    protected AdvancementGenerator (FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
@@ -55,7 +56,7 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
         AdvancementHolder enchanter = Advancement.Builder.advancement().build(Identifier.withDefaultNamespace("story/enchant_item"));
         AdvancementHolder enchantStaff = Advancement.Builder.advancement().parent(enchanter)
             .display(
-                enchantedStaff,
+                ItemStackTemplate.fromNonEmptyStack(enchantedStaff),
                 this.buildTranslationKey("enchant_staff.title"),
                 this.buildTranslationKey("enchant_staff.description"),
                 null,
@@ -81,7 +82,7 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
                     ).build())));
         Advancement.Builder.advancement().parent(enchantStaff)
             .display(
-                bakuretsu,
+                ItemStackTemplate.fromNonEmptyStack(bakuretsu),
                 this.buildTranslationKey("archwizard.title"),
                 this.buildTranslationKey("archwizard.description"),
                 null,
@@ -96,7 +97,7 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
         AdvancementHolder dragonBreath = Advancement.Builder.advancement().build(Identifier.withDefaultNamespace("end/dragon_breath"));
         Advancement.Builder.advancement().parent(dragonBreath)
             .display(
-                PotionContents.createItemStack(AAItems.DIAMOND_DAGGER, Potions.NIGHT_VISION),
+                ItemStackTemplate.fromNonEmptyStack(PotionContents.createItemStack(AAItems.DIAMOND_DAGGER, Potions.NIGHT_VISION)),
                 this.buildTranslationKey("tipped_dagger.title"),
                 this.buildTranslationKey("tipped_dagger.description"),
                 null,

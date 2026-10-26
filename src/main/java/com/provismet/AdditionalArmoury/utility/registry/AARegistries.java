@@ -7,8 +7,8 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.core.Registry;
 
 public class AARegistries {
-    public static final Registry<MapCodec<? extends SpellIncantationTickingEffect>> TICKING_INCANTATION = FabricRegistryBuilder.createSimple(AARegistryKeys.TICKING_INCANTATION).buildAndRegister();
-    public static final Registry<LambdaIncantationEffect.Lambda> INCANTATION_LAMBDA = FabricRegistryBuilder.createSimple(AARegistryKeys.INCANTATION_LAMBDA).buildAndRegister();
+    public static final Registry<MapCodec<? extends SpellIncantationTickingEffect>> TICKING_INCANTATION = FabricRegistryBuilder.create(AARegistryKeys.TICKING_INCANTATION).buildAndRegister();
+    public static final Registry<LambdaIncantationEffect.Lambda> INCANTATION_LAMBDA = FabricRegistryBuilder.create(AARegistryKeys.INCANTATION_LAMBDA).buildAndRegister();
 
     public static void init () {}
 }

@@ -1,37 +1,74 @@
 package com.provismet.AdditionalArmoury.crafting;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.registries.AARecipeSerializers;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.NormalCraftingRecipe;
+import net.minecraft.world.item.crafting.PlacementInfo;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public class TippedDaggerRecipe extends CustomRecipe {
-    public TippedDaggerRecipe (CraftingBookCategory category) {
-        super(category);
+import java.util.List;
+
+public class TippedDaggerRecipe extends NormalCraftingRecipe {
+    private final Ingredient potionInput;
+    private final Ingredient weapon;
+
+    public static final MapCodec<TippedDaggerRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        CommonInfo.MAP_CODEC.forGetter(recipe -> recipe.commonInfo),
+        CraftingBookInfo.MAP_CODEC.forGetter(recipe -> recipe.bookInfo),
+        Ingredient.CODEC.fieldOf("potion_input").forGetter(recipe -> recipe.potionInput),
+        Ingredient.CODEC.fieldOf("weapon").forGetter(recipe -> recipe.weapon)
+    ).apply(instance, TippedDaggerRecipe::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, TippedDaggerRecipe> STREAM_CODEC = StreamCodec.composite(
+        CommonInfo.STREAM_CODEC,
+        recipe -> recipe.commonInfo,
+        CraftingBookInfo.STREAM_CODEC,
+        recipe -> recipe.bookInfo,
+        Ingredient.CONTENTS_STREAM_CODEC,
+        recipe -> recipe.potionInput,
+        Ingredient.CONTENTS_STREAM_CODEC,
+        recipe -> recipe.weapon,
+        TippedDaggerRecipe::new
+    );
+    public static final RecipeSerializer<TippedDaggerRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
+
+    public TippedDaggerRecipe (Recipe.CommonInfo commonInfo, CraftingRecipe.CraftingBookInfo bookInfo, Ingredient potionInput, Ingredient weapon) {
+        super(commonInfo, bookInfo);
+        this.potionInput = potionInput;
+        this.weapon = weapon;
     }
 
     @Override
     public boolean matches (CraftingInput input, Level world) {
-        boolean hasOneDagger = false;
+        boolean hasWeapon = false;
         Holder<Potion> potionInput = null;
 
         for (ItemStack inputItem : input.items()) {
-            if (inputItem.getItem() instanceof DaggerItem) {
-                if (hasOneDagger) return false;
-                hasOneDagger = true;
+            if (this.weapon.test(inputItem)) {
+                if (hasWeapon) return false; // Only allow one weapon.
+                hasWeapon = true;
             }
-            else if (inputItem.is(Items.LINGERING_POTION)) {
+            else if (this.potionInput.test(inputItem)) {
+                // Only allow one type of potion
                 PotionContents potionComponent = inputItem.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
                 if (!potionComponent.hasEffects() || potionComponent.potion().isEmpty()) return false;
 
@@ -41,35 +78,49 @@ public class TippedDaggerRecipe extends CustomRecipe {
             else if (!inputItem.isEmpty()) return false;
         }
 
-        return hasOneDagger;
+        return hasWeapon;
     }
 
     @Override
     @NotNull
-    public ItemStack assemble (CraftingInput input, HolderLookup.Provider lookup) {
-        ItemStack inputDagger = null;
+    public ItemStack assemble (CraftingInput input) {
+        ItemStack inputWeapon = null;
         ItemStack potion = null;
         int potionCount = 0;
 
         for (ItemStack inputItem : input.items()) {
-            if (inputItem.getItem() instanceof DaggerItem) inputDagger = inputItem.copy();
-            else if (inputItem.is(Items.LINGERING_POTION)) {
+            if (this.weapon.test(inputItem)) inputWeapon = inputItem.copy();
+            else if (this.potionInput.test(inputItem)) {
                 potion = inputItem;
                 ++potionCount;
             }
         }
 
-        if (inputDagger == null || potion == null) return ItemStack.EMPTY;
+        if (inputWeapon == null || potion == null) return ItemStack.EMPTY;
         else {
-            inputDagger.set(DataComponents.POTION_CONTENTS, potion.get(DataComponents.POTION_CONTENTS));
-            ((DaggerItem)inputDagger.getItem()).setCurrentPotionUses(inputDagger, potionCount * DaggerItem.USES_PER_POTION);
-            return inputDagger;
+            inputWeapon.set(DataComponents.POTION_CONTENTS, potion.get(DataComponents.POTION_CONTENTS));
+            if (inputWeapon.getItem() instanceof DaggerItem dagger) {
+                dagger.setCurrentPotionUses(inputWeapon, potionCount * DaggerItem.USES_PER_POTION);
+            }
+            return inputWeapon;
         }
     }
 
     @Override
     @NotNull
-    public RecipeSerializer<? extends CustomRecipe> getSerializer () {
-        return AARecipeSerializers.TIPPED_DAGGER;
+    public RecipeSerializer<? extends TippedDaggerRecipe> getSerializer () {
+        return SERIALIZER;
+    }
+
+    @Override
+    @NotNull
+    protected PlacementInfo createPlacementInfo () {
+        return PlacementInfo.create(
+            List.of(
+                this.potionInput, this.potionInput, this.potionInput,
+                this.potionInput, this.weapon, this.potionInput,
+                this.potionInput, this.potionInput, this.potionInput
+            )
+        );
     }
 }

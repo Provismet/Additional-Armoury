@@ -2,13 +2,13 @@ package com.provismet.datagen.AdditionalArmoury;
 
 import com.provismet.AdditionalArmoury.items.AAArmourMaterials;
 import com.provismet.lilylib.datagen.provider.LilyEquipmentAssetProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.resources.Identifier;
 import java.util.function.BiConsumer;
 
 public class EquipmentModelGenerator extends LilyEquipmentAssetProvider {
-    public EquipmentModelGenerator (FabricDataOutput output) {
+    public EquipmentModelGenerator (FabricPackOutput output) {
         super(output);
     }
 

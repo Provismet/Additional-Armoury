@@ -4,19 +4,17 @@ import com.provismet.AdditionalArmoury.particles.InkSplatParticle;
 import com.provismet.AdditionalArmoury.particles.ShatterParticle;
 import com.provismet.AdditionalArmoury.particles.SpellChargeParticle;
 import com.provismet.AdditionalArmoury.particles.SpellRingParticle;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry.PendingParticleFactory;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 
 @Environment(EnvType.CLIENT)
 public class AAParticleFactories {
 
-    private static <T extends ParticleOptions> void register (ParticleType<T> particle, PendingParticleFactory<T> constructor) {
-        ParticleFactoryRegistry.getInstance().register(particle, constructor);
+    private static <T extends ParticleOptions> void register (ParticleType<T> particle, ParticleProviderRegistry.PendingParticleProvider<T> constructor) {
+        ParticleProviderRegistry.getInstance().register(particle, constructor);
     }
 
     public static void register () {

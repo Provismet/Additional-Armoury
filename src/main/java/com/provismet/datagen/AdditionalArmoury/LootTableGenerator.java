@@ -2,13 +2,13 @@ package com.provismet.datagen.AdditionalArmoury;
 
 import com.provismet.AdditionalArmoury.registries.AABlocks;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
 import net.minecraft.core.HolderLookup;
 import java.util.concurrent.CompletableFuture;
 
-public class LootTableGenerator extends FabricBlockLootTableProvider {
-    protected LootTableGenerator (FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+public class LootTableGenerator extends FabricBlockLootSubProvider {
+    protected LootTableGenerator (FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, registryLookup);
     }
 
@@ -17,5 +17,4 @@ public class LootTableGenerator extends FabricBlockLootTableProvider {
         dropSelf(AABlocks.OVERNETHER_BLOCK);
         dropSelf(AABlocks.ENDERNETHER_BLOCK);
     }
-    
 }

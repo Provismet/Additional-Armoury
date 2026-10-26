@@ -3,12 +3,12 @@ package com.provismet.datagen.AdditionalArmoury;
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.registries.AASounds;
 import com.provismet.lilylib.datagen.provider.LilySoundProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import java.util.concurrent.CompletableFuture;
 
 public class SoundGenerator extends LilySoundProvider {
-    protected SoundGenerator (FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    protected SoundGenerator (FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 

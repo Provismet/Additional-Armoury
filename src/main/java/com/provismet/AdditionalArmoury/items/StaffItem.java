@@ -44,7 +44,7 @@ public class StaffItem extends Item {
 
     @Override
     public Component getName (ItemStack stack) {
-        if (!EnchantmentHelper.hasAnyEnchantments(stack)) return super.getName();
+        if (!EnchantmentHelper.hasAnyEnchantments(stack)) return super.getName(stack);
         else return Component.translatable(this.descriptionId + ".enchanted");
     }
 

@@ -7,13 +7,13 @@ import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.AdditionalArmoury.utility.tags.AAEnchantmentTags;
 import com.provismet.CombatPlusCore.utility.tag.CPCEnchantmentTags;
 import com.provismet.lilylib.datagen.tag.LilyTagProviders;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.enchantment.Enchantments;
 
 public class EnchantmentTagGenerator extends LilyTagProviders.LilyEnchantmentTagProvider {
-    public EnchantmentTagGenerator (FabricDataOutput output, CompletableFuture<Provider> completableFuture) {
+    public EnchantmentTagGenerator (FabricPackOutput output, CompletableFuture<Provider> completableFuture) {
         super(output, completableFuture);
     }
 

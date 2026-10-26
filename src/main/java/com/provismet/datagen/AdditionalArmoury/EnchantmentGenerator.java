@@ -2,12 +2,12 @@ package com.provismet.datagen.AdditionalArmoury;
 
 import com.provismet.AdditionalArmoury.registries.AAEnchantments;
 import com.provismet.lilylib.datagen.provider.LilyEnchantmentProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import java.util.concurrent.CompletableFuture;
 
 public class EnchantmentGenerator extends LilyEnchantmentProvider {
-    public EnchantmentGenerator (FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public EnchantmentGenerator (FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 

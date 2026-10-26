@@ -1,15 +1,12 @@
 package com.provismet.datagen.AdditionalArmoury;
 
-import java.util.concurrent.CompletableFuture;
-
 import com.provismet.AdditionalArmoury.items.DaggerItem;
 import com.provismet.AdditionalArmoury.items.MaceItem;
 import com.provismet.AdditionalArmoury.registries.AAItems;
-
 import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
 import com.provismet.CombatPlusCore.utility.tag.CPCItemTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider.ItemTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.Registries;
@@ -18,10 +15,12 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
-public class ItemTagGenerator extends ItemTagProvider {
+import java.util.concurrent.CompletableFuture;
+
+public class ItemTagGenerator extends ItemTagsProvider {
     private static final TagKey<Item> HIDDEN_FROM_RECIPE_VIEWERS = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "hidden_from_recipe_viewers"));
 
-    public ItemTagGenerator(FabricDataOutput output, CompletableFuture<Provider> completableFuture) {
+    public ItemTagGenerator(FabricPackOutput output, CompletableFuture<Provider> completableFuture) {
         super(output, completableFuture);
     }
 

@@ -13,7 +13,7 @@ import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
 import com.provismet.lilylib.container.DamageTypeContainer;
 import com.provismet.lilylib.datagen.provider.LilyLanguageProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -32,7 +32,7 @@ public class LanguageGenerator extends LilyLanguageProvider {
         "Endernether Dagger", AAItems.ENDERNETHER_DAGGER
     );
 
-    protected LanguageGenerator(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    protected LanguageGenerator(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, registryLookup);
     }
 

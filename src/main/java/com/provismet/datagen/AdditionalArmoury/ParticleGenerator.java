@@ -3,7 +3,7 @@ package com.provismet.datagen.AdditionalArmoury;
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.registries.AAParticleTypes;
 import com.provismet.lilylib.datagen.provider.LilyParticleTextureProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class ParticleGenerator extends LilyParticleTextureProvider {
-    protected ParticleGenerator (FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    protected ParticleGenerator (FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
