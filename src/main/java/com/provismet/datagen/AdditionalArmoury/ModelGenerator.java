@@ -65,7 +65,15 @@ public class ModelGenerator extends FabricModelProvider {
             AAItems.BOOMERANG
         );
 
-        AAItems.DAGGERS.forEach(dagger -> ModelGenerator.registerDagger(itemModelGenerator, dagger));
+        registerDagger(itemModelGenerator, AAItems.WOODEN_DAGGER, 0x643C64);
+        registerDagger(itemModelGenerator, AAItems.STONE_DAGGER, 0x494949);
+        registerDagger(itemModelGenerator, AAItems.COPPER_DAGGER, 0x5F2C1C);
+        registerDagger(itemModelGenerator, AAItems.GOLDEN_DAGGER, 0x643C64);
+        registerDagger(itemModelGenerator, AAItems.IRON_DAGGER, 0x444444);
+        registerDagger(itemModelGenerator, AAItems.DIAMOND_DAGGER, 0x0E3F36);
+        registerDagger(itemModelGenerator, AAItems.NETHERITE_DAGGER, 0x643C64);
+        registerDagger(itemModelGenerator, AAItems.OVERNETHER_DAGGER, 0x082832);
+        registerDagger(itemModelGenerator, AAItems.ENDERNETHER_DAGGER, 0x643C64);
         ModelGenerator.registerStaff(itemModelGenerator, AAItems.STAFF);
 
         AAItems.MACES.forEach(item -> itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM));
@@ -74,7 +82,7 @@ public class ModelGenerator extends FabricModelProvider {
         this.registerArmour(AAItems.ENDERNETHER_HELMET, AAItems.ENDERNETHER_CHESTPLATE, AAItems.ENDERNETHER_LEGGINGS, AAItems.ENDERNETHER_BOOTS, null, AAEquipmentAssetKeys.ENDERNETHER, itemModelGenerator);
     }
 
-    public static void registerDagger (ItemModelGenerators itemModelGenerator, DaggerItem dagger) {
+    public static void registerDagger (ItemModelGenerators itemModelGenerator, DaggerItem dagger, int defaultColour) {
         Identifier model = HANDHELD_LAYERED.create(
             ModelLocationUtils.getModelLocation(dagger),
             TextureMapping.layered(
@@ -83,7 +91,7 @@ public class ModelGenerator extends FabricModelProvider {
             ),
             itemModelGenerator.modelOutput
         );
-        itemModelGenerator.itemModelOutput.accept(dagger, ItemModelUtils.tintedModel(model, new Constant(CommonColors.WHITE), new DaggerTintSource()));
+        itemModelGenerator.itemModelOutput.accept(dagger, ItemModelUtils.tintedModel(model, new Constant(CommonColors.WHITE), new DaggerTintSource(defaultColour)));
     }
 
     public static void registerStaff (ItemModelGenerators itemModelGenerator, StaffItem staff) {

@@ -24,6 +24,7 @@ public class LanguageGenerator extends LilyLanguageProvider {
     private static final Map<String, DaggerItem> DAGGER_TRANSLATIONS = Map.of(
         "Wooden Dagger", AAItems.WOODEN_DAGGER,
         "Stone Dagger", AAItems.STONE_DAGGER,
+        "Copper Dagger", AAItems.COPPER_DAGGER,
         "Golden Dagger", AAItems.GOLDEN_DAGGER,
         "Iron Dagger", AAItems.IRON_DAGGER,
         "Diamond Dagger", AAItems.DIAMOND_DAGGER,
@@ -85,6 +86,7 @@ public class LanguageGenerator extends LilyLanguageProvider {
 
         translationBuilder.add(AAItems.WOODEN_MACE, "Wooden Mace");
         translationBuilder.add(AAItems.STONE_MACE, "Stone Mace");
+        translationBuilder.add(AAItems.COPPER_MACE, "Copper Mace");
         translationBuilder.add(AAItems.GOLDEN_MACE, "Golden Mace");
         translationBuilder.add(AAItems.IRON_MACE, "Iron Mace");
         translationBuilder.add(AAItems.DIAMOND_MACE, "Diamond Mace");

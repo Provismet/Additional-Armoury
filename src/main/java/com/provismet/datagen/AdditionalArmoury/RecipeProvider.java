@@ -62,6 +62,7 @@ public class RecipeProvider extends FabricRecipeProvider {
 
             createDaggerRecipe(AAItems.WOODEN_DAGGER, ItemTags.PLANKS).save(output);
             offerDaggerRecipe(AAItems.STONE_DAGGER, ItemTags.STONE_TOOL_MATERIALS, Items.COBBLESTONE, output);
+            offerDaggerRecipe(AAItems.COPPER_DAGGER, ItemTags.COPPER_TOOL_MATERIALS, Items.COPPER_INGOT, output);
             offerDaggerRecipe(AAItems.GOLDEN_DAGGER, ConventionalItemTags.GOLD_INGOTS, Items.GOLD_INGOT, output);
             offerDaggerRecipe(AAItems.IRON_DAGGER, ConventionalItemTags.IRON_INGOTS, Items.IRON_INGOT, output);
             offerDaggerRecipe(AAItems.DIAMOND_DAGGER, ConventionalItemTags.DIAMOND_GEMS, Items.DIAMOND, output);
@@ -71,6 +72,7 @@ public class RecipeProvider extends FabricRecipeProvider {
 
             createMaceRecipe(AAItems.WOODEN_MACE, ItemTags.PLANKS).save(output);
             offerMaceRecipe(AAItems.STONE_MACE, ItemTags.STONE_TOOL_MATERIALS, Items.COBBLESTONE);
+            offerMaceRecipe(AAItems.COPPER_MACE, ItemTags.COPPER_TOOL_MATERIALS, Items.COPPER_INGOT);
             offerMaceRecipe(AAItems.GOLDEN_MACE, ConventionalItemTags.GOLD_INGOTS, Items.GOLD_INGOT);
             offerMaceRecipe(AAItems.IRON_MACE, ConventionalItemTags.IRON_INGOTS, Items.IRON_INGOT);
             offerMaceRecipe(AAItems.DIAMOND_MACE, ConventionalItemTags.DIAMOND_GEMS, Items.DIAMOND);

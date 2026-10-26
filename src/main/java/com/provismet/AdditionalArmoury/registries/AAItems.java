@@ -42,6 +42,7 @@ public class AAItems {
 
     public static final DaggerItem WOODEN_DAGGER = register("wooden_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.WOOD, settings)));
     public static final DaggerItem STONE_DAGGER = register("stone_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.STONE, settings)));
+    public static final DaggerItem COPPER_DAGGER = register("copper_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.COPPER, settings)));
     public static final DaggerItem GOLDEN_DAGGER = register("golden_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.GOLD, settings)));
     public static final DaggerItem IRON_DAGGER = register("iron_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.IRON, settings)));
     public static final DaggerItem DIAMOND_DAGGER = register("diamond_dagger", settings -> new DaggerItem(DaggerItem.createDefaultDaggerSettings(ToolMaterial.DIAMOND, settings)));
@@ -51,6 +52,7 @@ public class AAItems {
 
     public static final MaceItem WOODEN_MACE = register("wooden_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.WOOD, settings)));
     public static final MaceItem STONE_MACE = register("stone_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.STONE, settings)));
+    public static final MaceItem COPPER_MACE = register("copper_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.COPPER, settings)));
     public static final MaceItem GOLDEN_MACE = register("golden_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.GOLD, settings)));
     public static final MaceItem IRON_MACE = register("iron_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.IRON, settings)));
     public static final MaceItem DIAMOND_MACE = register("diamond_mace", settings -> new MaceItem(MaceItem.createDefaultMaceSettings(ToolMaterial.DIAMOND, settings)));
@@ -80,8 +82,8 @@ public class AAItems {
     public static final List<Item> ITEM_PROJECTILES = Arrays.asList(FIREBALL, FROSTBALL, GHOSTLY_ORB, WIND_TORNADO, MAGIC_MISSILE);
 
     // List representations so I don't have to update the generators and other registries.
-    public static final List<DaggerItem> DAGGERS = Arrays.asList(WOODEN_DAGGER, STONE_DAGGER, GOLDEN_DAGGER, IRON_DAGGER, DIAMOND_DAGGER, NETHERITE_DAGGER, OVERNETHER_DAGGER, ENDERNETHER_DAGGER);
-    public static final List<MaceItem> MACES = Arrays.asList(WOODEN_MACE, STONE_MACE, GOLDEN_MACE, IRON_MACE, DIAMOND_MACE, NETHERITE_MACE, OVERNETHER_MACE, ENDERNETHER_MACE);
+    public static final List<DaggerItem> DAGGERS = Arrays.asList(WOODEN_DAGGER, STONE_DAGGER, COPPER_DAGGER, GOLDEN_DAGGER, IRON_DAGGER, DIAMOND_DAGGER, NETHERITE_DAGGER, OVERNETHER_DAGGER, ENDERNETHER_DAGGER);
+    public static final List<MaceItem> MACES = Arrays.asList(WOODEN_MACE, STONE_MACE, COPPER_MACE, GOLDEN_MACE, IRON_MACE, DIAMOND_MACE, NETHERITE_MACE, OVERNETHER_MACE, ENDERNETHER_MACE);
     public static final List<Item> OVERNETHER_ARMOUR = Arrays.asList(OVERNETHER_HELMET, OVERNETHER_CHESTPLATE, OVERNETHER_LEGGINGS, OVERNETHER_BOOTS);
     public static final List<Item> ENDERNETHER_ARMOUR = Arrays.asList(ENDERNETHER_HELMET, ENDERNETHER_CHESTPLATE, ENDERNETHER_LEGGINGS, ENDERNETHER_BOOTS);
 
