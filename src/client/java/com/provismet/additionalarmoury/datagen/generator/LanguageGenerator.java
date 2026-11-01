@@ -1,0 +1,234 @@
+package com.provismet.additionalarmoury.datagen.generator;
+
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+
+import com.provismet.additionalarmoury.item.DaggerItem;
+import com.provismet.additionalarmoury.registries.AAEnchantments;
+import com.provismet.additionalarmoury.registries.AAEntityTypes;
+import com.provismet.additionalarmoury.registries.AAItems;
+import com.provismet.additionalarmoury.registries.AAStatusEffects;
+
+import com.provismet.additionalarmoury.utility.AADamageTypes;
+import com.provismet.additionalarmoury.utility.tags.AAItemTags;
+import com.provismet.lilylib.container.DamageTypeContainer;
+import com.provismet.lilylib.datagen.provider.LilyLanguageProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.Potions;
+
+public class LanguageGenerator extends LilyLanguageProvider {
+    private static final Map<String, DaggerItem> DAGGER_TRANSLATIONS = Map.of(
+        "Wooden Dagger", AAItems.WOODEN_DAGGER,
+        "Stone Dagger", AAItems.STONE_DAGGER,
+        "Copper Dagger", AAItems.COPPER_DAGGER,
+        "Golden Dagger", AAItems.GOLDEN_DAGGER,
+        "Iron Dagger", AAItems.IRON_DAGGER,
+        "Diamond Dagger", AAItems.DIAMOND_DAGGER,
+        "Netherite Dagger", AAItems.NETHERITE_DAGGER,
+        "Overnether Dagger", AAItems.OVERNETHER_DAGGER,
+        "Endernether Dagger", AAItems.ENDERNETHER_DAGGER
+    );
+
+    public LanguageGenerator (FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(dataOutput, registryLookup);
+    }
+
+    @Override
+    public void generateTranslations (HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder) {
+        translationBuilder.add("subtitles.additional-armoury.boomerang.throw", "Throws boomerang");
+        translationBuilder.add("subtitles.additional-armoury.staff.cast", "Casts spell");
+
+        translationBuilder.add(AAItems.OVERNETHER_INGOT, "Overnether Ingot");
+        translationBuilder.add(AAItems.ENDERNETHER_INGOT, "Endernether Ingot");
+        
+        translationBuilder.add(AAItems.OVERNETHER_BLOCK, "Overnether Block");
+        translationBuilder.add(AAItems.ENDERNETHER_BLOCK, "Endernether Block");
+
+        translationBuilder.add(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE, "Overnether Upgrade");
+        translationBuilder.add("upgrade.additional-armoury.overnether_upgrade", "Overnether Upgrade");
+        translationBuilder.add("item.additional-armoury.overnether_upgrade.ingredients", "Overnether Ingot");
+        translationBuilder.add("item.additional-armoury.overnether_upgrade.addition", "Add Overnether Ingot");
+
+        translationBuilder.add(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE, "Endernether Upgrade");
+        translationBuilder.add("upgrade.additional-armoury.endernether_upgrade", "Endernether Upgrade");
+        translationBuilder.add("item.additional-armoury.endernether_upgrade.ingredients", "Endernether Ingot");
+        translationBuilder.add("item.additional-armoury.endernether_upgrade.addition", "Add Endernether Ingot");
+
+        translationBuilder.add(AAItems.OVERNETHER_SWORD, "Overnether Sword");
+        translationBuilder.add(AAItems.OVERNETHER_SPEAR, "Overnether Spear");
+        translationBuilder.add(AAItems.OVERNETHER_AXE, "Overnether Axe");
+        translationBuilder.add(AAItems.OVERNETHER_PICKAXE, "Overnether Pickaxe");
+        translationBuilder.add(AAItems.OVERNETHER_SHOVEL, "Overnether Shovel");
+        translationBuilder.add(AAItems.OVERNETHER_HOE, "Overnether Hoe");
+
+        translationBuilder.add(AAItems.ENDERNETHER_SWORD, "Endernether Sword");
+        translationBuilder.add(AAItems.ENDERNETHER_SPEAR, "Endernether Spear");
+        translationBuilder.add(AAItems.ENDERNETHER_AXE, "Endernether Axe");
+        translationBuilder.add(AAItems.ENDERNETHER_PICKAXE, "Endernether Pickaxe");
+        translationBuilder.add(AAItems.ENDERNETHER_SHOVEL, "Endernether Shovel");
+        translationBuilder.add(AAItems.ENDERNETHER_HOE, "Endernether Hoe");
+
+        translationBuilder.add(AAItems.OVERNETHER_HELMET, "Overnether Helmet");
+        translationBuilder.add(AAItems.OVERNETHER_CHESTPLATE, "Overnether Chestplate");
+        translationBuilder.add(AAItems.OVERNETHER_LEGGINGS, "Overnether Leggings");
+        translationBuilder.add(AAItems.OVERNETHER_BOOTS, "Overnether Boots");
+
+        translationBuilder.add(AAItems.ENDERNETHER_HELMET, "Endernether Helmet");
+        translationBuilder.add(AAItems.ENDERNETHER_CHESTPLATE, "Endernether Chestplate");
+        translationBuilder.add(AAItems.ENDERNETHER_LEGGINGS, "Endernether Leggings");
+        translationBuilder.add(AAItems.ENDERNETHER_BOOTS, "Endernether Boots");
+
+        for (Map.Entry<String, DaggerItem> entry : DAGGER_TRANSLATIONS.entrySet()) {
+            LanguageGenerator.addDagger(translationBuilder, entry.getValue(), entry.getKey());
+        }
+
+        translationBuilder.add(AAItems.WOODEN_MACE, "Wooden Mace");
+        translationBuilder.add(AAItems.STONE_MACE, "Stone Mace");
+        translationBuilder.add(AAItems.COPPER_MACE, "Copper Mace");
+        translationBuilder.add(AAItems.GOLDEN_MACE, "Golden Mace");
+        translationBuilder.add(AAItems.IRON_MACE, "Iron Mace");
+        translationBuilder.add(AAItems.DIAMOND_MACE, "Diamond Mace");
+        translationBuilder.add(AAItems.NETHERITE_MACE, "Netherite Mace");
+        translationBuilder.add(AAItems.OVERNETHER_MACE, "Overnether Mace");
+        translationBuilder.add(AAItems.ENDERNETHER_MACE, "Endernether Mace");
+
+        translationBuilder.add(AAItems.STAFF, "Unenchanted Staff");
+        translationBuilder.add(AAItems.STAFF.getDescriptionId() + ".enchanted", "Enchanted Staff");
+        translationBuilder.add(AAItems.BOOMERANG, "Boomerang");
+
+        translationBuilder.add(AAItems.FIREBALL, "Fireball");
+        translationBuilder.add(AAItems.FROSTBALL, "Frostball");
+        translationBuilder.add(AAItems.GHOSTLY_ORB, "Ghostly Orb");
+        translationBuilder.add(AAItems.WIND_TORNADO, "Wind Tornado");
+        translationBuilder.add(AAItems.MAGIC_MISSILE, "Magical Missile");
+
+        translationBuilder.add(AAEntityTypes.FIREBALL, "Fireball Spell");
+        translationBuilder.add(AAEntityTypes.FROSTBALL, "Frostball Spell");
+        translationBuilder.add(AAEntityTypes.GHOSTLY_ORB, "Ghostly Orb Spell");
+        translationBuilder.add(AAEntityTypes.WIND_TORNADO, "Wind Tornado Spell");
+        translationBuilder.add(AAEntityTypes.MAGIC_MISSILE, "Missile Spell");
+        translationBuilder.add(AAEntityTypes.BOOMERANG, "Boomerang");
+
+        translationBuilder.add(AAStatusEffects.SHATTERED.value(), "Shattered");
+
+        this.addEnchantment(translationBuilder, AAEnchantments.BOOST, "Boosting", "Launches the user forwards.");
+        this.addEnchantment(translationBuilder, AAEnchantments.ERUPTION, "Eruption", "Knockbacks all nearby enemies.");
+        this.addEnchantment(translationBuilder, AAEnchantments.JUMP, "Soaring", "Launch into the air and gain slow-fall.");
+        this.addEnchantment(translationBuilder, AAEnchantments.FIREBALL, "Fireball", "Shoot a fireball that burns on hit.");
+        this.addEnchantment(translationBuilder, AAEnchantments.FROSTBALL, "Frostball", "Shoot a frostball that freezes on hit.");
+        this.addEnchantment(translationBuilder, AAEnchantments.GHOSTLY_ORB, "Ghostly Orb", "Shoot a spectral ball that passes through blocks.");
+        this.addEnchantment(translationBuilder, AAEnchantments.GALE, "Gale", "Shoot a barrage of tornados that launch targets.");
+        this.addEnchantment(translationBuilder, AAEnchantments.MAGIC_MISSILE, "Missile", "Shoot a magical missile that follows enemies.");
+        this.addEnchantment(translationBuilder, AAEnchantments.EXPLOSION, "Bakuretsu Mahou", "Casts the most powerful of artillery magic.");
+        this.addEnchantment(translationBuilder, AAEnchantments.ADHESIVE, "Adhesive", "Potion-tipped daggers have unlimited uses.");
+        this.addEnchantment(translationBuilder, AAEnchantments.SPLATTER, "Splatter", "Potion-tipped daggers affect multiple targets at once.");
+        this.addEnchantment(translationBuilder, AAEnchantments.SHREDDING, "Shredding", "Increases the duration of the shattered effect from a mace.");
+        this.addEnchantment(translationBuilder, AAEnchantments.DISMANTLE, "Dismantling", "Increases damage dealt to armor from maces.");
+        this.addEnchantment(translationBuilder, AAEnchantments.RICOCHET, "Ricochet", "Increases the number of boomerang bounces.");
+        this.addEnchantment(translationBuilder, AAEnchantments.MULTITHROW, "MultiThrow", "Throws 3 boomerangs at once.");
+        this.addEnchantment(translationBuilder, AAEnchantments.FAR_THROW, "Discus", "Increases boomerang maximum distance.");
+        this.addEnchantment(translationBuilder, AAEnchantments.STRONG_THROW, "Strong Arm", "Increases boomerang damage.");
+
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.FIREBALL, "was blasted by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.FROSTBALL, "was frozen by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.ERUPTION, "was launched by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.GHOSTLY_ORB, "was haunted by");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.WIND_TORNADO, "was caught in a tornado from");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.MAGIC_MISSILE, "could not outrun the magic of");
+        LanguageGenerator.addAttackDeathMessage(translationBuilder, AADamageTypes.BOOMERANG, "was struck by a boomerang from");
+
+        translationBuilder.add("tooltip.additional-armoury.dagger_uses", "Remaining Splashes: %1$s");
+
+        LanguageGenerator.addAdvancement(translationBuilder, "enchant_staff", "Magic Caster", "Enchant a Staff");
+        LanguageGenerator.addAdvancement(translationBuilder, "archwizard", "Arch-Wizard", "Cast the most powerful magic");
+        LanguageGenerator.addAdvancement(translationBuilder, "tipped_dagger", "Rogue-Like", "Craft a potion-tipped Dagger");
+        LanguageGenerator.addAdvancement(translationBuilder, "overnether", "I Am Listening", "Get a full suit of Overnether armor");
+        LanguageGenerator.addAdvancement(translationBuilder, "endernether", "Part Of The Chorus", "Get a full suit of Endernether armor");
+
+        translationBuilder.add(AAItemTags.DAGGERS, "Daggers");
+        translationBuilder.add(AAItemTags.DAGGER_ENCHANTABLE, "Dagger Enchantable");
+        translationBuilder.add(AAItemTags.MACES, "Maces");
+        translationBuilder.add(AAItemTags.MACE_ENCHANTABLE, "Mace Enchantable");
+        translationBuilder.add(AAItemTags.BOOMERANG_ENCHANTABLE, "Boomerang Enchantable");
+        translationBuilder.add(AAItemTags.STAFF_ENCHANTABLE, "Staff Enchantable");
+    }
+    
+    public static void addDagger (TranslationBuilder translationBuilder, DaggerItem dagger, String basename) {
+        translationBuilder.add(dagger, basename);
+
+        for (Potion potion : BuiltInRegistries.POTION.entrySet().stream().map(Map.Entry::getValue).toList()) {
+            Holder<Potion> potionEntry = BuiltInRegistries.POTION.wrapAsHolder(potion);
+            if (potionEntry.unwrapKey().isEmpty()) continue;
+
+            String effectKey = dagger.getDescriptionId() + ".effect." + potionEntry.unwrapKey().get().identifier().getPath();
+            String potionBasename = LanguageGenerator.titleCase(potion.name().replace('_', ' '));
+
+            try {
+                if (potionEntry != Potions.AWKWARD && potionEntry != Potions.MUNDANE && potionEntry != Potions.THICK && !potionEntry.value().getEffects().isEmpty()) {
+                    translationBuilder.add(effectKey, potionBasename + "-Tipped " + basename);
+                }
+                else if (potionEntry == Potions.WATER) {
+                    translationBuilder.add(effectKey, "Wet " + basename);
+                }
+                else {
+                    translationBuilder.add(effectKey, basename);
+                }
+            }
+            catch (RuntimeException ignored) {
+
+            }
+        }
+    }
+
+    /**
+     * <p> Intended for use by other mods, this function writes the translation keys for AdditionalArmoury daggers tipped with a potion. </p>
+     * <p> Vanilla potions are handled automatically by the {@link LanguageGenerator#addDagger} method. </p>
+     *
+     * @param translationBuilder TranslationBuilder
+     * @param potion The potion to be added.
+     * @param potionPrefix Prefixes the translation, for example: "Swiftness-Tipped "
+     */
+    public static void addPotionEntriesForDaggers (TranslationBuilder translationBuilder, Holder<Potion> potion, String potionPrefix) {
+        if (potion.unwrapKey().isEmpty()) {
+            throw new RuntimeException("Cannot add potion to daggers because key is empty.");
+        }
+
+        for (Map.Entry<String, DaggerItem> entry : DAGGER_TRANSLATIONS.entrySet()) {
+            String effectKey = entry.getValue().getDescriptionId() + ".effect." + potion.unwrapKey().get().identifier().getPath();
+            translationBuilder.add(effectKey, potionPrefix + entry.getKey());
+        }
+    }
+
+    private static String titleCase (String string) {
+        String[] words = string.split(" ");
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < words.length; ++i) {
+            String word = words[i];
+            for (int j = 0; j < word.length(); ++j) {
+                char character = word.charAt(j);
+
+                if (j == 0) builder.append(Character.toUpperCase(character));
+                else builder.append(Character.toLowerCase(character));
+            }
+
+            if (i < words.length - 1) builder.append(" ");
+        }
+
+        return builder.toString();
+    }
+
+    private static void addAttackDeathMessage (TranslationBuilder translationBuilder, DamageTypeContainer container, String message) {
+        translationBuilder.add(container.getTranslationKey(), "%1$s " + message + " %2$s");
+        translationBuilder.add(container.getTranslationKey("item"), "%1$s " + message + " %2$s using %3$s");
+    }
+
+    public static void addAdvancement (TranslationBuilder translationBuilder, String name, String title, String description) {
+        translationBuilder.add("advancement.additional-armoury." + name + ".title", title);
+        translationBuilder.add("advancement.additional-armoury." + name + ".description", description);
+    }
+}

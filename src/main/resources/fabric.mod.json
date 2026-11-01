@@ -17,13 +17,13 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.provismet.AdditionalArmoury.AdditionalArmouryMain"
+			"com.provismet.additionalarmoury.AdditionalArmouryMain"
 		],
 		"client": [
-			"com.provismet.AdditionalArmoury.AdditionalArmouryClient"
+			"com.provismet.additionalarmoury.AdditionalArmouryClient"
 		],
 		"fabric-datagen": [
-			"com.provismet.AdditionalArmoury.datagen.AdditionalArmouryDatagen"
+			"com.provismet.additionalarmoury.datagen.AdditionalArmouryDatagen"
 		]
 	},
 	"mixins": [

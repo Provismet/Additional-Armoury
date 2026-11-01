@@ -1,0 +1,14 @@
+package com.provismet.additionalarmoury.utility.registry;
+
+import com.mojang.serialization.MapCodec;
+import com.provismet.additionalarmoury.enchantment.component.SpellIncantationTickingEffect;
+import com.provismet.additionalarmoury.enchantment.incantation.LambdaIncantationEffect;
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.minecraft.core.Registry;
+
+public class AARegistries {
+    public static final Registry<MapCodec<? extends SpellIncantationTickingEffect>> TICKING_INCANTATION = FabricRegistryBuilder.create(AARegistryKeys.TICKING_INCANTATION).buildAndRegister();
+    public static final Registry<LambdaIncantationEffect.Lambda> INCANTATION_LAMBDA = FabricRegistryBuilder.create(AARegistryKeys.INCANTATION_LAMBDA).buildAndRegister();
+
+    public static void init () {}
+}

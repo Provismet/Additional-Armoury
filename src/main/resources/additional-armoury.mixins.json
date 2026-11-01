@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.provismet.AdditionalArmoury.mixin",
+  "package": "com.provismet.additionalarmoury.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "PlayerEntityMixin"
