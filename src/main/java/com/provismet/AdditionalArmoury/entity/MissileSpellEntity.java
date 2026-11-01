@@ -42,12 +42,17 @@ public class MissileSpellEntity extends AbstractSpellEntity {
         }
         super.tick();
     }
-    
+
+    @Override
+    protected float getBasePower () {
+        return 6f;
+    }
+
     @Override
     public void onHitEntity (EntityHitResult entityHitResult) {
         super.onHitEntity(entityHitResult);
         if (this.level() instanceof ServerLevel world) {
-            entityHitResult.getEntity().hurtServer(world, AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 6f);
+            entityHitResult.getEntity().hurtServer(world, AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), this.getPower());
         }
     }
 

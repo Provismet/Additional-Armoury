@@ -38,6 +38,11 @@ public class GhostlySpellEntity extends AbstractSpellEntity {
     }
 
     @Override
+    protected float getBasePower () {
+        return 6f;
+    }
+
+    @Override
     public void onHit (HitResult hitResult) {
         if (hitResult.getType() == HitResult.Type.ENTITY) {
             this.onHitEntity((EntityHitResult)hitResult);
@@ -50,7 +55,7 @@ public class GhostlySpellEntity extends AbstractSpellEntity {
     public void onHitEntity (EntityHitResult entityHitResult) {
         super.onHitEntity(entityHitResult);
         if (this.level() instanceof ServerLevel world) {
-            entityHitResult.getEntity().hurtServer(world, AADamageTypes.GHOSTLY_ORB.createDamageSource(this, this.getOwner()), 6f);
+            entityHitResult.getEntity().hurtServer(world, AADamageTypes.GHOSTLY_ORB.createDamageSource(this, this.getOwner()), this.getPower());
         }
     }
 

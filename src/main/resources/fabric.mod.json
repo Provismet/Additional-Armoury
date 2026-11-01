@@ -23,11 +23,15 @@
 			"com.provismet.AdditionalArmoury.AdditionalArmouryClient"
 		],
 		"fabric-datagen": [
-			"com.provismet.datagen.AdditionalArmoury.AdditionalArmouryDatagen"
+			"com.provismet.AdditionalArmoury.datagen.AdditionalArmouryDatagen"
 		]
 	},
 	"mixins": [
-		"additional-armoury.mixins.json"
+		"additional-armoury.mixins.json",
+		{
+			"environment": "client",
+			"config": "additional-armoury.client.mixins.json"
+		}
 	],
 	"depends": {
 		"fabricloader": ">=0.15.0",

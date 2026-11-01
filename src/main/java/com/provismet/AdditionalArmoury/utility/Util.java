@@ -1,9 +1,9 @@
 package com.provismet.AdditionalArmoury.utility;
 
-import com.provismet.AdditionalArmoury.items.AAArmourMaterial;
-import com.provismet.AdditionalArmoury.items.AAToolMaterial;
-import com.provismet.CombatPlusCore.items.component.MeleeWeaponComponent;
-import com.provismet.CombatPlusCore.registries.CPCDataComponentTypes;
+import com.provismet.AdditionalArmoury.item.AAArmourMaterial;
+import com.provismet.AdditionalArmoury.item.AAToolMaterial;
+import com.provismet.CombatPlusCore.api.item.component.MeleeWeaponComponent;
+import com.provismet.CombatPlusCore.registries.CombatPlusDataComponentTypes;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -48,13 +48,13 @@ public class Util {
     public static Item.Properties applySwordSettings (AAToolMaterial material, float attack, float speed, Item.Properties settings) {
         return Util.applyToolSettings(material.baseMaterial(), settings)
             .sword(material.baseMaterial(), attack, speed)
-            .component(CPCDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createDual(material.baseMaterial().attackDamageBonus() + attack))
+            .component(CombatPlusDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createDual(material.baseMaterial().attackDamageBonus() + attack))
             .attributes(material.createAttributeComponent(attack, speed));
     }
 
     public static Item.Properties applySpearSettings (AAToolMaterial material, float attackDuration, float damageMultiplier, float delay, float dismountTime, float dismountThreshold, float knockbackTime, float knockbackThreshold, float damageTime, float damageThreshold, Item.Properties settings) {
         return settings.spear(material.baseMaterial(), attackDuration, damageMultiplier, delay, dismountTime, dismountThreshold, knockbackTime, knockbackThreshold, damageTime, damageThreshold)
-            .component(CPCDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createMelee(material.baseMaterial().attackDamageBonus()))
+            .component(CombatPlusDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createMelee(material.baseMaterial().attackDamageBonus()))
             .attributes(material.createAttributeComponent(0, 1f / attackDuration - 4f));
     }
 

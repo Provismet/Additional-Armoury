@@ -1,9 +1,9 @@
 package com.provismet.AdditionalArmoury.registries;
 
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
-import com.provismet.AdditionalArmoury.particles.effects.InkSplatParticleEffect;
-import com.provismet.AdditionalArmoury.particles.effects.SpellChargeParticleEffect;
-import com.provismet.AdditionalArmoury.particles.effects.SpellRingParticleEffect;
+import com.provismet.AdditionalArmoury.particle.effects.InkSplatParticleEffect;
+import com.provismet.AdditionalArmoury.particle.effects.SpellChargeParticleEffect;
+import com.provismet.AdditionalArmoury.particle.effects.SpellRingParticleEffect;
 
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.Registry;

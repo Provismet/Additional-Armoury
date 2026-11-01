@@ -28,13 +28,18 @@ public class WindTornadoSpellEntity extends AbstractSpellEntity {
         this(world, owner);
         this.setDeltaMovement(-Mth.sin((owner.getYHeadRot() + aimOffset) / Mth.RAD_TO_DEG) * SPEED, 0f, Mth.cos((owner.getYHeadRot() + aimOffset) / Mth.RAD_TO_DEG) * SPEED);
     }
-    
+
+    @Override
+    protected float getBasePower () {
+        return 1f;
+    }
+
     @Override
     public void onHitEntity (EntityHitResult entityHitResult) {
         super.onHitEntity(entityHitResult);
 
         if (this.level() instanceof ServerLevel world) {
-            entityHitResult.getEntity().hurtServer(world, AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), 1f);
+            entityHitResult.getEntity().hurtServer(world, AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), this.getPower());
             world.sendParticles(ParticleTypes.GUST, this.getX(), this.getY() + this.getBbHeight() / 2f, this.getZ(), 1, 0, 0, 0, 0);
         }
         

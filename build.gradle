@@ -7,38 +7,26 @@ plugins {
 version = project.mod_version + "+" + project.minecraft_version
 group = project.maven_group
 
-base {
-	archivesName = project.archives_base_name
-}
-
 repositories {
 	mavenLocal()
 	maven { url "https://jitpack.io" }
 }
 
-sourceSets {
-    main {
-        resources {
-            srcDirs += [
-                    'src/main/generated'
-            ]
-        }
-    }
+loom {
+	splitEnvironmentSourceSets()
+	mods {
+		"additional-armoury" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
 }
 
-loom {
-    runs {
-        // This adds a new gradle task that runs the datagen API: "gradlew runDatagen"
-        datagen {
-            inherit client
-            name "Data Generation"
-            vmArg "-Dfabric-api.datagen"
-            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
-            vmArg "-Dfabric-api.datagen.modid=${modid}"
- 
-            runDir "build/datagen"
-        }
-    }
+fabricApi {
+	configureDataGeneration {
+		client = true
+		modId = "additional-armoury"
+	}
 }
 
 dependencies {
@@ -69,8 +57,11 @@ java {
 }
 
 jar {
+	def projectName = project.name
+	inputs.property "projectName", projectName
+
 	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}"}
+		rename { "${it}_$projectName"}
 	}
 }
 

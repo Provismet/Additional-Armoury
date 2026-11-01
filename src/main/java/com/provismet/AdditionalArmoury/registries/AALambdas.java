@@ -7,12 +7,12 @@ import com.provismet.AdditionalArmoury.entity.FrostballSpellEntity;
 import com.provismet.AdditionalArmoury.entity.GhostlySpellEntity;
 import com.provismet.AdditionalArmoury.entity.MissileSpellEntity;
 import com.provismet.AdditionalArmoury.entity.WindTornadoSpellEntity;
-import com.provismet.AdditionalArmoury.particles.effects.SpellChargeParticleEffect;
-import com.provismet.AdditionalArmoury.particles.effects.SpellRingParticleEffect;
+import com.provismet.AdditionalArmoury.particle.effects.SpellChargeParticleEffect;
+import com.provismet.AdditionalArmoury.particle.effects.SpellRingParticleEffect;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
 import com.provismet.AdditionalArmoury.utility.registry.AARegistries;
-import com.provismet.CombatPlusCore.enchantment.effect.singleEntity.CodeExecutionSingleEntityEffect;
-import com.provismet.CombatPlusCore.utility.CPCRegistries;
+import com.provismet.CombatPlusCore.api.enchantment.effect.singleEntity.CodeExecutionSingleEntityEffect;
+import com.provismet.CombatPlusCore.utility.CombatPlusRegistries;
 import com.provismet.lilylib.util.Relations;
 import java.util.List;
 import net.minecraft.core.BlockPos;
@@ -162,7 +162,7 @@ public class AALambdas {
     }
 
     private static void register (String name, CodeExecutionSingleEntityEffect.Lambda lambda) {
-        Registry.register(CPCRegistries.SINGLE_ENTITY_LAMBDA, AdditionalArmouryMain.identifier(name), lambda);
+        Registry.register(CombatPlusRegistries.SINGLE_ENTITY_LAMBDA, AdditionalArmouryMain.identifier(name), lambda);
     }
 
     private static void registerIncantation (String name, LambdaIncantationEffect.Lambda lambda) {

@@ -1,5 +1,6 @@
 package com.provismet.AdditionalArmoury.entity;
 
+import com.provismet.CombatPlusCore.registries.CombatPlusAttributes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -47,6 +48,17 @@ public abstract class AbstractSpellEntity extends ThrowableItemProjectile {
             this.level().addParticle(this.getParticleType(), this.getX(), this.getY() + this.getBbHeight() / 2f, this.getZ(), 0, 0, 0);
         }
         super.tick();
+    }
+
+    protected float getBasePower () {
+        return 0f;
+    }
+
+    protected final float getPower () {
+        if (this.getOwner() instanceof LivingEntity living) {
+            return this.getBasePower() + (float)living.getAttributeValue(CombatPlusAttributes.MAGIC_DAMAGE);
+        }
+        return this.getBasePower();
     }
 
     @Override

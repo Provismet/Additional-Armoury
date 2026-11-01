@@ -1,9 +1,10 @@
 package com.provismet.AdditionalArmoury.entity;
 
-import com.provismet.AdditionalArmoury.items.BoomerangItem;
+import com.provismet.AdditionalArmoury.item.BoomerangItem;
 import com.provismet.AdditionalArmoury.registries.AAEntityTypes;
 import com.provismet.AdditionalArmoury.registries.AAItems;
 import com.provismet.AdditionalArmoury.utility.AADamageTypes;
+import com.provismet.CombatPlusCore.registries.CombatPlusAttributes;
 import com.provismet.lilylib.interfaces.entity.WorldItemEntity;
 import com.provismet.lilylib.util.Relations;
 import org.jetbrains.annotations.NotNull;
@@ -227,6 +228,9 @@ public class BoomerangProjectileEntity extends ThrowableItemProjectile implement
     }
 
     public float getPower () {
+        if (this.getOwner() instanceof LivingEntity living) {
+            return this.power + (float)living.getAttributeValue(CombatPlusAttributes.PROJECTILE_DAMAGE);
+        }
         return this.power;
     }
 

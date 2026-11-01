@@ -1,0 +1,11 @@
+{
+    "required": true,
+    "package": "com.provismet.AdditionalArmoury.cmixin",
+    "compatibilityLevel": "JAVA_21",
+    "client": [
+        "TintSourceTypesMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

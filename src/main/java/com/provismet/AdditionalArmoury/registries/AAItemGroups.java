@@ -1,7 +1,7 @@
 package com.provismet.AdditionalArmoury.registries;
 
-import com.provismet.AdditionalArmoury.items.DaggerItem;
-import com.provismet.AdditionalArmoury.items.MaceItem;
+import com.provismet.AdditionalArmoury.item.DaggerItem;
+import com.provismet.AdditionalArmoury.item.MaceItem;
 import com.provismet.AdditionalArmoury.utility.tags.AAEnchantmentTags;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.HolderLookup;

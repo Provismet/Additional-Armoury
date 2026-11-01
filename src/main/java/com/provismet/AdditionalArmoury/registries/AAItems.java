@@ -15,7 +15,7 @@ import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
-import com.provismet.AdditionalArmoury.items.*;
+import com.provismet.AdditionalArmoury.item.*;
 
 import com.provismet.AdditionalArmoury.utility.Util;
 

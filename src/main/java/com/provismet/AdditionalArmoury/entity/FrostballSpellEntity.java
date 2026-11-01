@@ -53,13 +53,18 @@ public class FrostballSpellEntity extends AbstractSpellEntity {
     }
 
     @Override
+    protected float getBasePower () {
+        return 6f;
+    }
+
+    @Override
     protected void onHitEntity (EntityHitResult hitResult) {
         super.onHitEntity(hitResult);
         if (this.level() instanceof ServerLevel world) {
             Entity target = hitResult.getEntity();
             Entity owner = this.getOwner();
 
-            if (target.hurtServer(world, AADamageTypes.FIREBALL.createDamageSource(this, owner), 6f)) {
+            if (target.hurtServer(world, AADamageTypes.FIREBALL.createDamageSource(this, owner), this.getPower())) {
                 target.setTicksFrozen(Math.min(target.getTicksFrozen() + 120, target.getTicksRequiredToFreeze() + 300));
             }
         }

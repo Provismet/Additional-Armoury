@@ -5,11 +5,11 @@ import com.provismet.AdditionalArmoury.AdditionalArmouryMain;
 import com.provismet.AdditionalArmoury.enchantment.incantation.LambdaIncantationEffect;
 import com.provismet.AdditionalArmoury.utility.tags.AAEnchantmentTags;
 import com.provismet.AdditionalArmoury.utility.tags.AAItemTags;
-import com.provismet.CombatPlusCore.enchantment.effect.doubleEntity.ApplyToTargetEntityEffect;
-import com.provismet.CombatPlusCore.enchantment.effect.singleEntity.CodeExecutionSingleEntityEffect;
-import com.provismet.CombatPlusCore.enchantment.effect.singleEntity.DamageEquipmentEffect;
-import com.provismet.CombatPlusCore.registries.CPCEnchantmentComponentTypes;
-import com.provismet.CombatPlusCore.utility.tag.CPCEnchantmentTags;
+import com.provismet.CombatPlusCore.api.enchantment.effect.doubleEntity.ApplyToTargetEntityEffect;
+import com.provismet.CombatPlusCore.api.enchantment.effect.singleEntity.CodeExecutionSingleEntityEffect;
+import com.provismet.CombatPlusCore.api.enchantment.effect.singleEntity.DamageEquipmentEffect;
+import com.provismet.CombatPlusCore.api.tag.CombatPlusEnchantmentTags;
+import com.provismet.CombatPlusCore.registries.CombatPlusEnchantmentComponentTypes;
 import com.provismet.lilylib.container.EnchantmentContainer;
 import java.util.List;
 import net.minecraft.advancements.criterion.EntityPredicate;
@@ -110,7 +110,7 @@ public class AAEnchantments {
                 LevelBasedValue.perLevel(1.5f, 0.5f)
             )
         ).exclusiveWith(
-            enchantmentLookup.getOrThrow(CPCEnchantmentTags.WEAPON_UTILITY_OFFHAND_EXCLUSIVE)
+            enchantmentLookup.getOrThrow(CombatPlusEnchantmentTags.WEAPON_UTILITY_OFFHAND_EXCLUSIVE)
         )
     );
 
@@ -132,7 +132,7 @@ public class AAEnchantments {
                 LevelBasedValue.perLevel(20)
             )
         ).exclusiveWith(
-            enchantmentLookup.getOrThrow(CPCEnchantmentTags.WEAPON_UTILITY_EXCLUSIVE)
+            enchantmentLookup.getOrThrow(CombatPlusEnchantmentTags.WEAPON_UTILITY_EXCLUSIVE)
         )
     );
     public static final EnchantmentContainer DISMANTLE = new EnchantmentContainer(
@@ -148,7 +148,7 @@ public class AAEnchantments {
                 EquipmentSlotGroup.MAINHAND
             )
         ).withEffect(
-            CPCEnchantmentComponentTypes.POST_CRITICAL_ATTACK,
+            CombatPlusEnchantmentComponentTypes.POST_CRITICAL_ATTACK,
             new ApplyToTargetEntityEffect(
                 new DamageEquipmentEffect(
                     List.of(EquipmentSlot.HEAD, EquipmentSlot.BODY, EquipmentSlot.LEGS, EquipmentSlot.FEET),
@@ -156,7 +156,7 @@ public class AAEnchantments {
                 )
             )
         ).exclusiveWith(
-            enchantmentLookup.getOrThrow(CPCEnchantmentTags.WEAPON_UTILITY_EXCLUSIVE)
+            enchantmentLookup.getOrThrow(CombatPlusEnchantmentTags.WEAPON_UTILITY_EXCLUSIVE)
         )
     );
 

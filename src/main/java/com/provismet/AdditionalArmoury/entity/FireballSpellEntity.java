@@ -27,6 +27,11 @@ public class FireballSpellEntity extends AbstractSpellEntity {
     }
 
     @Override
+    protected float getBasePower () {
+        return 6f;
+    }
+
+    @Override
     protected void onHitEntity (EntityHitResult entityHitResult) {
         super.onHitEntity(entityHitResult);
         if (this.level() instanceof ServerLevel world) {
@@ -34,7 +39,7 @@ public class FireballSpellEntity extends AbstractSpellEntity {
             Entity target = entityHitResult.getEntity();
             Entity owner = this.getOwner();
 
-            if (target.hurtServer(world, AADamageTypes.FIREBALL.createDamageSource(this, owner), 6f)) {
+            if (target.hurtServer(world, AADamageTypes.FIREBALL.createDamageSource(this, owner), this.getPower())) {
                 target.igniteForSeconds(5);
             }
         }
