@@ -17,7 +17,7 @@ import com.provismet.additionalarmoury.registries.AARecipeSerializers;
 import com.provismet.additionalarmoury.registries.AASounds;
 import com.provismet.additionalarmoury.registries.AAStatusEffects;
 import com.provismet.additionalarmoury.utility.registry.AARegistries;
-import com.provismet.CombatPlusCore.api.loot.functions.EnchantRandomlyFromKeyLootFunction;
+import com.provismet.combatplus.api.loot.functions.EnchantRandomlyFromKeyLootFunction;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.loader.api.FabricLoader;

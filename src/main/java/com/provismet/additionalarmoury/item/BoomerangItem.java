@@ -3,7 +3,7 @@ package com.provismet.additionalarmoury.item;
 import com.provismet.additionalarmoury.entity.BoomerangProjectileEntity;
 import com.provismet.additionalarmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.additionalarmoury.registries.AASounds;
-import com.provismet.CombatPlusCore.utility.CombatPlusEnchantmentHelper;
+import com.provismet.combatplus.utility.CombatPlusEnchantmentHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;

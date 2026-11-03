@@ -2,7 +2,7 @@ package com.provismet.additionalarmoury.datagen.generator;
 
 import com.provismet.additionalarmoury.utility.AADamageTypes;
 import com.provismet.additionalarmoury.utility.tags.AADamageTypeTags;
-import com.provismet.CombatPlusCore.api.tag.CombatPlusDamageTypeTags;import com.provismet.lilylib.datagen.tag.LilyTagProviders;
+import com.provismet.combatplus.api.tag.CombatPlusDamageTypeTags;import com.provismet.lilylib.datagen.tag.LilyTagProviders;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.DamageTypeTags;

@@ -7,7 +7,7 @@ import com.provismet.additionalarmoury.registries.AADataComponentTypes;
 import com.provismet.additionalarmoury.registries.AAEnchantmentComponentTypes;
 import com.provismet.additionalarmoury.registries.AASounds;
 import com.provismet.additionalarmoury.utility.tags.AAEnchantmentTags;
-import com.provismet.CombatPlusCore.utility.CombatPlusEnchantmentHelper;
+import com.provismet.combatplus.utility.CombatPlusEnchantmentHelper;
 import net.fabricmc.fabric.api.item.v1.EnchantingContext;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;

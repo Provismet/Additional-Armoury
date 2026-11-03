@@ -1,6 +1,6 @@
 package com.provismet.additionalarmoury.effect;
 
-import com.provismet.CombatPlusCore.CombatPlusCoreMain;
+import com.provismet.combatplus.CombatPlusCoreMain;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;

@@ -2,7 +2,7 @@ package com.provismet.additionalarmoury.datagen.generator;
 
 import com.provismet.additionalarmoury.registries.AAEnchantments;
 import com.provismet.additionalarmoury.utility.tags.AAEnchantmentTags;
-import com.provismet.CombatPlusCore.api.tag.CombatPlusEnchantmentTags;
+import com.provismet.combatplus.api.tag.CombatPlusEnchantmentTags;
 import com.provismet.lilylib.datagen.tag.LilyTagProviders;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup.Provider;

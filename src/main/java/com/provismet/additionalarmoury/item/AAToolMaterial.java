@@ -1,7 +1,7 @@
 package com.provismet.additionalarmoury.item;
 
 import com.provismet.additionalarmoury.utility.tags.AAItemTags;
-import com.provismet.CombatPlusCore.utility.item.AttributeIdentifiers;
+import com.provismet.combatplus.utility.item.CombatPlusAttributeIdentifiers;
 import net.minecraft.core.Holder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -31,7 +31,7 @@ public record AAToolMaterial (ToolMaterial baseMaterial, Holder<Attribute> addit
         return baseComponent.withModifierAdded(
             this.additionalAttribute,
             new AttributeModifier(
-                AttributeIdentifiers.WEAPON_BONUS_ATTRIBUTE,
+                CombatPlusAttributeIdentifiers.WEAPON_BONUS_ATTRIBUTE,
                 this.attributeValue,
                 AttributeModifier.Operation.ADD_VALUE
             ),
@@ -70,7 +70,7 @@ public record AAToolMaterial (ToolMaterial baseMaterial, Holder<Attribute> addit
             builder.add(
                 this.additionalAttribute,
                 new AttributeModifier(
-                    AttributeIdentifiers.WEAPON_BONUS_ATTRIBUTE,
+                    CombatPlusAttributeIdentifiers.WEAPON_BONUS_ATTRIBUTE,
                     this.attributeValue,
                     AttributeModifier.Operation.ADD_VALUE
                 ),

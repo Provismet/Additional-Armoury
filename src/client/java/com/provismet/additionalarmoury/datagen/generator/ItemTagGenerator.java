@@ -4,7 +4,7 @@ import com.provismet.additionalarmoury.item.DaggerItem;
 import com.provismet.additionalarmoury.item.MaceItem;
 import com.provismet.additionalarmoury.registries.AAItems;
 import com.provismet.additionalarmoury.utility.tags.AAItemTags;
-import com.provismet.CombatPlusCore.api.tag.CombatPlusItemTags;
+import com.provismet.combatplus.api.tag.CombatPlusItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider.ItemTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;

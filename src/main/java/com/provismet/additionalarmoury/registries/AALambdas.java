@@ -11,8 +11,8 @@ import com.provismet.additionalarmoury.particle.effects.SpellChargeParticleEffec
 import com.provismet.additionalarmoury.particle.effects.SpellRingParticleEffect;
 import com.provismet.additionalarmoury.utility.AADamageTypes;
 import com.provismet.additionalarmoury.utility.registry.AARegistries;
-import com.provismet.CombatPlusCore.api.enchantment.effect.singleEntity.CodeExecutionSingleEntityEffect;
-import com.provismet.CombatPlusCore.utility.CombatPlusRegistries;
+import com.provismet.combatplus.api.enchantment.effect.singleEntity.CodeExecutionSingleEntityEffect;
+import com.provismet.combatplus.utility.CombatPlusRegistries;
 import com.provismet.lilylib.util.Relations;
 import java.util.List;
 import net.minecraft.core.BlockPos;

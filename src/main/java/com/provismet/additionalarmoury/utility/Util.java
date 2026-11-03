@@ -2,8 +2,8 @@ package com.provismet.additionalarmoury.utility;
 
 import com.provismet.additionalarmoury.item.AAArmourMaterial;
 import com.provismet.additionalarmoury.item.AAToolMaterial;
-import com.provismet.CombatPlusCore.api.item.component.MeleeWeaponComponent;
-import com.provismet.CombatPlusCore.registries.CombatPlusDataComponentTypes;
+import com.provismet.combatplus.api.item.component.MeleeWeaponComponent;
+import com.provismet.combatplus.registries.CombatPlusDataComponentTypes;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;

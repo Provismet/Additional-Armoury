@@ -1,7 +1,7 @@
 package com.provismet.additionalarmoury.config;
 
 import com.provismet.additionalarmoury.AdditionalArmouryMain;
-import com.provismet.CombatPlusCore.utility.CombatPlusConfig;
+import com.provismet.combatplus.utility.CombatPlusConfig;
 import com.provismet.lilylib.util.json.JsonBuilder;
 import com.provismet.lilylib.util.json.JsonReader;
 

@@ -4,7 +4,7 @@ import com.provismet.additionalarmoury.item.BoomerangItem;
 import com.provismet.additionalarmoury.registries.AAEntityTypes;
 import com.provismet.additionalarmoury.registries.AAItems;
 import com.provismet.additionalarmoury.utility.AADamageTypes;
-import com.provismet.CombatPlusCore.registries.CombatPlusAttributes;
+import com.provismet.combatplus.registries.CombatPlusAttributes;
 import com.provismet.lilylib.interfaces.entity.WorldItemEntity;
 import com.provismet.lilylib.util.Relations;
 import org.jetbrains.annotations.NotNull;

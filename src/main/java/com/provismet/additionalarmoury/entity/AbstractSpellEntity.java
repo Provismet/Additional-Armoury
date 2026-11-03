@@ -1,6 +1,6 @@
 package com.provismet.additionalarmoury.entity;
 
-import com.provismet.CombatPlusCore.registries.CombatPlusAttributes;
+import com.provismet.combatplus.registries.CombatPlusAttributes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
