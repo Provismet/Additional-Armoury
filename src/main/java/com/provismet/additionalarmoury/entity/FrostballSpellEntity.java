@@ -64,8 +64,8 @@ public class FrostballSpellEntity extends AbstractSpellEntity {
             Entity target = hitResult.getEntity();
             Entity owner = this.getOwner();
 
-            if (target.hurtServer(world, AADamageTypes.FIREBALL.createDamageSource(this, owner), this.getPower())) {
-                target.setTicksFrozen(Math.min(target.getTicksFrozen() + 120, target.getTicksRequiredToFreeze() + 300));
+            if (target.hurtServer(world, AADamageTypes.FROSTBALL.createDamageSource(this, owner), this.getPower())) {
+                target.setTicksFrozen(target.getTicksRequiredToFreeze() + 300);
             }
         }
     }
