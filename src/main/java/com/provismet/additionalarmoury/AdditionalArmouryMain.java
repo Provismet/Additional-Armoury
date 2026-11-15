@@ -22,7 +22,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -83,7 +83,7 @@ public class AdditionalArmouryMain implements ModInitializer {
                             .add(LootItem.lootTableItem(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE))
                     );
                 }
-                else if (EntityType.EVOKER.getDefaultLootTable().isPresent() && EntityType.EVOKER.getDefaultLootTable().get().equals(id)) {
+                else if (EntityTypes.EVOKER.getDefaultLootTable().isPresent() && EntityTypes.EVOKER.getDefaultLootTable().get().equals(id)) {
                     tableBuilder.withPool(
                         LootPool.lootPool().setRolls(BinomialDistributionGenerator.binomial(1, 0.25f))
                             .add(LootItem.lootTableItem(AAItems.STAFF).setWeight(3))

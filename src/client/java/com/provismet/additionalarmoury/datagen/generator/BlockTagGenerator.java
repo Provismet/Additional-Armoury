@@ -2,6 +2,7 @@ package com.provismet.additionalarmoury.datagen.generator;
 
 import java.util.concurrent.CompletableFuture;
 
+import com.provismet.additionalarmoury.references.AABlockItemIds;
 import com.provismet.additionalarmoury.registries.AABlocks;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
@@ -16,17 +17,17 @@ public class BlockTagGenerator extends BlockTagsProvider {
 
     @Override
     protected void addTags (Provider arg) {
-        this.valueLookupBuilder(BlockTags.BEACON_BASE_BLOCKS)
-            .add(AABlocks.OVERNETHER_BLOCK)
-            .add(AABlocks.ENDERNETHER_BLOCK);
+        this.builder(BlockTags.BEACON_BASE_BLOCKS)
+            .add(AABlockItemIds.OVERNETHER_BLOCK)
+            .add(AABlockItemIds.ENDERNETHER_BLOCK);
 
-        this.valueLookupBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
-            .add(AABlocks.OVERNETHER_BLOCK)
-            .add(AABlocks.ENDERNETHER_BLOCK);
+        this.builder(BlockTags.MINEABLE_WITH_PICKAXE)
+            .add(AABlockItemIds.OVERNETHER_BLOCK)
+            .add(AABlockItemIds.ENDERNETHER_BLOCK);
 
-        this.valueLookupBuilder(BlockTags.NEEDS_DIAMOND_TOOL)
-            .add(AABlocks.OVERNETHER_BLOCK)
-            .add(AABlocks.ENDERNETHER_BLOCK);
+        this.builder(BlockTags.NEEDS_DIAMOND_TOOL)
+            .add(AABlockItemIds.OVERNETHER_BLOCK)
+            .add(AABlockItemIds.ENDERNETHER_BLOCK);
     }
     
 }

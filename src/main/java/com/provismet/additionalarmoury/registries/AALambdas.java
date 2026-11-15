@@ -23,6 +23,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -74,11 +75,12 @@ public class AALambdas {
                 List<Entity> others = user.level().getEntities(user, user.getBoundingBox().inflate(RADIUS, 0, RADIUS));
                 for (Entity otherEntity : others) {
                     if (otherEntity instanceof LivingEntity living && !Relations.isFriendly(living, livingUser)) {
+                        DamageSource damageSource = AADamageTypes.ERUPTION.createDamageSource(user);
                         otherEntity.hurtServer(world, AADamageTypes.ERUPTION.createDamageSource(user), 1f);
                         double dx = user.getX() - living.getX();
                         double dz = user.getZ() - living.getZ();
 
-                        living.knockback(1, dx, dz);
+                        living.knockback(1, dx, dz, damageSource, 1f);
                         living.push(0, 0.5, 0);
                     }
                 }

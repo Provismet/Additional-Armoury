@@ -6,6 +6,7 @@ import com.provismet.additionalarmoury.utility.AADamageTypes;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -38,15 +39,16 @@ public class WindTornadoSpellEntity extends AbstractSpellEntity {
     public void onHitEntity (EntityHitResult entityHitResult) {
         super.onHitEntity(entityHitResult);
 
+        DamageSource damageSource = AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner());
         if (this.level() instanceof ServerLevel world) {
-            entityHitResult.getEntity().hurtServer(world, AADamageTypes.WIND_TORNADO.createDamageSource(this, this.getOwner()), this.getPower());
+            entityHitResult.getEntity().hurtServer(world, damageSource, this.getPower());
             world.sendParticles(ParticleTypes.GUST, this.getX(), this.getY() + this.getBbHeight() / 2f, this.getZ(), 1, 0, 0, 0, 0);
         }
         
         if (entityHitResult.getEntity() instanceof LivingEntity living && this.getOwner() != null) {
             double dx = this.getOwner().getX() - living.getX();
             double dz = this.getOwner().getZ() - living.getZ();
-            living.knockback(2.0, dx, dz);
+            living.knockback(2.0, dx, dz, damageSource, this.getPower());
             living.push(0, 0.1, 0);
         }
     }

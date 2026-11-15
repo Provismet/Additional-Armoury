@@ -12,8 +12,9 @@ import com.provismet.combatplus.api.tag.CombatPlusEnchantmentTags;
 import com.provismet.combatplus.registries.CombatPlusEnchantmentComponentTypes;
 import com.provismet.lilylib.container.EnchantmentContainer;
 import java.util.List;
-import net.minecraft.advancements.criterion.EntityPredicate;
-import net.minecraft.advancements.criterion.EntityTypePredicate;
+
+import net.minecraft.advancements.predicates.entity.EntityPredicate;
+import net.minecraft.advancements.predicates.entity.EntityTypePredicate;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.entity.EquipmentSlot;

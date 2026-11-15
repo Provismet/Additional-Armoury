@@ -18,7 +18,7 @@
           "condition": "minecraft:entity_properties",
           "entity": "direct_attacker",
           "predicate": {
-            "type": "additional-armoury:boomerang_projectile"
+            "minecraft:entity_type": "additional-armoury:boomerang_projectile"
           }
         }
       }
