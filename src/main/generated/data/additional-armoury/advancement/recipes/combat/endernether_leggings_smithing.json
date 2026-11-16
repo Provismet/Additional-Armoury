@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:endernether_leggings_smithing"
+        "recipes": "additional-armoury:endernether_leggings_smithing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

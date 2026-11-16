@@ -9,42 +9,59 @@ import com.provismet.additionalarmoury.utility.tags.AAItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.AdvancementType;
+import net.minecraft.advancements.triggers.RecipeCraftedTrigger;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.CustomCraftingRecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
-public class RecipeProvider extends FabricRecipeProvider {
-    public RecipeProvider (FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+public class RecipeGenerator extends FabricRecipeProvider {
+    public RecipeGenerator (FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
     @NotNull
-    protected net.minecraft.data.recipes.RecipeProvider createRecipeProvider (HolderLookup.Provider wrapperLookup, RecipeOutput recipeExporter) {
-        return new AARecipeGenerator(wrapperLookup, recipeExporter);
+    protected RecipeProvider createRecipeProvider (HolderLookup.Provider wrapperLookup, BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancements) {
+        return new AARecipeGenerator(wrapperLookup, recipes, advancements);
     }
     
-    public static class AARecipeGenerator extends net.minecraft.data.recipes.RecipeProvider {
+    public static class AARecipeGenerator extends RecipeProvider {
         private final HolderGetter<Item> lookup;
+        private final BootstrapContext<Recipe<?>> recipes;
 
-        public AARecipeGenerator (HolderLookup.Provider wrapperLookup, RecipeOutput exporter) {
-            super(wrapperLookup, exporter);
-            this.lookup = registries.lookupOrThrow(Registries.ITEM);
+        protected AARecipeGenerator (HolderGetter.Provider wrapperLookup, BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancementOutput) {
+            super(recipes, advancementOutput);
+            this.lookup = wrapperLookup.lookupOrThrow(Registries.ITEM);
+            this.recipes = recipes;
         }
 
         @Override
@@ -101,7 +118,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 ))
                 .unlockedBy(net.minecraft.data.recipes.RecipeProvider.getHasName(Items.LINGERING_POTION), this.has(Items.LINGERING_POTION))
                 .unlockedBy("has_any_dagger", this.has(AAItemTags.DAGGERS))
-                .save(output, AdditionalArmouryMain.identifier("tipped_dagger").toString());
+                .save(output, ResourceKey.create(Registries.RECIPE, AdditionalArmouryMain.identifier("tipped_dagger")));
 
             this.shapeless(RecipeCategory.MISC, AAItems.OVERNETHER_INGOT)
                 .requires(Items.NETHERITE_SCRAP, 4)
@@ -121,6 +138,32 @@ public class RecipeProvider extends FabricRecipeProvider {
 
             offerReversibleCompactingRecipe(AAItems.OVERNETHER_INGOT, AAItems.OVERNETHER_BLOCK);
             offerReversibleCompactingRecipe(AAItems.ENDERNETHER_INGOT, AAItems.ENDERNETHER_BLOCK);
+
+            this.buildRecipeDependentAdvancements();
+        }
+
+        // Datagen is kinda fucked rn and I can't access my own recipes in my own advancement generator; so I'm doing it here where I actually can access them.
+        private void buildRecipeDependentAdvancements () {
+            AdvancementHolder dragonBreath = Advancement.Builder.advancement().build(Identifier.withDefaultNamespace("end/dragon_breath"));
+            this.advancementOutput.register(
+                ResourceKey.create(Registries.ADVANCEMENT, AdditionalArmouryMain.identifier("end/craft_tipped_dagger")),
+                Advancement.Builder.advancement().parent(dragonBreath)
+                    .display(
+                        new ItemStackTemplate(AAItems.DIAMOND_DAGGER, DataComponentPatch.builder().set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.NIGHT_VISION)).build()),
+                        AdvancementGenerator.buildTranslationKey("tipped_dagger.title"),
+                        AdvancementGenerator.buildTranslationKey("tipped_dagger.description"),
+                        AdvancementType.GOAL,
+                        true,
+                        true,
+                        false
+                    )
+                    .addCriterion(
+                        "crafted_tipped_dagger",
+                        RecipeCraftedTrigger.TriggerInstance.craftedItem(
+                            HolderSet.direct(this.recipes.lookup(Registries.RECIPE)
+                                .getOrThrow(ResourceKey.create(Registries.RECIPE, AdditionalArmouryMain.identifier("tipped_dagger")))))
+                    ).build(AdditionalArmouryMain.identifier("end/craft_tipped_dagger")).value()
+            );
         }
 
         protected ShapedRecipeBuilder createDaggerRecipe (DaggerItem dagger, ItemLike material) {

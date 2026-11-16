@@ -1,24 +1,26 @@
 package com.provismet.additionalarmoury.registries;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
+import com.provismet.additionalarmoury.item.AAArmourMaterials;
+import com.provismet.additionalarmoury.item.AASmithingTemplateItem;
+import com.provismet.additionalarmoury.item.AAToolMaterial;
+import com.provismet.additionalarmoury.item.BoomerangItem;
+import com.provismet.additionalarmoury.item.DaggerItem;
+import com.provismet.additionalarmoury.item.MaceItem;
+import com.provismet.additionalarmoury.item.StaffItem;
 import com.provismet.additionalarmoury.references.AABlockItemIds;
 import com.provismet.additionalarmoury.references.AAItemIds;
+import com.provismet.additionalarmoury.utility.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
-import com.provismet.additionalarmoury.item.*;
 
-import com.provismet.additionalarmoury.utility.Util;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
 
 public class AAItems {
     public static final Item OVERNETHER_INGOT = register(AAItemIds.OVERNETHER_INGOT, new Item.Properties().fireResistant());
@@ -30,16 +32,16 @@ public class AAItems {
     public static final Item OVERNETHER_UPGRADE_SMITHING_TEMPLATE = register(AAItemIds.OVERNETHER_UPGRADE_SMITHING_TEMPLATE, AASmithingTemplateItem::createOvernetherSmithingTemplate);
     public static final Item ENDERNETHER_UPGRADE_SMITHING_TEMPLATE = register(AAItemIds.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE, AASmithingTemplateItem::createEndernetherSmithingTemplate);
 
-    public static final Item OVERNETHER_SWORD = register(AAItemIds.OVERNETHER_SWORD, Util.applySwordSettings(AAToolMaterial.OVERNETHER, 3f, -2.4f, new Item.Properties().stacksTo(1).fireResistant()));
-    public static final Item ENDERNETHER_SWORD = register(AAItemIds.ENDERNETHER_SWORD, Util.applySwordSettings(AAToolMaterial.ENDERNETHER, 3f, -2.4f, new Item.Properties().stacksTo(1).fireResistant()));
-    public static final AxeItem OVERNETHER_AXE = register(AAItemIds.OVERNETHER_AXE, settings -> new AAExtraAxeItem(AAToolMaterial.OVERNETHER, 5f, -3f, settings.stacksTo(1).fireResistant()));
-    public static final AxeItem ENDERNETHER_AXE = register(AAItemIds.ENDERNETHER_AXE, settings -> new AAExtraAxeItem(AAToolMaterial.ENDERNETHER, 5f, -3f, settings.stacksTo(1).fireResistant()));
+    public static final Item OVERNETHER_SWORD = register(AAItemIds.OVERNETHER_SWORD, Util.applySwordSettings(AAToolMaterial.OVERNETHER, 3f, -2.4f, new Item.Properties().fireResistant()));
+    public static final Item ENDERNETHER_SWORD = register(AAItemIds.ENDERNETHER_SWORD, Util.applySwordSettings(AAToolMaterial.ENDERNETHER, 3f, -2.4f, new Item.Properties().fireResistant()));
+    public static final Item OVERNETHER_AXE = register(AAItemIds.OVERNETHER_AXE, Util.applyAxeSettings(AAToolMaterial.OVERNETHER, 5f, -3f, new Item.Properties().fireResistant()));
+    public static final Item ENDERNETHER_AXE = register(AAItemIds.ENDERNETHER_AXE, Util.applyAxeSettings(AAToolMaterial.ENDERNETHER, 5f, -3f, new Item.Properties().fireResistant()));
     public static final Item OVERNETHER_PICKAXE = register(AAItemIds.OVERNETHER_PICKAXE, Util.applyPickaxeSettings(AAToolMaterial.OVERNETHER, 1f, -2.8f, new Item.Properties().fireResistant()));
     public static final Item ENDERNETHER_PICKAXE = register(AAItemIds.ENDERNETHER_PICKAXE, Util.applyPickaxeSettings(AAToolMaterial.ENDERNETHER, 1f, -2.8f, new Item.Properties().fireResistant()));
-    public static final ShovelItem OVERNETHER_SHOVEL = register(AAItemIds.OVERNETHER_SHOVEL, settings -> new AAExtraShovelItem(AAToolMaterial.OVERNETHER, 1.5f, -3f, settings.stacksTo(1).fireResistant()));
-    public static final ShovelItem ENDERNETHER_SHOVEL = register(AAItemIds.ENDERNETHER_SHOVEL, settings -> new AAExtraShovelItem(AAToolMaterial.ENDERNETHER, 1.5f, -3f, settings.stacksTo(1).fireResistant()));
-    public static final HoeItem OVERNETHER_HOE = register(AAItemIds.OVERNETHER_HOE, settings -> new AAExtraHoeItem(AAToolMaterial.OVERNETHER, -3f, 0f, settings.stacksTo(1).fireResistant()));
-    public static final HoeItem ENDERNETHER_HOE = register(AAItemIds.ENDERNETHER_HOE, settings -> new AAExtraHoeItem(AAToolMaterial.ENDERNETHER, -3f, 0f, settings.stacksTo(1).fireResistant()));
+    public static final Item OVERNETHER_SHOVEL = register(AAItemIds.OVERNETHER_SHOVEL, Util.applyShovelSettings(AAToolMaterial.OVERNETHER, 1.5f, -3f, new Item.Properties().fireResistant()));
+    public static final Item ENDERNETHER_SHOVEL = register(AAItemIds.ENDERNETHER_SHOVEL, Util.applyShovelSettings(AAToolMaterial.ENDERNETHER, 1.5f, -3f, new Item.Properties().fireResistant()));
+    public static final Item OVERNETHER_HOE = register(AAItemIds.OVERNETHER_HOE, Util.applyHoeSettings(AAToolMaterial.OVERNETHER, -3f, 0f, new Item.Properties().fireResistant()));
+    public static final Item ENDERNETHER_HOE = register(AAItemIds.ENDERNETHER_HOE, Util.applyHoeSettings(AAToolMaterial.ENDERNETHER, -3f, 0f, new Item.Properties().fireResistant()));
     public static final Item OVERNETHER_SPEAR = register(AAItemIds.OVERNETHER_SPEAR, Util.applySpearSettings(AAToolMaterial.OVERNETHER, 1.15f, 1.075f, 0.4f, 2.5f, 9f, 5.5F, 5.1f, 8.75f, 4.6f, new Item.Properties().stacksTo(1).fireResistant()));
     public static final Item ENDERNETHER_SPEAR = register(AAItemIds.ENDERNETHER_SPEAR, Util.applySpearSettings(AAToolMaterial.ENDERNETHER, 1.15f, 1.075f, 0.2f, 2.5f, 9f, 5.5F, 5.1f, 8.75f, 4.6f, new Item.Properties().stacksTo(1).fireResistant()));
 

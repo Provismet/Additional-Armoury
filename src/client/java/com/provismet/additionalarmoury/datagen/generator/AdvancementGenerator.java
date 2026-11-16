@@ -10,7 +10,6 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.predicates.ContextAwarePredicate;
 import net.minecraft.advancements.predicates.DataComponentMatchers;
 import net.minecraft.advancements.predicates.EnchantmentPredicate;
 import net.minecraft.advancements.predicates.ItemPredicate;
@@ -21,7 +20,9 @@ import net.minecraft.advancements.triggers.EnchantedItemTrigger;
 import net.minecraft.advancements.triggers.InventoryChangeTrigger;
 import net.minecraft.advancements.triggers.RecipeCraftedTrigger;
 import net.minecraft.advancements.triggers.UsingItemTrigger;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.component.predicates.DataComponentPredicates;
@@ -58,20 +59,19 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
         AdvancementHolder enchantStaff = Advancement.Builder.advancement().parent(enchanter)
             .display(
                 new ItemStackTemplate(AAItems.STAFF, DataComponentPatch.builder().set(DataComponents.ENCHANTMENTS, boostMutable.toImmutable()).build()),
-                this.buildTranslationKey("enchant_staff.title"),
-                this.buildTranslationKey("enchant_staff.description"),
-                null,
+                buildTranslationKey("enchant_staff.title"),
+                buildTranslationKey("enchant_staff.description"),
                 AdvancementType.GOAL,
                 true,
                 true,
                 false
             )
             .addCriterion("enchanted_staff", staffCondition)
-            .save(consumer, AdditionalArmouryMain.identifier("story/enchant_staff").toString());
+            .save(consumer, AdditionalArmouryMain.identifier("story/enchant_staff"));
 
         Criterion<UsingItemTrigger.TriggerInstance> meguminCondition = CriteriaTriggers.USING_ITEM.createCriterion(
             new UsingItemTrigger.TriggerInstance(
-                Optional.of(ContextAwarePredicate.create(new ItemUseTimeLootCondition(159))), // 159 is one tick less than the Explosion charge time of 160.
+                Optional.of(Holder.direct(new ItemUseTimeLootCondition(159))), // 159 is one tick less than the Explosion charge time of 160.
                 Optional.of(
                     ItemPredicate.Builder.item().withComponents(DataComponentMatchers.Builder.components()
                         .partial(
@@ -84,42 +84,22 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
         Advancement.Builder.advancement().parent(enchantStaff)
             .display(
                 new ItemStackTemplate(AAItems.STAFF, DataComponentPatch.builder().set(DataComponents.ENCHANTMENTS, meguMutable.toImmutable()).build()),
-                this.buildTranslationKey("archwizard.title"),
-                this.buildTranslationKey("archwizard.description"),
-                null,
+                buildTranslationKey("archwizard.title"),
+                buildTranslationKey("archwizard.description"),
                 AdvancementType.CHALLENGE,
                 true,
                 true,
                 false
             )
             .addCriterion("used_explosion_magic", meguminCondition)
-            .save(consumer, AdditionalArmouryMain.identifier("story/explosion_magic").toString());
-
-        AdvancementHolder dragonBreath = Advancement.Builder.advancement().build(Identifier.withDefaultNamespace("end/dragon_breath"));
-        Advancement.Builder.advancement().parent(dragonBreath)
-            .display(
-                new ItemStackTemplate(AAItems.DIAMOND_DAGGER, DataComponentPatch.builder().set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.NIGHT_VISION)).build()),
-                this.buildTranslationKey("tipped_dagger.title"),
-                this.buildTranslationKey("tipped_dagger.description"),
-                null,
-                AdvancementType.GOAL,
-                true,
-                true,
-                false
-            )
-            .addCriterion(
-                "crafted_tipped_dagger",
-                RecipeCraftedTrigger.TriggerInstance.craftedItem(ResourceKey.create(Registries.RECIPE, AdditionalArmouryMain.identifier("tipped_dagger")))
-            )
-            .save(consumer, AdditionalArmouryMain.identifier("end/craft_tipped_dagger").toString());
+            .save(consumer, AdditionalArmouryMain.identifier("story/explosion_magic"));
 
         AdvancementHolder ancientDebris = Advancement.Builder.advancement().build(Identifier.withDefaultNamespace("nether/obtain_ancient_debris"));
         Advancement.Builder.advancement().parent(ancientDebris)
             .display(
                 AAItems.OVERNETHER_CHESTPLATE,
-                this.buildTranslationKey("overnether.title"),
-                this.buildTranslationKey("overnether.description"),
-                null,
+                buildTranslationKey("overnether.title"),
+                buildTranslationKey("overnether.description"),
                 AdvancementType.CHALLENGE,
                 true,
                 true, false
@@ -133,14 +113,13 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
                     AAItems.OVERNETHER_BOOTS
                 )
             )
-            .save(consumer, AdditionalArmouryMain.identifier("nether/overnether_armour").toString());
+            .save(consumer, AdditionalArmouryMain.identifier("nether/overnether_armour"));
 
         Advancement.Builder.advancement().parent(ancientDebris)
             .display(
                 AAItems.ENDERNETHER_CHESTPLATE,
-                this.buildTranslationKey("endernether.title"),
-                this.buildTranslationKey("endernether.description"),
-                null,
+                buildTranslationKey("endernether.title"),
+                buildTranslationKey("endernether.description"),
                 AdvancementType.CHALLENGE,
                 true,
                 true, false
@@ -154,10 +133,10 @@ public class AdvancementGenerator extends FabricAdvancementProvider {
                     AAItems.ENDERNETHER_BOOTS
                 )
             )
-            .save(consumer, AdditionalArmouryMain.identifier("nether/endernether_armour").toString());
+            .save(consumer, AdditionalArmouryMain.identifier("nether/endernether_armour"));
     }
     
-    private Component buildTranslationKey (String suffix) {
+    public static Component buildTranslationKey (String suffix) {
         return Component.translatable("advancement.additional-armoury." + suffix);
     }
 }

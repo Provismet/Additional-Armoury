@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:overnether_block"
+        "recipes": "additional-armoury:overnether_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

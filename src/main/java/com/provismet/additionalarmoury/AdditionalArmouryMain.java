@@ -17,17 +17,21 @@ import com.provismet.additionalarmoury.registries.AARecipeSerializers;
 import com.provismet.additionalarmoury.registries.AASounds;
 import com.provismet.additionalarmoury.registries.AAStatusEffects;
 import com.provismet.additionalarmoury.utility.registry.AARegistries;
-import com.provismet.combatplus.api.loot.functions.EnchantRandomlyFromKeyLootFunction;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.providers.number.BinomialDistributionGenerator;
+import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,42 +62,44 @@ public class AdditionalArmouryMain implements ModInitializer {
         AASettings.read();
 
         LootTableEvents.MODIFY.register((id, tableBuilder, source, registries) -> {
+            HolderLookup.RegistryLookup<Enchantment> enchantmentLookup = registries.lookupOrThrow(Registries.ENCHANTMENT);
+
             if (source.isBuiltin() || AASettings.shouldOverrideDatapacks()) {
                 if (BuiltInLootTables.NETHER_BRIDGE.equals(id)) {
                     tableBuilder.withPool(
-                        LootPool.lootPool().setRolls(BinomialDistributionGenerator.binomial(1, 0.05f))
-                            .add(LootItem.lootTableItem(Items.BOOK).apply(EnchantRandomlyFromKeyLootFunction.create().option(AAEnchantments.EXPLOSION)))
-                    );
+                        LootPool.lootPool().setRolls(ContextIntProviders.binomial(1, 0.05f))
+                            .add(LootItem.lootTableItem(Items.BOOK).apply(new EnchantRandomlyFunction.Builder()
+                                .withEnchantment(AAEnchantments.EXPLOSION.getEntryOrThrow(enchantmentLookup)))));
                 }
                 else if (BuiltInLootTables.DESERT_PYRAMID.equals(id) || BuiltInLootTables.JUNGLE_TEMPLE_DISPENSER.equals(id)) {
                     tableBuilder.withPool(
-                        LootPool.lootPool().setRolls(BinomialDistributionGenerator.binomial(1, 0.25f))
-                            .add(LootItem.lootTableItem(AAItems.BOOMERANG))
-                    );
+                        LootPool.lootPool().setRolls(ContextIntProviders.binomial(1, 0.25f))
+                            .add(LootItem.lootTableItem(AAItems.BOOMERANG)));
                 }
                 else if (BuiltInLootTables.ANCIENT_CITY.equals(id) || BuiltInLootTables.ANCIENT_CITY_ICE_BOX.equals(id)) {
                     tableBuilder.withPool(
-                        LootPool.lootPool().setRolls(BinomialDistributionGenerator.binomial(1, 0.2f))
-                            .add(LootItem.lootTableItem(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE))
-                    );
+                        LootPool.lootPool().setRolls(ContextIntProviders.binomial(1, 0.2f))
+                            .add(LootItem.lootTableItem(AAItems.OVERNETHER_UPGRADE_SMITHING_TEMPLATE)));
                 }
                 else if (BuiltInLootTables.END_CITY_TREASURE.equals(id)) {
                     tableBuilder.withPool(
-                        LootPool.lootPool().setRolls(BinomialDistributionGenerator.binomial(1, 0.2f))
-                            .add(LootItem.lootTableItem(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE))
-                    );
+                        LootPool.lootPool().setRolls(ContextIntProviders.binomial(1, 0.2f))
+                            .add(LootItem.lootTableItem(AAItems.ENDERNETHER_UPGRADE_SMITHING_TEMPLATE)));
                 }
                 else if (EntityTypes.EVOKER.getDefaultLootTable().isPresent() && EntityTypes.EVOKER.getDefaultLootTable().get().equals(id)) {
                     tableBuilder.withPool(
-                        LootPool.lootPool().setRolls(BinomialDistributionGenerator.binomial(1, 0.25f))
+                        LootPool.lootPool().setRolls(ContextIntProviders.binomial(1, 0.25f))
                             .add(LootItem.lootTableItem(AAItems.STAFF).setWeight(3))
-                            .add(LootItem.lootTableItem(Items.BOOK).apply(EnchantRandomlyFromKeyLootFunction.create()
-                                .option(AAEnchantments.GHOSTLY_ORB)
-                                .option(AAEnchantments.MAGIC_MISSILE)).setWeight(6))
-                            .add(LootItem.lootTableItem(AAItems.STAFF).apply(EnchantRandomlyFromKeyLootFunction.create()
-                                .option(AAEnchantments.GHOSTLY_ORB)
-                                .option(AAEnchantments.MAGIC_MISSILE)).setWeight(1))
-                    );
+                            .add(LootItem.lootTableItem(Items.BOOK).apply(new EnchantRandomlyFunction.Builder()
+                                .withOneOf(HolderSet.direct(
+                                    AAEnchantments.GHOSTLY_ORB.getEntryOrThrow(enchantmentLookup),
+                                    AAEnchantments.MAGIC_MISSILE.getEntryOrThrow(enchantmentLookup)
+                                ))).setWeight(6))
+                            .add(LootItem.lootTableItem(AAItems.STAFF).apply(new EnchantRandomlyFunction.Builder()
+                                .withOneOf(HolderSet.direct(
+                                    AAEnchantments.GHOSTLY_ORB.getEntryOrThrow(enchantmentLookup),
+                                    AAEnchantments.MAGIC_MISSILE.getEntryOrThrow(enchantmentLookup)
+                                ))).setWeight(1)));
                 }
             }
         });

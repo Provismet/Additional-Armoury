@@ -3,7 +3,7 @@
   "criteria": {
     "crafted_tipped_dagger": {
       "conditions": {
-        "recipe_id": "additional-armoury:tipped_dagger"
+        "recipes": "additional-armoury:tipped_dagger"
       },
       "trigger": "minecraft:recipe_crafted"
     }

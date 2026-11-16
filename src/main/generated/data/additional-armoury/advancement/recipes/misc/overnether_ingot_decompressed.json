@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:overnether_ingot_decompressed"
+        "recipes": "additional-armoury:overnether_ingot_decompressed"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

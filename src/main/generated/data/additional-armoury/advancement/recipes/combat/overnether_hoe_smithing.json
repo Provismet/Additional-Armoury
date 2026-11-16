@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:overnether_hoe_smithing"
+        "recipes": "additional-armoury:overnether_hoe_smithing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

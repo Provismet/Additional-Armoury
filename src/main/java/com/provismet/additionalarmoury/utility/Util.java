@@ -46,10 +46,8 @@ public class Util {
     }
 
     public static Item.Properties applySwordSettings (AAToolMaterial material, float attack, float speed, Item.Properties settings) {
-        return Util.applyToolSettings(material.baseMaterial(), settings)
-            .sword(material.baseMaterial(), attack, speed)
-            .component(CombatPlusDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createDual(material.baseMaterial().attackDamageBonus() + attack))
-            .attributes(material.createAttributeComponent(attack, speed));
+        return applyGenericToolProperties(material, attack, speed, settings, Item.Properties::sword)
+            .component(CombatPlusDataComponentTypes.MELEE_WEAPON, MeleeWeaponComponent.createDual(material.baseMaterial().attackDamageBonus() + attack));
     }
 
     public static Item.Properties applySpearSettings (AAToolMaterial material, float attackDuration, float damageMultiplier, float delay, float dismountTime, float dismountThreshold, float knockbackTime, float knockbackThreshold, float damageTime, float damageThreshold, Item.Properties settings) {
@@ -59,13 +57,33 @@ public class Util {
     }
 
     public static Item.Properties applyPickaxeSettings (AAToolMaterial material, float attackDamage, float attackSpeed, Item.Properties settings) {
-        return Util.applyToolSettings(material.baseMaterial(), settings)
-            .pickaxe(material.baseMaterial(), attackDamage, attackSpeed)
+        return applyGenericToolProperties(material, attackDamage, attackSpeed, settings, Item.Properties::pickaxe);
+    }
+
+    public static Item.Properties applyAxeSettings (AAToolMaterial material, float attackDamage, float attackSpeed, Item.Properties settings) {
+        return applyGenericToolProperties(material, attackDamage, attackSpeed, settings, Item.Properties::axe);
+    }
+
+    public static Item.Properties applyHoeSettings (AAToolMaterial material, float attackDamage, float attackSpeed, Item.Properties settings) {
+        return applyGenericToolProperties(material, attackDamage, attackSpeed, settings, Item.Properties::hoe);
+    }
+
+    public static Item.Properties applyShovelSettings (AAToolMaterial material, float attackDamage, float attackSpeed, Item.Properties settings) {
+        return applyGenericToolProperties(material, attackDamage, attackSpeed, settings, Item.Properties::shovel);
+    }
+
+    public static Item.Properties applyGenericToolProperties (AAToolMaterial material, float attackDamage, float attackSpeed, Item.Properties settings, ToolModifier modifier) {
+        return modifier.apply(applyToolSettings(material.baseMaterial(), settings), material.baseMaterial(), attackDamage, attackSpeed)
             .attributes(material.createAttributeComponent(attackDamage, attackSpeed));
     }
 
     public static Item.Properties applyArmourSettings (AAArmourMaterial material, ArmorType type, Item.Properties settings) {
         return settings.humanoidArmor(material.baseMaterial(), type)
             .attributes(material.createAttributeModifiers(type));
+    }
+
+    @FunctionalInterface
+    public interface ToolModifier {
+        Item.Properties apply (Item.Properties settings, ToolMaterial material, float attack, float speed);
     }
 }

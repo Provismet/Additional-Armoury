@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:netherite_dagger_smithing"
+        "recipes": "additional-armoury:netherite_dagger_smithing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:wooden_mace"
+        "recipes": "additional-armoury:wooden_mace"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

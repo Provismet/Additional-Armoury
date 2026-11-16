@@ -13,7 +13,7 @@ import com.provismet.additionalarmoury.datagen.generator.LanguageGeneratorUK;
 import com.provismet.additionalarmoury.datagen.generator.LootTableGenerator;
 import com.provismet.additionalarmoury.datagen.generator.ModelGenerator;
 import com.provismet.additionalarmoury.datagen.generator.ParticleGenerator;
-import com.provismet.additionalarmoury.datagen.generator.RecipeProvider;
+import com.provismet.additionalarmoury.datagen.generator.RecipeGenerator;
 import com.provismet.additionalarmoury.datagen.generator.SoundGenerator;
 import com.provismet.additionalarmoury.registries.AAEnchantments;
 import com.provismet.additionalarmoury.utility.AADamageTypes;
@@ -34,7 +34,7 @@ public class AdditionalArmouryDatagen implements DataGeneratorEntrypoint {
         pack.addProvider(ModelGenerator::new);
         pack.addProvider(LanguageGenerator::new);
         pack.addProvider(LanguageGeneratorUK::new);
-        pack.addProvider(RecipeProvider::new);
+        pack.addProvider(RecipeGenerator::new);
         pack.addProvider(AdvancementGenerator::new);
         pack.addProvider(LootTableGenerator::new);
         pack.addProvider(DamageTypeTagGenerator::new);

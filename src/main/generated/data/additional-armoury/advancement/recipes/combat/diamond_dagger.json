@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:diamond_dagger"
+        "recipes": "additional-armoury:diamond_dagger"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

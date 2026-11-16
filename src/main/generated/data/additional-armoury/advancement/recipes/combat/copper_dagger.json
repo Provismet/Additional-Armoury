@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:copper_dagger"
+        "recipes": "additional-armoury:copper_dagger"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

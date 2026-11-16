@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:copper_mace"
+        "recipes": "additional-armoury:copper_mace"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:endernether_ingot"
+        "recipes": "additional-armoury:endernether_ingot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -43,7 +43,7 @@ public class AALambdas {
 
             if (user.onGround()) user.move(MoverType.SELF, new Vec3(0.0, 0.2, 0.0));
             user.push(velocity);
-            user.hurtMarked = true;
+            user.syncVelocity = true;
         });
 
         register("jump", (world, level, context, user, pos) -> {
@@ -52,7 +52,7 @@ public class AALambdas {
 
             Vec3 velocity = user.getDeltaMovement();
             user.setDeltaMovement(velocity.x, 0.75, velocity.z);
-            user.hurtMarked = true;
+            user.syncVelocity = true;
         });
 
         register("fireball", (world, level, context, user, pos) -> {

@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:tipped_dagger"
+        "recipes": "additional-armoury:tipped_dagger"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:golden_dagger"
+        "recipes": "additional-armoury:golden_dagger"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

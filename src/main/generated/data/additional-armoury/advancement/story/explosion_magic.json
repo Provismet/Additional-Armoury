@@ -15,12 +15,10 @@
             ]
           }
         },
-        "player": [
-          {
-            "condition": "additional-armoury:item_use_time",
-            "use_time": 159
-          }
-        ]
+        "player": {
+          "type": "additional-armoury:item_use_time",
+          "use_time": 159
+        }
       },
       "trigger": "minecraft:using_item"
     }

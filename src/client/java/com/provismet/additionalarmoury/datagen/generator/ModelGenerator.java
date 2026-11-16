@@ -3,7 +3,6 @@ package com.provismet.additionalarmoury.datagen.generator;
 import com.provismet.additionalarmoury.AdditionalArmouryMain;
 import com.provismet.additionalarmoury.item.DaggerItem;
 import com.provismet.additionalarmoury.item.StaffItem;
-import com.provismet.additionalarmoury.item.key.AAEquipmentAssetKeys;
 import com.provismet.additionalarmoury.item.render.DaggerTintSource;
 import com.provismet.additionalarmoury.item.render.SpellTintSource;
 import com.provismet.additionalarmoury.registries.AABlocks;
@@ -21,12 +20,10 @@ import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.CommonColors;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.equipment.EquipmentAsset;
-import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class ModelGenerator extends FabricModelProvider {
@@ -78,8 +75,8 @@ public class ModelGenerator extends FabricModelProvider {
 
         AAItems.MACES.forEach(item -> itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM));
         AAItems.ITEM_PROJECTILES.forEach(item -> itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_ITEM));
-        this.registerArmour(AAItems.OVERNETHER_HELMET, AAItems.OVERNETHER_CHESTPLATE, AAItems.OVERNETHER_LEGGINGS, AAItems.OVERNETHER_BOOTS, null, AAEquipmentAssetKeys.OVERNETHER, itemModelGenerator);
-        this.registerArmour(AAItems.ENDERNETHER_HELMET, AAItems.ENDERNETHER_CHESTPLATE, AAItems.ENDERNETHER_LEGGINGS, AAItems.ENDERNETHER_BOOTS, null, AAEquipmentAssetKeys.ENDERNETHER, itemModelGenerator);
+        itemModelGenerator.generateTrimmableArmorSet(AAItems.OVERNETHER_HELMET, AAItems.OVERNETHER_CHESTPLATE, AAItems.OVERNETHER_LEGGINGS, AAItems.OVERNETHER_BOOTS, false, Map.of());
+        itemModelGenerator.generateTrimmableArmorSet(AAItems.ENDERNETHER_HELMET, AAItems.ENDERNETHER_CHESTPLATE, AAItems.ENDERNETHER_LEGGINGS, AAItems.ENDERNETHER_BOOTS, false, Map.of());
 
         itemModelGenerator.generateSpear(AAItems.OVERNETHER_SPEAR);
         itemModelGenerator.generateSpear(AAItems.ENDERNETHER_SPEAR);
@@ -116,23 +113,5 @@ public class ModelGenerator extends FabricModelProvider {
 
     private static ModelTemplate createModel (String parent, TextureSlot ... requiredTextureKeys) {
         return new ModelTemplate(Optional.of(Identifier.withDefaultNamespace("item/" + parent)), Optional.empty(), requiredTextureKeys);
-    }
-
-    private void registerArmour (@Nullable Item head, @Nullable Item chest, @Nullable Item legs, @Nullable Item feet, @Nullable Item body, ResourceKey<EquipmentAsset> equipableAsset, ItemModelGenerators itemModelGenerator) {
-        if (head != null) {
-            itemModelGenerator.generateTrimmableItem(head, equipableAsset, ItemModelGenerators.TRIM_PREFIX_HELMET, false);
-        }
-        if (chest != null) {
-            itemModelGenerator.generateTrimmableItem(chest, equipableAsset, ItemModelGenerators.TRIM_PREFIX_CHESTPLATE, false);
-        }
-        if (legs != null) {
-            itemModelGenerator.generateTrimmableItem(legs, equipableAsset, ItemModelGenerators.TRIM_PREFIX_LEGGINGS, false);
-        }
-        if (feet != null) {
-            itemModelGenerator.generateTrimmableItem(feet, equipableAsset, ItemModelGenerators.TRIM_PREFIX_BOOTS, false);
-        }
-        if (body != null) {
-            itemModelGenerator.generateTrimmableItem(body, equipableAsset, ItemModelGenerators.prefixForSlotTrim("body"), false);
-        }
     }
 }

@@ -20,7 +20,7 @@ public record ItemUseTimeLootCondition (int useTime) implements LootItemConditio
     public boolean test (LootContext lootContext) {
         if (!lootContext.hasParameter(LootContextParams.THIS_ENTITY)) return false;
 
-        Entity entity = lootContext.getOptionalParameter(LootContextParams.THIS_ENTITY);
+        Entity entity = lootContext.getOptional(LootContextParams.THIS_ENTITY);
         if (entity instanceof LivingEntity living) {
             return living.getTicksUsingItem() == this.useTime;
         }

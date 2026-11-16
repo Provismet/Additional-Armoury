@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "additional-armoury:stone_dagger"
+        "recipes": "additional-armoury:stone_dagger"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
